@@ -229,7 +229,7 @@
 <h2>apply_parallel<a class="headerlink" href="#apply-parallel" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skimage.util.apply_parallel">
-<code class="sig-prename descclassname">skimage.util.</code><code class="sig-name descname">apply_parallel</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">array</em>, <em class="sig-param">chunks=None</em>, <em class="sig-param">depth=0</em>, <em class="sig-param">mode=None</em>, <em class="sig-param">extra_arguments=()</em>, <em class="sig-param">extra_keywords={}</em>, <em class="sig-param">*</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">compute=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/apply_parallel.py#L58-L177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.apply_parallel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skimage.util.</code><code class="sig-name descname">apply_parallel</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">array</em>, <em class="sig-param">chunks=None</em>, <em class="sig-param">depth=0</em>, <em class="sig-param">mode=None</em>, <em class="sig-param">extra_arguments=()</em>, <em class="sig-param">extra_keywords={}</em>, <em class="sig-param">*</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">compute=None</em>, <em class="sig-param">channel_axis=None</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/apply_parallel.py#L59-L186"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.apply_parallel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Map a function in parallel across an array.</p>
 <p>Split an array into possibly overlapping chunks of a given depth and
 boundary type, call the given function in parallel on the chunks, combine
@@ -268,20 +268,25 @@ argument instead.</p>
 <p><span class="versionmodified added">New in version 0.18: </span><code class="docutils literal notranslate"><span class="pre">dtype</span></code> was added in 0.18.</p>
 </div>
 </dd>
+<dt><strong>compute</strong><span class="classifier">bool, optional</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, compute eagerly returning a NumPy Array.
+If <code class="docutils literal notranslate"><span class="pre">False</span></code>, compute lazily returning a Dask Array.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), compute based on array type provided
+(eagerly for NumPy Arrays and lazily for Dask Arrays).</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+</dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If <em class="xref py py-obj">chunks</em> is None and <em class="xref py py-obj">multichannel</em> is True, this function will keep
 only a single chunk along the channels axis. When <em class="xref py py-obj">depth</em> is specified
 as a scalar value, that depth will be applied only to the non-channels
 axes (a depth of 0 will be used along the channels axis). If the user
 manually specified both <em class="xref py py-obj">chunks</em> and a <em class="xref py py-obj">depth</em> tuple, then this
-argument will have no effect.</p>
+argument will have no effect. This argument is deprecated: specify
+<em class="xref py py-obj">channel_axis</em> instead.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.18: </span><code class="docutils literal notranslate"><span class="pre">multichannel</span></code> was added in 0.18.</p>
 </div>
-</dd>
-<dt><strong>compute</strong><span class="classifier">bool, optional</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, compute eagerly returning a NumPy Array.
-If <code class="docutils literal notranslate"><span class="pre">False</span></code>, compute lazily returning a Dask Array.
-If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), compute based on array type provided
-(eagerly for NumPy Arrays and lazily for Dask Arrays).</p>
 </dd>
 </dl>
 </dd>
@@ -781,7 +786,7 @@ have the same dtype as <em class="xref py py-obj">output_vals</em>.</p>
 <h2>montage<a class="headerlink" href="#montage" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skimage.util.montage">
-<code class="sig-prename descclassname">skimage.util.</code><code class="sig-name descname">montage</code><span class="sig-paren">(</span><em class="sig-param">arr_in</em>, <em class="sig-param">fill='mean'</em>, <em class="sig-param">rescale_intensity=False</em>, <em class="sig-param">grid_shape=None</em>, <em class="sig-param">padding_width=0</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/_montage.py#L7-L142"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.montage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skimage.util.</code><code class="sig-name descname">montage</code><span class="sig-paren">(</span><em class="sig-param">arr_in</em>, <em class="sig-param">fill='mean'</em>, <em class="sig-param">rescale_intensity=False</em>, <em class="sig-param">grid_shape=None</em>, <em class="sig-param">padding_width=0</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">*</em>, <em class="sig-param">channel_axis=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/_montage.py#L8-L153"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.montage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a montage of several single- or multichannel images.</p>
 <p>Create a rectangular montage from an input array representing an ensemble
 of equally shaped single- (gray) or multichannel (color) images.</p>
@@ -838,7 +843,12 @@ the borders. If non-zero, makes the boundaries of individual images
 easier to perceive.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, the last <em class="xref py py-obj">arr_in</em> dimension is threated as a color channel,
-otherwise as spatial.</p>
+otherwise as spatial. This argument is deprecated: specify
+<em class="xref py py-obj">channel_axis</em> instead.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
 </dd>
 </dl>
 </dd>
