@@ -132,17 +132,52 @@ image, which is then inverted to form the reconstructed image. The filtered
 back projection is among the fastest methods of performing the inverse
 Radon transform. The only tunable parameter for the FBP is the filter,
 which is applied to the Fourier transformed projections. It may be used to
-suppress high frequency noise in the reconstruction. ``skimage`` provides a
-few different options for the filter.
+suppress high frequency noise in the reconstruction. ``skimage`` provides
+the filters 'ramp', 'shepp-logan', 'cosine', 'hamming', and 'hann':
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-119
+.. GENERATED FROM PYTHON SOURCE LINES 103-118
+
+.. code-block:: default
+
+
+    import matplotlib.pyplot as plt
+    from skimage.transform.radon_transform import _get_fourier_filter
+
+    filters = ['ramp', 'shepp-logan', 'cosine', 'hamming', 'hann']
+
+    for ix, f in enumerate(filters):
+        response = _get_fourier_filter(2000, f)
+        plt.plot(response, label=f)
+
+    plt.xlim([0, 1000])
+    plt.xlabel('frequency')
+    plt.legend()
+    plt.show()
+
+
+
+
+.. image:: /auto_examples/transform/images/sphx_glr_plot_radon_transform_002.png
+    :alt: plot radon transform
+    :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 119-120
+
+Applying the inverse radon transformation with the 'ramp' filter, we get:
+
+.. GENERATED FROM PYTHON SOURCE LINES 120-137
 
 .. code-block:: default
 
 
     from skimage.transform import iradon
 
-    reconstruction_fbp = iradon(sinogram, theta=theta, circle=True)
+    reconstruction_fbp = iradon(sinogram, theta=theta, filter_name='ramp',
+                                circle=True)
     error = reconstruction_fbp - image
     print(f"FBP rms reconstruction error: {np.sqrt(np.mean(error**2)):.3g}")
 
@@ -158,7 +193,7 @@ few different options for the filter.
 
 
 
-.. image:: /auto_examples/transform/images/sphx_glr_plot_radon_transform_002.png
+.. image:: /auto_examples/transform/images/sphx_glr_plot_radon_transform_003.png
     :alt: Reconstruction Filtered back projection, Reconstruction error Filtered back projection
     :class: sphx-glr-single-img
 
@@ -174,7 +209,7 @@ few different options for the filter.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-151
+.. GENERATED FROM PYTHON SOURCE LINES 138-169
 
 Reconstruction with the Simultaneous Algebraic Reconstruction Technique
 =======================================================================
@@ -208,7 +243,7 @@ of iterations is best suited to the problem at hand. The implementation in
 ``skimage`` allows prior information of the form of a lower and upper
 threshold on the reconstructed values to be supplied to the reconstruction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-183
+.. GENERATED FROM PYTHON SOURCE LINES 170-201
 
 .. code-block:: default
 
@@ -246,7 +281,7 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
 
 
-.. image:: /auto_examples/transform/images/sphx_glr_plot_radon_transform_003.png
+.. image:: /auto_examples/transform/images/sphx_glr_plot_radon_transform_004.png
     :alt: Reconstruction SART, Reconstruction error SART, Reconstruction SART, 2 iterations, Reconstruction error SART, 2 iterations
     :class: sphx-glr-single-img
 
@@ -266,7 +301,7 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.687 seconds)
+   **Total running time of the script:** ( 0 minutes  3.278 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_radon_transform.py:
