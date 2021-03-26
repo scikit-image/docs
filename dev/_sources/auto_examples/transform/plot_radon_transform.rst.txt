@@ -48,7 +48,7 @@ and reconstructing the original image are compared: The Filtered Back
 Projection (FBP) and the Simultaneous Algebraic Reconstruction
 Technique (SART).
 
-For further information on tomographic reconstruction, see
+For further information on tomographic reconstruction, see:
 
 .. [1] AC Kak, M Slaney, "Principles of Computerized Tomographic Imaging",
        IEEE Press 1988. http://www.slaney.org/pct/pct-toc.html
@@ -97,7 +97,7 @@ original image and its Radon transform, often known as its *sinogram*:
     ax1.imshow(image, cmap=plt.cm.Greys_r)
 
     theta = np.linspace(0., 180., max(image.shape), endpoint=False)
-    sinogram = radon(image, theta=theta, circle=True)
+    sinogram = radon(image, theta=theta)
     dx, dy = 0.5 * 180.0 / max(image.shape), 0.5 / sinogram.shape[0]
     ax2.set_title("Radon transform\n(Sinogram)")
     ax2.set_xlabel("Projection angle (deg)")
@@ -169,15 +169,14 @@ the filters 'ramp', 'shepp-logan', 'cosine', 'hamming', and 'hann':
 
 Applying the inverse radon transformation with the 'ramp' filter, we get:
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-137
+.. GENERATED FROM PYTHON SOURCE LINES 120-136
 
 .. code-block:: default
 
 
     from skimage.transform import iradon
 
-    reconstruction_fbp = iradon(sinogram, theta=theta, filter_name='ramp',
-                                circle=True)
+    reconstruction_fbp = iradon(sinogram, theta=theta, filter_name='ramp')
     error = reconstruction_fbp - image
     print(f"FBP rms reconstruction error: {np.sqrt(np.mean(error**2)):.3g}")
 
@@ -209,7 +208,7 @@ Applying the inverse radon transformation with the 'ramp' filter, we get:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 138-169
+.. GENERATED FROM PYTHON SOURCE LINES 137-168
 
 Reconstruction with the Simultaneous Algebraic Reconstruction Technique
 =======================================================================
@@ -233,7 +232,7 @@ incorporated with relative ease.
 
 ``skimage`` provides one of the more popular variations of the algebraic
 reconstruction techniques: the Simultaneous Algebraic Reconstruction
-Technique (SART) [1]_ [4]_. It uses Kaczmarz' method [3]_ as the iterative
+Technique (SART) [4]_. It uses Kaczmarz' method as the iterative
 solver. A good reconstruction is normally obtained in a single iteration,
 making the method computationally effective. Running one or more extra
 iterations will normally improve the reconstruction of sharp, high
@@ -243,7 +242,7 @@ of iterations is best suited to the problem at hand. The implementation in
 ``skimage`` allows prior information of the form of a lower and upper
 threshold on the reconstructed values to be supplied to the reconstruction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 170-201
+.. GENERATED FROM PYTHON SOURCE LINES 169-200
 
 .. code-block:: default
 
@@ -301,7 +300,7 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.846 seconds)
+   **Total running time of the script:** ( 0 minutes  2.987 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_radon_transform.py:
