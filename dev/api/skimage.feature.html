@@ -2273,7 +2273,7 @@ contains the ith-largest eigenvalue at position (j, k).</p>
 <h2>hog<a class="headerlink" href="#hog" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skimage.feature.hog">
-<code class="sig-prename descclassname">skimage.feature.</code><code class="sig-name descname">hog</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">orientations=9</em>, <em class="sig-param">pixels_per_cell=(8</em>, <em class="sig-param">8)</em>, <em class="sig-param">cells_per_block=(3</em>, <em class="sig-param">3)</em>, <em class="sig-param">block_norm='L2-Hys'</em>, <em class="sig-param">visualize=False</em>, <em class="sig-param">transform_sqrt=False</em>, <em class="sig-param">feature_vector=True</em>, <em class="sig-param">multichannel=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/_hog.py#L46-L295"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.feature.hog" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skimage.feature.</code><code class="sig-name descname">hog</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">orientations=9</em>, <em class="sig-param">pixels_per_cell=(8</em>, <em class="sig-param">8)</em>, <em class="sig-param">cells_per_block=(3</em>, <em class="sig-param">3)</em>, <em class="sig-param">block_norm='L2-Hys'</em>, <em class="sig-param">visualize=False</em>, <em class="sig-param">transform_sqrt=False</em>, <em class="sig-param">feature_vector=True</em>, <em class="sig-param">multichannel=None</em>, <em class="sig-param">*</em>, <em class="sig-param">channel_axis=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/_hog.py#L47-L304"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.feature.hog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract Histogram of Oriented Gradients (HOG) for a given image.</p>
 <p>Compute a Histogram of Oriented Gradients (HOG) by</p>
 <blockquote>
@@ -2325,7 +2325,15 @@ values. Also see <em class="xref py py-obj">notes</em> section below.</p>
 just before returning.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, the last <em class="xref py py-obj">image</em> dimension is considered as a color channel,
-otherwise as spatial.</p>
+otherwise as spatial. This argument is deprecated: specify
+<em class="xref py py-obj">channel_axis</em> instead.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><em class="xref py py-obj">channel_axis</em> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -2716,16 +2724,17 @@ Stan Z. Li
 <h2>multiscale_basic_features<a class="headerlink" href="#multiscale-basic-features" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skimage.feature.multiscale_basic_features">
-<code class="sig-prename descclassname">skimage.feature.</code><code class="sig-name descname">multiscale_basic_features</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">intensity=True</em>, <em class="sig-param">edges=True</em>, <em class="sig-param">texture=True</em>, <em class="sig-param">sigma_min=0.5</em>, <em class="sig-param">sigma_max=16</em>, <em class="sig-param">num_sigma=None</em>, <em class="sig-param">num_workers=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/_basic_features.py#L99-L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.feature.multiscale_basic_features" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skimage.feature.</code><code class="sig-name descname">multiscale_basic_features</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">intensity=True</em>, <em class="sig-param">edges=True</em>, <em class="sig-param">texture=True</em>, <em class="sig-param">sigma_min=0.5</em>, <em class="sig-param">sigma_max=16</em>, <em class="sig-param">num_sigma=None</em>, <em class="sig-param">num_workers=None</em>, <em class="sig-param">*</em>, <em class="sig-param">channel_axis=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/_basic_features.py#L100-L188"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.feature.multiscale_basic_features" title="Permalink to this definition">¶</a></dt>
 <dd><p>Local features for a single- or multi-channel nd image.</p>
 <p>Intensity, gradient intensity and local structure are computed at
 different scales thanks to Gaussian blurring.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image, which can be grayscale or multichannel.</p>
 </dd>
-<dt><strong>multichannel</strong><span class="classifier">bool, default False</span></dt><dd><p>True if the last dimension corresponds to color channels.</p>
+<dt><strong>multichannel</strong><span class="classifier">bool, default False</span></dt><dd><p>True if the last dimension corresponds to color channels.
+This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>intensity</strong><span class="classifier">bool, default True</span></dt><dd><p>If True, pixel intensities averaged over the different scales
 are added to the feature set.</p>
@@ -2748,11 +2757,20 @@ If None, sigma_min multiplied by powers of 2 are used.</p>
 <dt><strong>num_workers</strong><span class="classifier">int or None, optional</span></dt><dd><p>The number of parallel threads to use. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, the full
 set of available cores are used.</p>
 </dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
+</dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>features</strong><span class="classifier">np.ndarray</span></dt><dd><p>Array of shape <code class="docutils literal notranslate"><span class="pre">image.shape</span> <span class="pre">+</span> <span class="pre">(n_features,)</span></code></p>
+<dt><strong>features</strong><span class="classifier">np.ndarray</span></dt><dd><p>Array of shape <code class="docutils literal notranslate"><span class="pre">image.shape</span> <span class="pre">+</span> <span class="pre">(n_features,)</span></code>. When <em class="xref py py-obj">channel_axis</em> is
+not None, all channels are concatenated along the features dimension.
+(i.e. <code class="docutils literal notranslate"><span class="pre">n_features</span> <span class="pre">==</span> <span class="pre">n_features_singlechannel</span> <span class="pre">*</span> <span class="pre">n_channels</span></code>)</p>
 </dd>
 </dl>
 </dd>

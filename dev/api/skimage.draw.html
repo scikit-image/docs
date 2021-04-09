@@ -1202,7 +1202,7 @@ May be used to directly index into an array, e.g.
 <h2>random_shapes<a class="headerlink" href="#random-shapes" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="skimage.draw.random_shapes">
-<code class="sig-prename descclassname">skimage.draw.</code><code class="sig-name descname">random_shapes</code><span class="sig-paren">(</span><em class="sig-param">image_shape</em>, <em class="sig-param">max_shapes</em>, <em class="sig-param">min_shapes=1</em>, <em class="sig-param">min_size=2</em>, <em class="sig-param">max_size=None</em>, <em class="sig-param">multichannel=True</em>, <em class="sig-param">num_channels=3</em>, <em class="sig-param">shape=None</em>, <em class="sig-param">intensity_range=None</em>, <em class="sig-param">allow_overlap=False</em>, <em class="sig-param">num_trials=100</em>, <em class="sig-param">random_seed=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/draw/_random_shapes.py#L293-L437"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.draw.random_shapes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">skimage.draw.</code><code class="sig-name descname">random_shapes</code><span class="sig-paren">(</span><em class="sig-param">image_shape</em>, <em class="sig-param">max_shapes</em>, <em class="sig-param">min_shapes=1</em>, <em class="sig-param">min_size=2</em>, <em class="sig-param">max_size=None</em>, <em class="sig-param">multichannel=True</em>, <em class="sig-param">num_channels=3</em>, <em class="sig-param">shape=None</em>, <em class="sig-param">intensity_range=None</em>, <em class="sig-param">allow_overlap=False</em>, <em class="sig-param">num_trials=100</em>, <em class="sig-param">random_seed=None</em>, <em class="sig-param">*</em>, <em class="sig-param">channel_axis=-1</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/draw/_random_shapes.py#L293-L451"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.draw.random_shapes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate an image with random shapes, labeled with bounding boxes.</p>
 <p>The image is populated with random shapes with random sizes, random
 locations, and random colors, with or without overlap.</p>
@@ -1212,9 +1212,9 @@ will not fit the image at all. In that case, the algorithm will try again
 with new starting coordinates a certain number of times. However, it also
 means that some shapes may be skipped altogether. In that case, this
 function will generate fewer shapes than requested.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image_shape</strong><span class="classifier">tuple</span></dt><dd><p>The number of rows and columns of the image to generate.</p>
 </dd>
 <dt><strong>max_shapes</strong><span class="classifier">int</span></dt><dd><p>The maximum number of shapes to (attempt to) fit into the shape.</p>
@@ -1226,7 +1226,8 @@ function will generate fewer shapes than requested.</p>
 <dt><strong>max_size</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum dimension of each shape to fit into the image.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the generated image has <code class="docutils literal notranslate"><span class="pre">num_channels</span></code> color channels,
-otherwise generates grayscale image.</p>
+otherwise generates grayscale image. This argument is deprecated:
+specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>num_channels</strong><span class="classifier">int, optional</span></dt><dd><p>Number of channels in the generated image. If 1, generate monochrome
 images, else color images with multiple channels. Ignored if
@@ -1248,6 +1249,13 @@ reserving color of intensity = 255 for background.</p>
 </dd>
 <dt><strong>random_seed</strong><span class="classifier">int, optional</span></dt><dd><p>Seed to initialize the random number generator.
 If <em class="xref py py-obj">None</em>, a random seed from the operating system is used.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
