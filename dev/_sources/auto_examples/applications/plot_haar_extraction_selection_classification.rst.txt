@@ -121,7 +121,7 @@ class are used to assess the performance of the classifier.
     X = delayed(extract_feature_image(img, feature_types) for img in images)
     # Compute the result
     t_start = time()
-    X = np.array(X.compute(scheduler='threads'))
+    X = np.array(X.compute(scheduler='single-threaded'))
     time_full_feature_comp = time() - t_start
 
     # Label images (100 faces and 100 non-faces)
@@ -223,7 +223,7 @@ of the total number of features).
                 for img in images)
     # Compute the result
     t_start = time()
-    X = np.array(X.compute(scheduler='threads'))
+    X = np.array(X.compute(scheduler='single-threaded'))
     time_subs_feature_comp = time() - t_start
 
     y = np.array([1] * 100 + [0] * 100)
@@ -281,7 +281,7 @@ Once the features are extracted, we can train and test a new classifier.
 
  .. code-block:: none
 
-    Computing the full feature set took 75.379s, plus 2.133s training, for an AUC of 1.00. Computing the restricted feature set took 0.182s, plus 1.788s training, for an AUC of 1.00.
+    Computing the full feature set took 76.671s, plus 2.637s training, for an AUC of 1.00. Computing the restricted feature set took 0.168s, plus 2.177s training, for an AUC of 1.00.
 
 
 
@@ -289,7 +289,7 @@ Once the features are extracted, we can train and test a new classifier.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 1 minutes  24.060 seconds)
+   **Total running time of the script:** ( 1 minutes  27.011 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_haar_extraction_selection_classification.py:
