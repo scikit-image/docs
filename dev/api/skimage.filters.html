@@ -488,7 +488,7 @@ the kernel is entirely inside the original data.</p>
 <h2>difference_of_gaussians<a class="headerlink" href="#difference-of-gaussians" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.filters.difference_of_gaussians">
-<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">difference_of_gaussians</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_gaussian.py#L159-L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.difference_of_gaussians" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">difference_of_gaussians</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_gaussian.py#L166-L306"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.difference_of_gaussians" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find features between <code class="docutils literal notranslate"><span class="pre">low_sigma</span></code> and <code class="docutils literal notranslate"><span class="pre">high_sigma</span></code> in size.</p>
 <p>This function uses the Difference of Gaussians method for applying
 band-pass filters to multi-dimensional arrays. The input array is
@@ -498,9 +498,9 @@ from the less-blurred image. The final output image will therefore have
 had high-frequency components attenuated by the smaller-sigma Gaussian, and
 low frequency components will have been removed due to their presence in
 the more-blurred intermediate.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input array to filter.</p>
 </dd>
 <dt><strong>low_sigma</strong><span class="classifier">scalar or sequence of scalars</span></dt><dd><p>Standard deviation(s) for the Gaussian kernel with the smaller sigmas
@@ -521,11 +521,19 @@ handled, where <code class="docutils literal notranslate"><span class="pre">cval
 <dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <code class="docutils literal notranslate"><span class="pre">mode</span></code> is ‘constant’. Default
 is 0.0</p>
 </dd>
-<dt><strong>multichannel</strong><span class="classifier">bool, optional (default: False)</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
-channels. If True, each channel is filtered separately (channels are
-not mixed together).</p>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 <dt><strong>truncate</strong><span class="classifier">float, optional (default is 4.0)</span></dt><dd><p>Truncate the filter at this many standard deviations.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional (default: False)</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
+channels. If True, each channel is filtered separately (channels are
+not mixed together). This argument is deprecated: specify
+<em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 </dl>
 </dd>
@@ -1007,11 +1015,11 @@ deviations</p>
 <h2>gaussian<a class="headerlink" href="#gaussian" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.filters.gaussian">
-<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">gaussian</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_gaussian.py#L12-L123"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.gaussian" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">gaussian</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_gaussian.py#L13-L130"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.gaussian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Multi-dimensional Gaussian filter.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">array-like</span></dt><dd><p>Input image (grayscale or color) to filter.</p>
 </dd>
 <dt><strong>sigma</strong><span class="classifier">scalar or sequence of scalars, optional</span></dt><dd><p>Standard deviation for Gaussian kernel. The standard
@@ -1024,7 +1032,8 @@ filter output.</p>
 </dd>
 <dt><strong>mode</strong><span class="classifier">{‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">mode</span></code> parameter determines how the array borders are
 handled, where <code class="docutils literal notranslate"><span class="pre">cval</span></code> is the value when mode is equal to
-‘constant’. Default is ‘nearest’.</p>
+‘constant’. Default is ‘nearest’. This argument is deprecated:
+specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <code class="docutils literal notranslate"><span class="pre">mode</span></code> is ‘constant’. Default
 is 0.0</p>
@@ -1033,7 +1042,8 @@ is 0.0</p>
 channels. If True, each channel is filtered separately (channels are
 not mixed together). Only 3 channels are supported. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
 the function will attempt to guess this, and raise a warning if
-ambiguous, when the array has shape (M, N, 3).</p>
+ambiguous, when the array has shape (M, N, 3).
+This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>preserve_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to keep the original range of values. Otherwise, the input
 image is converted according to the conventions of <code class="docutils literal notranslate"><span class="pre">img_as_float</span></code>.
@@ -1041,6 +1051,13 @@ Also see
 <a class="reference external" href="https://scikit-image.org/docs/dev/user_guide/data_types.html">https://scikit-image.org/docs/dev/user_guide/data_types.html</a></p>
 </dd>
 <dt><strong>truncate</strong><span class="classifier">float, optional</span></dt><dd><p>Truncate the filter at this many standard deviations.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -2938,14 +2955,14 @@ Electronic Imaging, 13(1): 146-165, <a class="reference external" href="https://
 <h2>unsharp_mask<a class="headerlink" href="#unsharp-mask" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.filters.unsharp_mask">
-<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">unsharp_mask</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_unsharp_mask.py#L19-L135"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.unsharp_mask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.filters.</span></code><code class="sig-name descname"><span class="pre">unsharp_mask</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_unsharp_mask.py#L20-L146"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.unsharp_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unsharp masking filter.</p>
 <p>The sharp details are identified as the difference between the original
 image and its blurred version. These details are then scaled, and added
 back to the original image.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">[P, …, ]M[, N][, C] ndarray</span></dt><dd><p>Input image.</p>
 </dd>
 <dt><strong>radius</strong><span class="classifier">scalar or sequence of scalars, optional</span></dt><dd><p>If a scalar is given, then its value is used for all dimensions.
@@ -2958,11 +2975,19 @@ not allowed.</p>
 or negative. Typically, it is a small positive number, e.g. 1.0.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the last <code class="docutils literal notranslate"><span class="pre">image</span></code> dimension is considered as a color channel,
-otherwise as spatial. Color channels are processed individually.</p>
+otherwise as spatial. Color channels are processed individually.
+This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>preserve_range</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to keep the original range of values. Otherwise, the input
 image is converted according to the conventions of <code class="docutils literal notranslate"><span class="pre">img_as_float</span></code>.
 Also see <a class="reference external" href="https://scikit-image.org/docs/dev/user_guide/data_types.html">https://scikit-image.org/docs/dev/user_guide/data_types.html</a></p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
