@@ -63,15 +63,7 @@ of each variant.
 
  .. code-block:: none
 
-    /home/runner/work/scikit-image/scikit-image/doc/examples/filters/plot_nonlocal_means.py:49: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `estimate_sigma`. It will be removed in version 1.0. Please use `channel_axis` instead.
-
     estimated noise standard deviation = 0.07849594941478473
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/_shared/utils.py:256: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `denoise_nl_means`. It will be removed in version 1.0. Please use `channel_axis` instead.
-
     PSNR (noisy) = 22.14
     PSNR (slow) = 29.34
     PSNR (slow, using sigma) = 29.71
@@ -103,12 +95,12 @@ of each variant.
     noisy = random_noise(astro, var=sigma**2)
 
     # estimate the noise standard deviation from the noisy image
-    sigma_est = np.mean(estimate_sigma(noisy, multichannel=True))
+    sigma_est = np.mean(estimate_sigma(noisy, channel_axis=-1))
     print(f"estimated noise standard deviation = {sigma_est}")
 
     patch_kw = dict(patch_size=5,      # 5x5 patches
                     patch_distance=6,  # 13x13 search area
-                    multichannel=True)
+                    channel_axis=-1)
 
     # slow algorithm
     denoise = denoise_nl_means(noisy, h=1.15 * sigma_est, fast_mode=False,
@@ -168,7 +160,7 @@ of each variant.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.949 seconds)
+   **Total running time of the script:** ( 0 minutes  3.068 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_nonlocal_means.py:

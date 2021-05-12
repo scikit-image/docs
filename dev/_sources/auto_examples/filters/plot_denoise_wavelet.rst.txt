@@ -60,15 +60,7 @@ results in an improvement over what can be obtained with a single threshold.
 
  .. code-block:: none
 
-    /home/runner/work/scikit-image/scikit-image/doc/examples/filters/plot_denoise_wavelet.py:49: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `estimate_sigma`. It will be removed in version 1.0. Please use `channel_axis` instead.
-
     Estimated Gaussian noise standard deviation = 0.1169602291987586
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/_shared/utils.py:256: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `denoise_wavelet`. It will be removed in version 1.0. Please use `channel_axis` instead.
-
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
@@ -101,25 +93,25 @@ results in an improvement over what can be obtained with a single threshold.
     plt.gray()
 
     # Estimate the average noise standard deviation across color channels.
-    sigma_est = estimate_sigma(noisy, multichannel=True, average_sigmas=True)
+    sigma_est = estimate_sigma(noisy, channel_axis=-1, average_sigmas=True)
     # Due to clipping in random_noise, the estimate will be a bit smaller than the
     # specified sigma.
     print(f"Estimated Gaussian noise standard deviation = {sigma_est}")
 
-    im_bayes = denoise_wavelet(noisy, multichannel=True, convert2ycbcr=True,
+    im_bayes = denoise_wavelet(noisy, channel_axis=-1, convert2ycbcr=True,
                                method='BayesShrink', mode='soft',
                                rescale_sigma=True)
-    im_visushrink = denoise_wavelet(noisy, multichannel=True, convert2ycbcr=True,
+    im_visushrink = denoise_wavelet(noisy, channel_axis=-1, convert2ycbcr=True,
                                     method='VisuShrink', mode='soft',
                                     sigma=sigma_est, rescale_sigma=True)
 
     # VisuShrink is designed to eliminate noise with high probability, but this
     # results in a visually over-smooth appearance.  Repeat, specifying a reduction
     # in the threshold by factors of 2 and 4.
-    im_visushrink2 = denoise_wavelet(noisy, multichannel=True, convert2ycbcr=True,
+    im_visushrink2 = denoise_wavelet(noisy, channel_axis=-1, convert2ycbcr=True,
                                      method='VisuShrink', mode='soft',
                                      sigma=sigma_est/2, rescale_sigma=True)
-    im_visushrink4 = denoise_wavelet(noisy, multichannel=True, convert2ycbcr=True,
+    im_visushrink4 = denoise_wavelet(noisy, channel_axis=-1, convert2ycbcr=True,
                                      method='VisuShrink', mode='soft',
                                      sigma=sigma_est/4, rescale_sigma=True)
 
@@ -162,7 +154,7 @@ results in an improvement over what can be obtained with a single threshold.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.845 seconds)
+   **Total running time of the script:** ( 0 minutes  1.008 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_denoise_wavelet.py:

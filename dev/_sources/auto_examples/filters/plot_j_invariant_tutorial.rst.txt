@@ -68,10 +68,10 @@ Calibrating a wavelet denoiser
     parameter_ranges = {'sigma': np.arange(0.1, 0.3, 0.02),
                         'wavelet': ['db1', 'db2'],
                         'convert2ycbcr': [True, False],
-                        'multichannel': [True]}
+                        'channel_axis': [-1]}
 
     # Denoised image using default parameters of `denoise_wavelet`
-    default_output = denoise_wavelet(noisy, multichannel=True, rescale_sigma=True)
+    default_output = denoise_wavelet(noisy, channel_axis=-1, rescale_sigma=True)
 
     # Calibrate denoiser
     calibrated_denoiser = calibrate_denoiser(noisy,
@@ -106,10 +106,6 @@ Calibrating a wavelet denoiser
  Out:
 
  .. code-block:: none
-
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/_shared/utils.py:256: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `denoise_wavelet`. It will be removed in version 1.0. Please use `channel_axis` instead.
 
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
 
@@ -153,7 +149,7 @@ blue line) have the same shape and the same minimizer.
     sigma_range = np.arange(sigma/2, 1.5*sigma, 0.025)
 
     parameters_tested = [{'sigma': sigma, 'convert2ycbcr': True, 'wavelet': 'db2',
-                          'multichannel': True}
+                          'channel_axis': -1}
                          for sigma in sigma_range]
 
     denoised_invariant = [_invariant_denoise(noisy, _denoise_wavelet,
@@ -219,10 +215,6 @@ blue line) have the same shape and the same minimizer.
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/_shared/utils.py:256: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `denoise_wavelet`. It will be removed in version 1.0. Please use `channel_axis` instead.
-
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
@@ -254,7 +246,7 @@ imperceptibly worse at larger values.
 
 
     parameters_tested = [{'sigma': sigma, 'convert2ycbcr': True,
-                          'wavelet': 'db2', 'multichannel': True}
+                          'wavelet': 'db2', 'channel_axis': -1}
                          for sigma in sigma_range]
 
     denoised_original = [_denoise_wavelet(noisy, **params)
@@ -292,10 +284,6 @@ imperceptibly worse at larger values.
  Out:
 
  .. code-block:: none
-
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/_shared/utils.py:256: FutureWarning:
-
-    `multichannel` is a deprecated argument name for `denoise_wavelet`. It will be removed in version 1.0. Please use `channel_axis` instead.
 
 
     Text(0.5, 14.722222222222216, 'sigma')
@@ -463,7 +451,7 @@ loss shows that the TV norm denoiser is the best for this noisy image.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  17.801 seconds)
+   **Total running time of the script:** ( 0 minutes  19.144 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_j_invariant_tutorial.py:

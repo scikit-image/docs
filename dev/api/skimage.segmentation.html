@@ -784,7 +784,7 @@ label closest to <code class="docutils literal notranslate"><span class="pre">(0
 <h2>felzenszwalb<a class="headerlink" href="#felzenszwalb" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.segmentation.felzenszwalb">
-<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">felzenszwalb</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_felzenszwalb.py#L6-L64"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.felzenszwalb" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">felzenszwalb</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_felzenszwalb.py#L7-L75"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.felzenszwalb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes Felsenszwalb’s efficient graph based image segmentation.</p>
 <p>Produces an oversegmentation of a multichannel (i.e. RGB) image
 using a fast, minimum spanning tree based clustering on the image grid.
@@ -796,9 +796,9 @@ controlled indirectly through <code class="docutils literal notranslate"><span c
 vary greatly depending on local contrast.</p>
 <p>For RGB images, the algorithm uses the euclidean distance between pixels in
 color space.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">(width, height, 3) or (width, height) ndarray</span></dt><dd><p>Input image.</p>
 </dd>
 <dt><strong>scale</strong><span class="classifier">float</span></dt><dd><p>Free parameter. Higher means larger clusters.</p>
@@ -808,7 +808,15 @@ color space.</p>
 <dt><strong>min_size</strong><span class="classifier">int</span></dt><dd><p>Minimum component size. Enforced using postprocessing.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional (default: True)</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
-channels. A value of False, for a 3D image, is not currently supported.</p>
+channels. A value of False, for a 3D image, is not currently supported.
+This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1586,7 +1594,7 @@ European Conference on Computer Vision, 2008</p>
 <h2>random_walker<a class="headerlink" href="#random-walker" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.segmentation.random_walker">
-<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">random_walker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">130</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cg_j'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_full_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/random_walker_segmentation.py#L261-L509"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.random_walker" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">random_walker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">130</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cg_j'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_full_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prob_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/random_walker_segmentation.py#L262-L521"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.random_walker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Random walker algorithm for segmentation from markers.</p>
 <p>Random walker algorithm is implemented for gray-level or multichannel
 images.</p>
@@ -1638,7 +1646,8 @@ the result of the segmentation. Use copy=False if you want to
 save on memory.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, input data is parsed as multichannel data (see ‘data’ above
-for proper input format in this case).</p>
+for proper input format in this case). This argument is deprecated:
+specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>return_full_prob</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the probability that a pixel belongs to each of the
 labels will be returned, instead of only the most likely
@@ -1649,6 +1658,13 @@ the spacing between pixels/voxels in each dimension is assumed 1.</p>
 </dd>
 <dt><strong>prob_tol</strong><span class="classifier">float, optional</span></dt><dd><p>Tolerance on the resulting probability to be in the interval [0, 1].
 If the tolerance is not satisfied, a warning is displayed.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1833,13 +1849,13 @@ guaranteed to be smaller than either the input or output images.</p>
 <h2>slic<a class="headerlink" href="#slic" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.segmentation.slic">
-<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">slic</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert2lab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enforce_connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slic_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/slic_superpixels.py#L109-L338"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.slic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></code><code class="sig-name descname"><span class="pre">slic</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert2lab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enforce_connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slic_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/slic_superpixels.py#L109-L350"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.slic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Segments image using k-means clustering in Color-(x,y,z) space.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">2D, 3D or 4D ndarray</span></dt><dd><p>Input image, which can be 2D or 3D, and grayscale or multichannel
-(see <em class="xref py py-obj">multichannel</em> parameter).
+(see <em class="xref py py-obj">channel_axis</em> parameter).
 Input image must either be NaN-free or the NaN’s must be masked out</p>
 </dd>
 <dt><strong>n_segments</strong><span class="classifier">int, optional</span></dt><dd><p>The (approximate) number of labels in the segmented output image.</p>
@@ -1866,12 +1882,13 @@ This parameter controls the weights of the distances along z, y,
 and x during k-means clustering.</p>
 </dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
-channels or another spatial dimension.</p>
+channels or another spatial dimension. This argument is deprecated:
+specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>convert2lab</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether the input should be converted to Lab colorspace prior to
 segmentation. The input image <em>must</em> be RGB. Highly recommended.
-This option defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code> when <code class="docutils literal notranslate"><span class="pre">multichannel=True</span></code> <em>and</em>
-<code class="docutils literal notranslate"><span class="pre">image.shape[-1]</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
+This option defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code> when <code class="docutils literal notranslate"><span class="pre">channel_axis`</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">None</span> <span class="pre">*and*</span>
+<span class="pre">``image.shape[-1]</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
 </dd>
 <dt><strong>enforce_connectivity</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether the generated segments are connected or not</p>
 </dd>
@@ -1893,6 +1910,13 @@ and seed points are homogeneously distributed over the mask
 using a K-means clustering strategy.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.17: </span><code class="docutils literal notranslate"><span class="pre">mask</span></code> was introduced in 0.17</p>
+</div>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
 </div>
 </dd>
 </dl>
@@ -1924,7 +1948,7 @@ ensures sensible smoothing for anisotropic images.</p></li>
 <li><p>The image is rescaled to be in [0, 1] prior to processing.</p></li>
 <li><p>Images of shape (M, N, 3) are interpreted as 2D RGB images by default. To
 interpret them as 3D with the last dimension having length 3, use
-<em class="xref py py-obj">multichannel=False</em>.</p></li>
+<em class="xref py py-obj">channel_axis=-1</em>.</p></li>
 <li><p><em class="xref py py-obj">start_label</em> is introduced to handle the issue <a class="reference internal" href="#rbeb231216055-4" id="id21">[4]</a>. The labels
 indexing starting at 0 will be deprecated in future versions. If
 <em class="xref py py-obj">mask</em> is not <em class="xref py py-obj">None</em> labels indexing starts at 1 and masked area
