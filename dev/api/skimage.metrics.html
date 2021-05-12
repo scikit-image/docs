@@ -587,11 +587,11 @@ data-type.</p>
 <h2>structural_similarity<a class="headerlink" href="#structural-similarity" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.metrics.structural_similarity">
-<code class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></code><code class="sig-name descname"><span class="pre">structural_similarity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_structural_similarity.py#L12-L232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.structural_similarity" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></code><code class="sig-name descname"><span class="pre">structural_similarity</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_structural_similarity.py#L16-L248"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.structural_similarity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the mean structural similarity index between two images.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>im1, im2</strong><span class="classifier">ndarray</span></dt><dd><p>Images. Any dimensionality with same shape.</p>
 </dd>
 <dt><strong>win_size</strong><span class="classifier">int or None, optional</span></dt><dd><p>The side-length of the sliding window used in comparison. Must be an
@@ -604,8 +604,16 @@ window size will depend on <em class="xref py py-obj">sigma</em>.</p>
 maximum possible values). By default, this is estimated from the image
 data-type.</p>
 </dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
+</dd>
 <dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, treat the last dimension of the array as channels. Similarity
-calculations are done independently for each channel then averaged.</p>
+calculations are done independently for each channel then averaged.
+This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>gaussian_weights</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, each patch has its mean and variance spatially weighted by a
 normalized Gaussian kernel of width sigma=1.5.</p>
