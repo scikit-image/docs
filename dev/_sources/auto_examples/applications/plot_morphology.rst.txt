@@ -43,7 +43,7 @@ In this document we outline the following basic morphological operations:
 To get started, let's load an image using ``io.imread``. Note that morphology
 functions only work on gray-scale or binary images, so we set ``as_gray=True``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-37
+.. GENERATED FROM PYTHON SOURCE LINES 27-36
 
 .. code-block:: default
 
@@ -51,7 +51,6 @@ functions only work on gray-scale or binary images, so we set ``as_gray=True``.
     import matplotlib.pyplot as plt
     from skimage import data
     from skimage.util import img_as_ubyte
-    from skimage import io
 
     orig_phantom = img_as_ubyte(data.shepp_logan_phantom())
     fig, ax = plt.subplots()
@@ -72,15 +71,15 @@ functions only work on gray-scale or binary images, so we set ``as_gray=True``.
  .. code-block:: none
 
 
-    <matplotlib.image.AxesImage object at 0x7fb997261590>
+    <matplotlib.image.AxesImage object at 0x7fea273fb890>
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-39
+.. GENERATED FROM PYTHON SOURCE LINES 37-38
 
 Let's also define a convenience function for plotting comparisons:
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-52
+.. GENERATED FROM PYTHON SOURCE LINES 38-52
 
 .. code-block:: default
 
@@ -104,6 +103,7 @@ Let's also define a convenience function for plotting comparisons:
 
 
 
+
 .. GENERATED FROM PYTHON SOURCE LINES 53-61
 
 Erosion
@@ -115,14 +115,15 @@ pixels in the neighborhood centered at (i, j)*. The structuring element,
 neighborhood. Below, we use ``disk`` to create a circular structuring
 element, which we use for most of the following examples.
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-70
+.. GENERATED FROM PYTHON SOURCE LINES 61-71
 
 .. code-block:: default
 
 
-    from skimage.morphology import erosion, dilation, opening, closing, white_tophat
-    from skimage.morphology import black_tophat, skeletonize, convex_hull_image
-    from skimage.morphology import disk
+    from skimage.morphology import (erosion, dilation, opening, closing,  # noqa
+                                    white_tophat)
+    from skimage.morphology import black_tophat, skeletonize, convex_hull_image  # noqa
+    from skimage.morphology import disk  # noqa
 
     selem = disk(6)
     eroded = erosion(orig_phantom, selem)
@@ -139,12 +140,12 @@ element, which we use for most of the following examples.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 71-82
+.. GENERATED FROM PYTHON SOURCE LINES 72-83
 
 Notice how the white boundary of the image disappears or gets eroded as we
- increase the size of the disk. Also notice the increase in size of the two
- black ellipses in the center and the disappearance of the 3 light grey
- patches in the lower part of the image.
+increase the size of the disk. Also notice the increase in size of the two
+black ellipses in the center and the disappearance of the 3 light gray
+patches in the lower part of the image.
 
 Dilation
 ========
@@ -153,7 +154,7 @@ Morphological ``dilation`` sets a pixel at (i, j) to the *maximum over all
 pixels in the neighborhood centered at (i, j)*. Dilation enlarges bright
 regions and shrinks dark regions.
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-86
+.. GENERATED FROM PYTHON SOURCE LINES 83-87
 
 .. code-block:: default
 
@@ -172,11 +173,11 @@ regions and shrinks dark regions.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-98
+.. GENERATED FROM PYTHON SOURCE LINES 88-99
 
 Notice how the white boundary of the image thickens, or gets dilated, as we
 increase the size of the disk. Also notice the decrease in size of the two
-black ellipses in the centre, and the thickening of the light grey circle
+black ellipses in the centre, and the thickening of the light gray circle
 in the center and the 3 patches in the lower part of the image.
 
 Opening
@@ -186,7 +187,7 @@ Morphological ``opening`` on an image is defined as an *erosion followed by
 a dilation*. Opening can remove small bright spots (i.e. "salt") and
 connect small dark cracks.
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-102
+.. GENERATED FROM PYTHON SOURCE LINES 99-103
 
 .. code-block:: default
 
@@ -205,7 +206,7 @@ connect small dark cracks.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-122
+.. GENERATED FROM PYTHON SOURCE LINES 104-123
 
 Since ``opening`` an image starts with an erosion operation, light regions
 that are *smaller* than the structuring element are removed. The dilation
@@ -227,7 +228,7 @@ connect small bright cracks.
 To illustrate this more clearly, let's add a small crack to the white
 border:
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-129
+.. GENERATED FROM PYTHON SOURCE LINES 123-130
 
 .. code-block:: default
 
@@ -249,7 +250,7 @@ border:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-146
+.. GENERATED FROM PYTHON SOURCE LINES 131-147
 
 Since ``closing`` an image starts with an dilation operation, dark regions
 that are *smaller* than the structuring element are removed. The dilation
@@ -268,7 +269,7 @@ image that are smaller than the structuring element.
 
 To make things interesting, we'll add bright and dark spots to the image:
 
-.. GENERATED FROM PYTHON SOURCE LINES 146-154
+.. GENERATED FROM PYTHON SOURCE LINES 147-155
 
 .. code-block:: default
 
@@ -291,7 +292,7 @@ To make things interesting, we'll add bright and dark spots to the image:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-166
+.. GENERATED FROM PYTHON SOURCE LINES 156-167
 
 As you can see, the 10-pixel wide white square is highlighted since it is
 smaller than the structuring element. Also, the thin, white edges around
@@ -305,7 +306,7 @@ The ``black_tophat`` of an image is defined as its morphological **closing
 minus the original image**. This operation returns the *dark spots of the
 image that are smaller than the structuring element*.
 
-.. GENERATED FROM PYTHON SOURCE LINES 166-170
+.. GENERATED FROM PYTHON SOURCE LINES 167-171
 
 .. code-block:: default
 
@@ -324,7 +325,7 @@ image that are smaller than the structuring element*.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 171-191
+.. GENERATED FROM PYTHON SOURCE LINES 172-192
 
 As you can see, the 10-pixel wide black square is highlighted since
 it is smaller than the structuring element.
@@ -334,11 +335,11 @@ it is smaller than the structuring element.
 As you should have noticed, many of these operations are simply the reverse
 of another operation. This duality can be summarized as follows:
 
- 1. Erosion <-> Dilation
+  1. Erosion <-> Dilation
 
- 2. Opening <-> Closing
+  2. Opening <-> Closing
 
- 3. White tophat <-> Black tophat
+  3. White tophat <-> Black tophat
 
 Skeletonize
 ===========
@@ -347,7 +348,7 @@ Thinning is used to reduce each connected component in a binary image to a
 *single-pixel wide skeleton*. It is important to note that this is
 performed on binary images only.
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-197
+.. GENERATED FROM PYTHON SOURCE LINES 192-198
 
 .. code-block:: default
 
@@ -368,7 +369,7 @@ performed on binary images only.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 198-207
+.. GENERATED FROM PYTHON SOURCE LINES 199-208
 
 As the name suggests, this technique is used to thin the image to 1-pixel
 wide skeleton by applying thinning successively.
@@ -407,12 +408,10 @@ which covers the white or True completely in the image.
 If we add a small grain to the image, we can see how the convex hull adapts
 to enclose that grain:
 
-.. GENERATED FROM PYTHON SOURCE LINES 218-227
+.. GENERATED FROM PYTHON SOURCE LINES 218-225
 
 .. code-block:: default
 
-
-    import numpy as np
 
     horse_mask = horse == 0
     horse_mask[45:50, 75:80] = 1
@@ -431,7 +430,7 @@ to enclose that grain:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 228-238
+.. GENERATED FROM PYTHON SOURCE LINES 226-236
 
 Additional Resources
 ====================
@@ -444,7 +443,7 @@ Additional Resources
 
 3. https://en.wikipedia.org/wiki/Mathematical_morphology
 
-.. GENERATED FROM PYTHON SOURCE LINES 239-241
+.. GENERATED FROM PYTHON SOURCE LINES 236-238
 
 .. code-block:: default
 
@@ -460,7 +459,7 @@ Additional Resources
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.509 seconds)
+   **Total running time of the script:** ( 0 minutes  2.304 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_morphology.py:

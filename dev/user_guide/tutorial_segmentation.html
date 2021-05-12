@@ -115,8 +115,8 @@ interest in an image.</p>
 <p>In this tutorial, we will see how to segment objects from a background.
 We use the <code class="docutils literal notranslate"><span class="pre">coins</span></code> image from <code class="docutils literal notranslate"><span class="pre">skimage.data</span></code>. This image shows
 several coins outlined against a darker background. The segmentation of
-the coins cannot be done directly from the histogram of grey values,
-because the background shares enough grey levels with the coins that a
+the coins cannot be done directly from the histogram of gray values,
+because the background shares enough gray levels with the coins that a
 thresholding segmentation is not sufficient.</p>
 <a class="reference external image-reference" href="../auto_examples/applications/plot_coins_segmentation.html"><img alt="../_images/sphx_glr_plot_coins_segmentation_001.png" class="align-center" src="../_images/sphx_glr_plot_coins_segmentation_001.png" /></a>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
@@ -130,7 +130,7 @@ of the coins, or to merging parts of the background with the
 coins. This is due to the inhomogeneous lighting of the image.</p>
 <a class="reference external image-reference" href="../auto_examples/applications/plot_coins_segmentation.html"><img alt="../_images/sphx_glr_plot_coins_segmentation_002.png" class="align-center" src="../_images/sphx_glr_plot_coins_segmentation_002.png" /></a>
 <p>A first idea is to take advantage of the local contrast, that is, to
-use the gradients rather than the grey values.</p>
+use the gradients rather than the gray values.</p>
 <div class="section" id="edge-based-segmentation">
 <h2>Edge-based segmentation<a class="headerlink" href="#edge-based-segmentation" title="Permalink to this headline">¶</a></h2>
 <p>Let us first try to detect edges that enclose the coins. For edge
@@ -176,7 +176,7 @@ close them. However, it is preferable to try a more robust method.</p>
 <p>Let us first determine markers of the coins and the background. These
 markers are pixels that we can label unambiguously as either object or
 background. Here, the markers are found at the two extreme parts of the
-histogram of grey values:</p>
+histogram of gray values:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
@@ -200,7 +200,7 @@ separate the coins from the background.</p>
 <p>and here is the corresponding 2-D plot:</p>
 <a class="reference external image-reference" href="../auto_examples/applications/plot_coins_segmentation.html"><img alt="../_images/sphx_glr_plot_coins_segmentation_006.png" class="align-center" src="../_images/sphx_glr_plot_coins_segmentation_006.png" /></a>
 <p>The next step is to find markers of the background and the coins based on the
-extreme parts of the histogram of grey values:</p>
+extreme parts of the histogram of gray values:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
