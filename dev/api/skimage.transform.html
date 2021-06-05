@@ -251,7 +251,7 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#skimage.transform.ifrt2" title="skimage.transform.ifrt2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.transform.ifrt2</span></code></a>(a)</p></td>
 <td><p>Compute the 2-dimensional inverse finite radon transform (iFRT) for an (n+1) x n integer array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.transform.integral_image" title="skimage.transform.integral_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.transform.integral_image</span></code></a>(image)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.transform.integral_image" title="skimage.transform.integral_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.transform.integral_image</span></code></a>(image, *[, …])</p></td>
 <td><p>Integral image / summed area table.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#skimage.transform.integrate" title="skimage.transform.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.transform.integrate</span></code></a>(ii, start, end)</p></td>
@@ -939,7 +939,7 @@ and Electron Physics, 139 (2006)</p>
 <h2>integral_image<a class="headerlink" href="#integral-image" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.transform.integral_image">
-<code class="sig-prename descclassname"><span class="pre">skimage.transform.</span></code><code class="sig-name descname"><span class="pre">integral_image</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/transform/integral.py#L4-L33"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.integral_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.transform.</span></code><code class="sig-name descname"><span class="pre">integral_image</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/transform/integral.py#L4-L46"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.integral_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Integral image / summed area table.</p>
 <p>The integral image contains the sum of all elements above and to the
 left of it, i.e.:</p>
@@ -959,6 +959,12 @@ left of it, i.e.:</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>For better accuracy and to avoid potential overflow, the data type of the
+output may differ from the input’s when the default dtype of None is used.
+For inputs with integer dtype, the behavior matches that for
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.cumsum.html#numpy.cumsum" title="(in NumPy v1.20)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.cumsum()</span></code></a>. Floating point inputs will be promoted to at least
+double precision. The user can set <em class="xref py py-obj">dtype</em> to override this behavior.</p>
 <p class="rubric">References</p>
 <dl class="citation">
 <dt class="label" id="rd91ebd979f08-1"><span class="brackets">1</span></dt>
@@ -984,7 +990,7 @@ ACM SIGGRAPH Computer Graphics, vol. 18, 1984, pp. 207-212.</p>
 <h2>integrate<a class="headerlink" href="#integrate" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.transform.integrate">
-<code class="sig-prename descclassname"><span class="pre">skimage.transform.</span></code><code class="sig-name descname"><span class="pre">integrate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/transform/integral.py#L36-L128"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.integrate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.transform.</span></code><code class="sig-name descname"><span class="pre">integrate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ii</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/transform/integral.py#L49-L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.integrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use an integral image to integrate over a given window.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
