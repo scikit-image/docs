@@ -38,7 +38,7 @@ values, and use the random walker for the segmentation.
 .. [1] *Random walks for image segmentation*, Leo Grady, IEEE Trans. Pattern
        Anal. Mach. Intell. 2006 Nov; 28(11):1768-83 :DOI:`10.1109/TPAMI.2006.233`
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-62
+.. GENERATED FROM PYTHON SOURCE LINES 23-64
 
 
 
@@ -60,10 +60,12 @@ values, and use the random walker for the segmentation.
     from skimage.exposure import rescale_intensity
     import skimage
 
+    rng = np.random.default_rng()
+
     # Generate noisy synthetic data
     data = skimage.img_as_float(binary_blobs(length=128, seed=1))
     sigma = 0.35
-    data += np.random.normal(loc=0, scale=sigma, size=data.shape)
+    data += rng.normal(loc=0, scale=sigma, size=data.shape)
     data = rescale_intensity(data, in_range=(-sigma, 1 + sigma),
                              out_range=(-1, 1))
 
@@ -95,7 +97,7 @@ values, and use the random walker for the segmentation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.437 seconds)
+   **Total running time of the script:** ( 0 minutes  0.498 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_random_walker_segmentation.py:

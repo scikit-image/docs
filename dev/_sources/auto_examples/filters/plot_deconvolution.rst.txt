@@ -35,7 +35,7 @@ iterations, which needs to be hand-tuned.
 
 .. [2] https://en.wikipedia.org/wiki/Richardson%E2%80%93Lucy_deconvolution
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-56
+.. GENERATED FROM PYTHON SOURCE LINES 19-58
 
 
 
@@ -56,13 +56,15 @@ iterations, which needs to be hand-tuned.
 
     from skimage import color, data, restoration
 
+    rng = np.random.default_rng()
+
     astro = color.rgb2gray(data.astronaut())
 
     psf = np.ones((5, 5)) / 25
     astro = conv2(astro, psf, 'same')
     # Add Noise to Image
     astro_noisy = astro.copy()
-    astro_noisy += (np.random.poisson(lam=25, size=astro.shape) - 10) / 255.
+    astro_noisy += (rng.poisson(lam=25, size=astro.shape) - 10) / 255.
 
     # Restore Image using Richardson-Lucy algorithm
     deconvolved_RL = restoration.richardson_lucy(astro_noisy, psf, iterations=30)
@@ -90,7 +92,7 @@ iterations, which needs to be hand-tuned.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.080 seconds)
+   **Total running time of the script:** ( 0 minutes  1.400 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_deconvolution.py:

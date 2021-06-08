@@ -175,15 +175,15 @@
 <h2>cut_normalized<a class="headerlink" href="#cut-normalized" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.future.graph.cut_normalized">
-<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">cut_normalized</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L73-L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.cut_normalized" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">cut_normalized</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L72-L148"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.cut_normalized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Normalized Graph cut on the Region Adjacency Graph.</p>
 <p>Given an image’s labels and its similarity RAG, recursively perform
 a 2-way normalized cut on it. All nodes belonging to a subgraph
 that cannot be cut further are assigned a unique label in the
 output.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>labels</strong><span class="classifier">ndarray</span></dt><dd><p>The array of labels.</p>
 </dd>
 <dt><strong>rag</strong><span class="classifier">RAG</span></dt><dd><p>The region adjacency graph.</p>
@@ -200,10 +200,13 @@ set a new attribute <code class="docutils literal notranslate"><span class="pre"
 an edge between identical regions. This is used to put self
 edges in the RAG.</p>
 </dd>
-<dt><strong>random_state</strong><span class="classifier">int, RandomState instance or None, optional</span></dt><dd><p>If int, random_state is the seed used by the random number generator;
-If RandomState instance, random_state is the random number generator;
-If None, the random number generator is the RandomState instance used
-by <em class="xref py py-obj">np.random</em>. The random state is used for the starting point
+<dt><strong>random_state</strong><span class="classifier">{None, int, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>}, optional</span></dt><dd><p>If <em class="xref py py-obj">random_state</em> is None the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a> singleton is
+used.
+If <em class="xref py py-obj">random_state</em> is an int, a new <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance is used,
+seeded with <em class="xref py py-obj">random_state</em>.
+If <em class="xref py py-obj">random_state</em> is already a <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance then that
+instance is used.</p>
+<p>The <em class="xref py py-obj">random_state</em> is used for the starting point
 of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code></a>.</p>
 </dd>
 </dl>
@@ -246,7 +249,7 @@ IEEE Transactions on, vol. 22, no. 8, pp. 888-905, August 2000.</p>
 <h2>cut_threshold<a class="headerlink" href="#cut-threshold" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.future.graph.cut_threshold">
-<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">cut_threshold</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L9-L70"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.cut_threshold" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">cut_threshold</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L8-L69"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.cut_threshold" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine regions separated by weight less than threshold.</p>
 <p>Given an image’s labels and its RAG, output new labels by
 combining regions whose nodes are separated by a weight less
@@ -359,15 +362,15 @@ to <em class="xref py py-obj">merge_nodes</em>.</p>
 <h2>ncut<a class="headerlink" href="#ncut" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.future.graph.ncut">
-<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">ncut</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L73-L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.ncut" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.future.graph.</span></code><code class="sig-name descname"><span class="pre">ncut</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cuts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_place</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/future/graph/graph_cut.py#L72-L148"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.future.graph.ncut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Normalized Graph cut on the Region Adjacency Graph.</p>
 <p>Given an image’s labels and its similarity RAG, recursively perform
 a 2-way normalized cut on it. All nodes belonging to a subgraph
 that cannot be cut further are assigned a unique label in the
 output.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>labels</strong><span class="classifier">ndarray</span></dt><dd><p>The array of labels.</p>
 </dd>
 <dt><strong>rag</strong><span class="classifier">RAG</span></dt><dd><p>The region adjacency graph.</p>
@@ -384,10 +387,13 @@ set a new attribute <code class="docutils literal notranslate"><span class="pre"
 an edge between identical regions. This is used to put self
 edges in the RAG.</p>
 </dd>
-<dt><strong>random_state</strong><span class="classifier">int, RandomState instance or None, optional</span></dt><dd><p>If int, random_state is the seed used by the random number generator;
-If RandomState instance, random_state is the random number generator;
-If None, the random number generator is the RandomState instance used
-by <em class="xref py py-obj">np.random</em>. The random state is used for the starting point
+<dt><strong>random_state</strong><span class="classifier">{None, int, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>}, optional</span></dt><dd><p>If <em class="xref py py-obj">random_state</em> is None the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a> singleton is
+used.
+If <em class="xref py py-obj">random_state</em> is an int, a new <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance is used,
+seeded with <em class="xref py py-obj">random_state</em>.
+If <em class="xref py py-obj">random_state</em> is already a <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance then that
+instance is used.</p>
+<p>The <em class="xref py py-obj">random_state</em> is used for the starting point
 of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.linalg.eigsh.html#scipy.sparse.linalg.eigsh" title="(in SciPy v1.6.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.sparse.linalg.eigsh</span></code></a>.</p>
 </dd>
 </dl>

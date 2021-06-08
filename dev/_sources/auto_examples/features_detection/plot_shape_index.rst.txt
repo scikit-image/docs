@@ -57,7 +57,7 @@ as they do not posses the desired shape.
        Image and Vision Computing, 1992, 10, 557-564.
        :DOI:`10.1016/0262-8856(92)90076-F`
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-167
+.. GENERATED FROM PYTHON SOURCE LINES 41-163
 
 
 
@@ -85,10 +85,8 @@ as they do not posses the desired shape.
         """
         Generate a test image with random noise, uneven illumination and spots.
         """
-        state = np.random.get_state()
-        np.random.seed(314159265)  # some digits of pi
-
-        image = np.random.normal(
+        rng = np.random.default_rng()
+        image = rng.normal(
             loc=0.25,
             scale=0.25,
             size=(image_size, image_size)
@@ -96,25 +94,23 @@ as they do not posses the desired shape.
 
         for _ in range(spot_count):
             rr, cc = disk(
-                (np.random.randint(image.shape[0]),
-                 np.random.randint(image.shape[1])),
+                (rng.integers(image.shape[0]),
+                 rng.integers(image.shape[1])),
                 spot_radius,
                 shape=image.shape
             )
             image[rr, cc] = 1
 
-        image *= np.random.normal(loc=1.0, scale=0.1, size=image.shape)
+        image *= rng.normal(loc=1.0, scale=0.1, size=image.shape)
 
         image *= ndi.zoom(
-            np.random.normal(
+            rng.normal(
                 loc=1.0,
                 scale=0.5,
                 size=(cloud_noise_size, cloud_noise_size)
             ),
             image_size / cloud_noise_size
         )
-
-        np.random.set_state(state)
 
         return ndi.gaussian_filter(image, sigma=2.0)
 
@@ -201,7 +197,7 @@ as they do not posses the desired shape.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.993 seconds)
+   **Total running time of the script:** ( 0 minutes  1.139 seconds)
 
 
 .. _sphx_glr_download_auto_examples_features_detection_plot_shape_index.py:

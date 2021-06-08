@@ -465,11 +465,11 @@ and 10 minutes in outer space.</p>
 <h2>binary_blobs<a class="headerlink" href="#binary-blobs" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="skimage.data.binary_blobs">
-<code class="sig-prename descclassname"><span class="pre">skimage.data.</span></code><code class="sig-name descname"><span class="pre">binary_blobs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/data/_binary_blobs.py#L4-L57"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.data.binary_blobs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">skimage.data.</span></code><code class="sig-name descname"><span class="pre">binary_blobs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">512</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volume_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/data/_binary_blobs.py#L4-L61"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.data.binary_blobs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate synthetic binary image with several rounded blob-like objects.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>length</strong><span class="classifier">int, optional</span></dt><dd><p>Linear size of output image.</p>
 </dd>
 <dt><strong>blob_size_fraction</strong><span class="classifier">float, optional</span></dt><dd><p>Typical linear size of blob, as a fraction of <code class="docutils literal notranslate"><span class="pre">length</span></code>, should be
@@ -480,8 +480,11 @@ smaller than 1.</p>
 <dt><strong>volume_fraction</strong><span class="classifier">float, default 0.5</span></dt><dd><p>Fraction of image pixels covered by the blobs (where the output is 1).
 Should be in [0, 1].</p>
 </dd>
-<dt><strong>seed</strong><span class="classifier">int, optional</span></dt><dd><p>Seed to initialize the random number generator.
-If <em class="xref py py-obj">None</em>, a random seed from the operating system is used.</p>
+<dt><strong>seed</strong><span class="classifier">{None, int, <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>}, optional</span></dt><dd><p>If <em class="xref py py-obj">seed</em> is None the <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a> singleton is used.
+If <em class="xref py py-obj">seed</em> is an int, a new <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance is used,
+seeded with <em class="xref py py-obj">seed</em>.
+If <em class="xref py py-obj">seed</em> is already a <code class="docutils literal notranslate"><span class="pre">Generator</span></code> instance then that instance is
+used.</p>
 </dd>
 </dl>
 </dd>
@@ -494,7 +497,7 @@ If <em class="xref py py-obj">None</em>, a random seed from the operating system
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">blob_size_fraction</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">blob_size_fraction</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>  
 <span class="go">array([[ True, False,  True,  True,  True],</span>
 <span class="go">       [ True,  True,  True, False,  True],</span>
 <span class="go">       [False,  True, False,  True,  True],</span>

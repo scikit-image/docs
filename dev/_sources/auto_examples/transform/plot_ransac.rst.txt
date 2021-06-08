@@ -49,7 +49,7 @@ These steps are performed either a maximum number of times or until one of
 the special stop criteria are met. The final model is estimated using all the
 inlier samples of the previously determined best model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-83
+.. GENERATED FROM PYTHON SOURCE LINES 34-82
 
 .. code-block:: default
 
@@ -58,8 +58,7 @@ inlier samples of the previously determined best model.
 
     from skimage.measure import LineModelND, ransac
 
-
-    np.random.seed(seed=1)
+    rng = np.random.default_rng()
 
     # generate coordinates of line
     x = np.arange(-200, 200)
@@ -67,14 +66,14 @@ inlier samples of the previously determined best model.
     data = np.column_stack([x, y])
 
     # add gaussian noise to coordinates
-    noise = np.random.normal(size=data.shape)
+    noise = rng.normal(size=data.shape)
     data += 0.5 * noise
     data[::2] += 5 * noise[::2]
     data[::4] += 20 * noise[::4]
 
     # add faulty data
     faulty = np.array(30 * [(180., -100)])
-    faulty += 10 * np.random.normal(size=faulty.shape)
+    faulty += 10 * rng.normal(size=faulty.shape)
     data[:faulty.shape[0]] = faulty
 
     # fit line using all data
@@ -113,11 +112,11 @@ inlier samples of the previously determined best model.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-85
+.. GENERATED FROM PYTHON SOURCE LINES 83-84
 
 Now, we generalize this example to 3D points.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-117
+.. GENERATED FROM PYTHON SOURCE LINES 84-115
 
 .. code-block:: default
 
@@ -127,7 +126,6 @@ Now, we generalize this example to 3D points.
     from mpl_toolkits.mplot3d import Axes3D
     from skimage.measure import LineModelND, ransac
 
-    np.random.seed(seed=1)
 
     # generate coordinates of line
     point = np.array([0, 0, 0], dtype='float')
@@ -135,7 +133,7 @@ Now, we generalize this example to 3D points.
     xyz = point + 10 * np.arange(-100, 100)[..., np.newaxis] * direction
 
     # add gaussian noise to coordinates
-    noise = np.random.normal(size=xyz.shape)
+    noise = rng.normal(size=xyz.shape)
     xyz += 0.5 * noise
     xyz[::2] += 20 * noise[::2]
     xyz[::4] += 100 * noise[::4]
@@ -167,7 +165,7 @@ Now, we generalize this example to 3D points.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.630 seconds)
+   **Total running time of the script:** ( 0 minutes  0.687 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_ransac.py:

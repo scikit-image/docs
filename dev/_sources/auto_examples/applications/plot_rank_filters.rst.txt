@@ -97,7 +97,7 @@ Some noise is added to the image: 1% of pixels are randomly set to 255, 1%
 are randomly set to 0. The **median** filter is applied to remove the
 noise.
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-94
+.. GENERATED FROM PYTHON SOURCE LINES 65-95
 
 .. code-block:: default
 
@@ -105,7 +105,8 @@ noise.
     from skimage.filters.rank import median
     from skimage.morphology import disk, ball
 
-    noise = np.random.random(noisy_image.shape)
+    rng = np.random.default_rng()
+    noise = rng.random(noisy_image.shape)
     noisy_image = img_as_ubyte(data.camera())
     noisy_image[noise > 0.99] = 255
     noisy_image[noise < 0.01] = 0
@@ -141,7 +142,7 @@ noise.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-112
+.. GENERATED FROM PYTHON SOURCE LINES 96-113
 
 The added noise is efficiently removed, as the image defaults are small (1-\
 pixel wide), a small filter radius is sufficient. As the radius
@@ -161,7 +162,7 @@ Image smoothing
 The example hereunder shows how a local **mean** filter smooths the camera
 man image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-131
+.. GENERATED FROM PYTHON SOURCE LINES 114-132
 
 .. code-block:: default
 
@@ -194,7 +195,7 @@ man image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-141
+.. GENERATED FROM PYTHON SOURCE LINES 133-142
 
 One may be interested in smoothing an image while preserving important
 borders (median filters already achieved this). Here, we use the
@@ -206,7 +207,7 @@ gray levels similar to the central one.
     A different implementation is available for color images in
     :func:`skimage.restoration.denoise_bilateral`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-168
+.. GENERATED FROM PYTHON SOURCE LINES 143-169
 
 .. code-block:: default
 
@@ -247,7 +248,7 @@ gray levels similar to the central one.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 169-183
+.. GENERATED FROM PYTHON SOURCE LINES 170-184
 
 One can see that the large continuous part of the image (e.g. sky) is
 smoothed whereas other details are preserved.
@@ -264,7 +265,7 @@ histogram equalization emphasizes every local gray-level variation.
 .. [3] https://en.wikipedia.org/wiki/Histogram_equalization
 .. [4] https://en.wikipedia.org/wiki/Adaptive_histogram_equalization
 
-.. GENERATED FROM PYTHON SOURCE LINES 183-221
+.. GENERATED FROM PYTHON SOURCE LINES 184-222
 
 .. code-block:: default
 
@@ -317,7 +318,7 @@ histogram equalization emphasizes every local gray-level variation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 222-228
+.. GENERATED FROM PYTHON SOURCE LINES 223-229
 
 Another way to maximize the number of gray-levels used for an image is to
 apply a local auto-leveling, i.e. the gray-value of a pixel is
@@ -326,7 +327,7 @@ proportionally remapped between local minimum and local maximum.
 The following example shows how local auto-level enhances the camara man
 picture.
 
-.. GENERATED FROM PYTHON SOURCE LINES 228-248
+.. GENERATED FROM PYTHON SOURCE LINES 229-249
 
 .. code-block:: default
 
@@ -361,7 +362,7 @@ picture.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 249-254
+.. GENERATED FROM PYTHON SOURCE LINES 250-255
 
 This filter is very sensitive to local outliers. One can
 moderate this using the percentile version of the auto-level filter
@@ -369,7 +370,7 @@ which uses given percentiles (one inferior, one superior) in place
 of local minimum and maximum. The example below illustrates how the
 percentile parameters influence the local auto-level result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 254-290
+.. GENERATED FROM PYTHON SOURCE LINES 255-291
 
 .. code-block:: default
 
@@ -420,13 +421,13 @@ percentile parameters influence the local auto-level result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 291-294
+.. GENERATED FROM PYTHON SOURCE LINES 292-295
 
 The morphological contrast enhancement filter replaces the central pixel by
 the local maximum if the original pixel value is closest to local maximum,
 otherwise by the minimum local.
 
-.. GENERATED FROM PYTHON SOURCE LINES 294-320
+.. GENERATED FROM PYTHON SOURCE LINES 295-321
 
 .. code-block:: default
 
@@ -467,12 +468,12 @@ otherwise by the minimum local.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 321-323
+.. GENERATED FROM PYTHON SOURCE LINES 322-324
 
 The percentile version of the local morphological contrast enhancement uses
 percentile *p0* and *p1* instead of the local minimum and maximum.
 
-.. GENERATED FROM PYTHON SOURCE LINES 323-349
+.. GENERATED FROM PYTHON SOURCE LINES 324-350
 
 .. code-block:: default
 
@@ -513,7 +514,7 @@ percentile *p0* and *p1* instead of the local minimum and maximum.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 350-365
+.. GENERATED FROM PYTHON SOURCE LINES 351-366
 
 Image threshold
 ===============
@@ -531,7 +532,7 @@ much slower than the latter.
 
 .. [5] https://en.wikipedia.org/wiki/Otsu's_method
 
-.. GENERATED FROM PYTHON SOURCE LINES 366-405
+.. GENERATED FROM PYTHON SOURCE LINES 367-406
 
 .. code-block:: default
 
@@ -585,11 +586,11 @@ much slower than the latter.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 406-407
+.. GENERATED FROM PYTHON SOURCE LINES 407-408
 
 The example below performs the same comparison, using a 3D image this time.
 
-.. GENERATED FROM PYTHON SOURCE LINES 407-444
+.. GENERATED FROM PYTHON SOURCE LINES 408-445
 
 .. code-block:: default
 
@@ -652,12 +653,12 @@ The example below performs the same comparison, using a 3D image this time.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 445-447
+.. GENERATED FROM PYTHON SOURCE LINES 446-448
 
 The following example shows how local Otsu thresholding handles a global
 level shift applied to a synthetic image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 447-470
+.. GENERATED FROM PYTHON SOURCE LINES 448-471
 
 .. code-block:: default
 
@@ -695,7 +696,7 @@ level shift applied to a synthetic image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 471-479
+.. GENERATED FROM PYTHON SOURCE LINES 472-480
 
 Image morphology
 ================
@@ -706,7 +707,7 @@ morphology.
 Here is an example of the classical morphological gray-level filters:
 opening, closing and morphological gradient.
 
-.. GENERATED FROM PYTHON SOURCE LINES 479-510
+.. GENERATED FROM PYTHON SOURCE LINES 480-511
 
 .. code-block:: default
 
@@ -752,7 +753,7 @@ opening, closing and morphological gradient.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 511-527
+.. GENERATED FROM PYTHON SOURCE LINES 512-528
 
 Feature extraction
 ===================
@@ -771,7 +772,7 @@ on 8- and 16-bit images.
     To better use the available image bit, the function returns 10x entropy
     for 8-bit images and 1000x entropy for 16-bit images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 528-550
+.. GENERATED FROM PYTHON SOURCE LINES 529-551
 
 .. code-block:: default
 
@@ -808,7 +809,7 @@ on 8- and 16-bit images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 551-561
+.. GENERATED FROM PYTHON SOURCE LINES 552-562
 
 Implementation
 ==============
@@ -821,7 +822,7 @@ complexity is also limited with respect to the structuring element size.
 In the following, we compare the performance of different implementations
 available in `skimage`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 562-600
+.. GENERATED FROM PYTHON SOURCE LINES 563-601
 
 .. code-block:: default
 
@@ -870,7 +871,7 @@ available in `skimage`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 601-607
+.. GENERATED FROM PYTHON SOURCE LINES 602-608
 
 Comparison between
 
@@ -879,7 +880,7 @@ Comparison between
 
 on increasing structuring element size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 607-629
+.. GENERATED FROM PYTHON SOURCE LINES 608-630
 
 .. code-block:: default
 
@@ -916,11 +917,11 @@ on increasing structuring element size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 630-631
+.. GENERATED FROM PYTHON SOURCE LINES 631-632
 
 and increasing image size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 631-654
+.. GENERATED FROM PYTHON SOURCE LINES 632-655
 
 .. code-block:: default
 
@@ -931,7 +932,7 @@ and increasing image size:
     rec = []
     s_range = range(100, 1000, 100)
     for s in s_range:
-        a = (np.random.random((s, s)) * 256).astype(np.uint8)
+        a = (rng.random((s, s)) * 256).astype(np.uint8)
         (rc, ms_rc) = cr_max(a, elem)
         (rcm, ms_rcm) = cm_dil(a, elem)
         rec.append((ms_rc, ms_rcm))
@@ -958,7 +959,7 @@ and increasing image size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 655-661
+.. GENERATED FROM PYTHON SOURCE LINES 656-662
 
 Comparison between:
 
@@ -967,7 +968,7 @@ Comparison between:
 
 on increasing structuring element size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 661-681
+.. GENERATED FROM PYTHON SOURCE LINES 662-682
 
 .. code-block:: default
 
@@ -1010,11 +1011,11 @@ on increasing structuring element size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 682-683
+.. GENERATED FROM PYTHON SOURCE LINES 683-684
 
 Comparison of outcome of the two methods:
 
-.. GENERATED FROM PYTHON SOURCE LINES 683-697
+.. GENERATED FROM PYTHON SOURCE LINES 684-698
 
 .. code-block:: default
 
@@ -1043,11 +1044,11 @@ Comparison of outcome of the two methods:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 698-699
+.. GENERATED FROM PYTHON SOURCE LINES 699-700
 
 on increasing image size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 699-723
+.. GENERATED FROM PYTHON SOURCE LINES 700-724
 
 .. code-block:: default
 
@@ -1058,7 +1059,7 @@ on increasing image size:
     rec = []
     s_range = [100, 200, 500, 1000]
     for s in s_range:
-        a = (np.random.random((s, s)) * 256).astype(np.uint8)
+        a = (rng.random((s, s)) * 256).astype(np.uint8)
         (rc, ms_rc) = cr_med(a, elem)
         rndi, ms_ndi = ndi_med(a, r)
         rec.append((ms_rc, ms_ndi))
@@ -1089,7 +1090,7 @@ on increasing image size:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  49.824 seconds)
+   **Total running time of the script:** ( 0 minutes  59.279 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_rank_filters.py:
