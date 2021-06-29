@@ -71,7 +71,7 @@ functions only work on gray-scale or binary images, so we set ``as_gray=True``.
  .. code-block:: none
 
 
-    <matplotlib.image.AxesImage object at 0x7f37045916d0>
+    <matplotlib.image.AxesImage object at 0x7f9f0ff9bd90>
 
 
 
@@ -111,7 +111,7 @@ Erosion
 
 Morphological ``erosion`` sets a pixel at (i, j) to the *minimum over all
 pixels in the neighborhood centered at (i, j)*. The structuring element,
-``selem``, passed to ``erosion`` is a boolean array that describes this
+``footprint``, passed to ``erosion`` is a boolean array that describes this
 neighborhood. Below, we use ``disk`` to create a circular structuring
 element, which we use for most of the following examples.
 
@@ -125,8 +125,8 @@ element, which we use for most of the following examples.
     from skimage.morphology import black_tophat, skeletonize, convex_hull_image  # noqa
     from skimage.morphology import disk  # noqa
 
-    selem = disk(6)
-    eroded = erosion(orig_phantom, selem)
+    footprint = disk(6)
+    eroded = erosion(orig_phantom, footprint)
     plot_comparison(orig_phantom, eroded, 'erosion')
 
 
@@ -159,7 +159,7 @@ regions and shrinks dark regions.
 .. code-block:: default
 
 
-    dilated = dilation(orig_phantom, selem)
+    dilated = dilation(orig_phantom, footprint)
     plot_comparison(orig_phantom, dilated, 'dilation')
 
 
@@ -192,7 +192,7 @@ connect small dark cracks.
 .. code-block:: default
 
 
-    opened = opening(orig_phantom, selem)
+    opened = opening(orig_phantom, footprint)
     plot_comparison(orig_phantom, opened, 'opening')
 
 
@@ -236,7 +236,7 @@ border:
     phantom = orig_phantom.copy()
     phantom[10:30, 200:210] = 0
 
-    closed = closing(phantom, selem)
+    closed = closing(phantom, footprint)
     plot_comparison(phantom, closed, 'closing')
 
 
@@ -278,7 +278,7 @@ To make things interesting, we'll add bright and dark spots to the image:
     phantom[340:350, 200:210] = 255
     phantom[100:110, 200:210] = 0
 
-    w_tophat = white_tophat(phantom, selem)
+    w_tophat = white_tophat(phantom, footprint)
     plot_comparison(phantom, w_tophat, 'white tophat')
 
 
@@ -311,7 +311,7 @@ image that are smaller than the structuring element*.
 .. code-block:: default
 
 
-    b_tophat = black_tophat(phantom, selem)
+    b_tophat = black_tophat(phantom, footprint)
     plot_comparison(phantom, b_tophat, 'black tophat')
 
 
@@ -459,7 +459,7 @@ Additional Resources
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.235 seconds)
+   **Total running time of the script:** ( 0 minutes  2.743 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_morphology.py:

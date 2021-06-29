@@ -370,7 +370,7 @@ which uses given percentiles (one inferior, one superior) in place
 of local minimum and maximum. The example below illustrates how the
 percentile parameters influence the local auto-level result.
 
-.. GENERATED FROM PYTHON SOURCE LINES 255-291
+.. GENERATED FROM PYTHON SOURCE LINES 255-299
 
 .. code-block:: default
 
@@ -379,12 +379,20 @@ percentile parameters influence the local auto-level result.
 
     image = data.camera()
 
-    selem = disk(20)
-    loc_autolevel = autolevel(image, selem=selem)
-    loc_perc_autolevel0 = autolevel_percentile(image, selem=selem, p0=.01, p1=.99)
-    loc_perc_autolevel1 = autolevel_percentile(image, selem=selem, p0=.05, p1=.95)
-    loc_perc_autolevel2 = autolevel_percentile(image, selem=selem, p0=.1, p1=.9)
-    loc_perc_autolevel3 = autolevel_percentile(image, selem=selem, p0=.15, p1=.85)
+    footprint = disk(20)
+    loc_autolevel = autolevel(image, footprint=footprint)
+    loc_perc_autolevel0 = autolevel_percentile(
+        image, footprint=footprint, p0=.01, p1=.99
+    )
+    loc_perc_autolevel1 = autolevel_percentile(
+        image, footprint=footprint, p0=.05, p1=.95
+    )
+    loc_perc_autolevel2 = autolevel_percentile(
+        image, footprint=footprint, p0=.1, p1=.9
+    )
+    loc_perc_autolevel3 = autolevel_percentile(
+        image, footprint=footprint, p0=.15, p1=.85
+    )
 
     fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(10, 10),
                              sharex=True, sharey=True)
@@ -421,13 +429,13 @@ percentile parameters influence the local auto-level result.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 292-295
+.. GENERATED FROM PYTHON SOURCE LINES 300-303
 
 The morphological contrast enhancement filter replaces the central pixel by
 the local maximum if the original pixel value is closest to local maximum,
 otherwise by the minimum local.
 
-.. GENERATED FROM PYTHON SOURCE LINES 295-321
+.. GENERATED FROM PYTHON SOURCE LINES 303-329
 
 .. code-block:: default
 
@@ -468,12 +476,12 @@ otherwise by the minimum local.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 322-324
+.. GENERATED FROM PYTHON SOURCE LINES 330-332
 
 The percentile version of the local morphological contrast enhancement uses
 percentile *p0* and *p1* instead of the local minimum and maximum.
 
-.. GENERATED FROM PYTHON SOURCE LINES 324-350
+.. GENERATED FROM PYTHON SOURCE LINES 332-358
 
 .. code-block:: default
 
@@ -514,7 +522,7 @@ percentile *p0* and *p1* instead of the local minimum and maximum.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 351-366
+.. GENERATED FROM PYTHON SOURCE LINES 359-374
 
 Image threshold
 ===============
@@ -532,7 +540,7 @@ much slower than the latter.
 
 .. [5] https://en.wikipedia.org/wiki/Otsu's_method
 
-.. GENERATED FROM PYTHON SOURCE LINES 367-406
+.. GENERATED FROM PYTHON SOURCE LINES 375-414
 
 .. code-block:: default
 
@@ -544,10 +552,10 @@ much slower than the latter.
     p8 = data.page()
 
     radius = 10
-    selem = disk(radius)
+    footprint = disk(radius)
 
     # t_loc_otsu is an image
-    t_loc_otsu = otsu(p8, selem)
+    t_loc_otsu = otsu(p8, footprint)
     loc_otsu = p8 >= t_loc_otsu
 
     # t_glob_otsu is a scalar
@@ -586,11 +594,11 @@ much slower than the latter.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 407-408
+.. GENERATED FROM PYTHON SOURCE LINES 415-416
 
 The example below performs the same comparison, using a 3D image this time.
 
-.. GENERATED FROM PYTHON SOURCE LINES 408-445
+.. GENERATED FROM PYTHON SOURCE LINES 416-453
 
 .. code-block:: default
 
@@ -645,7 +653,7 @@ The example below performs the same comparison, using a 3D image this time.
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/filters/rank/generic.py:280: UserWarning:
+    /opt/hostedtoolcache/Python/3.7.10/x64/lib/python3.7/site-packages/skimage/filters/rank/generic.py:279: UserWarning:
 
     Possible precision loss converting image of type float64 to uint8 as required by rank filters. Convert manually using skimage.util.img_as_ubyte to silence this warning.
 
@@ -653,12 +661,12 @@ The example below performs the same comparison, using a 3D image this time.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 446-448
+.. GENERATED FROM PYTHON SOURCE LINES 454-456
 
 The following example shows how local Otsu thresholding handles a global
 level shift applied to a synthetic image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 448-471
+.. GENERATED FROM PYTHON SOURCE LINES 456-479
 
 .. code-block:: default
 
@@ -696,7 +704,7 @@ level shift applied to a synthetic image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 472-480
+.. GENERATED FROM PYTHON SOURCE LINES 480-488
 
 Image morphology
 ================
@@ -707,7 +715,7 @@ morphology.
 Here is an example of the classical morphological gray-level filters:
 opening, closing and morphological gradient.
 
-.. GENERATED FROM PYTHON SOURCE LINES 480-511
+.. GENERATED FROM PYTHON SOURCE LINES 488-519
 
 .. code-block:: default
 
@@ -753,7 +761,7 @@ opening, closing and morphological gradient.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 512-528
+.. GENERATED FROM PYTHON SOURCE LINES 520-536
 
 Feature extraction
 ===================
@@ -772,7 +780,7 @@ on 8- and 16-bit images.
     To better use the available image bit, the function returns 10x entropy
     for 8-bit images and 1000x entropy for 16-bit images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 529-551
+.. GENERATED FROM PYTHON SOURCE LINES 537-559
 
 .. code-block:: default
 
@@ -809,7 +817,7 @@ on 8- and 16-bit images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 552-562
+.. GENERATED FROM PYTHON SOURCE LINES 560-570
 
 Implementation
 ==============
@@ -822,7 +830,7 @@ complexity is also limited with respect to the structuring element size.
 In the following, we compare the performance of different implementations
 available in `skimage`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 563-601
+.. GENERATED FROM PYTHON SOURCE LINES 571-609
 
 .. code-block:: default
 
@@ -846,18 +854,18 @@ available in `skimage`.
 
 
     @exec_and_timeit
-    def cr_med(image, selem):
-        return median(image=image, selem=selem)
+    def cr_med(image, footprint):
+        return median(image=image, footprint=footprint)
 
 
     @exec_and_timeit
-    def cr_max(image, selem):
-        return maximum(image=image, selem=selem)
+    def cr_max(image, footprint):
+        return maximum(image=image, footprint=footprint)
 
 
     @exec_and_timeit
-    def cm_dil(image, selem):
-        return dilation(image=image, selem=selem)
+    def cm_dil(image, footprint):
+        return dilation(image=image, footprint=footprint)
 
 
     @exec_and_timeit
@@ -871,7 +879,7 @@ available in `skimage`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 602-608
+.. GENERATED FROM PYTHON SOURCE LINES 610-616
 
 Comparison between
 
@@ -880,7 +888,7 @@ Comparison between
 
 on increasing structuring element size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 608-630
+.. GENERATED FROM PYTHON SOURCE LINES 616-638
 
 .. code-block:: default
 
@@ -917,11 +925,11 @@ on increasing structuring element size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 631-632
+.. GENERATED FROM PYTHON SOURCE LINES 639-640
 
 and increasing image size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 632-655
+.. GENERATED FROM PYTHON SOURCE LINES 640-663
 
 .. code-block:: default
 
@@ -959,7 +967,7 @@ and increasing image size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 656-662
+.. GENERATED FROM PYTHON SOURCE LINES 664-670
 
 Comparison between:
 
@@ -968,7 +976,7 @@ Comparison between:
 
 on increasing structuring element size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 662-682
+.. GENERATED FROM PYTHON SOURCE LINES 670-690
 
 .. code-block:: default
 
@@ -1011,11 +1019,11 @@ on increasing structuring element size:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 683-684
+.. GENERATED FROM PYTHON SOURCE LINES 691-692
 
 Comparison of outcome of the two methods:
 
-.. GENERATED FROM PYTHON SOURCE LINES 684-698
+.. GENERATED FROM PYTHON SOURCE LINES 692-706
 
 .. code-block:: default
 
@@ -1044,11 +1052,11 @@ Comparison of outcome of the two methods:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 699-700
+.. GENERATED FROM PYTHON SOURCE LINES 707-708
 
 on increasing image size:
 
-.. GENERATED FROM PYTHON SOURCE LINES 700-724
+.. GENERATED FROM PYTHON SOURCE LINES 708-732
 
 .. code-block:: default
 
@@ -1090,7 +1098,7 @@ on increasing image size:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  51.771 seconds)
+   **Total running time of the script:** ( 1 minutes  1.843 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_rank_filters.py:
