@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to contribute to skimage &mdash; skimage v0.4 docs</title>
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="skimage v0.4 docs" href="index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="index.html">
+            <img class="logo" src="_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to contribute to <tt class="docutils literal"><span class="pre">skimage</span></tt></a><ul>
+<li><a class="reference internal" href="#tasks">Tasks</a><ul>
+<li><a class="reference internal" href="#implement-algorithms">Implement Algorithms</a></li>
+<li><a class="reference internal" href="#drawing">Drawing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#infrastructure">Infrastructure</a><ul>
+<li><a class="reference internal" href="#adapt-existing-code-for-use">Adapt existing code for use</a></li>
+<li><a class="reference internal" href="#merge-code-provided-by-cellprofiler-team">Merge code provided by CellProfiler team</a></li>
+<li><a class="reference internal" href="#rework-linear-filters">Rework linear filters</a></li>
+<li><a class="reference internal" href="#io">io</a></li>
+<li><a class="reference internal" href="#docs">docs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development-process">Development process</a><ul>
+<li><a class="reference internal" href="#guidelines">Guidelines</a></li>
+<li><a class="reference internal" href="#test-coverage">Test coverage</a></li>
+<li><a class="reference internal" href="#bugs">Bugs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/contribute.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-contribute-to-skimage">
+<h1>How to contribute to <tt class="docutils literal"><span class="pre">skimage</span></tt><a class="headerlink" href="#how-to-contribute-to-skimage" title="Permalink to this headline">¶</a></h1>
+<p>Developing Open Source is great fun!  Join us on the <a class="reference external" href="http://groups.google.com/group/scikits-image">skimage mailing
+list</a> and tell us which of the
+following challenges you&#8217;d like to solve.</p>
+<ul class="simple">
+<li>Mentoring is available for those new to scientific programming in Python.</li>
+<li>The technical detail of the <a class="reference internal" href="#development-process">development process</a> is given below.</li>
+<li><a class="reference internal" href="gitwash/index.html"><em>How to use GitHub</em></a> when developing skimage</li>
+</ul>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#tasks" id="id1">Tasks</a><ul>
+<li><a class="reference internal" href="#implement-algorithms" id="id2">Implement Algorithms</a></li>
+<li><a class="reference internal" href="#drawing" id="id3">Drawing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#infrastructure" id="id4">Infrastructure</a><ul>
+<li><a class="reference internal" href="#adapt-existing-code-for-use" id="id5">Adapt existing code for use</a></li>
+<li><a class="reference internal" href="#merge-code-provided-by-cellprofiler-team" id="id6">Merge code provided by CellProfiler team</a></li>
+<li><a class="reference internal" href="#rework-linear-filters" id="id7">Rework linear filters</a></li>
+<li><a class="reference internal" href="#io" id="id8">io</a></li>
+<li><a class="reference internal" href="#docs" id="id9">docs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#development-process" id="id10">Development process</a><ul>
+<li><a class="reference internal" href="#guidelines" id="id11">Guidelines</a></li>
+<li><a class="reference internal" href="#test-coverage" id="id12">Test coverage</a></li>
+<li><a class="reference internal" href="#bugs" id="id13">Bugs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="tasks">
+<h2><a class="toc-backref" href="#id1">Tasks</a><a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="implement-algorithms">
+<h3><a class="toc-backref" href="#id2">Implement Algorithms</a><a class="headerlink" href="#implement-algorithms" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Graph cut segmentation</li>
+<li>Fast 2D convex hull (consider using CellProfiler version)
+<a class="reference external" href="http://www.tcs.fudan.edu.cn/rudolf/Courses/Algorithms/Alg_cs_07w/Webprojects/Zhaobo_hull/index.html#section26">Algorithm overview</a>.
+<a class="reference external" href="http://cm.bell-labs.com/cm/cs/who/clarkson/2dch.c">One free implementation</a>.</li>
+<li><span class="strike">Histograms of oriented gradients</span></li>
+<li><span class="strike">Fast radon transform</span></li>
+<li><span class="strike">Probabilistic Hough transform</span></li>
+</ul>
+</div>
+<div class="section" id="drawing">
+<h3><a class="toc-backref" href="#id3">Drawing</a><a class="headerlink" href="#drawing" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Wu&#8217;s algorithm for lines and circles</li>
+<li>Text rendering</li>
+</ul>
+</div>
+</div>
+<div class="section" id="infrastructure">
+<h2><a class="toc-backref" href="#id4">Infrastructure</a><a class="headerlink" href="#infrastructure" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><span class="strike">Implement a new backend system so that we may start including
+PyOpenCL-based algorithms</span></li>
+</ul>
+<div class="section" id="adapt-existing-code-for-use">
+<h3><a class="toc-backref" href="#id5">Adapt existing code for use</a><a class="headerlink" href="#adapt-existing-code-for-use" title="Permalink to this headline">¶</a></h3>
+<p>These snippets and packages have already been written.  Some need to be
+modified to work as part of the scikit, others may be lacking in documentation
+or tests.</p>
+<blockquote>
+<div><ul class="simple">
+<li><span class="strike">Connected components</span></li>
+<li><span class="strike">Grey-level co-occurrence matrices</span></li>
+<li>Marching squares</li>
+<li>Nadav&#8217;s bilateral filtering (first compare against CellProfiler&#8217;s
+code, based on <a class="reference external" href="http://groups.csail.mit.edu/graphics/bilagrid/bilagrid_web.pdf">http://groups.csail.mit.edu/graphics/bilagrid/bilagrid_web.pdf</a>)</li>
+<li>2D iso-contour finding (sub-pixel precision) [ask Zach Pincus]</li>
+<li>2D image warping via thin-plate splines [ask Zach Pincus]</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="merge-code-provided-by-cellprofiler-team">
+<h3>Merge code provided by <a class="reference external" href="http://www.cellprofiler.org">CellProfiler</a> team<a class="headerlink" href="#merge-code-provided-by-cellprofiler-team" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><span class="strike">Canny filter</span> (Canny, J., <em>A Computational Approach To Edge Detection</em>,
+IEEE Trans. Pattern Analysis and Machine Intelligence, 8:679-714, 1986)</li>
+<li><span class="strike">Prewitt filter</span> - convolution with <tt class="docutils literal"><span class="pre">[[1,1,1],</span> <span class="pre">[0,0,0],</span> <span class="pre">[-1,-1,-1]]</span></tt> to
+detect edges</li>
+<li><span class="strike">Sobel filter - convolution with</span> <tt class="docutils literal"><span class="pre">[[1,2,1],</span> <span class="pre">[0,0,0],</span> <span class="pre">[-1,-2,-1]]</span></tt> <span class="strike">to detect edges</span></li>
+<li>Roberts filter - convolution with diagonal and anti-diagonal
+kernels to detect edges</li>
+<li>Convex hulls of objects in a labels matrix</li>
+<li>Minimum enclosing circles of objects in a labels matrix</li>
+<li>Map-coloring of a labels matrix - assign each label a color so that
+all adjacent labels have different colors</li>
+<li><span class="strike">Skeletonize</span>, spur removal, thinning, thickening, and other morphological
+operations on binary images, framework for creating arbitrary morphological
+operations using a 3x3 grid.</li>
+<li>Skeletonize objects in a labels matrix</li>
+</ul>
+<p>Their SVN repository is read-accessible at</p>
+<ul class="simple">
+<li><a class="reference external" href="https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler">https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler</a></li>
+</ul>
+<p>The files for the above algorithms are</p>
+<ul class="simple">
+<li><a class="reference external" href="https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/cpmorphology.py">https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/cpmorphology.py</a></li>
+<li><a class="reference external" href="https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/filter.py">https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/filter.py</a></li>
+</ul>
+<p>There are test suites for the files at</p>
+<ul class="simple">
+<li><a class="reference external" href="https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/tests/test_cpmorphology.py">https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/tests/test_cpmorphology.py</a></li>
+<li><a class="reference external" href="https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/tests/test_filter.py">https://svn.broadinstitute.org/CellProfiler/trunk/CellProfiler/cellprofiler/cpmath/tests/test_filter.py</a></li>
+</ul>
+<p>Quoting a message from Lee Kamentsky to Stefan van der Walt sent on
+5 August 2009:</p>
+<div class="highlight-python"><pre>We're part of the Broad Institute which is non-profit. We would be happy
+to include our algorithm code in SciPy under the BSD license since that is
+more appropriate for a library that might be integrated into a
+commercial product whereas CellProfiler needs the more stringent
+protection of GPL as an application.</pre>
+</div>
+<p>In 2010, Vebjorn Ljosa officially released parts of the code under a
+BSD license (<a class="reference internal" href="cell_profiler.html"><em>CellProfiler BSD license announcement</em></a> | <a class="reference external" href="http://groups.google.com/group/scikits-image/browse_thread/thread/c4f8fc584bfd839d">original message</a>).</p>
+<p>Thanks to Lee Kamentsky, Thouis Jones and Anne Carpenter and their colleagues
+who contributed.</p>
+</div>
+<div class="section" id="rework-linear-filters">
+<h3><a class="toc-backref" href="#id7">Rework linear filters</a><a class="headerlink" href="#rework-linear-filters" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fast, SSE2 convolution (high priority) (see prototype in pull requests)</li>
+<li>Should take kernel or function for parameter (currently only takes function)</li>
+<li>Kernel shape should be specifiable (currently defaults to image shape)</li>
+<li>Due to the above, the tests run unnecessarily slowly</li>
+</ul>
+</div>
+<div class="section" id="io">
+<h3><a class="toc-backref" href="#id8">io</a><a class="headerlink" href="#io" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Update <tt class="docutils literal"><span class="pre">qt_plugin.py</span></tt> and other plugins to view collections.</li>
+<li>Rewrite GTK backend using GObject Introspection for Py3K compatibility.</li>
+<li>Add DICOM plugin for <a class="reference external" href="http://sourceforge.net/apps/mediawiki/gdcm">GDCM</a>.</li>
+</ul>
+</div>
+<div class="section" id="docs">
+<h3><a class="toc-backref" href="#id9">docs</a><a class="headerlink" href="#docs" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Write topics for the <a class="reference external" href="http://scikits-image.org/docs/dev/user_guide.html">user guide</a>:<ul>
+<li>Introduction to I/O and image processing with examples</li>
+</ul>
+</li>
+<li><span class="strike">Build docs outside source directory</span></li>
+<li>Integrate BiBTeX plugin into Sphinx build</li>
+<li><span class="strike">Create a kick-ass website</span></li>
+</ul>
+</div>
+</div>
+<div class="section" id="development-process">
+<h2><a class="toc-backref" href="#id10">Development process</a><a class="headerlink" href="#development-process" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="gitwash/index.html"><em>Read this overview</em></a> of how to use Git with
+<tt class="docutils literal"><span class="pre">skimage</span></tt>.  Here&#8217;s the long and short of it:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Go to <a class="reference external" href="http://github.com/scikits-image/scikits-image">https://github.com/scikits-image/scikits-image</a> and follow the
+instructions on making your own fork.</li>
+<li>Create a new branch for the feature you want to work on.  Since the
+branch name will appear in the merge message, use a sensible name
+such as &#8216;your_name-transform-speedups&#8217;.</li>
+<li>Commit locally as you progress.</li>
+<li>Push your changes back to github and create a pull request by
+clicking &#8220;request pull&#8221; in GitHub.</li>
+<li>Optionally, mail the mailing list, explaining your changes.</li>
+</ul>
+</div></blockquote>
+<p>You may also read this summary by Fernando Perez of the IPython
+project on how they manage to keep review overhead to a minimum:</p>
+<p><a class="reference external" href="http://mail.scipy.org/pipermail/ipython-dev/2010-October/006746.html">http://mail.scipy.org/pipermail/ipython-dev/2010-October/006746.html</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do <em>not</em> merge the main branch into yours.  You may rebase,
+as long as you are <a class="reference external" href="http://tinyurl.com/lll385">aware of its dangers</a>
+(also see <a class="reference external" href="http://tinyurl.com/nqcbkj">LWN article</a>).</p>
+</div>
+<ul class="simple">
+<li>To reviewers: add a short explanation of what a branch did to the merge
+message or, if closing a bug, add &#8220;Closes gh-XXXX&#8221;.</li>
+</ul>
+<div class="section" id="guidelines">
+<h3><a class="toc-backref" href="#id11">Guidelines</a><a class="headerlink" href="#guidelines" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li>All code should have tests (see &#8220;Test coverage&#8221; below for more details).</li>
+<li>All code should be documented, to the same
+<a class="reference external" href="http://projects.scipy.org/numpy/wiki/CodingStyleGuidelines">standard</a>
+as NumPy and SciPy.  If possible, also add a section to the user guide.</li>
+<li>Follow the <a class="reference external" href="http://www.python.org/dev/peps/pep-0008/">Python PEPs</a>
+where possible.</li>
+<li>No major changes should be committed without review.  Ask on the
+<a class="reference external" href="http://groups.google.com/group/scikits-image">mailing list</a> if
+you get no response to your pull request.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="test-coverage">
+<h3><a class="toc-backref" href="#id12">Test coverage</a><a class="headerlink" href="#test-coverage" title="Permalink to this headline">¶</a></h3>
+<p>Tests for a module should ideally cover all code in that module,
+i.e. statement coverage should be at 100%.</p>
+<blockquote>
+<div>To measure the test coverage, install</div></blockquote>
+<p><a class="reference external" href="http://nedbatchelder.com/code/coverage/">coverage.py</a>
+(using <tt class="docutils literal"><span class="pre">easy_install</span> <span class="pre">coverage</span></tt>) and then run:</p>
+<div class="highlight-python"><pre>$ make coverage</pre>
+</div>
+<p>This will print a report with one line for each file in <cite>skimage</cite>,
+detailing the test coverage:</p>
+<div class="highlight-python"><pre>Name                                             Stmts   Exec  Cover   Missing
+------------------------------------------------------------------------------
+skimage/color/colorconv                             77     77   100%
+skimage/filter/__init__                              1      1   100%
+...</pre>
+</div>
+</div>
+<div class="section" id="bugs">
+<h3><a class="toc-backref" href="#id13">Bugs</a><a class="headerlink" href="#bugs" title="Permalink to this headline">¶</a></h3>
+<p>Please <a class="reference external" href="https://github.com/scikits-image/scikits-image/issues">report bugs on Github</a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

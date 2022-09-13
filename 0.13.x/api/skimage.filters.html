@@ -1,0 +1,2573 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: filters &mdash; skimage v0.13.1 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.13.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.13.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.13.1" href="api.html" />
+        <link rel="next" title="Module: filters.rank" href="skimage.filters.rank.html" />
+        <link rel="prev" title="Module: feature" href="skimage.feature.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="docutils literal"><span class="pre">filters</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#copy-func">copy_func</a></li>
+<li><a class="reference internal" href="#frangi">frangi</a></li>
+<li><a class="reference internal" href="#gabor">gabor</a></li>
+<li><a class="reference internal" href="#gabor-filter">gabor_filter</a></li>
+<li><a class="reference internal" href="#gabor-kernel">gabor_kernel</a></li>
+<li><a class="reference internal" href="#gaussian">gaussian</a></li>
+<li><a class="reference internal" href="#gaussian-filter">gaussian_filter</a></li>
+<li><a class="reference internal" href="#hessian">hessian</a></li>
+<li><a class="reference internal" href="#inverse">inverse</a></li>
+<li><a class="reference internal" href="#laplace">laplace</a></li>
+<li><a class="reference internal" href="#median">median</a></li>
+<li><a class="reference internal" href="#prewitt">prewitt</a></li>
+<li><a class="reference internal" href="#prewitt-h">prewitt_h</a></li>
+<li><a class="reference internal" href="#prewitt-v">prewitt_v</a></li>
+<li><a class="reference internal" href="#rank-order">rank_order</a></li>
+<li><a class="reference internal" href="#roberts">roberts</a></li>
+<li><a class="reference internal" href="#roberts-neg-diag">roberts_neg_diag</a></li>
+<li><a class="reference internal" href="#roberts-pos-diag">roberts_pos_diag</a></li>
+<li><a class="reference internal" href="#scharr">scharr</a></li>
+<li><a class="reference internal" href="#scharr-h">scharr_h</a></li>
+<li><a class="reference internal" href="#scharr-v">scharr_v</a></li>
+<li><a class="reference internal" href="#sobel">sobel</a></li>
+<li><a class="reference internal" href="#sobel-h">sobel_h</a></li>
+<li><a class="reference internal" href="#sobel-v">sobel_v</a></li>
+<li><a class="reference internal" href="#threshold-adaptive">threshold_adaptive</a></li>
+<li><a class="reference internal" href="#threshold-isodata">threshold_isodata</a></li>
+<li><a class="reference internal" href="#threshold-li">threshold_li</a></li>
+<li><a class="reference internal" href="#threshold-local">threshold_local</a></li>
+<li><a class="reference internal" href="#threshold-mean">threshold_mean</a></li>
+<li><a class="reference internal" href="#threshold-minimum">threshold_minimum</a></li>
+<li><a class="reference internal" href="#threshold-niblack">threshold_niblack</a></li>
+<li><a class="reference internal" href="#threshold-otsu">threshold_otsu</a></li>
+<li><a class="reference internal" href="#threshold-sauvola">threshold_sauvola</a></li>
+<li><a class="reference internal" href="#threshold-triangle">threshold_triangle</a></li>
+<li><a class="reference internal" href="#threshold-yen">threshold_yen</a></li>
+<li><a class="reference internal" href="#try-all-threshold">try_all_threshold</a></li>
+<li><a class="reference internal" href="#wiener">wiener</a></li>
+<li><a class="reference internal" href="#lpifilter2d"><code class="docutils literal"><span class="pre">LPIFilter2D</span></code></a></li>
+<li><a class="reference internal" href="#deprecated"><code class="docutils literal"><span class="pre">deprecated</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.13.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.filters">
+<span id="module-filters"></span><h1>Module: <code class="xref py py-mod docutils literal"><span class="pre">filters</span></code><a class="headerlink" href="#module-skimage.filters" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.copy_func" title="skimage.filters.copy_func"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.copy_func</span></code></a>(f[,&nbsp;name])</td>
+<td>Create a copy of a function.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.frangi" title="skimage.filters.frangi"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.frangi</span></code></a>(image[,&nbsp;scale_range,&nbsp;…])</td>
+<td>Filter an image with the Frangi filter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.gabor" title="skimage.filters.gabor"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.gabor</span></code></a>(image,&nbsp;frequency[,&nbsp;…])</td>
+<td>Return real and imaginary responses to Gabor filter.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.gabor_filter" title="skimage.filters.gabor_filter"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.gabor_filter</span></code></a>(image,&nbsp;frequency)</td>
+<td><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">skimage.filters.gabor</span></code> instead.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.gabor_kernel" title="skimage.filters.gabor_kernel"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.gabor_kernel</span></code></a>(frequency[,&nbsp;…])</td>
+<td>Return complex 2D Gabor filter kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.gaussian" title="skimage.filters.gaussian"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.gaussian</span></code></a>(image[,&nbsp;sigma,&nbsp;…])</td>
+<td>Multi-dimensional Gaussian filter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.gaussian_filter" title="skimage.filters.gaussian_filter"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.gaussian_filter</span></code></a>(image[,&nbsp;…])</td>
+<td><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">skimage.filters.gaussian</span></code> instead.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.hessian" title="skimage.filters.hessian"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.hessian</span></code></a>(image[,&nbsp;…])</td>
+<td>Filter an image with the Hessian filter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.inverse" title="skimage.filters.inverse"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.inverse</span></code></a>(data[,&nbsp;…])</td>
+<td>Apply the filter in reverse to the given data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.laplace" title="skimage.filters.laplace"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.laplace</span></code></a>(image[,&nbsp;ksize,&nbsp;mask])</td>
+<td>Find the edges of an image using the Laplace operator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.median" title="skimage.filters.median"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.median</span></code></a>(image[,&nbsp;selem,&nbsp;out,&nbsp;…])</td>
+<td>Return local median of an image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.prewitt" title="skimage.filters.prewitt"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.prewitt</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the edge magnitude using the Prewitt transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.prewitt_h" title="skimage.filters.prewitt_h"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.prewitt_h</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the horizontal edges of an image using the Prewitt transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.prewitt_v" title="skimage.filters.prewitt_v"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.prewitt_v</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the vertical edges of an image using the Prewitt transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.rank_order" title="skimage.filters.rank_order"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.rank_order</span></code></a>(image)</td>
+<td>Return an image of the same shape where each pixel is the index of the pixel value in the ascending order of the unique values of <cite>image</cite>, aka the rank-order value.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.roberts" title="skimage.filters.roberts"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.roberts</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the edge magnitude using Roberts’ cross operator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.roberts_neg_diag" title="skimage.filters.roberts_neg_diag"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.roberts_neg_diag</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the cross edges of an image using the Roberts’ Cross operator.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.roberts_pos_diag" title="skimage.filters.roberts_pos_diag"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.roberts_pos_diag</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the cross edges of an image using Roberts’ cross operator.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.scharr" title="skimage.filters.scharr"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.scharr</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the edge magnitude using the Scharr transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.scharr_h" title="skimage.filters.scharr_h"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.scharr_h</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the horizontal edges of an image using the Scharr transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.scharr_v" title="skimage.filters.scharr_v"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.scharr_v</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the vertical edges of an image using the Scharr transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.sobel" title="skimage.filters.sobel"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.sobel</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the edge magnitude using the Sobel transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.sobel_h" title="skimage.filters.sobel_h"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.sobel_h</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the horizontal edges of an image using the Sobel transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.sobel_v" title="skimage.filters.sobel_v"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.sobel_v</span></code></a>(image[,&nbsp;mask])</td>
+<td>Find the vertical edges of an image using the Sobel transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_adaptive" title="skimage.filters.threshold_adaptive"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_adaptive</span></code></a>(image,&nbsp;…)</td>
+<td><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">threshold_local</span></code> instead.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.threshold_isodata" title="skimage.filters.threshold_isodata"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_isodata</span></code></a>(image[,&nbsp;…])</td>
+<td>Return threshold value(s) based on ISODATA method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_li" title="skimage.filters.threshold_li"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_li</span></code></a>(image)</td>
+<td>Return threshold value based on adaptation of Li’s Minimum Cross Entropy method.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.threshold_local" title="skimage.filters.threshold_local"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_local</span></code></a>(image,&nbsp;…)</td>
+<td>Compute a threshold mask image based on local pixel neighborhood.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_mean" title="skimage.filters.threshold_mean"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_mean</span></code></a>(image)</td>
+<td>Return threshold value based on the mean of grayscale values.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.threshold_minimum" title="skimage.filters.threshold_minimum"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_minimum</span></code></a>(image[,&nbsp;…])</td>
+<td>Return threshold value based on minimum method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_niblack" title="skimage.filters.threshold_niblack"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_niblack</span></code></a>(image[,&nbsp;…])</td>
+<td>Applies Niblack local threshold to an array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.threshold_otsu" title="skimage.filters.threshold_otsu"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_otsu</span></code></a>(image[,&nbsp;nbins])</td>
+<td>Return threshold value based on Otsu’s method.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_sauvola" title="skimage.filters.threshold_sauvola"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_sauvola</span></code></a>(image[,&nbsp;…])</td>
+<td>Applies Sauvola local threshold to an array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.threshold_triangle" title="skimage.filters.threshold_triangle"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_triangle</span></code></a>(image[,&nbsp;…])</td>
+<td>Return threshold value based on the triangle algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.threshold_yen" title="skimage.filters.threshold_yen"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.threshold_yen</span></code></a>(image[,&nbsp;nbins])</td>
+<td>Return threshold value based on Yen’s method.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.try_all_threshold" title="skimage.filters.try_all_threshold"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.try_all_threshold</span></code></a>(image[,&nbsp;…])</td>
+<td>Returns a figure comparing the outputs of different thresholding methods.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.wiener" title="skimage.filters.wiener"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.wiener</span></code></a>(data[,&nbsp;…])</td>
+<td>Minimum Mean Square Error (Wiener) inverse filter.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filters.LPIFilter2D" title="skimage.filters.LPIFilter2D"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.LPIFilter2D</span></code></a>(…)</td>
+<td>Linear Position-Invariant Filter (2-dimensional)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filters.deprecated" title="skimage.filters.deprecated"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.deprecated</span></code></a>([alt_func,&nbsp;…])</td>
+<td>Decorator to mark deprecated functions with warning.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.edges</span></code></td>
+<td>Sobel and Prewitt filters originally part of CellProfiler, code licensed under both GPL and BSD licenses.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.lpi_filter</span></code></td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">author:</th><td class="field-body">Stefan van der Walt, 2008</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="skimage.filters.rank.html#module-skimage.filters.rank" title="skimage.filters.rank"><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.rank</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.filters.thresholding</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="copy-func">
+<h2>copy_func<a class="headerlink" href="#copy-func" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.copy_func">
+<code class="descclassname">skimage.filters.</code><code class="descname">copy_func</code><span class="sig-paren">(</span><em>f</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L181"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.copy_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a copy of a function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>f</strong> : function</p>
+<blockquote>
+<div><p>Function to copy.</p>
+</div></blockquote>
+<p><strong>name</strong> : str, optional</p>
+<blockquote class="last">
+<div><p>Name of new function.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="frangi">
+<h2>frangi<a class="headerlink" href="#frangi" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.frangi">
+<code class="descclassname">skimage.filters.</code><code class="descname">frangi</code><span class="sig-paren">(</span><em>image</em>, <em>scale_range=(1</em>, <em>10)</em>, <em>scale_step=2</em>, <em>beta1=0.5</em>, <em>beta2=15</em>, <em>black_ridges=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_frangi.py#L74"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.frangi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter an image with the Frangi filter.</p>
+<p>This filter can be used to detect continuous edges, e.g. vessels,
+wrinkles, rivers. It can be used to calculate the fraction of the
+whole image containing such objects.</p>
+<p>Calculates the eigenvectors of the Hessian to compute the similarity of
+an image region to vessels, according to the method described in _[1].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Array with input image data.</p>
+</div></blockquote>
+<p><strong>scale_range</strong> : 2-tuple of floats, optional</p>
+<blockquote>
+<div><p>The range of sigmas used.</p>
+</div></blockquote>
+<p><strong>scale_step</strong> : float, optional</p>
+<blockquote>
+<div><p>Step size between sigmas.</p>
+</div></blockquote>
+<p><strong>beta1</strong> : float, optional</p>
+<blockquote>
+<div><p>Frangi correction constant that adjusts the filter’s
+sensitivity to deviation from a blob-like structure.</p>
+</div></blockquote>
+<p><strong>beta2</strong> : float, optional</p>
+<blockquote>
+<div><p>Frangi correction constant that adjusts the filter’s
+sensitivity to areas of high variance/texture/structure.</p>
+</div></blockquote>
+<p><strong>black_ridges</strong> : boolean, optional</p>
+<blockquote>
+<div><p>When True (the default), the filter detects black ridges; when
+False, it detects white ridges.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : (N, M) ndarray</p>
+<blockquote class="last">
+<div><p>Filtered image (maximum of pixels across all scales).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Written by Marc Schrijver, 2/11/2001
+Re-Written by D. J. Kroon University of Twente (May 2009)</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r242" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R242]</a></td><td>A. Frangi, W. Niessen, K. Vincken, and M. Viergever. “Multiscale
+vessel enhancement filtering,” In LNCS, vol. 1496, pages 130-137,
+Germany, 1998. Springer-Verlag.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r243" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[R243]</a></td><td>Kroon, D.J.: Hessian based Frangi vesselness filter.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r244" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[R244]</a></td><td><a class="reference external" href="http://mplab.ucsd.edu/tutorials/gabor.pdf">http://mplab.ucsd.edu/tutorials/gabor.pdf</a>.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="gabor">
+<h2>gabor<a class="headerlink" href="#gabor" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.gabor">
+<code class="descclassname">skimage.filters.</code><code class="descname">gabor</code><span class="sig-paren">(</span><em>image</em>, <em>frequency</em>, <em>theta=0</em>, <em>bandwidth=1</em>, <em>sigma_x=None</em>, <em>sigma_y=None</em>, <em>n_stds=3</em>, <em>offset=0</em>, <em>mode='reflect'</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_gabor.py#L97"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.gabor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return real and imaginary responses to Gabor filter.</p>
+<p>The real and imaginary parts of the Gabor filter kernel are applied to the
+image and the response is returned as a pair of arrays.</p>
+<p>Gabor filter is a linear filter with a Gaussian kernel which is modulated
+by a sinusoidal plane wave. Frequency and orientation representations of
+the Gabor filter are similar to those of the human visual system.
+Gabor filter banks are commonly used in computer vision and image
+processing. They are especially suitable for edge detection and texture
+classification.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>frequency</strong> : float</p>
+<blockquote>
+<div><p>Spatial frequency of the harmonic function. Specified in pixels.</p>
+</div></blockquote>
+<p><strong>theta</strong> : float, optional</p>
+<blockquote>
+<div><p>Orientation in radians. If 0, the harmonic is in the x-direction.</p>
+</div></blockquote>
+<p><strong>bandwidth</strong> : float, optional</p>
+<blockquote>
+<div><p>The bandwidth captured by the filter. For fixed bandwidth, <cite>sigma_x</cite>
+and <cite>sigma_y</cite> will decrease with increasing frequency. This value is
+ignored if <cite>sigma_x</cite> and <cite>sigma_y</cite> are set by the user.</p>
+</div></blockquote>
+<p><strong>sigma_x, sigma_y</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation in x- and y-directions. These directions apply to
+the kernel <em>before</em> rotation. If <cite>theta = pi/2</cite>, then the kernel is
+rotated 90 degrees so that <cite>sigma_x</cite> controls the <em>vertical</em> direction.</p>
+</div></blockquote>
+<p><strong>n_stds</strong> : scalar, optional</p>
+<blockquote>
+<div><p>The linear size of the kernel is n_stds (3 by default) standard
+deviations.</p>
+</div></blockquote>
+<p><strong>offset</strong> : float, optional</p>
+<blockquote>
+<div><p>Phase offset of harmonic function in radians.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘constant’, ‘nearest’, ‘reflect’, ‘mirror’, ‘wrap’}, optional</p>
+<blockquote>
+<div><p>Mode used to convolve image with a kernel, passed to <cite>ndi.convolve</cite></p>
+</div></blockquote>
+<p><strong>cval</strong> : scalar, optional</p>
+<blockquote>
+<div><p>Value to fill past edges of input if <cite>mode</cite> of convolution is
+‘constant’. The parameter is passed to <cite>ndi.convolve</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>real, imag</strong> : arrays</p>
+<blockquote class="last">
+<div><p>Filtered images using the real and imaginary parts of the Gabor filter
+kernel. Images are of the same dimensions as the input one.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r245" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[R245]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Gabor_filter">http://en.wikipedia.org/wiki/Gabor_filter</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r246" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[R246]</a></td><td><a class="reference external" href="http://mplab.ucsd.edu/tutorials/gabor.pdf">http://mplab.ucsd.edu/tutorials/gabor.pdf</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <span class="n">gabor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>  
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># detecting edges in a coin image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filt_real</span><span class="p">,</span> <span class="n">filt_imag</span> <span class="o">=</span> <span class="n">gabor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>            
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filt_real</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>               
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># less sensitivity to finer details with the lower frequency kernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filt_real</span><span class="p">,</span> <span class="n">filt_imag</span> <span class="o">=</span> <span class="n">gabor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>            
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filt_real</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>               
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="gabor-filter">
+<h2>gabor_filter<a class="headerlink" href="#gabor-filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.gabor_filter">
+<code class="descclassname">skimage.filters.</code><code class="descname">gabor_filter</code><span class="sig-paren">(</span><em>image</em>, <em>frequency</em>, <em>theta=0</em>, <em>bandwidth=1</em>, <em>sigma_x=None</em>, <em>sigma_y=None</em>, <em>n_stds=3</em>, <em>offset=0</em>, <em>mode='reflect'</em>, <em>cval=0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.gabor_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">skimage.filters.gabor</span></code> instead.</p>
+<p>Return real and imaginary responses to Gabor filter.</p>
+<p>The real and imaginary parts of the Gabor filter kernel are applied to the
+image and the response is returned as a pair of arrays.</p>
+<p>Gabor filter is a linear filter with a Gaussian kernel which is modulated
+by a sinusoidal plane wave. Frequency and orientation representations of
+the Gabor filter are similar to those of the human visual system.
+Gabor filter banks are commonly used in computer vision and image
+processing. They are especially suitable for edge detection and texture
+classification.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>frequency</strong> : float</p>
+<blockquote>
+<div><p>Spatial frequency of the harmonic function. Specified in pixels.</p>
+</div></blockquote>
+<p><strong>theta</strong> : float, optional</p>
+<blockquote>
+<div><p>Orientation in radians. If 0, the harmonic is in the x-direction.</p>
+</div></blockquote>
+<p><strong>bandwidth</strong> : float, optional</p>
+<blockquote>
+<div><p>The bandwidth captured by the filter. For fixed bandwidth, <cite>sigma_x</cite>
+and <cite>sigma_y</cite> will decrease with increasing frequency. This value is
+ignored if <cite>sigma_x</cite> and <cite>sigma_y</cite> are set by the user.</p>
+</div></blockquote>
+<p><strong>sigma_x, sigma_y</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation in x- and y-directions. These directions apply to
+the kernel <em>before</em> rotation. If <cite>theta = pi/2</cite>, then the kernel is
+rotated 90 degrees so that <cite>sigma_x</cite> controls the <em>vertical</em> direction.</p>
+</div></blockquote>
+<p><strong>n_stds</strong> : scalar, optional</p>
+<blockquote>
+<div><p>The linear size of the kernel is n_stds (3 by default) standard
+deviations.</p>
+</div></blockquote>
+<p><strong>offset</strong> : float, optional</p>
+<blockquote>
+<div><p>Phase offset of harmonic function in radians.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘constant’, ‘nearest’, ‘reflect’, ‘mirror’, ‘wrap’}, optional</p>
+<blockquote>
+<div><p>Mode used to convolve image with a kernel, passed to <cite>ndi.convolve</cite></p>
+</div></blockquote>
+<p><strong>cval</strong> : scalar, optional</p>
+<blockquote>
+<div><p>Value to fill past edges of input if <cite>mode</cite> of convolution is
+‘constant’. The parameter is passed to <cite>ndi.convolve</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>real, imag</strong> : arrays</p>
+<blockquote class="last">
+<div><p>Filtered images using the real and imaginary parts of the Gabor filter
+kernel. Images are of the same dimensions as the input one.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r247" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[R247]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Gabor_filter">http://en.wikipedia.org/wiki/Gabor_filter</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r248" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[R248]</a></td><td><a class="reference external" href="http://mplab.ucsd.edu/tutorials/gabor.pdf">http://mplab.ucsd.edu/tutorials/gabor.pdf</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <span class="n">gabor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>  
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># detecting edges in a coin image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filt_real</span><span class="p">,</span> <span class="n">filt_imag</span> <span class="o">=</span> <span class="n">gabor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>            
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filt_real</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>               
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># less sensitivity to finer details with the lower frequency kernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filt_real</span><span class="p">,</span> <span class="n">filt_imag</span> <span class="o">=</span> <span class="n">gabor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>            
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">filt_real</span><span class="p">)</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>               
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="gabor-kernel">
+<h2>gabor_kernel<a class="headerlink" href="#gabor-kernel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.gabor_kernel">
+<code class="descclassname">skimage.filters.</code><code class="descname">gabor_kernel</code><span class="sig-paren">(</span><em>frequency</em>, <em>theta=0</em>, <em>bandwidth=1</em>, <em>sigma_x=None</em>, <em>sigma_y=None</em>, <em>n_stds=3</em>, <em>offset=0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_gabor.py#L16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.gabor_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return complex 2D Gabor filter kernel.</p>
+<p>Gabor kernel is a Gaussian kernel modulated by a complex harmonic function.
+Harmonic function consists of an imaginary sine function and a real
+cosine function. Spatial frequency is inversely proportional to the
+wavelength of the harmonic and to the standard deviation of a Gaussian
+kernel. The bandwidth is also inversely proportional to the standard
+deviation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>frequency</strong> : float</p>
+<blockquote>
+<div><p>Spatial frequency of the harmonic function. Specified in pixels.</p>
+</div></blockquote>
+<p><strong>theta</strong> : float, optional</p>
+<blockquote>
+<div><p>Orientation in radians. If 0, the harmonic is in the x-direction.</p>
+</div></blockquote>
+<p><strong>bandwidth</strong> : float, optional</p>
+<blockquote>
+<div><p>The bandwidth captured by the filter. For fixed bandwidth, <cite>sigma_x</cite>
+and <cite>sigma_y</cite> will decrease with increasing frequency. This value is
+ignored if <cite>sigma_x</cite> and <cite>sigma_y</cite> are set by the user.</p>
+</div></blockquote>
+<p><strong>sigma_x, sigma_y</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation in x- and y-directions. These directions apply to
+the kernel <em>before</em> rotation. If <cite>theta = pi/2</cite>, then the kernel is
+rotated 90 degrees so that <cite>sigma_x</cite> controls the <em>vertical</em> direction.</p>
+</div></blockquote>
+<p><strong>n_stds</strong> : scalar, optional</p>
+<blockquote>
+<div><p>The linear size of the kernel is n_stds (3 by default) standard
+deviations</p>
+</div></blockquote>
+<p><strong>offset</strong> : float, optional</p>
+<blockquote>
+<div><p>Phase offset of harmonic function in radians.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>g</strong> : complex array</p>
+<blockquote class="last">
+<div><p>Complex filter kernel.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r249" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[R249]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Gabor_filter">http://en.wikipedia.org/wiki/Gabor_filter</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r250" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[R250]</a></td><td><a class="reference external" href="http://mplab.ucsd.edu/tutorials/gabor.pdf">http://mplab.ucsd.edu/tutorials/gabor.pdf</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <span class="n">gabor_kernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>  
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">gabor_kernel</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gk</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>           
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># more ripples (equivalent to increasing the size of the</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Gaussian spread)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gk</span> <span class="o">=</span> <span class="n">gabor_kernel</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gk</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>           
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="gaussian">
+<h2>gaussian<a class="headerlink" href="#gaussian" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.gaussian">
+<code class="descclassname">skimage.filters.</code><code class="descname">gaussian</code><span class="sig-paren">(</span><em>image</em>, <em>sigma=1</em>, <em>output=None</em>, <em>mode='nearest'</em>, <em>cval=0</em>, <em>multichannel=None</em>, <em>preserve_range=False</em>, <em>truncate=4.0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_gaussian.py#L21"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional Gaussian filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : array-like</p>
+<blockquote>
+<div><p>Input image (grayscale or color) to filter.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : scalar or sequence of scalars, optional</p>
+<blockquote>
+<div><p>Standard deviation for Gaussian kernel. The standard
+deviations of the Gaussian filter are given for each axis as a
+sequence, or as a single number, in which case it is equal for
+all axes.</p>
+</div></blockquote>
+<p><strong>output</strong> : array, optional</p>
+<blockquote>
+<div><p>The <code class="docutils literal"><span class="pre">output</span></code> parameter passes an array in which to store the
+filter output.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</p>
+<blockquote>
+<div><p>The <cite>mode</cite> parameter determines how the array borders are
+handled, where <cite>cval</cite> is the value when mode is equal to
+‘constant’. Default is ‘nearest’.</p>
+</div></blockquote>
+<p><strong>cval</strong> : scalar, optional</p>
+<blockquote>
+<div><p>Value to fill past edges of input if <cite>mode</cite> is ‘constant’. Default
+is 0.0</p>
+</div></blockquote>
+<p><strong>multichannel</strong> : bool, optional (default: None)</p>
+<blockquote>
+<div><p>Whether the last axis of the image is to be interpreted as multiple
+channels. If True, each channel is filtered separately (channels are
+not mixed together). Only 3 channels are supported. If <cite>None</cite>,
+the function will attempt to guess this, and raise a warning if
+ambiguous, when the array has shape (M, N, 3).</p>
+</div></blockquote>
+<p><strong>preserve_range</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether to keep the original range of values. Otherwise, the input
+image is converted according to the conventions of <cite>img_as_float</cite>.</p>
+</div></blockquote>
+<p><strong>truncate</strong> : float, optional</p>
+<blockquote>
+<div><p>Truncate the filter at this many standard deviations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filtered_image</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>the filtered array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This function is a wrapper around <code class="xref py py-func docutils literal"><span class="pre">scipy.ndi.gaussian_filter()</span></code>.</p>
+<p>Integer arrays are converted to float.</p>
+<p>The multi-dimensional filter is implemented as a sequence of
+one-dimensional convolution filters. The intermediate arrays are
+stored in the same data type as the output. Therefore, for output
+types with a limited precision, the results may be imprecise
+because intermediate results may be stored with insufficient
+precision.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># mild smoothing</span>
+<span class="go">array([[ 0.00163116,  0.03712502,  0.00163116],</span>
+<span class="go">       [ 0.03712502,  0.84496158,  0.03712502],</span>
+<span class="go">       [ 0.00163116,  0.03712502,  0.00163116]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># more smoothing</span>
+<span class="go">array([[ 0.05855018,  0.09653293,  0.05855018],</span>
+<span class="go">       [ 0.09653293,  0.15915589,  0.09653293],</span>
+<span class="go">       [ 0.05855018,  0.09653293,  0.05855018]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Several modes are possible for handling boundaries</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="go">array([[ 0.08767308,  0.12075024,  0.08767308],</span>
+<span class="go">       [ 0.12075024,  0.16630671,  0.12075024],</span>
+<span class="go">       [ 0.08767308,  0.12075024,  0.08767308]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For RGB images, each is filtered separately</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">astronaut</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_img</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="gaussian-filter">
+<h2>gaussian_filter<a class="headerlink" href="#gaussian-filter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.gaussian_filter">
+<code class="descclassname">skimage.filters.</code><code class="descname">gaussian_filter</code><span class="sig-paren">(</span><em>image</em>, <em>sigma=1</em>, <em>output=None</em>, <em>mode='nearest'</em>, <em>cval=0</em>, <em>multichannel=None</em>, <em>preserve_range=False</em>, <em>truncate=4.0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.gaussian_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">skimage.filters.gaussian</span></code> instead.</p>
+<p>Multi-dimensional Gaussian filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : array-like</p>
+<blockquote>
+<div><p>Input image (grayscale or color) to filter.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : scalar or sequence of scalars, optional</p>
+<blockquote>
+<div><p>Standard deviation for Gaussian kernel. The standard
+deviations of the Gaussian filter are given for each axis as a
+sequence, or as a single number, in which case it is equal for
+all axes.</p>
+</div></blockquote>
+<p><strong>output</strong> : array, optional</p>
+<blockquote>
+<div><p>The <code class="docutils literal"><span class="pre">output</span></code> parameter passes an array in which to store the
+filter output.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</p>
+<blockquote>
+<div><p>The <cite>mode</cite> parameter determines how the array borders are
+handled, where <cite>cval</cite> is the value when mode is equal to
+‘constant’. Default is ‘nearest’.</p>
+</div></blockquote>
+<p><strong>cval</strong> : scalar, optional</p>
+<blockquote>
+<div><p>Value to fill past edges of input if <cite>mode</cite> is ‘constant’. Default
+is 0.0</p>
+</div></blockquote>
+<p><strong>multichannel</strong> : bool, optional (default: None)</p>
+<blockquote>
+<div><p>Whether the last axis of the image is to be interpreted as multiple
+channels. If True, each channel is filtered separately (channels are
+not mixed together). Only 3 channels are supported. If <cite>None</cite>,
+the function will attempt to guess this, and raise a warning if
+ambiguous, when the array has shape (M, N, 3).</p>
+</div></blockquote>
+<p><strong>preserve_range</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether to keep the original range of values. Otherwise, the input
+image is converted according to the conventions of <cite>img_as_float</cite>.</p>
+</div></blockquote>
+<p><strong>truncate</strong> : float, optional</p>
+<blockquote>
+<div><p>Truncate the filter at this many standard deviations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filtered_image</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>the filtered array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This function is a wrapper around <code class="xref py py-func docutils literal"><span class="pre">scipy.ndi.gaussian_filter()</span></code>.</p>
+<p>Integer arrays are converted to float.</p>
+<p>The multi-dimensional filter is implemented as a sequence of
+one-dimensional convolution filters. The intermediate arrays are
+stored in the same data type as the output. Therefore, for output
+types with a limited precision, the results may be imprecise
+because intermediate results may be stored with insufficient
+precision.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># mild smoothing</span>
+<span class="go">array([[ 0.00163116,  0.03712502,  0.00163116],</span>
+<span class="go">       [ 0.03712502,  0.84496158,  0.03712502],</span>
+<span class="go">       [ 0.00163116,  0.03712502,  0.00163116]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># more smoothing</span>
+<span class="go">array([[ 0.05855018,  0.09653293,  0.05855018],</span>
+<span class="go">       [ 0.09653293,  0.15915589,  0.09653293],</span>
+<span class="go">       [ 0.05855018,  0.09653293,  0.05855018]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Several modes are possible for handling boundaries</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="go">array([[ 0.08767308,  0.12075024,  0.08767308],</span>
+<span class="go">       [ 0.12075024,  0.16630671,  0.12075024],</span>
+<span class="go">       [ 0.08767308,  0.12075024,  0.08767308]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># For RGB images, each is filtered separately</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">astronaut</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_img</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="hessian">
+<h2>hessian<a class="headerlink" href="#hessian" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.hessian">
+<code class="descclassname">skimage.filters.</code><code class="descname">hessian</code><span class="sig-paren">(</span><em>image</em>, <em>scale_range=(1</em>, <em>10)</em>, <em>scale_step=2</em>, <em>beta1=0.5</em>, <em>beta2=15</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_frangi.py#L134"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.hessian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter an image with the Hessian filter.</p>
+<p>This filter can be used to detect continuous edges, e.g. vessels,
+wrinkles, rivers. It can be used to calculate the fraction of the whole
+image containing such objects.</p>
+<p>Almost equal to Frangi filter, but uses alternative method of smoothing.
+Refer to _[1] to find the differences between Frangi and Hessian filters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Array with input image data.</p>
+</div></blockquote>
+<p><strong>scale_range</strong> : 2-tuple of floats, optional</p>
+<blockquote>
+<div><p>The range of sigmas used.</p>
+</div></blockquote>
+<p><strong>scale_step</strong> : float, optional</p>
+<blockquote>
+<div><p>Step size between sigmas.</p>
+</div></blockquote>
+<p><strong>beta1</strong> : float, optional</p>
+<blockquote>
+<div><p>Frangi correction constant that adjusts the filter’s
+sensitivity to deviation from a blob-like structure.</p>
+</div></blockquote>
+<p><strong>beta2</strong> : float, optional</p>
+<blockquote>
+<div><p>Frangi correction constant that adjusts the filter’s
+sensitivity to areas of high variance/texture/structure.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : (N, M) ndarray</p>
+<blockquote class="last">
+<div><p>Filtered image (maximum of pixels across all scales).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Written by Marc Schrijver, 2/11/2001
+Re-Written by D. J. Kroon University of Twente (May 2009)</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r251" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[R251]</a></td><td>Choon-Ching Ng, Moi Hoon Yap, Nicholas Costen and Baihua Li,
+“Automatic Wrinkle Detection using Hybrid Hessian Filter”.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="inverse">
+<h2>inverse<a class="headerlink" href="#inverse" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.inverse">
+<code class="descclassname">skimage.filters.</code><code class="descname">inverse</code><span class="sig-paren">(</span><em>data</em>, <em>impulse_response=None</em>, <em>filter_params={}</em>, <em>max_gain=2</em>, <em>predefined_filter=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/lpi_filter.py#L167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the filter in reverse to the given data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : (M,N) ndarray</p>
+<blockquote>
+<div><p>Input data.</p>
+</div></blockquote>
+<p><strong>impulse_response</strong> : callable <cite>f(r, c, **filter_params)</cite></p>
+<blockquote>
+<div><p>Impulse response of the filter.  See LPIFilter2D.__init__.</p>
+</div></blockquote>
+<p><strong>filter_params</strong> : dict</p>
+<blockquote>
+<div><p>Additional keyword parameters to the impulse_response function.</p>
+</div></blockquote>
+<p><strong>max_gain</strong> : float</p>
+<blockquote>
+<div><p>Limit the filter gain.  Often, the filter contains zeros, which would
+cause the inverse filter to have infinite gain.  High gain causes
+amplification of artefacts, so a conservative limit is recommended.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first"><strong>predefined_filter</strong> : LPIFilter2D</p>
+<blockquote class="last">
+<div><p>If you need to apply the same filter multiple times over different
+images, construct the LPIFilter2D and specify it here.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="laplace">
+<h2>laplace<a class="headerlink" href="#laplace" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.laplace">
+<code class="descclassname">skimage.filters.</code><code class="descname">laplace</code><span class="sig-paren">(</span><em>image</em>, <em>ksize=3</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L506"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.laplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edges of an image using the Laplace operator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>ksize</strong> : int, optional</p>
+<blockquote>
+<div><p>Define the size of the discrete Laplacian operator such that it
+will have a size of (ksize,) * image.ndim.</p>
+</div></blockquote>
+<p><strong>mask</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Laplace edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The Laplacian operator is generated using the function
+skimage.restoration.uft.laplacian().</p>
+</dd></dl>
+
+</div>
+<div class="section" id="median">
+<h2>median<a class="headerlink" href="#median" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.median">
+<code class="descclassname">skimage.filters.</code><code class="descname">median</code><span class="sig-paren">(</span><em>image</em>, <em>selem=None</em>, <em>out=None</em>, <em>mask=None</em>, <em>shift_x=False</em>, <em>shift_y=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/rank/generic.py#L147"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.median" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return local median of an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array (uint8, uint16)</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>selem</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>The neighborhood expressed as a 2-D array of 1’s and 0’s. If None, a
+full square of size 3 is used.</p>
+</div></blockquote>
+<p><strong>out</strong> : 2-D array (same dtype as input)</p>
+<blockquote>
+<div><p>If None, a new array is allocated.</p>
+</div></blockquote>
+<p><strong>mask</strong> : ndarray</p>
+<blockquote>
+<div><p>Mask array that defines (&gt;0) area of the image included in the local
+neighborhood. If None, the complete image is used (default).</p>
+</div></blockquote>
+<p><strong>shift_x, shift_y</strong> : int</p>
+<blockquote>
+<div><p>Offset added to the structuring element center point. Shift is bounded
+to the structuring element sizes (center must be inside the given
+structuring element).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : 2-D array (same dtype as input image)</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <span class="n">disk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <span class="n">median</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">med</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">disk</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="prewitt">
+<h2>prewitt<a class="headerlink" href="#prewitt" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.prewitt">
+<code class="descclassname">skimage.filters.</code><code class="descname">prewitt</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L294"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.prewitt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edge magnitude using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skimage.filters.sobel" title="skimage.filters.sobel"><code class="xref py py-obj docutils literal"><span class="pre">sobel</span></code></a>, <a class="reference internal" href="#skimage.filters.scharr" title="skimage.filters.scharr"><code class="xref py py-obj docutils literal"><span class="pre">scharr</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Return the square root of the sum of squares of the horizontal
+and vertical Prewitt transforms. The edge magnitude depends slightly
+on edge directions, since the approximation of the gradient operator by
+the Prewitt operator is not completely rotation invariant. For a better
+rotation invariance, the Scharr operator should be used. The Sobel operator
+has a better rotation invariance than the Prewitt operator, but a worse
+rotation invariance than the Scharr operator.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">prewitt</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="prewitt-h">
+<h2>prewitt_h<a class="headerlink" href="#prewitt-h" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.prewitt_h">
+<code class="descclassname">skimage.filters.</code><code class="descname">prewitt_h</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L338"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.prewitt_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal edges of an image using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="mi">1</span>   <span class="mi">1</span>   <span class="mi">1</span>
+ <span class="mi">0</span>   <span class="mi">0</span>   <span class="mi">0</span>
+<span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="prewitt-v">
+<h2>prewitt_v<a class="headerlink" href="#prewitt-v" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.prewitt_v">
+<code class="descclassname">skimage.filters.</code><code class="descname">prewitt_v</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L370"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.prewitt_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the vertical edges of an image using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+<span class="mi">1</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+<span class="mi">1</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rank-order">
+<h2>rank_order<a class="headerlink" href="#rank-order" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.rank_order">
+<code class="descclassname">skimage.filters.</code><code class="descname">rank_order</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/_rank_order.py#L14"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.rank_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an image of the same shape where each pixel is the
+index of the pixel value in the ascending order of the unique
+values of <cite>image</cite>, aka the rank-order value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: ndarray</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">labels: ndarray of type np.uint32, of shape image.shape</p>
+<blockquote>
+<div><p>New array where each pixel has the rank-order value of the
+corresponding pixel in <cite>image</cite>. Pixel values are between 0 and
+n - 1, where n is the number of distinct unique values in
+<cite>image</cite>.</p>
+</div></blockquote>
+<p>original_values: 1-D ndarray</p>
+<blockquote class="last">
+<div><p>Unique original values of <cite>image</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[1, 4, 5],</span>
+<span class="go">       [4, 4, 1],</span>
+<span class="go">       [5, 1, 1]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rank_order</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">(array([[0, 1, 2],</span>
+<span class="go">       [1, 1, 0],</span>
+<span class="go">       [2, 0, 0]], dtype=uint32), array([1, 4, 5]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rank_order</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">(array([0, 1, 2, 1], dtype=uint32), array([-1. ,  2.5,  3.1]))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="roberts">
+<h2>roberts<a class="headerlink" href="#roberts" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.roberts">
+<code class="descclassname">skimage.filters.</code><code class="descname">roberts</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L402"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.roberts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edge magnitude using Roberts’ cross operator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Roberts’ Cross edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skimage.filters.sobel" title="skimage.filters.sobel"><code class="xref py py-obj docutils literal"><span class="pre">sobel</span></code></a>, <a class="reference internal" href="#skimage.filters.scharr" title="skimage.filters.scharr"><code class="xref py py-obj docutils literal"><span class="pre">scharr</span></code></a>, <a class="reference internal" href="#skimage.filters.prewitt" title="skimage.filters.prewitt"><code class="xref py py-obj docutils literal"><span class="pre">prewitt</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">feature.canny</span></code></p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">roberts</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="roberts-neg-diag">
+<h2>roberts_neg_diag<a class="headerlink" href="#roberts-neg-diag" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.roberts_neg_diag">
+<code class="descclassname">skimage.filters.</code><code class="descname">roberts_neg_diag</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L472"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.roberts_neg_diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the cross edges of an image using the Roberts’ Cross operator.</p>
+<p>The kernel is applied to the input image to produce separate measurements
+of the gradient component one orientation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Robert’s edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="mi">0</span>   <span class="mi">1</span>
+<span class="o">-</span><span class="mi">1</span>   <span class="mi">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="roberts-pos-diag">
+<h2>roberts_pos_diag<a class="headerlink" href="#roberts-pos-diag" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.roberts_pos_diag">
+<code class="descclassname">skimage.filters.</code><code class="descname">roberts_pos_diag</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L438"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.roberts_pos_diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the cross edges of an image using Roberts’ cross operator.</p>
+<p>The kernel is applied to the input image to produce separate measurements
+of the gradient component one orientation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Robert’s edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>   <span class="mi">0</span>
+<span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="scharr">
+<h2>scharr<a class="headerlink" href="#scharr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.scharr">
+<code class="descclassname">skimage.filters.</code><code class="descname">scharr</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L173"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.scharr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edge magnitude using the Scharr transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Scharr edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skimage.filters.sobel" title="skimage.filters.sobel"><code class="xref py py-obj docutils literal"><span class="pre">sobel</span></code></a>, <a class="reference internal" href="#skimage.filters.prewitt" title="skimage.filters.prewitt"><code class="xref py py-obj docutils literal"><span class="pre">prewitt</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">canny</span></code></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Take the square root of the sum of the squares of the horizontal and
+vertical Scharrs to get a magnitude that is somewhat insensitive to
+direction. The Scharr operator has a better rotation invariance than
+other edge filters such as the Sobel or the Prewitt operators.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r252" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[R252]</a></td><td>D. Kroon, 2009, Short Paper University Twente, Numerical
+Optimization of Kernel Based Image Derivatives.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r253" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[R253]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators">http://en.wikipedia.org/wiki/Sobel_operator#Alternative_operators</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">scharr</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="scharr-h">
+<h2>scharr_h<a class="headerlink" href="#scharr-h" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.scharr_h">
+<code class="descclassname">skimage.filters.</code><code class="descname">scharr_h</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L220"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.scharr_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal edges of an image using the Scharr transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Scharr edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="mi">3</span>   <span class="mi">10</span>   <span class="mi">3</span>
+ <span class="mi">0</span>    <span class="mi">0</span>   <span class="mi">0</span>
+<span class="o">-</span><span class="mi">3</span>  <span class="o">-</span><span class="mi">10</span>  <span class="o">-</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r254" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[R254]</a></td><td>D. Kroon, 2009, Short Paper University Twente, Numerical
+Optimization of Kernel Based Image Derivatives.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="scharr-v">
+<h2>scharr_v<a class="headerlink" href="#scharr-v" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.scharr_v">
+<code class="descclassname">skimage.filters.</code><code class="descname">scharr_v</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L257"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.scharr_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the vertical edges of an image using the Scharr transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Scharr edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="mi">3</span>   <span class="mi">0</span>   <span class="o">-</span><span class="mi">3</span>
+<span class="mi">10</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">10</span>
+ <span class="mi">3</span>   <span class="mi">0</span>   <span class="o">-</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r255" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[R255]</a></td><td>D. Kroon, 2009, Short Paper University Twente, Numerical
+Optimization of Kernel Based Image Derivatives.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="sobel">
+<h2>sobel<a class="headerlink" href="#sobel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.sobel">
+<code class="descclassname">skimage.filters.</code><code class="descname">sobel</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.sobel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edge magnitude using the Sobel transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skimage.filters.scharr" title="skimage.filters.scharr"><code class="xref py py-obj docutils literal"><span class="pre">scharr</span></code></a>, <a class="reference internal" href="#skimage.filters.prewitt" title="skimage.filters.prewitt"><code class="xref py py-obj docutils literal"><span class="pre">prewitt</span></code></a>, <a class="reference internal" href="#skimage.filters.roberts" title="skimage.filters.roberts"><code class="xref py py-obj docutils literal"><span class="pre">roberts</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">feature.canny</span></code></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Take the square root of the sum of the squares of the horizontal and
+vertical Sobels to get a magnitude that’s somewhat insensitive to
+direction.</p>
+<p>The 3x3 convolution kernel used in the horizontal and vertical Sobels is
+an approximation of the gradient of the image (with some slight blurring
+since 9 pixels are used to compute the gradient at a given pixel). As an
+approximation of the gradient, the Sobel operator is not completely
+rotation-invariant. The Scharr operator should be used for a better
+rotation invariance.</p>
+<p>Note that <code class="docutils literal"><span class="pre">scipy.ndimage.sobel</span></code> returns a directional Sobel which
+has to be further processed to perform edge detection.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">filters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="sobel-h">
+<h2>sobel_h<a class="headerlink" href="#sobel-h" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.sobel_h">
+<code class="descclassname">skimage.filters.</code><code class="descname">sobel_h</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L109"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.sobel_h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal edges of an image using the Sobel transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="mi">1</span>   <span class="mi">2</span>   <span class="mi">1</span>
+ <span class="mi">0</span>   <span class="mi">0</span>   <span class="mi">0</span>
+<span class="o">-</span><span class="mi">1</span>  <span class="o">-</span><span class="mi">2</span>  <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="sobel-v">
+<h2>sobel_v<a class="headerlink" href="#sobel-v" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.sobel_v">
+<code class="descclassname">skimage.filters.</code><code class="descname">sobel_v</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/edges.py#L141"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.sobel_v" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the vertical edges of an image using the Sobel transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : 2-D array, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : 2-D array</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+<span class="mi">2</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">2</span>
+<span class="mi">1</span>   <span class="mi">0</span>  <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-adaptive">
+<h2>threshold_adaptive<a class="headerlink" href="#threshold-adaptive" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_adaptive">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_adaptive</code><span class="sig-paren">(</span><em>image</em>, <em>block_size</em>, <em>method='gaussian'</em>, <em>offset=0</em>, <em>mode='reflect'</em>, <em>param=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_adaptive" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">threshold_local</span></code> instead.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-isodata">
+<h2>threshold_isodata<a class="headerlink" href="#threshold-isodata" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_isodata">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_isodata</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em>, <em>return_all=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L353"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_isodata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value(s) based on ISODATA method.</p>
+<p>Histogram-based threshold, known as Ridler-Calvard method or inter-means.
+Threshold values returned satisfy the following equality:</p>
+<dl class="docutils">
+<dt><cite>threshold = (image[image &lt;= threshold].mean() +</cite></dt>
+<dd><cite>image[image &gt; threshold].mean()) / 2.0</cite></dd>
+</dl>
+<p>That is, returned thresholds are intensities that separate the image into
+two groups of pixels, where the threshold intensity is midway between the
+mean intensities of these groups.</p>
+<p>For integer images, the above equality holds to within one; for floating-
+point images, the equality holds to within the histogram bin-width.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</div></blockquote>
+<p><strong>return_all: bool, optional</strong></p>
+<blockquote>
+<div><p>If False (default), return only the lowest threshold that satisfies
+the above equality. If True, return all valid thresholds.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float or int or array</p>
+<blockquote class="last">
+<div><p>Threshold value(s).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r256" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id15">[R256]</a></td><td>Ridler, TW &amp; Calvard, S (1978), “Picture thresholding using an
+iterative selection method”
+IEEE Transactions on Systems, Man and Cybernetics 8: 630-632,
+DOI:10.1109/TSMC.1978.4310039</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r257" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id16">[R257]</a></td><td>Sezgin M. and Sankur B. (2004) “Survey over Image Thresholding
+Techniques and Quantitative Performance Evaluation” Journal of
+Electronic Imaging, 13(1): 146-165,
+<a class="reference external" href="http://www.busim.ee.boun.edu.tr/~sankur/SankurFolder/Threshold_survey.pdf">http://www.busim.ee.boun.edu.tr/~sankur/SankurFolder/Threshold_survey.pdf</a>
+DOI:10.1117/1.1631315</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r258" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[R258]</a></td><td>ImageJ AutoThresholder code,
+<a class="reference external" href="http://fiji.sc/wiki/index.php/Auto_Threshold">http://fiji.sc/wiki/index.php/Auto_Threshold</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">coins</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">coins</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_isodata</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-li">
+<h2>threshold_li<a class="headerlink" href="#threshold-li" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_li">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_li</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L462"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_li" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on adaptation of Li’s Minimum Cross Entropy method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote class="last">
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r259" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id18">[R259]</a></td><td>Li C.H. and Lee C.K. (1993) “Minimum Cross Entropy Thresholding”
+Pattern Recognition, 26(4): 617-625
+DOI:10.1016/0031-3203(93)90115-D</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r260" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id19">[R260]</a></td><td>Li C.H. and Tam P.K.S. (1998) “An Iterative Algorithm for Minimum
+Cross Entropy Thresholding” Pattern Recognition Letters, 18(8): 771-776
+DOI:10.1016/S0167-8655(98)00057-9</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r261" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id20">[R261]</a></td><td>Sezgin M. and Sankur B. (2004) “Survey over Image Thresholding
+Techniques and Quantitative Performance Evaluation” Journal of
+Electronic Imaging, 13(1): 146-165
+DOI:10.1117/1.1631315</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r262" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id21">[R262]</a></td><td>ImageJ AutoThresholder code, <a class="reference external" href="http://fiji.sc/wiki/index.php/Auto_Threshold">http://fiji.sc/wiki/index.php/Auto_Threshold</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_li</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-local">
+<h2>threshold_local<a class="headerlink" href="#threshold-local" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_local">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_local</code><span class="sig-paren">(</span><em>image</em>, <em>block_size</em>, <em>method='gaussian'</em>, <em>offset=0</em>, <em>mode='reflect'</em>, <em>param=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L135"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a threshold mask image based on local pixel neighborhood.</p>
+<p>Also known as adaptive or dynamic thresholding. The threshold value is
+the weighted mean for the local neighborhood of a pixel subtracted by a
+constant. Alternatively the threshold can be determined dynamically by a
+given function, using the ‘generic’ method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>block_size</strong> : int</p>
+<blockquote>
+<div><p>Odd size of pixel neighborhood which is used to calculate the
+threshold value (e.g. 3, 5, 7, …, 21, …).</p>
+</div></blockquote>
+<p><strong>method</strong> : {‘generic’, ‘gaussian’, ‘mean’, ‘median’}, optional</p>
+<blockquote>
+<div><p>Method used to determine adaptive threshold for local neighbourhood in
+weighted mean image.</p>
+<ul class="simple">
+<li>‘generic’: use custom function (see <cite>param</cite> parameter)</li>
+<li>‘gaussian’: apply gaussian filter (see <cite>param</cite> parameter for custom                      sigma value)</li>
+<li>‘mean’: apply arithmetic mean filter</li>
+<li>‘median’: apply median rank filter</li>
+</ul>
+<p>By default the ‘gaussian’ method is used.</p>
+</div></blockquote>
+<p><strong>offset</strong> : float, optional</p>
+<blockquote>
+<div><p>Constant subtracted from weighted mean of neighborhood to calculate
+the local threshold value. Default offset is 0.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</p>
+<blockquote>
+<div><p>The mode parameter determines how the array borders are handled, where
+cval is the value when mode is equal to ‘constant’.
+Default is ‘reflect’.</p>
+</div></blockquote>
+<p><strong>param</strong> : {int, function}, optional</p>
+<blockquote>
+<div><p>Either specify sigma for ‘gaussian’ method or function object for
+‘generic’ method. This functions takes the flat array of local
+neighbourhood as a single argument and returns the calculated
+threshold for the centre pixel.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : (N, M) ndarray</p>
+<blockquote class="last">
+<div><p>Threshold image. All pixels in the input image higher than the
+corresponding pixel in the threshold image are considered foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r263" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id22">[R263]</a></td><td><a class="reference external" href="http://docs.opencv.org/modules/imgproc/doc/miscellaneous_transformations.html?highlight=threshold#adaptivethreshold">http://docs.opencv.org/modules/imgproc/doc/miscellaneous_transformations.html?highlight=threshold#adaptivethreshold</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()[:</span><span class="mi">50</span><span class="p">,</span> <span class="p">:</span><span class="mi">50</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary_image1</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">threshold_local</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">arr</span><span class="p">:</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary_image2</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">threshold_local</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;generic&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                                        <span class="n">param</span><span class="o">=</span><span class="n">func</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-mean">
+<h2>threshold_mean<a class="headerlink" href="#threshold-mean" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_mean">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_mean</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L621"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on the mean of grayscale values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M[, …, P]) ndarray</p>
+<blockquote>
+<div><p>Grayscale input image.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote class="last">
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r264" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id23">[R264]</a></td><td>C. A. Glasbey, “An analysis of histogram-based thresholding
+algorithms,” CVGIP: Graphical Models and Image Processing,
+vol. 55, pp. 532-537, 1993.
+DOI:10.1006/cgip.1993.1040</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_mean</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-minimum">
+<h2>threshold_minimum<a class="headerlink" href="#threshold-minimum" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_minimum">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_minimum</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em>, <em>max_iter=10000</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L537"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_minimum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on minimum method.</p>
+<p>The histogram of the input <cite>image</cite> is computed and smoothed until there are
+only two maxima. Then the minimum in between is the threshold value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (M, N) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</div></blockquote>
+<p><strong>max_iter: int, optional</strong></p>
+<blockquote>
+<div><p>Maximum number of iterations to smooth the histogram.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote>
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>RuntimeError</strong></p>
+<blockquote class="last">
+<div><p>If unable to find two local maxima in the histogram or if the
+smoothing takes more than 1e4 iterations.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r265" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[R265]</a></td><td>C. A. Glasbey, “An analysis of histogram-based thresholding
+algorithms,” CVGIP: Graphical Models and Image Processing,
+vol. 55, pp. 532-537, 1993.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r266" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id25">[R266]</a></td><td>Prewitt, JMS &amp; Mendelsohn, ML (1966), “The analysis of cell
+images”, Annals of the New York Academy of Sciences 128: 1035-1053
+DOI:10.1111/j.1749-6632.1965.tb11715.x</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_minimum</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-niblack">
+<h2>threshold_niblack<a class="headerlink" href="#threshold-niblack" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_niblack">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_niblack</code><span class="sig-paren">(</span><em>image</em>, <em>window_size=15</em>, <em>k=0.2</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L781"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_niblack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies Niblack local threshold to an array.</p>
+<p>A threshold T is calculated for every pixel in the image using the
+following formula:</p>
+<p>T = m(x,y) - k * s(x,y)</p>
+<p>where m(x,y) and s(x,y) are the mean and standard deviation of
+pixel (x,y) neighborhood defined by a rectangular window with size w
+times w centered around the pixel. k is a configurable parameter
+that weights the effect of standard deviation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: (N, M) ndarray</strong></p>
+<blockquote>
+<div><p>Grayscale input image.</p>
+</div></blockquote>
+<p><strong>window_size</strong> : int, optional</p>
+<blockquote>
+<div><p>Odd size of pixel neighborhood window (e.g. 3, 5, 7…).</p>
+</div></blockquote>
+<p><strong>k</strong> : float, optional</p>
+<blockquote>
+<div><p>Value of parameter k in threshold formula.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : (N, M) ndarray</p>
+<blockquote class="last">
+<div><p>Threshold mask. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This algorithm is originally designed for text recognition.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r267" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id26">[R267]</a></td><td>Niblack, W (1986), An introduction to Digital Image
+Processing, Prentice-Hall.</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">page</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary_image</span> <span class="o">=</span> <span class="n">threshold_niblack</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-otsu">
+<h2>threshold_otsu<a class="headerlink" href="#threshold-otsu" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_otsu">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_otsu</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L231"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_otsu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on Otsu’s method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Grayscale input image.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote>
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If <cite>image</cite> only contains a single grayscale value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The input image must be grayscale.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r268" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id27">[R268]</a></td><td>Wikipedia, <a class="reference external" href="http://en.wikipedia.org/wiki/Otsu's_Method">http://en.wikipedia.org/wiki/Otsu’s_Method</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_otsu</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&lt;=</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-sauvola">
+<h2>threshold_sauvola<a class="headerlink" href="#threshold-sauvola" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_sauvola">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_sauvola</code><span class="sig-paren">(</span><em>image</em>, <em>window_size=15</em>, <em>k=0.2</em>, <em>r=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L828"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_sauvola" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies Sauvola local threshold to an array. Sauvola is a
+modification of Niblack technique.</p>
+<p>In the original method a threshold T is calculated for every pixel
+in the image using the following formula:</p>
+<p>T = m(x,y) * (1 + k * ((s(x,y) / R) - 1))</p>
+<p>where m(x,y) and s(x,y) are the mean and standard deviation of
+pixel (x,y) neighborhood defined by a rectangular window with size w
+times w centered around the pixel. k is a configurable parameter
+that weights the effect of standard deviation.
+R is the maximum standard deviation of a greyscale image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: (N, M) ndarray</strong></p>
+<blockquote>
+<div><p>Grayscale input image.</p>
+</div></blockquote>
+<p><strong>window_size</strong> : int, optional</p>
+<blockquote>
+<div><p>Odd size of pixel neighborhood window (e.g. 3, 5, 7…).</p>
+</div></blockquote>
+<p><strong>k</strong> : float, optional</p>
+<blockquote>
+<div><p>Value of the positive parameter k.</p>
+</div></blockquote>
+<p><strong>r</strong> : float, optional</p>
+<blockquote>
+<div><p>Value of R, the dynamic range of standard deviation.
+If None, set to the half of the image dtype range.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : (N, M) ndarray</p>
+<blockquote class="last">
+<div><p>Threshold mask. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This algorithm is originally designed for text recognition.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r269" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id28">[R269]</a></td><td>J. Sauvola and M. Pietikainen, “Adaptive document image
+binarization,” Pattern Recognition 33(2),
+pp. 225-236, 2000.
+DOI:10.1016/S0031-3203(99)00055-2</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">page</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary_sauvola</span> <span class="o">=</span> <span class="n">threshold_sauvola</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">window_size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-triangle">
+<h2>threshold_triangle<a class="headerlink" href="#threshold-triangle" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_triangle">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_triangle</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L652"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_triangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on the triangle algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M[, …, P]) ndarray</p>
+<blockquote>
+<div><p>Grayscale input image.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote class="last">
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r270" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id29">[R270]</a></td><td>Zack, G. W., Rogers, W. E. and Latt, S. A., 1977,
+Automatic Measurement of Sister Chromatid Exchange Frequency,
+Journal of Histochemistry and Cytochemistry 25 (7), pp. 741-753
+DOI:10.1177/25.7.70454</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r271" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id30">[R271]</a></td><td>ImageJ AutoThresholder code,
+<a class="reference external" href="http://fiji.sc/wiki/index.php/Auto_Threshold">http://fiji.sc/wiki/index.php/Auto_Threshold</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_triangle</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="threshold-yen">
+<h2>threshold_yen<a class="headerlink" href="#threshold-yen" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.threshold_yen">
+<code class="descclassname">skimage.filters.</code><code class="descname">threshold_yen</code><span class="sig-paren">(</span><em>image</em>, <em>nbins=256</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L299"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.threshold_yen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return threshold value based on Yen’s method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>threshold</strong> : float</p>
+<blockquote class="last">
+<div><p>Upper threshold value. All pixels with an intensity higher than
+this value are assumed to be foreground.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r272" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id31">[R272]</a></td><td>Yen J.C., Chang F.J., and Chang S. (1995) “A New Criterion
+for Automatic Multilevel Thresholding” IEEE Trans. on Image
+Processing, 4(3): 370-378. DOI:10.1109/83.366472</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r273" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id32">[R273]</a></td><td>Sezgin M. and Sankur B. (2004) “Survey over Image Thresholding
+Techniques and Quantitative Performance Evaluation” Journal of
+Electronic Imaging, 13(1): 146-165, DOI:10.1117/1.1631315
+http://www.busim.ee.boun.edu.tr/~sankur/SankurFolder/Threshold_survey.pdf</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r274" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id33">[R274]</a></td><td>ImageJ AutoThresholder code, <a class="reference external" href="http://fiji.sc/wiki/index.php/Auto_Threshold">http://fiji.sc/wiki/index.php/Auto_Threshold</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">camera</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresh</span> <span class="o">=</span> <span class="n">threshold_yen</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&lt;=</span> <span class="n">thresh</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="try-all-threshold">
+<h2>try_all_threshold<a class="headerlink" href="#try-all-threshold" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.try_all_threshold">
+<code class="descclassname">skimage.filters.</code><code class="descname">try_all_threshold</code><span class="sig-paren">(</span><em>image</em>, <em>figsize=(8</em>, <em>5)</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/thresholding.py#L76"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.try_all_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a figure comparing the outputs of different thresholding methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>figsize</strong> : tuple, optional</p>
+<blockquote>
+<div><p>Figure size (in inches).</p>
+</div></blockquote>
+<p><strong>verbose</strong> : bool, optional</p>
+<blockquote>
+<div><p>Print function name for each method.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>fig, ax</strong> : tuple</p>
+<blockquote class="last">
+<div><p>Matplotlib figure and axes.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The following algorithms are used:</p>
+<ul class="simple">
+<li>isodata</li>
+<li>li</li>
+<li>mean</li>
+<li>minimum</li>
+<li>otsu</li>
+<li>triangle</li>
+<li>yen</li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">text</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">try_all_threshold</span><span class="p">(</span><span class="n">text</span><span class="p">(),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="wiener">
+<h2>wiener<a class="headerlink" href="#wiener" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filters.wiener">
+<code class="descclassname">skimage.filters.</code><code class="descname">wiener</code><span class="sig-paren">(</span><em>data</em>, <em>impulse_response=None</em>, <em>filter_params={}</em>, <em>K=0.25</em>, <em>predefined_filter=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/lpi_filter.py#L207"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.wiener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum Mean Square Error (Wiener) inverse filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : (M,N) ndarray</p>
+<blockquote>
+<div><p>Input data.</p>
+</div></blockquote>
+<p><strong>K</strong> : float or (M,N) ndarray</p>
+<blockquote>
+<div><p>Ratio between power spectrum of noise and undegraded
+image.</p>
+</div></blockquote>
+<p><strong>impulse_response</strong> : callable <cite>f(r, c, **filter_params)</cite></p>
+<blockquote>
+<div><p>Impulse response of the filter.  See LPIFilter2D.__init__.</p>
+</div></blockquote>
+<p><strong>filter_params</strong> : dict</p>
+<blockquote>
+<div><p>Additional keyword parameters to the impulse_response function.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><p class="first"><strong>predefined_filter</strong> : LPIFilter2D</p>
+<blockquote class="last">
+<div><p>If you need to apply the same filter multiple times over different
+images, construct the LPIFilter2D and specify it here.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="lpifilter2d">
+<h2><a class="reference internal" href="#skimage.filters.LPIFilter2D" title="skimage.filters.LPIFilter2D"><code class="xref py py-class docutils literal"><span class="pre">LPIFilter2D</span></code></a><a class="headerlink" href="#lpifilter2d" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.filters.LPIFilter2D">
+<em class="property">class </em><code class="descclassname">skimage.filters.</code><code class="descname">LPIFilter2D</code><span class="sig-paren">(</span><em>impulse_response</em>, <em>**filter_params</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/lpi_filter.py#L42"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.LPIFilter2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Linear Position-Invariant Filter (2-dimensional)</p>
+<dl class="method">
+<dt id="skimage.filters.LPIFilter2D.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>impulse_response</em>, <em>**filter_params</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/filters/lpi_filter.py#L47"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.LPIFilter2D.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>impulse_response</strong> : callable <cite>f(r, c, **filter_params)</cite></p>
+<blockquote class="last">
+<div><p>Function that yields the impulse response.  <cite>r</cite> and <cite>c</cite> are
+1-dimensional vectors that represent row and column positions, in
+other words coordinates are (r[0],c[0]),(r[0],c[1]) etc.
+<cite>**filter_params</cite> are passed through.</p>
+<p>In other words, <cite>impulse_response</cite> would be called like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">impulse_response</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_params</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filter_params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;kw1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;kw2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;kw3&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">impulse_response</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">filter_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Gaussian filter: Use a 1-D gaussian in each direction without
+normalization coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">filt_func</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">filter</span> <span class="o">=</span> <span class="n">LPIFilter2D</span><span class="p">(</span><span class="n">filt_func</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="deprecated">
+<h2><a class="reference internal" href="#skimage.filters.deprecated" title="skimage.filters.deprecated"><code class="xref py py-class docutils literal"><span class="pre">deprecated</span></code></a><a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.filters.deprecated">
+<em class="property">class </em><code class="descclassname">skimage.filters.</code><code class="descname">deprecated</code><span class="sig-paren">(</span><em>alt_func=None</em>, <em>behavior='warn'</em>, <em>removed_version=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L25"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.deprecated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Decorator to mark deprecated functions with warning.</p>
+<p>Adapted from &lt;<a class="reference external" href="http://wiki.python.org/moin/PythonDecoratorLibrary">http://wiki.python.org/moin/PythonDecoratorLibrary</a>&gt;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>alt_func</strong> : str</p>
+<blockquote>
+<div><p>If given, tell user what function to use instead.</p>
+</div></blockquote>
+<p><strong>behavior</strong> : {‘warn’, ‘raise’}</p>
+<blockquote>
+<div><p>Behavior during call to deprecated function: ‘warn’ = warn user that
+function is deprecated; ‘raise’ = raise error.</p>
+</div></blockquote>
+<p><strong>removed_version</strong> : str</p>
+<blockquote class="last">
+<div><p>The package version in which the deprecated function will be removed.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="skimage.filters.deprecated.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>alt_func=None</em>, <em>behavior='warn'</em>, <em>removed_version=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L41"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.filters.deprecated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

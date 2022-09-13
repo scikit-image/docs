@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Comparing edge-based segmentation and region-based segmentation &mdash; skimage v0.6 docs</title>
+    <link rel="stylesheet" href="../../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.6 docs" href="../../index.html" />
+    <link rel="up" title="General examples" href="../index.html" />
+    <link rel="prev" title="Watershed segmentation" href="../plot_watershed.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+    <h3>Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">Comparing edge-based segmentation and region-based segmentation</a><ul>
+<li><a class="reference internal" href="#thresholding">Thresholding</a></li>
+<li><a class="reference internal" href="#edge-based-segmentation">Edge-based segmentation</a></li>
+<li><a class="reference internal" href="#region-based-segmentation">Region-based segmentation</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../plot_watershed.html"
+                        title="previous chapter">Watershed segmentation</a></p>
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="comparing-edge-based-segmentation-and-region-based-segmentation">
+<span id="example-applications-plot-coins-segmentation-py"></span><h1>Comparing edge-based segmentation and region-based segmentation<a class="headerlink" href="#comparing-edge-based-segmentation-and-region-based-segmentation" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we will see how to segment objects from a background.  We use
+the <tt class="docutils literal"><span class="pre">coins</span></tt> image from <tt class="docutils literal"><span class="pre">skimage.data</span></tt>, which shows several coins outlined
+against a darker background.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+
+<span class="n">coins</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;histogram of grey values&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_1.png" src="../../_images/plot_coins_segmentation_1.png" />
+<div class="section" id="thresholding">
+<h2>Thresholding<a class="headerlink" href="#thresholding" title="Permalink to this headline">¶</a></h2>
+<p>A simple way to segment the coins is to choose a threshold based on the
+histogram of grey values. Unfortunately, thresholding this image gives a binary
+image that either misses significant parts of the coins or merges parts of the
+background with the coins:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coins</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;coins &gt; 100&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coins</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;coins &gt; 150&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">margins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="o">**</span><span class="n">margins</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_2.png" src="../../_images/plot_coins_segmentation_2.png" />
+</div>
+<div class="section" id="edge-based-segmentation">
+<h2>Edge-based segmentation<a class="headerlink" href="#edge-based-segmentation" title="Permalink to this headline">¶</a></h2>
+<p>Next, we try to delineate the contours of the coins using edge-based
+segmentation. To do this, we first get the edges of features using the Canny
+edge-detector.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.filter</span> <span class="kn">import</span> <span class="n">canny</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">canny</span><span class="p">(</span><span class="n">coins</span><span class="o">/</span><span class="mf">255.</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Canny detector&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_3.png" src="../../_images/plot_coins_segmentation_3.png" />
+<p>These contours are then filled using mathematical morphology.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span>
+
+<span class="n">fill_coins</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">binary_fill_holes</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">fill_coins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Filling the holes&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_4.png" src="../../_images/plot_coins_segmentation_4.png" />
+<p>Small spurious objects are easily removed by setting a minimum size for valid
+objects.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">label_objects</span><span class="p">,</span> <span class="n">nb_labels</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">fill_coins</span><span class="p">)</span>
+<span class="n">sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">label_objects</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+<span class="n">mask_sizes</span> <span class="o">=</span> <span class="n">sizes</span> <span class="o">&gt;</span> <span class="mi">20</span>
+<span class="n">mask_sizes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">coins_cleaned</span> <span class="o">=</span> <span class="n">mask_sizes</span><span class="p">[</span><span class="n">label_objects</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coins_cleaned</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Removing small objects&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_5.png" src="../../_images/plot_coins_segmentation_5.png" />
+<p>However, this method is not very robust, since contours that are not perfectly
+closed are not filled correctly, as is the case for one unfilled coin above.</p>
+</div>
+<div class="section" id="region-based-segmentation">
+<h2>Region-based segmentation<a class="headerlink" href="#region-based-segmentation" title="Permalink to this headline">¶</a></h2>
+<p>We therefore try a region-based method using the
+watershed transform. First, we find an elevation map using the Sobel gradient of the
+image.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.filter</span> <span class="kn">import</span> <span class="n">sobel</span>
+
+<span class="n">elevation_map</span> <span class="o">=</span> <span class="n">sobel</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">elevation_map</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;elevation_map&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_6.png" src="../../_images/plot_coins_segmentation_6.png" />
+<p>Next we find markers of the background and the coins based on the extreme parts
+of the histogram of grey values.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+<span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">markers</span><span class="p">[</span><span class="n">coins</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">markers</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">spectral</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;markers&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_7.png" src="../../_images/plot_coins_segmentation_7.png" />
+<p>Finally, we use the watershed transform to fill regions of the elevation map starting from the markers determined above:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="n">watershed</span>
+<span class="n">segmentation</span> <span class="o">=</span> <span class="n">watershed</span><span class="p">(</span><span class="n">elevation_map</span><span class="p">,</span> <span class="n">markers</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">segmentation</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;segmentation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_8.png" src="../../_images/plot_coins_segmentation_8.png" />
+<p>This last method works even better, and the coins can be segmented and
+labeled individually.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">segmentation</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">binary_fill_holes</span><span class="p">(</span><span class="n">segmentation</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">labeled_coins</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">segmentation</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">coins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">segmentation</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s">&#39;y&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">labeled_coins</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">spectral</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="o">**</span><span class="n">margins</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_coins_segmentation_9.png" src="../../_images/plot_coins_segmentation_9.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../../_downloads/plot_coins_segmentation.py"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.6)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

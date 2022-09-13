@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Blob Detection &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="ORB feature detector and binary descriptor" href="plot_orb.html" />
+        <link rel="prev" title="Haar-like feature descriptor" href="plot_haar.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Blob Detection</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#laplacian-of-gaussian-log">Laplacian of Gaussian (LoG)</a></li>
+<li><a class="reference internal" href="#difference-of-gaussian-dog">Difference of Gaussian (DoG)</a></li>
+<li><a class="reference internal" href="#determinant-of-hessian-doh">Determinant of Hessian (DoH)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-features-detection-plot-blob-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="blob-detection">
+<span id="sphx-glr-auto-examples-features-detection-plot-blob-py"></span><h1>Blob Detection<a class="headerlink" href="#blob-detection" title="Permalink to this headline">¶</a></h1>
+<p>Blobs are bright on dark or dark on bright regions in an image. In
+this example, blobs are detected using 3 algorithms. The image used
+in this case is the Hubble eXtreme Deep Field. Each bright dot in the
+image is a star or a galaxy.</p>
+<div class="section" id="laplacian-of-gaussian-log">
+<h2>Laplacian of Gaussian (LoG)<a class="headerlink" href="#laplacian-of-gaussian-log" title="Permalink to this headline">¶</a></h2>
+<p>This is the most accurate and slowest approach. It computes the Laplacian
+of Gaussian images with successively increasing standard deviation and
+stacks them up in a cube. Blobs are local maximas in this cube. Detecting
+larger blobs is especially slower because of larger kernel sizes during
+convolution. Only bright blobs on dark backgrounds are detected. See
+<a class="reference internal" href="../../api/skimage.feature.html#skimage.feature.blob_log" title="skimage.feature.blob_log"><code class="xref py py-meth docutils literal notranslate"><span class="pre">skimage.feature.blob_log()</span></code></a> for usage.</p>
+</div>
+<div class="section" id="difference-of-gaussian-dog">
+<h2>Difference of Gaussian (DoG)<a class="headerlink" href="#difference-of-gaussian-dog" title="Permalink to this headline">¶</a></h2>
+<p>This is a faster approximation of LoG approach. In this case the image is
+blurred with increasing standard deviations and the difference between
+two successively blurred images are stacked up in a cube. This method
+suffers from the same disadvantage as LoG approach for detecting larger
+blobs. Blobs are again assumed to be bright on dark. See
+<a class="reference internal" href="../../api/skimage.feature.html#skimage.feature.blob_dog" title="skimage.feature.blob_dog"><code class="xref py py-meth docutils literal notranslate"><span class="pre">skimage.feature.blob_dog()</span></code></a> for usage.</p>
+</div>
+<div class="section" id="determinant-of-hessian-doh">
+<h2>Determinant of Hessian (DoH)<a class="headerlink" href="#determinant-of-hessian-doh" title="Permalink to this headline">¶</a></h2>
+<p>This is the fastest approach. It detects blobs by finding maximas in the
+matrix of the Determinant of Hessian of the image. The detection speed is
+independent of the size of blobs as internally the implementation uses
+box filters instead of convolutions. Bright on dark as well as dark on
+bright blobs are detected. The downside is that small blobs (&lt;3px) are not
+detected accurately. See <a class="reference internal" href="../../api/skimage.feature.html#skimage.feature.blob_doh" title="skimage.feature.blob_doh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">skimage.feature.blob_doh()</span></code></a> for usage.</p>
+<img alt="../../_images/sphx_glr_plot_blob_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_blob_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/scikit_image-0.16.1-py3.6-linux-x86_64.egg/skimage/feature/blob.py:125: RuntimeWarning: invalid value encountered in double_scalars
+  r1 = blob1[-1] / blob2[-1]
+/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/scikit_image-0.16.1-py3.6-linux-x86_64.egg/skimage/feature/blob.py:126: RuntimeWarning: divide by zero encountered in true_divide
+  pos1 = blob1[:ndim] / (max_sigma * root_ndim)
+/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/scikit_image-0.16.1-py3.6-linux-x86_64.egg/skimage/feature/blob.py:127: RuntimeWarning: divide by zero encountered in true_divide
+  pos2 = blob2[:ndim] / (max_sigma * root_ndim)
+/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/scikit_image-0.16.1-py3.6-linux-x86_64.egg/skimage/feature/blob.py:129: RuntimeWarning: invalid value encountered in subtract
+  d = np.sqrt(np.sum((pos2 - pos1)**2))
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_dog" title="View documentation for skimage.feature.blob_dog"><span class="n">blob_dog</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_log" title="View documentation for skimage.feature.blob_log"><span class="n">blob_log</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_doh" title="View documentation for skimage.feature.blob_doh"><span class="n">blob_doh</span></a>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">rgb2gray</span></a>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.hubble_deep_field" title="View documentation for skimage.data.hubble_deep_field"><span class="n">data</span><span class="o">.</span><span class="n">hubble_deep_field</span></a><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">500</span><span class="p">]</span>
+<span class="n">image_gray</span> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">rgb2gray</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="n">blobs_log</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_log" title="View documentation for skimage.feature.blob_log"><span class="n">blob_log</span></a><span class="p">(</span><span class="n">image_gray</span><span class="p">,</span> <span class="n">max_sigma</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">num_sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Compute radii in the 3rd column.</span>
+<span class="n">blobs_log</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">blobs_log</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">blobs_dog</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_dog" title="View documentation for skimage.feature.blob_dog"><span class="n">blob_dog</span></a><span class="p">(</span><span class="n">image_gray</span><span class="p">,</span> <span class="n">max_sigma</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">blobs_dog</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">blobs_dog</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">blobs_doh</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.blob_doh" title="View documentation for skimage.feature.blob_doh"><span class="n">blob_doh</span></a><span class="p">(</span><span class="n">image_gray</span><span class="p">,</span> <span class="n">max_sigma</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=.</span><span class="mi">01</span><span class="p">)</span>
+
+<span class="n">blobs_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">blobs_log</span><span class="p">,</span> <span class="n">blobs_dog</span><span class="p">,</span> <span class="n">blobs_doh</span><span class="p">]</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;lime&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span>
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Laplacian of Gaussian&#39;</span><span class="p">,</span> <span class="s1">&#39;Difference of Gaussian&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;Determinant of Hessian&#39;</span><span class="p">]</span>
+<span class="n">sequence</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">blobs_list</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">titles</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">blobs</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">blob</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.061 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-features-detection-plot-blob-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b962c5cafe83858c31fb59427aa504a4/plot_blob.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_blob.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/3d8ba08fe382d9724e54715195823bde/plot_blob.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_blob.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

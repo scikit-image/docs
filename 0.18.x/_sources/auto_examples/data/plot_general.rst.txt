@@ -1,0 +1,216 @@
+.. only:: html
+
+    .. note::
+        :class: sphx-glr-download-link-note
+
+        Click :ref:`here <sphx_glr_download_auto_examples_data_plot_general.py>`     to download the full example code or to run this example in your browser via Binder
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_data_plot_general.py:
+
+
+======================
+General-purpose images
+======================
+
+The title of each image indicates the name of the function.
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_001.png
+          :alt: astronaut
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_002.png
+          :alt: binary_blobs
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_003.png
+          :alt: brick
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_004.png
+          :alt: colorwheel
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_005.png
+          :alt: camera
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_006.png
+          :alt: cat
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_007.png
+          :alt: checkerboard
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_008.png
+          :alt: clock
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_009.png
+          :alt: coffee
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_010.png
+          :alt: coins
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_011.png
+          :alt: eagle
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_012.png
+          :alt: grass
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_013.png
+          :alt: gravel
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_014.png
+          :alt: horse
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_015.png
+          :alt: logo
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_016.png
+          :alt: page
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_017.png
+          :alt: text
+          :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/data/images/sphx_glr_plot_general_018.png
+          :alt: rocket
+          :class: sphx-glr-multi-img
+
+
+
+
+
+
+.. code-block:: default
+
+    import matplotlib.pyplot as plt
+    import matplotlib
+
+    from skimage import data
+
+    matplotlib.rcParams['font.size'] = 18
+
+    images = ('astronaut',
+              'binary_blobs',
+              'brick',
+              'colorwheel',
+              'camera',
+              'cat',
+              'checkerboard',
+              'clock',
+              'coffee',
+              'coins',
+              'eagle',
+              'grass',
+              'gravel',
+              'horse',
+              'logo',
+              'page',
+              'text',
+              'rocket',
+              )
+
+
+    for name in images:
+        caller = getattr(data, name)
+        image = caller()
+        plt.figure()
+        plt.title(name)
+        if image.ndim == 2:
+            plt.imshow(image, cmap=plt.cm.gray)
+        else:
+            plt.imshow(image)
+
+    plt.show()
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  3.365 seconds)
+
+
+.. _sphx_glr_download_auto_examples_data_plot_general.py:
+
+
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
+
+  .. container:: binder-badge
+
+    .. image:: images/binder_badge_logo.svg
+      :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/v0.18.x?filepath=notebooks/auto_examples/data/plot_general.ipynb
+      :alt: Launch binder
+      :width: 150 px
+
+
+  .. container:: sphx-glr-download sphx-glr-download-python
+
+     :download:`Download Python source code: plot_general.py <plot_general.py>`
+
+
+
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+     :download:`Download Jupyter notebook: plot_general.ipynb <plot_general.ipynb>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

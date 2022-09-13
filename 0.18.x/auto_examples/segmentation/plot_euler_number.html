@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Euler number &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script src="../../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Evaluating segmentation metrics" href="plot_metrics.html" />
+        <link rel="prev" title="Flood Fill" href="plot_floodfill.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Euler number</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#d-objects">3-D objects</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-euler-number-py"><span class="std std-ref">here</span></a>     to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<div class="sphx-glr-example-title section" id="euler-number">
+<span id="sphx-glr-auto-examples-segmentation-plot-euler-number-py"></span><h1>Euler number<a class="headerlink" href="#euler-number" title="Permalink to this headline">¶</a></h1>
+<p>This example shows an illustration of the computation of the Euler number <a class="footnote-reference brackets" href="#id2" id="id1">1</a>
+in 2D and 3D objects.</p>
+<p>For 2D objects, the Euler number is the number of objects minus the number of
+holes. Notice that if a neighbourhood of 8 connected pixels (2-connectivity)
+is considered for objects, then this amounts to considering a neighborhood
+of 4 connected pixels (1-connectivity) for the complementary set (holes,
+background) , and conversely. It is also possible to compute the number of
+objects using <a class="reference internal" href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.measure.label()</span></code></a>, and to deduce the number of holes
+from the difference between the two numbers.</p>
+<p>For 3D objects, the Euler number is obtained as the number of objects plus the
+number of holes, minus the number of tunnels, or loops. If one uses
+3-connectivity for an object (considering the 26 surrounding voxels as its
+neighbourhood), this corresponds to using 1-connectivity for the complementary
+set (holes, background), that is considering only 6 neighbours for a given
+voxel. The voxels are represented here with blue transparent surfaces.
+Inner porosities are represented in red.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Euler_characteristic">https://en.wikipedia.org/wiki/Euler_characteristic</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="kn">import</span> <span class="n">euler_number</span><span class="p">,</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">label</span></a>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="c1"># Sample image.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span>
+    <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.pad.html#numpy.pad" title="numpy.pad" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">pad</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.imshow.html#matplotlib.axes.Axes.imshow" title="matplotlib.axes.Axes.imshow" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap" title="matplotlib.colors.LinearSegmentedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span></a><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.axis.html#matplotlib.axes.Axes.axis" title="matplotlib.axes.Axes.axis" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">axis</span></a><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">e4</span> <span class="o">=</span> <span class="n">euler_number</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">object_nb_4</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">label</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">holes_nb_4</span> <span class="o">=</span> <span class="n">object_nb_4</span> <span class="o">-</span> <span class="n">e4</span>
+<span class="n">e8</span> <span class="o">=</span> <span class="n">euler_number</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">object_nb_8</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">label</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">SAMPLE</span></a><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">holes_nb_8</span> <span class="o">=</span> <span class="n">object_nb_8</span> <span class="o">-</span> <span class="n">e8</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><span class="s1">&#39;Euler number for N4: </span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1"> objects, </span><span class="si">{}</span><span class="s1"> holes), </span><span class="se">\n</span><span class="s1"> for N8: </span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1"> objects, </span><span class="si">{}</span><span class="s1"> holes)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e4</span><span class="p">,</span> <span class="n">object_nb_4</span><span class="p">,</span> <span class="n">holes_nb_4</span><span class="p">,</span> <span class="n">e8</span><span class="p">,</span> <span class="n">object_nb_8</span><span class="p">,</span> <span class="n">holes_nb_8</span><span class="p">))</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="Euler number for N4: 2 (2 objects, 0 holes),   for N8: 0 (1 objects, 1 holes)" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_euler_number_001.png" />
+<div class="section" id="d-objects">
+<h2>3-D objects<a class="headerlink" href="#d-objects" title="Permalink to this headline">¶</a></h2>
+<p>In this example, a 3-D cube is generated, then holes and
+tunnels are added. Euler number is evaluated with 6 and 26 neighborhood
+configuration. This code is inpired by
+<a class="reference external" href="https://matplotlib.org/devdocs/gallery/mplot3d/voxels_numpy_logo.html">https://matplotlib.org/devdocs/gallery/mplot3d/voxels_numpy_logo.html</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_ax</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.gca" title="matplotlib.figure.Figure.gca" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">gca</span></a><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.grid.html#matplotlib.axes.Axes.grid" title="matplotlib.axes.Axes.grid" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">grid</span></a><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_axis_off.html#matplotlib.axes.Axes.set_axis_off" title="matplotlib.axes.Axes.set_axis_off" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span></a><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<span class="k">def</span> <span class="nf">explode</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;visualization to separate voxels</span>
+
+<span class="sd">    Data voxels are separated by 0-valued ones so that they appear</span>
+<span class="sd">    separated in the matplotlib figure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">data_e</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros.html#numpy.zeros" title="numpy.zeros" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">data_e</span><span class="p">[::</span><span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="k">return</span> <span class="n">data_e</span>
+
+<span class="c1"># shrink the gaps between voxels</span>
+
+
+<span class="k">def</span> <span class="nf">expand_coordinates</span><span class="p">(</span><span class="n">indices</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This collapses together pairs of indices, so that</span>
+<span class="sd">    the gaps in the volume array will have a zero width.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">indices</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">y</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">z</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+
+
+<span class="k">def</span> <span class="nf">display_voxels</span><span class="p">(</span><span class="n">volume</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    volume: (N,M,P) array</span>
+<span class="sd">            Represents a binary set of pixels: objects are marked with 1,</span>
+<span class="sd">            complementary (porosities) with 0.</span>
+
+<span class="sd">    The voxels are actually represented with blue transparent surfaces.</span>
+<span class="sd">    Inner porosities are represented in red.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># define colors</span>
+    <span class="n">red</span> <span class="o">=</span> <span class="s1">&#39;#ff0000ff&#39;</span>
+    <span class="n">blue</span> <span class="o">=</span> <span class="s1">&#39;#1f77b410&#39;</span>
+
+    <span class="c1"># upscale the above voxel image, leaving gaps</span>
+    <span class="n">filled</span> <span class="o">=</span> <span class="n">explode</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="n">fcolors</span> <span class="o">=</span> <span class="n">explode</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.where.html#numpy.where" title="numpy.where" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">where</span></a><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="n">red</span><span class="p">))</span>
+
+    <span class="c1"># Shrink the gaps</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">expand_coordinates</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.indices.html#numpy.indices" title="numpy.indices" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">indices</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">filled</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Define 3D figure and place voxels</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">make_ax</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">voxels</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="n">fcolors</span><span class="p">)</span>
+    <span class="c1"># Compute Euler number in 6 and 26 neighbourhood configuration, that</span>
+    <span class="c1"># correspond to 1 and 3 connectivity, respectively</span>
+    <span class="n">e26</span> <span class="o">=</span> <span class="n">euler_number</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">e6</span> <span class="o">=</span> <span class="n">euler_number</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Euler number for N26: </span><span class="si">{}</span><span class="s1">, for N6: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e26</span><span class="p">,</span> <span class="n">e6</span><span class="p">))</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+
+
+<span class="c1"># Define a volume of 7x7x7 voxels</span>
+<a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a> <span class="o">=</span> <span class="mi">7</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">((</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="c1"># Add a tunnel</span>
+<a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a><span class="p">[</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="p">,</span> <span class="p">:,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="c1"># Add a new hole</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="o">/</span><span class="mi">4</span><span class="p">),</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="c1"># Add a hole in neighbourhood of previous one</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="o">/</span><span class="mi">4</span><span class="p">),</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="c1"># Add a second tunnel</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a><span class="p">[:,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">c</span></a><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="o">/</span><span class="mi">4</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">display_voxels</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cube</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="Euler number for N26: 1, for N6: 0" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_euler_number_002.png" />
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.601 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-euler-number-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/v0.18.x?filepath=notebooks/auto_examples/segmentation/plot_euler_number.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo7.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/63d1e6b2f946a0b9378213ab640e6b20/plot_euler_number.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_euler_number.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/2b6fd1daf94e53c7ed6c909903901946/plot_euler_number.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_euler_number.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+		We hope that this example was useful. If you have questions
+		unanswered by our documentation, you can ask them on the 
+		<a href="https://forum.image.sc/tag/scikit-image"> Image.sc
+		    forum</a>, 
+		where scikit-image developers and users are present.</br>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

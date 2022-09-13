@@ -1,0 +1,949 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>General examples &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script src="../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../index.html" />
+        <link rel="next" title="Scientific images" href="data/plot_scientific.html" />
+        <link rel="prev" title="License" href="../license.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="#">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">General examples</a></li>
+<li><a class="reference internal" href="#data">Data</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#operations-on-numpy-arrays">Operations on NumPy arrays</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#manipulating-exposure-and-color-channels">Manipulating exposure and color channels</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#edges-and-lines">Edges and lines</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#geometrical-transformations-and-registration">Geometrical transformations and registration</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#image-registration">Image registration</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#filtering-and-restoration">Filtering and restoration</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#detection-of-features-and-objects">Detection of features and objects</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#segmentation-of-objects">Segmentation of objects</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#longer-examples-and-demonstrations">Longer examples and demonstrations</a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#examples-for-developers">Examples for developers</a><ul class="nav nav-list">
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="general-examples">
+<span id="examples-gallery"></span><span id="sphx-glr-auto-examples"></span><h1>General examples<a class="headerlink" href="#general-examples" title="Permalink to this headline">¶</a></h1>
+<p>General-purpose and introductory examples for scikit-image.</p>
+<p>The <a class="reference external" href="../user_guide.html">narrative documentation</a> introduces
+conventions and basic image manipulations.</p>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="data">
+<span id="sphx-glr-auto-examples-data"></span><h1>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="The title of each image indicates the name of the function."><div class="figure align-default" id="id1">
+<img alt="Scientific images" src="../_images/sphx_glr_plot_scientific_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="data/plot_scientific.html#sphx-glr-auto-examples-data-plot-scientific-py"><span class="std std-ref">Scientific images</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Specific images"><div class="figure align-default" id="id2">
+<img alt="Specific images" src="../_images/sphx_glr_plot_specific_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="data/plot_specific.html#sphx-glr-auto-examples-data-plot-specific-py"><span class="std std-ref">Specific images</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The title of each image indicates the name of the function."><div class="figure align-default" id="id3">
+<img alt="General-purpose images" src="../_images/sphx_glr_plot_general_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="data/plot_general.html#sphx-glr-auto-examples-data-plot-general-py"><span class="std std-ref">General-purpose images</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="operations-on-numpy-arrays">
+<span id="sphx-glr-auto-examples-numpy-operations"></span><h1>Operations on NumPy arrays<a class="headerlink" href="#operations-on-numpy-arrays" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="This script illustrates how to use basic NumPy operations, such as slicing, masking and fancy i..."><div class="figure align-default" id="id4">
+<img alt="Using simple NumPy operations for manipulating images" src="../_images/sphx_glr_plot_camera_numpy_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="numpy_operations/plot_camera_numpy.html#sphx-glr-auto-examples-numpy-operations-plot-camera-numpy-py"><span class="std std-ref">Using simple NumPy operations for manipulating images</span></a></span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use functions in :py:mod:`skimage.morphology` to generate structuring..."><div class="figure align-default" id="id5">
+<img alt="Generate structuring elements" src="../_images/sphx_glr_plot_structuring_elements_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="numpy_operations/plot_structuring_elements.html#sphx-glr-auto-examples-numpy-operations-plot-structuring-elements-py"><span class="std std-ref">Generate structuring elements</span></a></span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the use of view_as_blocks from :py:func:`skimage.util`.  Block views c..."><div class="figure align-default" id="id6">
+<img alt="Block views on images/arrays" src="../_images/sphx_glr_plot_view_as_blocks_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="numpy_operations/plot_view_as_blocks.html#sphx-glr-auto-examples-numpy-operations-plot-view-as-blocks-py"><span class="std std-ref">Block views on images/arrays</span></a></span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="manipulating-exposure-and-color-channels">
+<span id="sphx-glr-auto-examples-color-exposure"></span><h1>Manipulating exposure and color channels<a class="headerlink" href="#manipulating-exposure-and-color-channels" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="This example converts an image with RGB channels into an image with a single grayscale channel."><div class="figure align-default" id="id7">
+<img alt="RGB to grayscale" src="../_images/sphx_glr_plot_rgb_to_gray_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_rgb_to_gray.html#sphx-glr-auto-examples-color-exposure-plot-rgb-to-gray-py"><span class="std std-ref">RGB to grayscale</span></a></span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how RGB to HSV (Hue, Saturation, Value) conversion [1]_ can be used to..."><div class="figure align-default" id="id8">
+<img alt="RGB to HSV" src="../_images/sphx_glr_plot_rgb_to_hsv_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_rgb_to_hsv.html#sphx-glr-auto-examples-color-exposure-plot-rgb-to-hsv-py"><span class="std std-ref">RGB to HSV</span></a></span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the feature of histogram matching. It manipulates the pixels of an in..."><div class="figure align-default" id="id9">
+<img alt="Histogram matching" src="../_images/sphx_glr_plot_histogram_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_histogram_matching.html#sphx-glr-auto-examples-color-exposure-plot-histogram-matching-py"><span class="std std-ref">Histogram matching</span></a></span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Color deconvolution consists of the separation of features by their colors."><div class="figure align-default" id="id10">
+<img alt="Immunohistochemical staining colors separation" src="../_images/sphx_glr_plot_ihc_color_separation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_ihc_color_separation.html#sphx-glr-auto-examples-color-exposure-plot-ihc-color-separation-py"><span class="std std-ref">Immunohistochemical staining colors separation</span></a></span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="There are many filters that are designed to work with gray-scale images but not with color imag..."><div class="figure align-default" id="id11">
+<img alt="Adapting gray-scale filters to RGB images" src="../_images/sphx_glr_plot_adapt_rgb_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_adapt_rgb.html#sphx-glr-auto-examples-color-exposure-plot-adapt-rgb-py"><span class="std std-ref">Adapting gray-scale filters to RGB images</span></a></span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Here, we use morphological reconstruction to create a background image, which we can subtract f..."><div class="figure align-default" id="id12">
+<img alt="Filtering regional maxima" src="../_images/sphx_glr_plot_regional_maxima_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_regional_maxima.html#sphx-glr-auto-examples-color-exposure-plot-regional-maxima-py"><span class="std std-ref">Filtering regional maxima</span></a></span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example adjusts image contrast by performing a Gamma and a Logarithmic correction on the i..."><div class="figure align-default" id="id13">
+<img alt="Gamma and log contrast adjustment" src="../_images/sphx_glr_plot_log_gamma_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_log_gamma.html#sphx-glr-auto-examples-color-exposure-plot-log-gamma-py"><span class="std std-ref">Gamma and log contrast adjustment</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This examples enhances an image with low contrast, using a method called *histogram equalizatio..."><div class="figure align-default" id="id14">
+<img alt="Histogram Equalization" src="../_images/sphx_glr_plot_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="It can be useful to artificially tint an image with some color, either to highlight particular ..."><div class="figure align-default" id="id15">
+<img alt="Tinting gray-scale images" src="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_tinting_grayscale_images.html#sphx-glr-auto-examples-color-exposure-plot-tinting-grayscale-images-py"><span class="std std-ref">Tinting gray-scale images</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example enhances an image with low contrast, using a method called *local histogram equali..."><div class="figure align-default" id="id16">
+<img alt="Local Histogram Equalization" src="../_images/sphx_glr_plot_local_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_local_equalize.html#sphx-glr-auto-examples-color-exposure-plot-local-equalize-py"><span class="std std-ref">Local Histogram Equalization</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Adaptive histogram equalization (AHE) can be used to improve the local contrast of an image [1]..."><div class="figure align-default" id="id17">
+<img alt="3D adaptive histogram equalization" src="../_images/sphx_glr_plot_adapt_hist_eq_3d_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="color_exposure/plot_adapt_hist_eq_3d.html#sphx-glr-auto-examples-color-exposure-plot-adapt-hist-eq-3d-py"><span class="std std-ref">3D adaptive histogram equalization</span></a></span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="edges-and-lines">
+<span id="sphx-glr-auto-examples-edges"></span><h1>Edges and lines<a class="headerlink" href="#edges-and-lines" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="We use a marching squares method to find constant valued contours in an image. In skimage.measu..."><div class="figure align-default" id="id18">
+<img alt="Contour finding" src="../_images/sphx_glr_plot_contours_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_contours.html#sphx-glr-auto-examples-edges-plot-contours-py"><span class="std std-ref">Contour finding</span></a></span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The convex hull of a binary image is the set of pixels included in the smallest convex polygon ..."><div class="figure align-default" id="id19">
+<img alt="Convex Hull" src="../_images/sphx_glr_plot_convex_hull_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_convex_hull.html#sphx-glr-auto-examples-edges-plot-convex-hull-py"><span class="std std-ref">Convex Hull</span></a></span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The Canny filter is a multi-stage edge detector. It uses a filter based on the derivative of a ..."><div class="figure align-default" id="id20">
+<img alt="Canny edge detector" src="../_images/sphx_glr_plot_canny_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_canny.html#sphx-glr-auto-examples-edges-plot-canny-py"><span class="std std-ref">Canny edge detector</span></a></span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Ridge filters can be used to detect ridge-like structures, such as neurites [1]_, tubes [2]_, v..."><div class="figure align-default" id="id21">
+<img alt="Ridge operators" src="../_images/sphx_glr_plot_ridge_filter_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_ridge_filter.html#sphx-glr-auto-examples-edges-plot-ridge-filter-py"><span class="std std-ref">Ridge operators</span></a></span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Marching cubes is an algorithm to extract a 2D surface mesh from a 3D volume. This can be conce..."><div class="figure align-default" id="id22">
+<img alt="Marching Cubes" src="../_images/sphx_glr_plot_marching_cubes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_marching_cubes.html#sphx-glr-auto-examples-edges-plot-marching-cubes-py"><span class="std std-ref">Marching Cubes</span></a></span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The active contour model is a method to fit open or closed splines to lines or edges in an imag..."><div class="figure align-default" id="id23">
+<img alt="Active Contour Model" src="../_images/sphx_glr_plot_active_contours_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_active_contours.html#sphx-glr-auto-examples-edges-plot-active-contours-py"><span class="std std-ref">Active Contour Model</span></a></span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><div class="figure align-default" id="id24">
+<img alt="Shapes" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Example of generating random shapes with particular properties."><div class="figure align-default" id="id25">
+<img alt="Random Shapes" src="../_images/sphx_glr_plot_random_shapes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_random_shapes.html#sphx-glr-auto-examples-edges-plot-random-shapes-py"><span class="std std-ref">Random Shapes</span></a></span><a class="headerlink" href="#id25" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a method to detect straight lines [1]_."><div class="figure align-default" id="id26">
+<img alt="Straight line Hough transform" src="../_images/sphx_glr_plot_line_hough_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_line_hough_transform.html#sphx-glr-auto-examples-edges-plot-line-hough-transform-py"><span class="std std-ref">Straight line Hough transform</span></a></span><a class="headerlink" href="#id26" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to approximate (Douglas-Peucker algorithm) and subdivide (B-Splines) pol..."><div class="figure align-default" id="id27">
+<img alt="Approximate and subdivide polygons" src="../_images/sphx_glr_plot_polygon_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_polygon.html#sphx-glr-auto-examples-edges-plot-polygon-py"><span class="std std-ref">Approximate and subdivide polygons</span></a></span><a class="headerlink" href="#id27" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a `method to detect straight lines &lt;https://en.wiki..."><div class="figure align-default" id="id28">
+<img alt="Circular and Elliptical Hough Transforms" src="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_circular_elliptical_hough_transform.html#sphx-glr-auto-examples-edges-plot-circular-elliptical-hough-transform-py"><span class="std std-ref">Circular and Elliptical Hough Transforms</span></a></span><a class="headerlink" href="#id28" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Skeletonization reduces binary objects to 1 pixel wide representations. This can be useful for ..."><div class="figure align-default" id="id29">
+<img alt="Skeletonize" src="../_images/sphx_glr_plot_skeleton_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_skeleton.html#sphx-glr-auto-examples-edges-plot-skeleton-py"><span class="std std-ref">Skeletonize</span></a></span><a class="headerlink" href="#id29" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Edge operators are used in image processing within edge detection algorithms. They are discrete..."><div class="figure align-default" id="id30">
+<img alt="Edge operators" src="../_images/sphx_glr_plot_edge_filter_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="edges/plot_edge_filter.html#sphx-glr-auto-examples-edges-plot-edge-filter-py"><span class="std std-ref">Edge operators</span></a></span><a class="headerlink" href="#id30" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="geometrical-transformations-and-registration">
+<span id="sphx-glr-auto-examples-transform"></span><h1>Geometrical transformations and registration<a class="headerlink" href="#geometrical-transformations-and-registration" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="Image swirling is a non-linear image deformation that creates a whirlpool effect.  This example..."><div class="figure align-default" id="id31">
+<img alt="Swirl" src="../_images/sphx_glr_plot_swirl_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_swirl.html#sphx-glr-auto-examples-transform-plot-swirl-py"><span class="std std-ref">Swirl</span></a></span><a class="headerlink" href="#id31" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The pyramid_gaussian function takes an image and yields successive images shrunk by a constant ..."><div class="figure align-default" id="id32">
+<img alt="Build image pyramids" src="../_images/sphx_glr_plot_pyramid_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_pyramid.html#sphx-glr-auto-examples-transform-plot-pyramid-py"><span class="std std-ref">Build image pyramids</span></a></span><a class="headerlink" href="#id32" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the different edge modes available during interpolation in routines su..."><div class="figure align-default" id="id33">
+<img alt="Interpolation: Edge Modes" src="../_images/sphx_glr_plot_edge_modes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_edge_modes.html#sphx-glr-auto-examples-transform-plot-edge-modes-py"><span class="std std-ref">Interpolation: Edge Modes</span></a></span><a class="headerlink" href="#id33" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Rescale operation resizes an image by a given scaling factor. The scaling factor can either be ..."><div class="figure align-default" id="id34">
+<img alt="Rescale, resize, and downscale" src="../_images/sphx_glr_plot_rescale_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_rescale.html#sphx-glr-auto-examples-transform-plot-rescale-py"><span class="std std-ref">Rescale, resize, and downscale</span></a></span><a class="headerlink" href="#id34" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use the Piecewise Affine Transformation."><div class="figure align-default" id="id35">
+<img alt="Piecewise Affine Transformation" src="../_images/sphx_glr_plot_piecewise_affine_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_piecewise_affine.html#sphx-glr-auto-examples-transform-plot-piecewise-affine-py"><span class="std std-ref">Piecewise Affine Transformation</span></a></span><a class="headerlink" href="#id35" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to use geometric transformations in the context of image proce..."><div class="figure align-default" id="id36">
+<img alt="Using geometric transformations" src="../_images/sphx_glr_plot_geometric_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_geometric.html#sphx-glr-auto-examples-transform-plot-geometric-py"><span class="std std-ref">Using geometric transformations</span></a></span><a class="headerlink" href="#id36" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When comparing images, the mean squared error (MSE)--while simple to implement--is not highly i..."><div class="figure align-default" id="id37">
+<img alt="Structural similarity index" src="../_images/sphx_glr_plot_ssim_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_ssim.html#sphx-glr-auto-examples-transform-plot-ssim-py"><span class="std std-ref">Structural similarity index</span></a></span><a class="headerlink" href="#id37" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="`Homographies &lt;https://en.wikipedia.org/wiki/Homography&gt;`_ are transformations of a Euclidean s..."><div class="figure align-default" id="id38">
+<img alt="Types of homographies" src="../_images/sphx_glr_plot_transform_types_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_transform_types.html#sphx-glr-auto-examples-transform-plot-transform-types-py"><span class="std std-ref">Types of homographies</span></a></span><a class="headerlink" href="#id38" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to robustly estimate  epipolar geometry &lt;https://en.wikipedia.org..."><div class="figure align-default" id="id39">
+<img alt="Fundamental matrix estimation" src="../_images/sphx_glr_plot_fundamental_matrix_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_fundamental_matrix.html#sphx-glr-auto-examples-transform-plot-fundamental-matrix-py"><span class="std std-ref">Fundamental matrix estimation</span></a></span><a class="headerlink" href="#id39" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example we see how to robustly fit a line model to faulty data using the RANSAC (random..."><div class="figure align-default" id="id40">
+<img alt="Robust line model estimation using RANSAC" src="../_images/sphx_glr_plot_ransac_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_ransac.html#sphx-glr-auto-examples-transform-plot-ransac-py"><span class="std std-ref">Robust line model estimation using RANSAC</span></a></span><a class="headerlink" href="#id40" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In computed tomography, the tomography reconstruction problem is to obtain a tomographic slice ..."><div class="figure align-default" id="id41">
+<img alt="Radon transform" src="../_images/sphx_glr_plot_radon_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_radon_transform.html#sphx-glr-auto-examples-transform-plot-radon-transform-py"><span class="std std-ref">Radon transform</span></a></span><a class="headerlink" href="#id41" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this simplified example we first generate two synthetic images as if they were taken from di..."><div class="figure align-default" id="id42">
+<img alt="Robust matching using RANSAC" src="../_images/sphx_glr_plot_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="transform/plot_matching.html#sphx-glr-auto-examples-transform-plot-matching-py"><span class="std std-ref">Robust matching using RANSAC</span></a></span><a class="headerlink" href="#id42" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="image-registration">
+<span id="sphx-glr-auto-examples-registration"></span><h1>Image registration<a class="headerlink" href="#image-registration" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we use phase cross-correlation to identify the relative shift between two simi..."><div class="figure align-default" id="id43">
+<img alt="Image Registration" src="../_images/sphx_glr_plot_register_translation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="registration/plot_register_translation.html#sphx-glr-auto-examples-registration-plot-register-translation-py"><span class="std std-ref">Image Registration</span></a></span><a class="headerlink" href="#id43" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we use the masked normalized cross-correlation to identify the relative shift ..."><div class="figure align-default" id="id44">
+<img alt="Masked Normalized Cross-Correlation" src="../_images/sphx_glr_plot_masked_register_translation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="registration/plot_masked_register_translation.html#sphx-glr-auto-examples-registration-plot-masked-register-translation-py"><span class="std std-ref">Masked Normalized Cross-Correlation</span></a></span><a class="headerlink" href="#id44" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Demonstration of image registration using optical flow."><div class="figure align-default" id="id45">
+<img alt="Registration using optical flow" src="../_images/sphx_glr_plot_opticalflow_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="registration/plot_opticalflow.html#sphx-glr-auto-examples-registration-plot-opticalflow-py"><span class="std std-ref">Registration using optical flow</span></a></span><a class="headerlink" href="#id45" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Phase correlation (``registration.phase_cross_correlation``) is an efficient method for determi..."><div class="figure align-default" id="id46">
+<img alt="Using Polar and Log-Polar Transformations for Registration" src="../_images/sphx_glr_plot_register_rotation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="registration/plot_register_rotation.html#sphx-glr-auto-examples-registration-plot-register-rotation-py"><span class="std std-ref">Using Polar and Log-Polar Transformations for Registration</span></a></span><a class="headerlink" href="#id46" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="filtering-and-restoration">
+<span id="sphx-glr-auto-examples-filters"></span><h1>Filtering and restoration<a class="headerlink" href="#filtering-and-restoration" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to remove small objects from grayscale images. The top-hat transform [1]..."><div class="figure align-default" id="id47">
+<img alt="Removing small objects in grayscale images with a top hat filter" src="../_images/sphx_glr_plot_tophat_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_tophat.html#sphx-glr-auto-examples-filters-plot-tophat-py"><span class="std std-ref">Removing small objects in grayscale images with a top hat filter</span></a></span><a class="headerlink" href="#id47" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="*Hysteresis* is the lagging of an effect---a kind of inertia. In the context of thresholding, i..."><div class="figure align-default" id="id48">
+<img alt="Hysteresis thresholding" src="../_images/sphx_glr_plot_hysteresis_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_hysteresis.html#sphx-glr-auto-examples-filters-plot-hysteresis-py"><span class="std std-ref">Hysteresis thresholding</span></a></span><a class="headerlink" href="#id48" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we deconvolve a noisy version of an image using Wiener and unsupervised Wiener..."><div class="figure align-default" id="id49">
+<img alt="Image Deconvolution" src="../_images/sphx_glr_plot_restoration_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_restoration.html#sphx-glr-auto-examples-filters-plot-restoration-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id49" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Fast Fourier transforms (FFTs) assume that the data being transformed represent one period of a..."><div class="figure align-default" id="id50">
+<img alt="Using window functions with images" src="../_images/sphx_glr_plot_window_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_window.html#sphx-glr-auto-examples-filters-plot-window-py"><span class="std std-ref">Using window functions with images</span></a></span><a class="headerlink" href="#id50" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example compares the following mean filters of the rank filter package:"><div class="figure align-default" id="id51">
+<img alt="Mean filters" src="../_images/sphx_glr_plot_rank_mean_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_rank_mean.html#sphx-glr-auto-examples-filters-plot-rank-mean-py"><span class="std std-ref">Mean filters</span></a></span><a class="headerlink" href="#id51" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Unsharp masking is a linear image processing technique which sharpens the image. The sharp deta..."><div class="figure align-default" id="id52">
+<img alt="Unsharp masking" src="../_images/sphx_glr_plot_unsharp_mask_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_unsharp_mask.html#sphx-glr-auto-examples-filters-plot-unsharp-mask-py"><span class="std std-ref">Unsharp masking</span></a></span><a class="headerlink" href="#id52" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The algorithm is based on a PSF (Point Spread Function), where PSF is described as the impulse ..."><div class="figure align-default" id="id53">
+<img alt="Image Deconvolution" src="../_images/sphx_glr_plot_deconvolution_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_deconvolution.html#sphx-glr-auto-examples-filters-plot-deconvolution-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id53" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The reconstruction is supposed to be performed in fully automatic way by exploiting the informa..."><div class="figure align-default" id="id54">
+<img alt="Inpainting" src="../_images/sphx_glr_plot_inpaint_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_inpaint.html#sphx-glr-auto-examples-filters-plot-inpaint-py"><span class="std std-ref">Inpainting</span></a></span><a class="headerlink" href="#id54" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In information theory, information entropy is the log-base-2 of the number of possible outcomes..."><div class="figure align-default" id="id55">
+<img alt="Entropy" src="../_images/sphx_glr_plot_entropy_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_entropy.html#sphx-glr-auto-examples-filters-plot-entropy-py"><span class="std std-ref">Entropy</span></a></span><a class="headerlink" href="#id55" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><div class="figure align-default" id="id56">
+<img alt="Calibrating Denoisers Using J-Invariance" src="../_images/sphx_glr_plot_j_invariant_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_j_invariant.html#sphx-glr-auto-examples-filters-plot-j-invariant-py"><span class="std std-ref">Calibrating Denoisers Using J-Invariance</span></a></span><a class="headerlink" href="#id56" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Band-pass filters attenuate signal frequencies outside of a range (band) of interest. In image ..."><div class="figure align-default" id="id57">
+<img alt="Band-pass filtering by Difference of Gaussians" src="../_images/sphx_glr_plot_dog_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_dog.html#sphx-glr-auto-examples-filters-plot-dog-py"><span class="std std-ref">Band-pass filtering by Difference of Gaussians</span></a></span><a class="headerlink" href="#id57" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a noisy version of a picture using the total variation, bilateral, ..."><div class="figure align-default" id="id58">
+<img alt="Denoising a picture" src="../_images/sphx_glr_plot_denoise_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_denoise.html#sphx-glr-auto-examples-filters-plot-denoise-py"><span class="std std-ref">Denoising a picture</span></a></span><a class="headerlink" href="#id58" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The discrete wavelet transform is not `shift-invariant`_.  Shift invariance can be achieved thr..."><div class="figure align-default" id="id59">
+<img alt="Shift-invariant wavelet denoising" src="../_images/sphx_glr_plot_cycle_spinning_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_cycle_spinning.html#sphx-glr-auto-examples-filters-plot-cycle-spinning-py"><span class="std std-ref">Shift-invariant wavelet denoising</span></a></span><a class="headerlink" href="#id59" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Some signals can only be observed modulo 2*pi, and this can also apply to two- and three dimens..."><div class="figure align-default" id="id60">
+<img alt="Phase Unwrapping" src="../_images/sphx_glr_plot_phase_unwrap_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_phase_unwrap.html#sphx-glr-auto-examples-filters-plot-phase-unwrap-py"><span class="std std-ref">Phase Unwrapping</span></a></span><a class="headerlink" href="#id60" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a detail of the astronaut image using the non-local means filter. T..."><div class="figure align-default" id="id61">
+<img alt="Non-local means denoising for preserving textures" src="../_images/sphx_glr_plot_nonlocal_means_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py"><span class="std std-ref">Non-local means denoising for preserving textures</span></a></span><a class="headerlink" href="#id61" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Attribute operators (or connected operators) [1]_ is a family of contour preserving filtering o..."><div class="figure align-default" id="id62">
+<img alt="Attribute operators" src="../_images/sphx_glr_plot_attribute_operators_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_attribute_operators.html#sphx-glr-auto-examples-filters-plot-attribute-operators-py"><span class="std std-ref">Attribute operators</span></a></span><a class="headerlink" href="#id62" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Wavelet denoising relies on the wavelet representation of the image. Gaussian noise tends to be..."><div class="figure align-default" id="id63">
+<img alt="Wavelet denoising" src="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_denoise_wavelet.html#sphx-glr-auto-examples-filters-plot-denoise-wavelet-py"><span class="std std-ref">Wavelet denoising</span></a></span><a class="headerlink" href="#id63" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><div class="figure align-default" id="id64">
+<img alt="Full tutorial on calibrating Denoisers Using J-Invariance" src="../_images/sphx_glr_plot_j_invariant_tutorial_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="filters/plot_j_invariant_tutorial.html#sphx-glr-auto-examples-filters-plot-j-invariant-tutorial-py"><span class="std std-ref">Full tutorial on calibrating Denoisers Using J-Invariance</span></a></span><a class="headerlink" href="#id64" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="detection-of-features-and-objects">
+<span id="sphx-glr-auto-examples-features-detection"></span><h1>Detection of features and objects<a class="headerlink" href="#detection-of-features-and-objects" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="The DAISY local image descriptor is based on gradient orientation histograms similar to the SIF..."><div class="figure align-default" id="id65">
+<img alt="Dense DAISY feature description" src="../_images/sphx_glr_plot_daisy_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_daisy.html#sphx-glr-auto-examples-features-detection-plot-daisy-py"><span class="std std-ref">Dense DAISY feature description</span></a></span><a class="headerlink" href="#id65" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The Histogram of Oriented Gradient (HOG) feature descriptor is popular for object detection [1]..."><div class="figure align-default" id="id66">
+<img alt="Histogram of Oriented Gradients" src="../_images/sphx_glr_plot_hog_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_hog.html#sphx-glr-auto-examples-features-detection-plot-hog-py"><span class="std std-ref">Histogram of Oriented Gradients</span></a></span><a class="headerlink" href="#id66" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="We use template matching to identify the occurrence of an image patch (in this case, a sub-imag..."><div class="figure align-default" id="id67">
+<img alt="Template Matching" src="../_images/sphx_glr_plot_template_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_template.html#sphx-glr-auto-examples-features-detection-plot-template-py"><span class="std std-ref">Template Matching</span></a></span><a class="headerlink" href="#id67" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="We fill holes (i.e. isolated, dark spots) in an image using morphological reconstruction by ero..."><div class="figure align-default" id="id68">
+<img alt="Filling holes and finding peaks" src="../_images/sphx_glr_plot_holes_and_peaks_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_holes_and_peaks.html#sphx-glr-auto-examples-features-detection-plot-holes-and-peaks-py"><span class="std std-ref">Filling holes and finding peaks</span></a></span><a class="headerlink" href="#id68" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Detect corner points using the Harris corner detector and determine the subpixel position of co..."><div class="figure align-default" id="id69">
+<img alt="Corner detection" src="../_images/sphx_glr_plot_corner_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_corner.html#sphx-glr-auto-examples-features-detection-plot-corner-py"><span class="std std-ref">Corner detection</span></a></span><a class="headerlink" href="#id69" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The CENSURE feature detector is a scale-invariant center-surround detector (CENSURE) that claim..."><div class="figure align-default" id="id70">
+<img alt="CENSURE feature detector" src="../_images/sphx_glr_plot_censure_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_censure.html#sphx-glr-auto-examples-features-detection-plot-censure-py"><span class="std std-ref">CENSURE feature detector</span></a></span><a class="headerlink" href="#id70" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to compute multi-block local binary pattern (MB-LBP) features as well as..."><div class="figure align-default" id="id71">
+<img alt="Multi-Block Local Binary Pattern for texture classification" src="../_images/sphx_glr_plot_multiblock_local_binary_pattern_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_multiblock_local_binary_pattern.html#sphx-glr-auto-examples-features-detection-plot-multiblock-local-binary-pattern-py"><span class="std std-ref">Multi-Block Local Binary Pattern for texture classification</span></a></span><a class="headerlink" href="#id71" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Haar-like features are simple digital image features that were introduced in a real-time face d..."><div class="figure align-default" id="id72">
+<img alt="Haar-like feature descriptor" src="../_images/sphx_glr_plot_haar_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_haar.html#sphx-glr-auto-examples-features-detection-plot-haar-py"><span class="std std-ref">Haar-like feature descriptor</span></a></span><a class="headerlink" href="#id72" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Blobs are bright on dark or dark on bright regions in an image. In this example, blobs are dete..."><div class="figure align-default" id="id73">
+<img alt="Blob Detection" src="../_images/sphx_glr_plot_blob_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_blob.html#sphx-glr-auto-examples-features-detection-plot-blob-py"><span class="std std-ref">Blob Detection</span></a></span><a class="headerlink" href="#id73" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the ORB feature detection and binary description algorithm. It uses a..."><div class="figure align-default" id="id74">
+<img alt="ORB feature detector and binary descriptor" src="../_images/sphx_glr_plot_orb_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_orb.html#sphx-glr-auto-examples-features-detection-plot-orb-py"><span class="std std-ref">ORB feature detector and binary descriptor</span></a></span><a class="headerlink" href="#id74" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="How to build a (bio-plausible) *sparse* dictionary (or &#x27;codebook&#x27;, or &#x27;filterbank&#x27;) for e.g. im..."><div class="figure align-default" id="id75">
+<img alt="Gabors / Primary Visual Cortex &quot;Simple Cells&quot; from an Image" src="../_images/sphx_glr_plot_gabors_from_astronaut_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_gabors_from_astronaut.html#sphx-glr-auto-examples-features-detection-plot-gabors-from-astronaut-py"><span class="std std-ref">Gabors / Primary Visual Cortex “Simple Cells” from an Image</span></a></span><a class="headerlink" href="#id75" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the BRIEF binary description algorithm. The descriptor consists of re..."><div class="figure align-default" id="id76">
+<img alt="BRIEF binary descriptor" src="../_images/sphx_glr_plot_brief_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_brief.html#sphx-glr-auto-examples-features-detection-plot-brief-py"><span class="std std-ref">BRIEF binary descriptor</span></a></span><a class="headerlink" href="#id76" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates texture classification using grey level co-occurrence matrices (GLCMs)..."><div class="figure align-default" id="id77">
+<img alt="GLCM Texture Features" src="../_images/sphx_glr_plot_glcm_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_glcm.html#sphx-glr-auto-examples-features-detection-plot-glcm-py"><span class="std std-ref">GLCM Texture Features</span></a></span><a class="headerlink" href="#id77" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The shape index is a single valued measure of local curvature, derived from the eigen values of..."><div class="figure align-default" id="id78">
+<img alt="Shape Index" src="../_images/sphx_glr_plot_shape_index_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_shape_index.html#sphx-glr-auto-examples-features-detection-plot-shape-index-py"><span class="std std-ref">Shape Index</span></a></span><a class="headerlink" href="#id78" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Histogram matching can be used for object detection in images [1]_. This example extracts a sin..."><div class="figure align-default" id="id79">
+<img alt="Sliding window histogram" src="../_images/sphx_glr_plot_windowed_histogram_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_windowed_histogram.html#sphx-glr-auto-examples-features-detection-plot-windowed-histogram-py"><span class="std std-ref">Sliding window histogram</span></a></span><a class="headerlink" href="#id79" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to classify textures based on Gabor filter banks. Frequency an..."><div class="figure align-default" id="id80">
+<img alt="Gabor filter banks for texture classification" src="../_images/sphx_glr_plot_gabor_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_gabor.html#sphx-glr-auto-examples-features-detection-plot-gabor-py"><span class="std std-ref">Gabor filter banks for texture classification</span></a></span><a class="headerlink" href="#id80" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to classify textures based on LBP (Local Binary Pattern). LBP ..."><div class="figure align-default" id="id81">
+<img alt="Local Binary Pattern for texture classification" src="../_images/sphx_glr_plot_local_binary_pattern_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="features_detection/plot_local_binary_pattern.html#sphx-glr-auto-examples-features-detection-plot-local-binary-pattern-py"><span class="std std-ref">Local Binary Pattern for texture classification</span></a></span><a class="headerlink" href="#id81" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="segmentation-of-objects">
+<span id="sphx-glr-auto-examples-segmentation"></span><h1>Segmentation of objects<a class="headerlink" href="#segmentation-of-objects" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="Construct a region boundary RAG with the rag_boundary function. The function  :py:func:`skimage..."><div class="figure align-default" id="id82">
+<img alt="Region Boundary based RAGs" src="../_images/sphx_glr_plot_rag_boundary_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rag_boundary.html#sphx-glr-auto-examples-segmentation-plot-rag-boundary-py"><span class="std std-ref">Region Boundary based RAGs</span></a></span><a class="headerlink" href="#id82" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and merges regions which are similar in ..."><div class="figure align-default" id="id83">
+<img alt="RAG Thresholding" src="../_images/sphx_glr_plot_rag_mean_color_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rag_mean_color.html#sphx-glr-auto-examples-segmentation-plot-rag-mean-color-py"><span class="std std-ref">RAG Thresholding</span></a></span><a class="headerlink" href="#id83" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and recursively performs a Normalized Cu..."><div class="figure align-default" id="id84">
+<img alt="Normalized Cut" src="../_images/sphx_glr_plot_ncut_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_ncut.html#sphx-glr-auto-examples-segmentation-plot-ncut-py"><span class="std std-ref">Normalized Cut</span></a></span><a class="headerlink" href="#id84" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The watershed transform is commonly used as a starting point for many segmentation algorithms. ..."><div class="figure align-default" id="id85">
+<img alt="Find Regular Segments Using Compact Watershed" src="../_images/sphx_glr_plot_compact_watershed_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_compact_watershed.html#sphx-glr-auto-examples-segmentation-plot-compact-watershed-py"><span class="std std-ref">Find Regular Segments Using Compact Watershed</span></a></span><a class="headerlink" href="#id85" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and draws it with the rag_draw method."><div class="figure align-default" id="id86">
+<img alt="Drawing Region Adjacency Graphs (RAGs)" src="../_images/sphx_glr_plot_rag_draw_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rag_draw.html#sphx-glr-auto-examples-segmentation-plot-rag-draw-py"><span class="std std-ref">Drawing Region Adjacency Graphs (RAGs)</span></a></span><a class="headerlink" href="#id86" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Thresholding is used to create a binary image from a grayscale image [1]_."><div class="figure align-default" id="id87">
+<img alt="Thresholding" src="../_images/sphx_glr_plot_thresholding_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_thresholding.html#sphx-glr-auto-examples-segmentation-plot-thresholding-py"><span class="std std-ref">Thresholding</span></a></span><a class="headerlink" href="#id87" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The Chan-Vese segmentation algorithm is designed to segment objects without clearly defined bou..."><div class="figure align-default" id="id88">
+<img alt="Chan-Vese Segmentation" src="../_images/sphx_glr_plot_chan_vese_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_chan_vese.html#sphx-glr-auto-examples-segmentation-plot-chan-vese-py"><span class="std std-ref">Chan-Vese Segmentation</span></a></span><a class="headerlink" href="#id88" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The peak_local_max function returns the coordinates of local peaks (maxima) in an image. Intern..."><div class="figure align-default" id="id89">
+<img alt="Finding local maxima" src="../_images/sphx_glr_plot_peak_local_max_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_peak_local_max.html#sphx-glr-auto-examples-segmentation-plot-peak-local-max-py"><span class="std std-ref">Finding local maxima</span></a></span><a class="headerlink" href="#id89" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Niblack and Sauvola thresholds are local thresholding techniques that are useful for images whe..."><div class="figure align-default" id="id90">
+<img alt="Niblack and Sauvola Thresholding" src="../_images/sphx_glr_plot_niblack_sauvola_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_niblack_sauvola.html#sphx-glr-auto-examples-segmentation-plot-niblack-sauvola-py"><span class="std std-ref">Niblack and Sauvola Thresholding</span></a></span><a class="headerlink" href="#id90" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The multi-Otsu threshold [1]_ is a thresholding algorithm that is used to separate the pixels o..."><div class="figure align-default" id="id91">
+<img alt="Multi-Otsu Thresholding" src="../_images/sphx_glr_plot_multiotsu_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_multiotsu.html#sphx-glr-auto-examples-segmentation-plot-multiotsu-py"><span class="std std-ref">Multi-Otsu Thresholding</span></a></span><a class="headerlink" href="#id91" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example is about comparing the segmentations obtained using the plain SLIC method [1]_ and..."><div class="figure align-default" id="id92">
+<img alt="maskSLIC Demonstration" src="../_images/sphx_glr_plot_mask_slic_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_mask_slic.html#sphx-glr-auto-examples-segmentation-plot-mask-slic-py"><span class="std std-ref">maskSLIC Demonstration</span></a></span><a class="headerlink" href="#id92" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Given several connected components represented by a label image, these connected components can..."><div class="figure align-default" id="id93">
+<img alt="Expand segmentation labels without overlap" src="../_images/sphx_glr_plot_expand_labels_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_expand_labels.html#sphx-glr-auto-examples-segmentation-plot-expand-labels-py"><span class="std std-ref">Expand segmentation labels without overlap</span></a></span><a class="headerlink" href="#id93" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The random walker algorithm [1]_  determines the segmentation of an image from a set of markers..."><div class="figure align-default" id="id94">
+<img alt="Random walker segmentation" src="../_images/sphx_glr_plot_random_walker_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_random_walker_segmentation.html#sphx-glr-auto-examples-segmentation-plot-random-walker-segmentation-py"><span class="std std-ref">Random walker segmentation</span></a></span><a class="headerlink" href="#id94" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The watershed is a classical algorithm used for **segmentation**, that is, for separating diffe..."><div class="figure align-default" id="id95">
+<img alt="Watershed segmentation" src="../_images/sphx_glr_plot_watershed_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_watershed.html#sphx-glr-auto-examples-segmentation-plot-watershed-py"><span class="std std-ref">Watershed segmentation</span></a></span><a class="headerlink" href="#id95" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to segment an image with image labelling. The following steps are applie..."><div class="figure align-default" id="id96">
+<img alt="Label image regions" src="../_images/sphx_glr_plot_label_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_label.html#sphx-glr-auto-examples-segmentation-plot-label-py"><span class="std std-ref">Label image regions</span></a></span><a class="headerlink" href="#id96" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The watershed is a classical algorithm used for **segmentation**, that is, for separating diffe..."><div class="figure align-default" id="id97">
+<img alt="Markers for watershed transform" src="../_images/sphx_glr_plot_marked_watershed_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_marked_watershed.html#sphx-glr-auto-examples-segmentation-plot-marked-watershed-py"><span class="std std-ref">Markers for watershed transform</span></a></span><a class="headerlink" href="#id97" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example compares four popular low-level image segmentation methods.  As it is difficult to..."><div class="figure align-default" id="id98">
+<img alt="Comparison of segmentation and superpixel algorithms" src="../_images/sphx_glr_plot_segmentations_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py"><span class="std std-ref">Comparison of segmentation and superpixel algorithms</span></a></span><a class="headerlink" href="#id98" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When segmenting an image, you may want to combine multiple alternative segmentations. The :py:f..."><div class="figure align-default" id="id99">
+<img alt="Find the intersection of two segmentations" src="../_images/sphx_glr_plot_join_segmentations_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_join_segmentations.html#sphx-glr-auto-examples-segmentation-plot-join-segmentations-py"><span class="std std-ref">Find the intersection of two segmentations</span></a></span><a class="headerlink" href="#id99" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the use of the merge_nodes function of a Region Adjacency Graph (RAG)..."><div class="figure align-default" id="id100">
+<img alt="Region Adjacency Graphs" src="../_images/sphx_glr_plot_rag_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rag.html#sphx-glr-auto-examples-segmentation-plot-rag-py"><span class="std std-ref">Region Adjacency Graphs</span></a></span><a class="headerlink" href="#id100" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to calculate the Hausdorff distance between two sets of points. The `Hau..."><div class="figure align-default" id="id101">
+<img alt="Hausdorff Distance" src="../_images/sphx_glr_plot_hausdorff_distance_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_hausdorff_distance.html#sphx-glr-auto-examples-segmentation-plot-hausdorff-distance-py"><span class="std std-ref">Hausdorff Distance</span></a></span><a class="headerlink" href="#id101" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example we show the uncertainty on calculating perimeters, comparing classic and Crofto..."><div class="figure align-default" id="id102">
+<img alt="Different perimeters" src="../_images/sphx_glr_plot_perimeters_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_perimeters.html#sphx-glr-auto-examples-segmentation-plot-perimeters-py"><span class="std std-ref">Different perimeters</span></a></span><a class="headerlink" href="#id102" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and progressively merges regions that ar..."><div class="figure align-default" id="id103">
+<img alt="RAG Merging" src="../_images/sphx_glr_plot_rag_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rag_merge.html#sphx-glr-auto-examples-segmentation-plot-rag-merge-py"><span class="std std-ref">RAG Merging</span></a></span><a class="headerlink" href="#id103" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to perform hierarchical merging on region boundary Region Adjacen..."><div class="figure align-default" id="id104">
+<img alt="Hierarchical Merging of Region Boundary RAGs" src="../_images/sphx_glr_plot_boundary_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_boundary_merge.html#sphx-glr-auto-examples-segmentation-plot-boundary-merge-py"><span class="std std-ref">Hierarchical Merging of Region Boundary RAGs</span></a></span><a class="headerlink" href="#id104" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="We detect local maxima in a galaxy image. The image is corrupted by noise, generating many loca..."><div class="figure align-default" id="id105">
+<img alt="Extrema" src="../_images/sphx_glr_plot_extrema_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_extrema.html#sphx-glr-auto-examples-segmentation-plot-extrema-py"><span class="std std-ref">Extrema</span></a></span><a class="headerlink" href="#id105" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This toy example shows how to compute the size of every labelled region in a series of 10 image..."><div class="figure align-default" id="id106">
+<img alt="Explore and visualize region properties with pandas" src="../_images/sphx_glr_plot_regionprops_table_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_regionprops_table.html#sphx-glr-auto-examples-segmentation-plot-regionprops-table-py"><span class="std std-ref">Explore and visualize region properties with pandas</span></a></span><a class="headerlink" href="#id106" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows how to measure properties of labelled image regions. We first analyze an ima..."><div class="figure align-default" id="id107">
+<img alt="Measure region properties" src="../_images/sphx_glr_plot_regionprops_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_regionprops.html#sphx-glr-auto-examples-segmentation-plot-regionprops-py"><span class="std std-ref">Measure region properties</span></a></span><a class="headerlink" href="#id107" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="A pixel-based segmentation is computed here using local features based on local intensity, edge..."><div class="figure align-default" id="id108">
+<img alt="Trainable segmentation using local features and random forests" src="../_images/sphx_glr_plot_trainable_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_trainable_segmentation.html#sphx-glr-auto-examples-segmentation-plot-trainable-segmentation-py"><span class="std std-ref">Trainable segmentation using local features and random forests</span></a></span><a class="headerlink" href="#id108" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="*Morphological Snakes* [1]_ are a family of methods for image segmentation. Their behavior is s..."><div class="figure align-default" id="id109">
+<img alt="Morphological Snakes" src="../_images/sphx_glr_plot_morphsnakes_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_morphsnakes.html#sphx-glr-auto-examples-segmentation-plot-morphsnakes-py"><span class="std std-ref">Morphological Snakes</span></a></span><a class="headerlink" href="#id109" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Flood fill is an algorithm to identify and/or change adjacent values in an image based on their..."><div class="figure align-default" id="id110">
+<img alt="Flood Fill" src="../_images/sphx_glr_plot_floodfill_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_floodfill.html#sphx-glr-auto-examples-segmentation-plot-floodfill-py"><span class="std std-ref">Flood Fill</span></a></span><a class="headerlink" href="#id110" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This example shows an illustration of the computation of the Euler number [1]_ in 2D and 3D obj..."><div class="figure align-default" id="id111">
+<img alt="Euler number" src="../_images/sphx_glr_plot_euler_number_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_euler_number.html#sphx-glr-auto-examples-segmentation-plot-euler-number-py"><span class="std std-ref">Euler number</span></a></span><a class="headerlink" href="#id111" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="When trying out different segmentation methods, how do you know which one is best? If you have ..."><div class="figure align-default" id="id112">
+<img alt="Evaluating segmentation metrics" src="../_images/sphx_glr_plot_metrics_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_metrics.html#sphx-glr-auto-examples-segmentation-plot-metrics-py"><span class="std std-ref">Evaluating segmentation metrics</span></a></span><a class="headerlink" href="#id112" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The rolling-ball algorithm estimates the background intensity of a grayscale image in case of u..."><div class="figure align-default" id="id113">
+<img alt="Use rolling-ball algorithm for estimating background intensity" src="../_images/sphx_glr_plot_rolling_ball_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="segmentation/plot_rolling_ball.html#sphx-glr-auto-examples-segmentation-plot-rolling-ball-py"><span class="std std-ref">Use rolling-ball algorithm for estimating background intensity</span></a></span><a class="headerlink" href="#id113" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="longer-examples-and-demonstrations">
+<span id="sphx-glr-auto-examples-applications"></span><h1>Longer examples and demonstrations<a class="headerlink" href="#longer-examples-and-demonstrations" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-thumbcontainer" tooltip="This computer vision example shows how to detect faces on an image using object detection frame..."><div class="figure align-default" id="id114">
+<img alt="Face detection using a cascade classifier" src="../_images/sphx_glr_plot_face_detection_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_face_detection.html#sphx-glr-auto-examples-applications-plot-face-detection-py"><span class="std std-ref">Face detection using a cascade classifier</span></a></span><a class="headerlink" href="#id114" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Image comparison is particularly useful when performing image processing tasks such as exposure..."><div class="figure align-default" id="id115">
+<img alt="Visual image comparison" src="../_images/sphx_glr_plot_image_comparison_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_image_comparison.html#sphx-glr-auto-examples-applications-plot-image-comparison-py"><span class="std std-ref">Visual image comparison</span></a></span><a class="headerlink" href="#id115" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Morphological image processing is a collection of non-linear operations related to the shape or..."><div class="figure align-default" id="id116">
+<img alt="Morphological Filtering" src="../_images/sphx_glr_plot_morphology_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_morphology.html#sphx-glr-auto-examples-applications-plot-morphology-py"><span class="std std-ref">Morphological Filtering</span></a></span><a class="headerlink" href="#id116" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to segment objects from a background. We use the coins image f..."><div class="figure align-default" id="id117">
+<img alt="Comparing edge-based and region-based segmentation" src="../_images/sphx_glr_plot_coins_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_coins_segmentation.html#sphx-glr-auto-examples-applications-plot-coins-segmentation-py"><span class="std std-ref">Comparing edge-based and region-based segmentation</span></a></span><a class="headerlink" href="#id117" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we analyze a microscopy image of human cells. We use data provided by Jason Mo..."><div class="figure align-default" id="id118">
+<img alt="Segment human cells (in mitosis)" src="../_images/sphx_glr_plot_human_mitosis_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_human_mitosis.html#sphx-glr-auto-examples-applications-plot-human-mitosis-py"><span class="std std-ref">Segment human cells (in mitosis)</span></a></span><a class="headerlink" href="#id118" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Thresholding is used to create a binary image from a grayscale image [1]_. It is the simplest w..."><div class="figure align-default" id="id119">
+<img alt="Thresholding" src="../_images/sphx_glr_plot_thresholding_thumb1.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_thresholding.html#sphx-glr-auto-examples-applications-plot-thresholding-py"><span class="std std-ref">Thresholding</span></a></span><a class="headerlink" href="#id119" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Haar-like feature descriptors were successfully used to implement the first real-time face dete..."><div class="figure align-default" id="id120">
+<img alt="Face classification using Haar-like feature descriptor" src="../_images/sphx_glr_plot_haar_extraction_selection_classification_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_haar_extraction_selection_classification.html#sphx-glr-auto-examples-applications-plot-haar-extraction-selection-classification-py"><span class="std std-ref">Face classification using Haar-like feature descriptor</span></a></span><a class="headerlink" href="#id120" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="This tutorial is an introduction to three-dimensional image processing. Images are represented ..."><div class="figure align-default" id="id121">
+<img alt="Explore 3D images (of cells)" src="../_images/sphx_glr_plot_3d_image_processing_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_3d_image_processing.html#sphx-glr-auto-examples-applications-plot-3d-image-processing-py"><span class="std std-ref">Explore 3D images (of cells)</span></a></span><a class="headerlink" href="#id121" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="Rank filters are non-linear filters using local gray-level ordering to compute the filtered val..."><div class="figure align-default" id="id122">
+<img alt="Rank filters" src="../_images/sphx_glr_plot_rank_filters_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="applications/plot_rank_filters.html#sphx-glr-auto-examples-applications-plot-rank-filters-py"><span class="std std-ref">Rank filters</span></a></span><a class="headerlink" href="#id122" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div></div>
+<div class="section" id="examples-for-developers">
+<span id="sphx-glr-auto-examples-developers"></span><h1>Examples for developers<a class="headerlink" href="#examples-for-developers" title="Permalink to this headline">¶</a></h1>
+<p>In this folder, we have examples for advanced topics, including detailed
+explanations of the inner workings of certain algorithms.</p>
+<p>These examples require some basic knowledge of image processing. They are
+targeted at existing or would-be scikit-image developers wishing to develop
+their knowledge of image processing algorithms.</p>
+<div class="sphx-glr-thumbcontainer" tooltip="In 1993, Li and Lee proposed a new criterion for finding the &quot;optimal&quot; threshold to distinguish..."><div class="figure align-default" id="id123">
+<img alt="Li thresholding" src="../_images/sphx_glr_plot_threshold_li_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="developers/plot_threshold_li.html#sphx-glr-auto-examples-developers-plot-threshold-li-py"><span class="std std-ref">Li thresholding</span></a></span><a class="headerlink" href="#id123" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-thumbcontainer" tooltip="The max-tree is a hierarchical representation of an image that is the basis for a large family ..."><div class="figure align-default" id="id124">
+<img alt="Max-tree" src="../_images/sphx_glr_plot_max_tree_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="developers/plot_max_tree.html#sphx-glr-auto-examples-developers-plot-max-tree-py"><span class="std std-ref">Max-tree</span></a></span><a class="headerlink" href="#id124" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="toctree-wrapper compound">
+</div>
+<div class="sphx-glr-clear"></div><div class="sphx-glr-footer class sphx-glr-footer-gallery docutils container">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/07fcc19ba03226cd3d83d4e40ec44385/auto_examples_python.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">auto_examples_python.zip</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/6f1e7a639e0699d6164445b55e6c116d/auto_examples_jupyter.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">all</span> <span class="pre">examples</span> <span class="pre">in</span> <span class="pre">Jupyter</span> <span class="pre">notebooks:</span> <span class="pre">auto_examples_jupyter.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

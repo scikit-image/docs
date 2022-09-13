@@ -1,0 +1,2174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: color &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.16.1" href="api.html" />
+        <link rel="next" title="Module: data" href="skimage.data.html" />
+        <link rel="prev" title="skimage" href="skimage.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">color</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#convert-colorspace">convert_colorspace</a></li>
+<li><a class="reference internal" href="#guess-spatial-dimensions">guess_spatial_dimensions</a></li>
+<li><a class="reference internal" href="#rgba2rgb">rgba2rgb</a></li>
+<li><a class="reference internal" href="#rgb2hsv">rgb2hsv</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-rgb2hsv">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2hsv</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hsv2rgb">hsv2rgb</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-hsv2rgb">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.hsv2rgb</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rgb2xyz">rgb2xyz</a></li>
+<li><a class="reference internal" href="#xyz2rgb">xyz2rgb</a></li>
+<li><a class="reference internal" href="#rgb2rgbcie">rgb2rgbcie</a></li>
+<li><a class="reference internal" href="#rgbcie2rgb">rgbcie2rgb</a></li>
+<li><a class="reference internal" href="#rgb2grey">rgb2grey</a></li>
+<li><a class="reference internal" href="#rgb2gray">rgb2gray</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-rgb2gray">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2gray</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gray2rgb">gray2rgb</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-gray2rgb">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.gray2rgb</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#grey2rgb">grey2rgb</a></li>
+<li><a class="reference internal" href="#xyz2lab">xyz2lab</a></li>
+<li><a class="reference internal" href="#lab2xyz">lab2xyz</a></li>
+<li><a class="reference internal" href="#lab2rgb">lab2rgb</a></li>
+<li><a class="reference internal" href="#rgb2lab">rgb2lab</a></li>
+<li><a class="reference internal" href="#rgb2hed">rgb2hed</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-rgb2hed">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2hed</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hed2rgb">hed2rgb</a></li>
+<li><a class="reference internal" href="#lab2lch">lab2lch</a></li>
+<li><a class="reference internal" href="#lch2lab">lch2lab</a></li>
+<li><a class="reference internal" href="#rgb2yuv">rgb2yuv</a></li>
+<li><a class="reference internal" href="#yuv2rgb">yuv2rgb</a></li>
+<li><a class="reference internal" href="#rgb2yiq">rgb2yiq</a></li>
+<li><a class="reference internal" href="#yiq2rgb">yiq2rgb</a></li>
+<li><a class="reference internal" href="#rgb2ypbpr">rgb2ypbpr</a></li>
+<li><a class="reference internal" href="#ypbpr2rgb">ypbpr2rgb</a></li>
+<li><a class="reference internal" href="#rgb2ycbcr">rgb2ycbcr</a></li>
+<li><a class="reference internal" href="#ycbcr2rgb">ycbcr2rgb</a></li>
+<li><a class="reference internal" href="#rgb2ydbdr">rgb2ydbdr</a></li>
+<li><a class="reference internal" href="#ydbdr2rgb">ydbdr2rgb</a></li>
+<li><a class="reference internal" href="#separate-stains">separate_stains</a></li>
+<li><a class="reference internal" href="#combine-stains">combine_stains</a></li>
+<li><a class="reference internal" href="#label2rgb">label2rgb</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-color-label2rgb">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deltae-cie76">deltaE_cie76</a></li>
+<li><a class="reference internal" href="#deltae-ciede94">deltaE_ciede94</a></li>
+<li><a class="reference internal" href="#deltae-ciede2000">deltaE_ciede2000</a></li>
+<li><a class="reference internal" href="#deltae-cmc">deltaE_cmc</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="module-skimage.color">
+<span id="module-color"></span><h1>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">color</span></code><a class="headerlink" href="#module-skimage.color" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.convert_colorspace" title="skimage.color.convert_colorspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.convert_colorspace</span></code></a>(arr, …)</p></td>
+<td><p>Convert an image array to a new color space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.guess_spatial_dimensions" title="skimage.color.guess_spatial_dimensions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.guess_spatial_dimensions</span></code></a>(image)</p></td>
+<td><p>Make an educated guess about whether an image has a channels dimension.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.rgba2rgb" title="skimage.color.rgba2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgba2rgb</span></code></a>(rgba[, background])</p></td>
+<td><p>RGBA to RGB conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2hsv" title="skimage.color.rgb2hsv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2hsv</span></code></a>(rgb)</p></td>
+<td><p>RGB to HSV color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.hsv2rgb" title="skimage.color.hsv2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.hsv2rgb</span></code></a>(hsv)</p></td>
+<td><p>HSV to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2xyz" title="skimage.color.rgb2xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2xyz</span></code></a>(rgb)</p></td>
+<td><p>RGB to XYZ color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.xyz2rgb" title="skimage.color.xyz2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.xyz2rgb</span></code></a>(xyz)</p></td>
+<td><p>XYZ to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2rgbcie" title="skimage.color.rgb2rgbcie"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2rgbcie</span></code></a>(rgb)</p></td>
+<td><p>RGB to RGB CIE color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.rgbcie2rgb" title="skimage.color.rgbcie2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgbcie2rgb</span></code></a>(rgbcie)</p></td>
+<td><p>RGB CIE to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2grey" title="skimage.color.rgb2grey"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2grey</span></code></a>(rgb)</p></td>
+<td><p>Compute luminance of an RGB image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.rgb2gray" title="skimage.color.rgb2gray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2gray</span></code></a>(rgb)</p></td>
+<td><p>Compute luminance of an RGB image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.gray2rgb" title="skimage.color.gray2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.gray2rgb</span></code></a>(image[, alpha])</p></td>
+<td><p>Create an RGB representation of a gray-level image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.grey2rgb" title="skimage.color.grey2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.grey2rgb</span></code></a>(image[, alpha])</p></td>
+<td><p>Create an RGB representation of a gray-level image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.xyz2lab" title="skimage.color.xyz2lab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.xyz2lab</span></code></a>(xyz[, illuminant, …])</p></td>
+<td><p>XYZ to CIE-LAB color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.lab2xyz" title="skimage.color.lab2xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.lab2xyz</span></code></a>(lab[, illuminant, …])</p></td>
+<td><p>CIE-LAB to XYZcolor space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.lab2rgb" title="skimage.color.lab2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.lab2rgb</span></code></a>(lab[, illuminant, …])</p></td>
+<td><p>Lab to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.rgb2lab" title="skimage.color.rgb2lab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2lab</span></code></a>(rgb[, illuminant, …])</p></td>
+<td><p>RGB to lab color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2hed" title="skimage.color.rgb2hed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2hed</span></code></a>(rgb)</p></td>
+<td><p>RGB to Haematoxylin-Eosin-DAB (HED) color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.hed2rgb" title="skimage.color.hed2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.hed2rgb</span></code></a>(hed)</p></td>
+<td><p>Haematoxylin-Eosin-DAB (HED) to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.lab2lch" title="skimage.color.lab2lch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.lab2lch</span></code></a>(lab)</p></td>
+<td><p>CIE-LAB to CIE-LCH color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.lch2lab" title="skimage.color.lch2lab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.lch2lab</span></code></a>(lch)</p></td>
+<td><p>CIE-LCH to CIE-LAB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2yuv" title="skimage.color.rgb2yuv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2yuv</span></code></a>(rgb)</p></td>
+<td><p>RGB to YUV color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.yuv2rgb" title="skimage.color.yuv2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.yuv2rgb</span></code></a>(yuv)</p></td>
+<td><p>YUV to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2yiq" title="skimage.color.rgb2yiq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2yiq</span></code></a>(rgb)</p></td>
+<td><p>RGB to YIQ color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.yiq2rgb" title="skimage.color.yiq2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.yiq2rgb</span></code></a>(yiq)</p></td>
+<td><p>YIQ to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2ypbpr" title="skimage.color.rgb2ypbpr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2ypbpr</span></code></a>(rgb)</p></td>
+<td><p>RGB to YPbPr color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.ypbpr2rgb" title="skimage.color.ypbpr2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.ypbpr2rgb</span></code></a>(ypbpr)</p></td>
+<td><p>YPbPr to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2ycbcr" title="skimage.color.rgb2ycbcr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2ycbcr</span></code></a>(rgb)</p></td>
+<td><p>RGB to YCbCr color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.ycbcr2rgb" title="skimage.color.ycbcr2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.ycbcr2rgb</span></code></a>(ycbcr)</p></td>
+<td><p>YCbCr to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.rgb2ydbdr" title="skimage.color.rgb2ydbdr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.rgb2ydbdr</span></code></a>(rgb)</p></td>
+<td><p>RGB to YDbDr color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.ydbdr2rgb" title="skimage.color.ydbdr2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.ydbdr2rgb</span></code></a>(ydbdr)</p></td>
+<td><p>YDbDr to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.separate_stains" title="skimage.color.separate_stains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.separate_stains</span></code></a>(rgb, conv_matrix)</p></td>
+<td><p>RGB to stain color space conversion.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.combine_stains" title="skimage.color.combine_stains"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.combine_stains</span></code></a>(stains, conv_matrix)</p></td>
+<td><p>Stain to RGB color space conversion.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.label2rgb" title="skimage.color.label2rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code></a>(label[, image, …])</p></td>
+<td><p>Return an RGB image where color-coded labels are painted over the image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.deltaE_cie76" title="skimage.color.deltaE_cie76"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.deltaE_cie76</span></code></a>(lab1, lab2)</p></td>
+<td><p>Euclidean distance between two points in Lab color space</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.deltaE_ciede94" title="skimage.color.deltaE_ciede94"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.deltaE_ciede94</span></code></a>(lab1, lab2[, …])</p></td>
+<td><p>Color difference according to CIEDE 94 standard</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.color.deltaE_ciede2000" title="skimage.color.deltaE_ciede2000"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.deltaE_ciede2000</span></code></a>(lab1, lab2[, …])</p></td>
+<td><p>Color difference as given by the CIEDE 2000 standard.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.color.deltaE_cmc" title="skimage.color.deltaE_cmc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.color.deltaE_cmc</span></code></a>(lab1, lab2[, kL, kC])</p></td>
+<td><p>Color difference from the  CMC l:c standard.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="convert-colorspace">
+<h2>convert_colorspace<a class="headerlink" href="#convert-colorspace" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.convert_colorspace">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">convert_colorspace</code><span class="sig-paren">(</span><em class="sig-param">arr</em>, <em class="sig-param">fromspace</em>, <em class="sig-param">tospace</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.convert_colorspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image array to a new color space.</p>
+<dl class="simple">
+<dt>Valid color spaces are:</dt><dd><p>‘RGB’, ‘HSV’, ‘RGB CIE’, ‘XYZ’, ‘YUV’, ‘YIQ’, ‘YPbPr’, ‘YCbCr’, ‘YDbDr’</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>arr</strong><span class="classifier">array_like</span></dt><dd><p>The image to convert.</p>
+</dd>
+<dt><strong>fromspace</strong><span class="classifier">valid color space</span></dt><dd><p>The color space to convert from. Can be specified in lower case.</p>
+</dd>
+<dt><strong>tospace</strong><span class="classifier">valid color space</span></dt><dd><p>The color space to convert to. Can be specified in lower case.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The converted image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Conversion is performed through the “central” RGB color space,
+i.e. conversion from XYZ to HSV is implemented as <code class="docutils literal notranslate"><span class="pre">XYZ</span> <span class="pre">-&gt;</span> <span class="pre">RGB</span> <span class="pre">-&gt;</span> <span class="pre">HSV</span></code>
+instead of directly.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_hsv</span> <span class="o">=</span> <span class="n">convert_colorspace</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span><span class="p">,</span> <span class="s1">&#39;HSV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="guess-spatial-dimensions">
+<h2>guess_spatial_dimensions<a class="headerlink" href="#guess-spatial-dimensions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.guess_spatial_dimensions">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">guess_spatial_dimensions</code><span class="sig-paren">(</span><em class="sig-param">image</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.guess_spatial_dimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an educated guess about whether an image has a channels dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>The input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>spatial_dims</strong><span class="classifier">int or None</span></dt><dd><p>The number of spatial dimensions of <em class="xref py py-obj">image</em>. If ambiguous, the value
+is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the image array has less than two or more than four dimensions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgba2rgb">
+<h2>rgba2rgb<a class="headerlink" href="#rgba2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgba2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgba2rgb</code><span class="sig-paren">(</span><em class="sig-param">rgba</em>, <em class="sig-param">background=(1</em>, <em class="sig-param">1</em>, <em class="sig-param">1)</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L165"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgba2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGBA to RGB conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgba</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGBA format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">4)</span></code>.</p>
+</dd>
+<dt><strong>background</strong><span class="classifier">array_like</span></dt><dd><p>The color of the background to blend the image with. A tuple
+containing 3 floats between 0 to 1 - the RGB value of the background.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgba</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">4)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rd9bc87eaa392-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending">https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgba</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">logo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgb</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgba2rgb</span><span class="p">(</span><span class="n">img_rgba</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2hsv">
+<h2>rgb2hsv<a class="headerlink" href="#rgb2hsv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2hsv">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2hsv</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L214"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2hsv" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to HSV color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in HSV format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Conversion between RGB and HSV color spaces results in some loss of
+precision, due to integer arithmetic and rounding <a class="reference internal" href="#r80b4a664a365-1" id="id2">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r80b4a664a365-1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_hsv</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2hsv</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-rgb2hsv">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2hsv</span></code><a class="headerlink" href="#examples-using-skimage-color-rgb2hsv" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates how RGB to HSV (Hue, Saturation, Value) conversion [1]_ can be used to..."><div class="figure align-default" id="id42">
+<img alt="../_images/sphx_glr_plot_rgb_to_hsv_thumb.png" src="../_images/sphx_glr_plot_rgb_to_hsv_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_rgb_to_hsv.html#sphx-glr-auto-examples-color-exposure-plot-rgb-to-hsv-py"><span class="std std-ref">RGB to HSV</span></a></span><a class="headerlink" href="#id42" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="It can be useful to artificially tint an image with some color, either to highlight particular ..."><div class="figure align-default" id="id43">
+<img alt="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" src="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_tinting_grayscale_images.html#sphx-glr-auto-examples-color-exposure-plot-tinting-grayscale-images-py"><span class="std std-ref">Tinting gray-scale images</span></a></span><a class="headerlink" href="#id43" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="hsv2rgb">
+<h2>hsv2rgb<a class="headerlink" href="#hsv2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.hsv2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">hsv2rgb</code><span class="sig-paren">(</span><em class="sig-param">hsv</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L289"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.hsv2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>HSV to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>hsv</strong><span class="classifier">array_like</span></dt><dd><p>The image in HSV format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">hsv</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Conversion between RGB and HSV color spaces results in some loss of
+precision, due to integer arithmetic and rounding <a class="reference internal" href="#r933d6ba7a3ec-1" id="id4">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r933d6ba7a3ec-1"><span class="brackets"><a class="fn-backref" href="#id4">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/HSL_and_HSV">https://en.wikipedia.org/wiki/HSL_and_HSV</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_hsv</span> <span class="o">=</span> <span class="n">rgb2hsv</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgb</span> <span class="o">=</span> <span class="n">hsv2rgb</span><span class="p">(</span><span class="n">img_hsv</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-hsv2rgb">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.hsv2rgb</span></code><a class="headerlink" href="#examples-using-skimage-color-hsv2rgb" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="It can be useful to artificially tint an image with some color, either to highlight particular ..."><div class="figure align-default" id="id44">
+<img alt="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" src="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_tinting_grayscale_images.html#sphx-glr-auto-examples-color-exposure-plot-tinting-grayscale-images-py"><span class="std std-ref">Tinting gray-scale images</span></a></span><a class="headerlink" href="#id44" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="rgb2xyz">
+<h2>rgb2xyz<a class="headerlink" href="#rgb2xyz" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2xyz">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2xyz</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L637"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to XYZ color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in XYZ format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The CIE XYZ color space is derived from the CIE RGB color space. Note
+however that this function converts from sRGB.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="red663c8b20aa-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/CIE_1931_color_space">https://en.wikipedia.org/wiki/CIE_1931_color_space</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_xyz</span> <span class="o">=</span> <span class="n">rgb2xyz</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="xyz2rgb">
+<h2>xyz2rgb<a class="headerlink" href="#xyz2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.xyz2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">xyz2rgb</code><span class="sig-paren">(</span><em class="sig-param">xyz</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L592"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.xyz2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>XYZ to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xyz</strong><span class="classifier">array_like</span></dt><dd><p>The image in XYZ format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">xyz</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The CIE XYZ color space is derived from the CIE RGB color space. Note
+however that this function converts to sRGB.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r9d9291b93e17-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/CIE_1931_color_space">https://en.wikipedia.org/wiki/CIE_1931_color_space</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2xyz</span><span class="p">,</span> <span class="n">xyz2rgb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_xyz</span> <span class="o">=</span> <span class="n">rgb2xyz</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgb</span> <span class="o">=</span> <span class="n">xyz2rgb</span><span class="p">(</span><span class="n">img_xyz</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2rgbcie">
+<h2>rgb2rgbcie<a class="headerlink" href="#rgb2rgbcie" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2rgbcie">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2rgbcie</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L681"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2rgbcie" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to RGB CIE color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB CIE format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r257c17720fcd-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/CIE_1931_color_space">https://en.wikipedia.org/wiki/CIE_1931_color_space</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2rgbcie</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgbcie</span> <span class="o">=</span> <span class="n">rgb2rgbcie</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgbcie2rgb">
+<h2>rgbcie2rgb<a class="headerlink" href="#rgbcie2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgbcie2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgbcie2rgb</code><span class="sig-paren">(</span><em class="sig-param">rgbcie</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L713"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgbcie2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB CIE to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgbcie</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB CIE format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgbcie</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r2849fa51c8e1-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/CIE_1931_color_space">https://en.wikipedia.org/wiki/CIE_1931_color_space</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2rgbcie</span><span class="p">,</span> <span class="n">rgbcie2rgb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgbcie</span> <span class="o">=</span> <span class="n">rgb2rgbcie</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgb</span> <span class="o">=</span> <span class="n">rgbcie2rgb</span><span class="p">(</span><span class="n">img_rgbcie</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2grey">
+<h2>rgb2grey<a class="headerlink" href="#rgb2grey" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2grey">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2grey</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L746"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2grey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute luminance of an RGB image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>, or in RGBA format with shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">4)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The luminance image - an array which is the same size as the input
+array, but with the channel dimension removed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <a class="reference internal" href="#skimage.color.rgb2gray" title="skimage.color.rgb2gray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rgb2gray</span></code></a> is not a 3-D or 4-D arrays of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code> or <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">4)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The weights used in this conversion are calibrated for contemporary
+CRT phosphors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Y</span> <span class="o">=</span> <span class="mf">0.2125</span> <span class="n">R</span> <span class="o">+</span> <span class="mf">0.7154</span> <span class="n">G</span> <span class="o">+</span> <span class="mf">0.0721</span> <span class="n">B</span>
+</pre></div>
+</div>
+<p>If there is an alpha channel present, it is ignored.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="ra04b3b016ff9-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.poynton.com/PDFs/ColorFAQ.pdf">http://www.poynton.com/PDFs/ColorFAQ.pdf</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_gray</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2gray">
+<h2>rgb2gray<a class="headerlink" href="#rgb2gray" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2gray">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2gray</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L746"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2gray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute luminance of an RGB image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>, or in RGBA format with shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">4)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The luminance image - an array which is the same size as the input
+array, but with the channel dimension removed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <a class="reference internal" href="#skimage.color.rgb2gray" title="skimage.color.rgb2gray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rgb2gray</span></code></a> is not a 3-D or 4-D arrays of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code> or <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">4)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The weights used in this conversion are calibrated for contemporary
+CRT phosphors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Y</span> <span class="o">=</span> <span class="mf">0.2125</span> <span class="n">R</span> <span class="o">+</span> <span class="mf">0.7154</span> <span class="n">G</span> <span class="o">+</span> <span class="mf">0.0721</span> <span class="n">B</span>
+</pre></div>
+</div>
+<p>If there is an alpha channel present, it is ignored.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rd27ab9645ca9-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.poynton.com/PDFs/ColorFAQ.pdf">http://www.poynton.com/PDFs/ColorFAQ.pdf</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_gray</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-rgb2gray">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2gray</span></code><a class="headerlink" href="#examples-using-skimage-color-rgb2gray" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example illustrates the use of view_as_blocks from :py:func:`skimage.util`.  Block views c..."><div class="figure align-default" id="id45">
+<img alt="../_images/sphx_glr_plot_view_as_blocks_thumb.png" src="../_images/sphx_glr_plot_view_as_blocks_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/numpy_operations/plot_view_as_blocks.html#sphx-glr-auto-examples-numpy-operations-plot-view-as-blocks-py"><span class="std std-ref">Block views on images/arrays</span></a></span><a class="headerlink" href="#id45" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example converts an image with RGB channels into an image with a single grayscale channel."><div class="figure align-default" id="id46">
+<img alt="../_images/sphx_glr_plot_rgb_to_gray_thumb.png" src="../_images/sphx_glr_plot_rgb_to_gray_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_rgb_to_gray.html#sphx-glr-auto-examples-color-exposure-plot-rgb-to-gray-py"><span class="std std-ref">RGB to grayscale</span></a></span><a class="headerlink" href="#id46" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="There are many filters that are designed to work with gray-scale images but not with color imag..."><div class="figure align-default" id="id47">
+<img alt="../_images/sphx_glr_plot_adapt_rgb_thumb.png" src="../_images/sphx_glr_plot_adapt_rgb_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_adapt_rgb.html#sphx-glr-auto-examples-color-exposure-plot-adapt-rgb-py"><span class="std std-ref">Adapting gray-scale filters to RGB images</span></a></span><a class="headerlink" href="#id47" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Ridge filters can be used to detect ridge-like structures, such as neurites [1]_, tubes [2]_, v..."><div class="figure align-default" id="id48">
+<img alt="../_images/sphx_glr_plot_ridge_filter_thumb.png" src="../_images/sphx_glr_plot_ridge_filter_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/edges/plot_ridge_filter.html#sphx-glr-auto-examples-edges-plot-ridge-filter-py"><span class="std std-ref">Ridge operators</span></a></span><a class="headerlink" href="#id48" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The active contour model is a method to fit open or closed splines to lines or edges in an imag..."><div class="figure align-default" id="id49">
+<img alt="../_images/sphx_glr_plot_active_contours_thumb.png" src="../_images/sphx_glr_plot_active_contours_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/edges/plot_active_contours.html#sphx-glr-auto-examples-edges-plot-active-contours-py"><span class="std std-ref">Active Contour Model</span></a></span><a class="headerlink" href="#id49" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a `method to detect straight lines &lt;https://en.wiki..."><div class="figure align-default" id="id50">
+<img alt="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" src="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/edges/plot_circular_elliptical_hough_transform.html#sphx-glr-auto-examples-edges-plot-circular-elliptical-hough-transform-py"><span class="std std-ref">Circular and Elliptical Hough Transforms</span></a></span><a class="headerlink" href="#id50" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Rescale operation resizes an image by a given scaling factor. The scaling factor can either be ..."><div class="figure align-default" id="id51">
+<img alt="../_images/sphx_glr_plot_rescale_thumb.png" src="../_images/sphx_glr_plot_rescale_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/transform/plot_rescale.html#sphx-glr-auto-examples-transform-plot-rescale-py"><span class="std std-ref">Rescale, resize, and downscale</span></a></span><a class="headerlink" href="#id51" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to robustly estimate epipolar geometry between two views using sp..."><div class="figure align-default" id="id52">
+<img alt="../_images/sphx_glr_plot_fundamental_matrix_thumb.png" src="../_images/sphx_glr_plot_fundamental_matrix_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/transform/plot_fundamental_matrix.html#sphx-glr-auto-examples-transform-plot-fundamental-matrix-py"><span class="std std-ref">Fundamental matrix estimation</span></a></span><a class="headerlink" href="#id52" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this simplified example we first generate two synthetic images as if they were taken from di..."><div class="figure align-default" id="id53">
+<img alt="../_images/sphx_glr_plot_matching_thumb.png" src="../_images/sphx_glr_plot_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/transform/plot_matching.html#sphx-glr-auto-examples-transform-plot-matching-py"><span class="std std-ref">Robust matching using RANSAC</span></a></span><a class="headerlink" href="#id53" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we deconvolve a noisy version of an image using Wiener and unsupervised Wiener..."><div class="figure align-default" id="id54">
+<img alt="../_images/sphx_glr_plot_restoration_thumb.png" src="../_images/sphx_glr_plot_restoration_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_restoration.html#sphx-glr-auto-examples-filters-plot-restoration-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id54" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The algorithm is based on a PSF (Point Spread Function), where PSF is described as the impulse ..."><div class="figure align-default" id="id55">
+<img alt="../_images/sphx_glr_plot_deconvolution_thumb.png" src="../_images/sphx_glr_plot_deconvolution_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_deconvolution.html#sphx-glr-auto-examples-filters-plot-deconvolution-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id55" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Some signals can only be observed modulo 2*pi, and this can also apply to two- and three dimens..."><div class="figure align-default" id="id56">
+<img alt="../_images/sphx_glr_plot_phase_unwrap_thumb.png" src="../_images/sphx_glr_plot_phase_unwrap_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_phase_unwrap.html#sphx-glr-auto-examples-filters-plot-phase-unwrap-py"><span class="std std-ref">Phase Unwrapping</span></a></span><a class="headerlink" href="#id56" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The CENSURE feature detector is a scale-invariant center-surround detector (CENSURE) that claim..."><div class="figure align-default" id="id57">
+<img alt="../_images/sphx_glr_plot_censure_thumb.png" src="../_images/sphx_glr_plot_censure_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_censure.html#sphx-glr-auto-examples-features-detection-plot-censure-py"><span class="std std-ref">CENSURE feature detector</span></a></span><a class="headerlink" href="#id57" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Blobs are bright on dark or dark on bright regions in an image. In this example, blobs are dete..."><div class="figure align-default" id="id58">
+<img alt="../_images/sphx_glr_plot_blob_thumb.png" src="../_images/sphx_glr_plot_blob_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_blob.html#sphx-glr-auto-examples-features-detection-plot-blob-py"><span class="std std-ref">Blob Detection</span></a></span><a class="headerlink" href="#id58" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the ORB feature detection and binary description algorithm. It uses a..."><div class="figure align-default" id="id59">
+<img alt="../_images/sphx_glr_plot_orb_thumb.png" src="../_images/sphx_glr_plot_orb_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_orb.html#sphx-glr-auto-examples-features-detection-plot-orb-py"><span class="std std-ref">ORB feature detector and binary descriptor</span></a></span><a class="headerlink" href="#id59" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the BRIEF binary description algorithm. The descriptor consists of re..."><div class="figure align-default" id="id60">
+<img alt="../_images/sphx_glr_plot_brief_thumb.png" src="../_images/sphx_glr_plot_brief_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_brief.html#sphx-glr-auto-examples-features-detection-plot-brief-py"><span class="std std-ref">BRIEF binary descriptor</span></a></span><a class="headerlink" href="#id60" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="How to build a (bio-plausible) *sparse* dictionary (or &#x27;codebook&#x27;, or &#x27;filterbank&#x27;) for e.g. im..."><div class="figure align-default" id="id61">
+<img alt="../_images/sphx_glr_plot_gabors_from_astronaut_thumb.png" src="../_images/sphx_glr_plot_gabors_from_astronaut_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_gabors_from_astronaut.html#sphx-glr-auto-examples-features-detection-plot-gabors-from-astronaut-py"><span class="std std-ref">Gabors / Primary Visual Cortex “Simple Cells” from an Image</span></a></span><a class="headerlink" href="#id61" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Construct a region boundary RAG with the rag_boundary function. The function  :py:func:`skimage..."><div class="figure align-default" id="id62">
+<img alt="../_images/sphx_glr_plot_rag_boundary_thumb.png" src="../_images/sphx_glr_plot_rag_boundary_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_boundary.html#sphx-glr-auto-examples-segmentation-plot-rag-boundary-py"><span class="std std-ref">Region Boundary based RAGs</span></a></span><a class="headerlink" href="#id62" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example compares four popular low-level image segmentation methods.  As it is difficult to..."><div class="figure align-default" id="id63">
+<img alt="../_images/sphx_glr_plot_segmentations_thumb.png" src="../_images/sphx_glr_plot_segmentations_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_segmentations.html#sphx-glr-auto-examples-segmentation-plot-segmentations-py"><span class="std std-ref">Comparison of segmentation and superpixel algorithms</span></a></span><a class="headerlink" href="#id63" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to perform hierarchical merging on region boundary Region Adjacen..."><div class="figure align-default" id="id64">
+<img alt="../_images/sphx_glr_plot_boundary_merge_thumb.png" src="../_images/sphx_glr_plot_boundary_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_boundary_merge.html#sphx-glr-auto-examples-segmentation-plot-boundary-merge-py"><span class="std std-ref">Hierarchical Merging of Region Boundary RAGs</span></a></span><a class="headerlink" href="#id64" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We detect local maxima in a galaxy image. The image is corrupted by noise, generating many loca..."><div class="figure align-default" id="id65">
+<img alt="../_images/sphx_glr_plot_extrema_thumb.png" src="../_images/sphx_glr_plot_extrema_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_extrema.html#sphx-glr-auto-examples-segmentation-plot-extrema-py"><span class="std std-ref">Extrema</span></a></span><a class="headerlink" href="#id65" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="gray2rgb">
+<h2>gray2rgb<a class="headerlink" href="#gray2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.gray2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">gray2rgb</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">alpha=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L800"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.gray2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an RGB representation of a gray-level image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array_like</span></dt><dd><p>Input image of shape <code class="docutils literal notranslate"><span class="pre">(M[,</span> <span class="pre">N][,</span> <span class="pre">P])</span></code>.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">bool, optional</span></dt><dd><p>Ensure that the output image has an alpha layer.  If None,
+alpha layers are passed through but not created.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">ndarray</span></dt><dd><p>RGB image of shape <code class="docutils literal notranslate"><span class="pre">(M[,</span> <span class="pre">N][,</span> <span class="pre">P],</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the input is not a 1-, 2- or 3-dimensional image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If the input is a 1-dimensional image of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">)</span></code>, the output
+will be shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">3)</span></code>.</p>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-gray2rgb">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.gray2rgb</span></code><a class="headerlink" href="#examples-using-skimage-color-gray2rgb" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="It can be useful to artificially tint an image with some color, either to highlight particular ..."><div class="figure align-default" id="id66">
+<img alt="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" src="../_images/sphx_glr_plot_tinting_grayscale_images_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_tinting_grayscale_images.html#sphx-glr-auto-examples-color-exposure-plot-tinting-grayscale-images-py"><span class="std std-ref">Tinting gray-scale images</span></a></span><a class="headerlink" href="#id66" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a `method to detect straight lines &lt;https://en.wiki..."><div class="figure align-default" id="id67">
+<img alt="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" src="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/edges/plot_circular_elliptical_hough_transform.html#sphx-glr-auto-examples-edges-plot-circular-elliptical-hough-transform-py"><span class="std std-ref">Circular and Elliptical Hough Transforms</span></a></span><a class="headerlink" href="#id67" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Construct a region boundary RAG with the rag_boundary function. The function  :py:func:`skimage..."><div class="figure align-default" id="id68">
+<img alt="../_images/sphx_glr_plot_rag_boundary_thumb.png" src="../_images/sphx_glr_plot_rag_boundary_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_boundary.html#sphx-glr-auto-examples-segmentation-plot-rag-boundary-py"><span class="std std-ref">Region Boundary based RAGs</span></a></span><a class="headerlink" href="#id68" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="grey2rgb">
+<h2>grey2rgb<a class="headerlink" href="#grey2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.grey2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">grey2rgb</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">alpha=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L800"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.grey2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an RGB representation of a gray-level image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array_like</span></dt><dd><p>Input image of shape <code class="docutils literal notranslate"><span class="pre">(M[,</span> <span class="pre">N][,</span> <span class="pre">P])</span></code>.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">bool, optional</span></dt><dd><p>Ensure that the output image has an alpha layer.  If None,
+alpha layers are passed through but not created.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">ndarray</span></dt><dd><p>RGB image of shape <code class="docutils literal notranslate"><span class="pre">(M[,</span> <span class="pre">N][,</span> <span class="pre">P],</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the input is not a 1-, 2- or 3-dimensional image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If the input is a 1-dimensional image of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">)</span></code>, the output
+will be shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">3)</span></code>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="xyz2lab">
+<h2>xyz2lab<a class="headerlink" href="#xyz2lab" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.xyz2lab">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">xyz2lab</code><span class="sig-paren">(</span><em class="sig-param">xyz</em>, <em class="sig-param">illuminant='D65'</em>, <em class="sig-param">observer='2'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L863"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.xyz2lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>XYZ to CIE-LAB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xyz</strong><span class="classifier">array_like</span></dt><dd><p>The image in XYZ format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>illuminant</strong><span class="classifier">{“A”, “D50”, “D55”, “D65”, “D75”, “E”}, optional</span></dt><dd><p>The name of the illuminant (the function is NOT case sensitive).</p>
+</dd>
+<dt><strong>observer</strong><span class="classifier">{“2”, “10”}, optional</span></dt><dd><p>The aperture angle of the observer.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in CIE-LAB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">xyz</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt>ValueError</dt><dd><p>If either the illuminant or the observer angle is unsupported or
+unknown.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>By default Observer= 2A, Illuminant= D65. CIE XYZ tristimulus values
+x_ref=95.047, y_ref=100., z_ref=108.883. See function <em class="xref py py-obj">get_xyz_coords</em> for
+a list of supported illuminants.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r4da17b7d8c4a-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=07#text7">http://www.easyrgb.com/index.php?X=MATH&amp;H=07#text7</a></p>
+</dd>
+<dt class="label" id="r4da17b7d8c4a-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lab_color_space">https://en.wikipedia.org/wiki/Lab_color_space</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2xyz</span><span class="p">,</span> <span class="n">xyz2lab</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_xyz</span> <span class="o">=</span> <span class="n">rgb2xyz</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lab</span> <span class="o">=</span> <span class="n">xyz2lab</span><span class="p">(</span><span class="n">img_xyz</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="lab2xyz">
+<h2>lab2xyz<a class="headerlink" href="#lab2xyz" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.lab2xyz">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">lab2xyz</code><span class="sig-paren">(</span><em class="sig-param">lab</em>, <em class="sig-param">illuminant='D65'</em>, <em class="sig-param">observer='2'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L931"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.lab2xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>CIE-LAB to XYZcolor space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab</strong><span class="classifier">array_like</span></dt><dd><p>The image in lab format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>illuminant</strong><span class="classifier">{“A”, “D50”, “D55”, “D65”, “D75”, “E”}, optional</span></dt><dd><p>The name of the illuminant (the function is NOT case sensitive).</p>
+</dd>
+<dt><strong>observer</strong><span class="classifier">{“2”, “10”}, optional</span></dt><dd><p>The aperture angle of the observer.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in XYZ format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">lab</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt>ValueError</dt><dd><p>If either the illuminant or the observer angle are not supported or
+unknown.</p>
+</dd>
+<dt>UserWarning</dt><dd><p>If any of the pixels are invalid (Z &lt; 0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>By default Observer= 2A, Illuminant= D65. CIE XYZ tristimulus values x_ref
+= 95.047, y_ref = 100., z_ref = 108.883. See function ‘get_xyz_coords’ for
+a list of supported illuminants.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="re0405dfe368d-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.easyrgb.com/index.php?X=MATH&amp;H=07#text7">http://www.easyrgb.com/index.php?X=MATH&amp;H=07#text7</a></p>
+</dd>
+<dt class="label" id="re0405dfe368d-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lab_color_space">https://en.wikipedia.org/wiki/Lab_color_space</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="lab2rgb">
+<h2>lab2rgb<a class="headerlink" href="#lab2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.lab2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">lab2rgb</code><span class="sig-paren">(</span><em class="sig-param">lab</em>, <em class="sig-param">illuminant='D65'</em>, <em class="sig-param">observer='2'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1035"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.lab2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lab to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab</strong><span class="classifier">array_like</span></dt><dd><p>The image in Lab format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>illuminant</strong><span class="classifier">{“A”, “D50”, “D55”, “D65”, “D75”, “E”}, optional</span></dt><dd><p>The name of the illuminant (the function is NOT case sensitive).</p>
+</dd>
+<dt><strong>observer</strong><span class="classifier">{“2”, “10”}, optional</span></dt><dd><p>The aperture angle of the observer.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">lab</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function uses lab2xyz and xyz2rgb.
+By default Observer= 2A, Illuminant= D65. CIE XYZ tristimulus values
+x_ref=95.047, y_ref=100., z_ref=108.883. See function <em class="xref py py-obj">get_xyz_coords</em> for
+a list of supported illuminants.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="re1452ae18462-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standard_illuminant">https://en.wikipedia.org/wiki/Standard_illuminant</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2lab">
+<h2>rgb2lab<a class="headerlink" href="#rgb2lab" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2lab">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2lab</code><span class="sig-paren">(</span><em class="sig-param">rgb</em>, <em class="sig-param">illuminant='D65'</em>, <em class="sig-param">observer='2'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L997"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to lab color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>illuminant</strong><span class="classifier">{“A”, “D50”, “D55”, “D65”, “D75”, “E”}, optional</span></dt><dd><p>The name of the illuminant (the function is NOT case sensitive).</p>
+</dd>
+<dt><strong>observer</strong><span class="classifier">{“2”, “10”}, optional</span></dt><dd><p>The aperture angle of the observer.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in Lab format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,[</span> <span class="pre">..,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function uses rgb2xyz and xyz2lab.
+By default Observer= 2A, Illuminant= D65. CIE XYZ tristimulus values
+x_ref=95.047, y_ref=100., z_ref=108.883. See function <em class="xref py py-obj">get_xyz_coords</em> for
+a list of supported illuminants.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r1c84b85532ae-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standard_illuminant">https://en.wikipedia.org/wiki/Standard_illuminant</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2hed">
+<h2>rgb2hed<a class="headerlink" href="#rgb2hed" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2hed">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2hed</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1277"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2hed" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to Haematoxylin-Eosin-DAB (HED) color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in HED format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rf86217e39d55-1"><span class="brackets">1</span></dt>
+<dd><p>A. C. Ruifrok and D. A. Johnston, “Quantification of histochemical
+staining by color deconvolution.,” Analytical and quantitative
+cytology and histology / the International Academy of Cytology [and]
+American Society of Cytology, vol. 23, no. 4, pp. 291-9, Aug. 2001.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2hed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">immunohistochemistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_hed</span> <span class="o">=</span> <span class="n">rgb2hed</span><span class="p">(</span><span class="n">ihc</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-rgb2hed">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2hed</span></code><a class="headerlink" href="#examples-using-skimage-color-rgb2hed" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="Color deconvolution consists of the separation of features by their colors."><div class="figure align-default" id="id69">
+<img alt="../_images/sphx_glr_plot_ihc_color_separation_thumb.png" src="../_images/sphx_glr_plot_ihc_color_separation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_ihc_color_separation.html#sphx-glr-auto-examples-color-exposure-plot-ihc-color-separation-py"><span class="std std-ref">Immunohistochemical staining colors separation</span></a></span><a class="headerlink" href="#id69" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="hed2rgb">
+<h2>hed2rgb<a class="headerlink" href="#hed2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.hed2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">hed2rgb</code><span class="sig-paren">(</span><em class="sig-param">hed</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1313"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.hed2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Haematoxylin-Eosin-DAB (HED) to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>hed</strong><span class="classifier">array_like</span></dt><dd><p>The image in the HED color space, in a 3-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">hed</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="reed723509ed7-1"><span class="brackets">1</span></dt>
+<dd><p>A. C. Ruifrok and D. A. Johnston, “Quantification of histochemical
+staining by color deconvolution.,” Analytical and quantitative
+cytology and histology / the International Academy of Cytology [and]
+American Society of Cytology, vol. 23, no. 4, pp. 291-9, Aug. 2001.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2hed</span><span class="p">,</span> <span class="n">hed2rgb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">immunohistochemistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_hed</span> <span class="o">=</span> <span class="n">rgb2hed</span><span class="p">(</span><span class="n">ihc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_rgb</span> <span class="o">=</span> <span class="n">hed2rgb</span><span class="p">(</span><span class="n">ihc_hed</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="lab2lch">
+<h2>lab2lch<a class="headerlink" href="#lab2lch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.lab2lch">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">lab2lch</code><span class="sig-paren">(</span><em class="sig-param">lab</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1468"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.lab2lch" title="Permalink to this definition">¶</a></dt>
+<dd><p>CIE-LAB to CIE-LCH color space conversion.</p>
+<p>LCH is the cylindrical representation of the LAB (Cartesian) colorspace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab</strong><span class="classifier">array_like</span></dt><dd><p>The N-D image in CIE-LAB format. The last (<code class="docutils literal notranslate"><span class="pre">N+1</span></code>-th) dimension must
+have at least 3 elements, corresponding to the <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code>, and <code class="docutils literal notranslate"><span class="pre">b</span></code>
+color channels.  Subsequent elements are copied.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in LCH format, in a N-D array with same shape as input <em class="xref py py-obj">lab</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">lch</em> does not have at least 3 color channels (i.e. l, a, b).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The Hue is expressed as an angle between <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">2*pi)</span></code></p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2lab</span><span class="p">,</span> <span class="n">lab2lch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lab</span> <span class="o">=</span> <span class="n">rgb2lab</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lch</span> <span class="o">=</span> <span class="n">lab2lch</span><span class="p">(</span><span class="n">img_lab</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="lch2lab">
+<h2>lch2lab<a class="headerlink" href="#lch2lab" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.lch2lab">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">lch2lab</code><span class="sig-paren">(</span><em class="sig-param">lch</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1519"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.lch2lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>CIE-LCH to CIE-LAB color space conversion.</p>
+<p>LCH is the cylindrical representation of the LAB (Cartesian) colorspace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lch</strong><span class="classifier">array_like</span></dt><dd><p>The N-D image in CIE-LCH format. The last (<code class="docutils literal notranslate"><span class="pre">N+1</span></code>-th) dimension must
+have at least 3 elements, corresponding to the <code class="docutils literal notranslate"><span class="pre">L</span></code>, <code class="docutils literal notranslate"><span class="pre">a</span></code>, and <code class="docutils literal notranslate"><span class="pre">b</span></code>
+color channels.  Subsequent elements are copied.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in LAB format, with same shape as input <em class="xref py py-obj">lch</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">lch</em> does not have at least 3 color channels (i.e. l, c, h).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2lab</span><span class="p">,</span> <span class="n">lch2lab</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lab</span> <span class="o">=</span> <span class="n">rgb2lab</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lch</span> <span class="o">=</span> <span class="n">lab2lch</span><span class="p">(</span><span class="n">img_lab</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_lab2</span> <span class="o">=</span> <span class="n">lch2lab</span><span class="p">(</span><span class="n">img_lch</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2yuv">
+<h2>rgb2yuv<a class="headerlink" href="#rgb2yuv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2yuv">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2yuv</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1570"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2yuv" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YUV color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in YUV format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Y is between 0 and 1.  Use YCbCr instead of YUV for the color space which
+is commonly used by video codecs (where Y ranges from 16 to 235)</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rb0be8b630a8e-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YUV">https://en.wikipedia.org/wiki/YUV</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="yuv2rgb">
+<h2>yuv2rgb<a class="headerlink" href="#yuv2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.yuv2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">yuv2rgb</code><span class="sig-paren">(</span><em class="sig-param">yuv</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1725"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.yuv2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YUV to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>yuv</strong><span class="classifier">array_like</span></dt><dd><p>The image in YUV format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">yuv</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r7368eb3c6155-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YUV">https://en.wikipedia.org/wiki/YUV</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2yiq">
+<h2>rgb2yiq<a class="headerlink" href="#rgb2yiq" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2yiq">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2yiq</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1603"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2yiq" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YIQ color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in YIQ format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="yiq2rgb">
+<h2>yiq2rgb<a class="headerlink" href="#yiq2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.yiq2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">yiq2rgb</code><span class="sig-paren">(</span><em class="sig-param">yiq</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1753"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.yiq2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YIQ to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>yiq</strong><span class="classifier">array_like</span></dt><dd><p>The image in YIQ format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">yiq</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2ypbpr">
+<h2>rgb2ypbpr<a class="headerlink" href="#rgb2ypbpr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2ypbpr">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2ypbpr</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1626"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2ypbpr" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YPbPr color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in YPbPr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r1133fcf15857-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YPbPr">https://en.wikipedia.org/wiki/YPbPr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="ypbpr2rgb">
+<h2>ypbpr2rgb<a class="headerlink" href="#ypbpr2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.ypbpr2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">ypbpr2rgb</code><span class="sig-paren">(</span><em class="sig-param">ypbpr</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1776"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.ypbpr2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YPbPr to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ypbpr</strong><span class="classifier">array_like</span></dt><dd><p>The image in YPbPr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">ypbpr</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rda6f12754efe-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YPbPr">https://en.wikipedia.org/wiki/YPbPr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2ycbcr">
+<h2>rgb2ycbcr<a class="headerlink" href="#rgb2ycbcr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2ycbcr">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2ycbcr</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1654"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2ycbcr" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YCbCr color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in YCbCr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Y is between 16 and 235.  This is the color space which is commonly used
+by video codecs, it is sometimes incorrectly called “YUV”</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rd1cc982388a0-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YCbCr">https://en.wikipedia.org/wiki/YCbCr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="ycbcr2rgb">
+<h2>ycbcr2rgb<a class="headerlink" href="#ycbcr2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.ycbcr2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">ycbcr2rgb</code><span class="sig-paren">(</span><em class="sig-param">ycbcr</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1804"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.ycbcr2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YCbCr to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ycbcr</strong><span class="classifier">array_like</span></dt><dd><p>The image in YCbCr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">ycbcr</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Y is between 16 and 235.  This is the color space which is commonly used
+by video codecs, it is sometimes incorrectly called “YUV”</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rd9444bca3aae-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YCbCr">https://en.wikipedia.org/wiki/YCbCr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2ydbdr">
+<h2>rgb2ydbdr<a class="headerlink" href="#rgb2ydbdr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.rgb2ydbdr">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">rgb2ydbdr</code><span class="sig-paren">(</span><em class="sig-param">rgb</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1691"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.rgb2ydbdr" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YDbDr color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in YDbDr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is the color space which is commonly used
+by video codecs, it is also the reversible color transform in JPEG2000.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rff3dffc390fe-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YDbDr">https://en.wikipedia.org/wiki/YDbDr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="ydbdr2rgb">
+<h2>ydbdr2rgb<a class="headerlink" href="#ydbdr2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.ydbdr2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">ydbdr2rgb</code><span class="sig-paren">(</span><em class="sig-param">ydbdr</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1841"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.ydbdr2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YDbDr to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ydbdr</strong><span class="classifier">array_like</span></dt><dd><p>The image in YDbDr format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3- or 4-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">ydbdr</em> is not a 3- or 4-D array of shape <code class="docutils literal notranslate"><span class="pre">(M,</span> <span class="pre">N,</span> <span class="pre">[P,]</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is the color space which is commonly used
+by video codecs, it is also the reversible color transform in JPEG2000.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r781219fbb868-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/YDbDr">https://en.wikipedia.org/wiki/YDbDr</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="separate-stains">
+<h2>separate_stains<a class="headerlink" href="#separate-stains" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.separate_stains">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">separate_stains</code><span class="sig-paren">(</span><em class="sig-param">rgb</em>, <em class="sig-param">conv_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1350"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.separate_stains" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to stain color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rgb</strong><span class="classifier">array_like</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>conv_matrix: ndarray</strong></dt><dd><p>The stain separation matrix as described by G. Landini <a class="reference internal" href="#re5603a4e7517-1" id="id28">[1]</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in stain color space, in a 3-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">rgb</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Stain separation matrices available in the <code class="docutils literal notranslate"><span class="pre">color</span></code> module and their
+respective colorspace:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hed_from_rgb</span></code>: Hematoxylin + Eosin + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hdx_from_rgb</span></code>: Hematoxylin + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fgx_from_rgb</span></code>: Feulgen + Light Green</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bex_from_rgb</span></code>: Giemsa stain : Methyl Blue + Eosin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rbd_from_rgb</span></code>: FastRed + FastBlue +  DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gdx_from_rgb</span></code>: Methyl Green + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hax_from_rgb</span></code>: Hematoxylin + AEC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bro_from_rgb</span></code>: Blue matrix Anilline Blue + Red matrix Azocarmine                        + Orange matrix Orange-G</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bpx_from_rgb</span></code>: Methyl Blue + Ponceau Fuchsin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ahx_from_rgb</span></code>: Alcian Blue + Hematoxylin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hpx_from_rgb</span></code>: Hematoxylin + PAS</p></li>
+</ul>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="re5603a4e7517-1"><span class="brackets"><a class="fn-backref" href="#id28">1</a></span></dt>
+<dd><p><a class="reference external" href="https://mecourse.com/landinig/software/cdeconv/cdeconv.html">https://mecourse.com/landinig/software/cdeconv/cdeconv.html</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">separate_stains</span><span class="p">,</span> <span class="n">hdx_from_rgb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">immunohistochemistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_hdx</span> <span class="o">=</span> <span class="n">separate_stains</span><span class="p">(</span><span class="n">ihc</span><span class="p">,</span> <span class="n">hdx_from_rgb</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="combine-stains">
+<h2>combine_stains<a class="headerlink" href="#combine-stains" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.combine_stains">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">combine_stains</code><span class="sig-paren">(</span><em class="sig-param">stains</em>, <em class="sig-param">conv_matrix</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorconv.py#L1406"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.combine_stains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stain to RGB color space conversion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stains</strong><span class="classifier">array_like</span></dt><dd><p>The image in stain color space, in a 3-D array of shape
+<code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+<dt><strong>conv_matrix: ndarray</strong></dt><dd><p>The stain separation matrix as described by G. Landini <a class="reference internal" href="#r33a9a7d2e90f-1" id="id30">[1]</a>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>The image in RGB format, in a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If <em class="xref py py-obj">stains</em> is not a 3-D array of shape <code class="docutils literal notranslate"><span class="pre">(..,</span> <span class="pre">..,</span> <span class="pre">3)</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Stain combination matrices available in the <code class="docutils literal notranslate"><span class="pre">color</span></code> module and their
+respective colorspace:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_hed</span></code>: Hematoxylin + Eosin + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_hdx</span></code>: Hematoxylin + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_fgx</span></code>: Feulgen + Light Green</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_bex</span></code>: Giemsa stain : Methyl Blue + Eosin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_rbd</span></code>: FastRed + FastBlue +  DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_gdx</span></code>: Methyl Green + DAB</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_hax</span></code>: Hematoxylin + AEC</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_bro</span></code>: Blue matrix Anilline Blue + Red matrix Azocarmine                        + Orange matrix Orange-G</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_bpx</span></code>: Methyl Blue + Ponceau Fuchsin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_ahx</span></code>: Alcian Blue + Hematoxylin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rgb_from_hpx</span></code>: Hematoxylin + PAS</p></li>
+</ul>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r33a9a7d2e90f-1"><span class="brackets"><a class="fn-backref" href="#id30">1</a></span></dt>
+<dd><p><a class="reference external" href="https://mecourse.com/landinig/software/cdeconv/cdeconv.html">https://mecourse.com/landinig/software/cdeconv/cdeconv.html</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="p">(</span><span class="n">separate_stains</span><span class="p">,</span> <span class="n">combine_stains</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">hdx_from_rgb</span><span class="p">,</span> <span class="n">rgb_from_hdx</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">immunohistochemistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_hdx</span> <span class="o">=</span> <span class="n">separate_stains</span><span class="p">(</span><span class="n">ihc</span><span class="p">,</span> <span class="n">hdx_from_rgb</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ihc_rgb</span> <span class="o">=</span> <span class="n">combine_stains</span><span class="p">(</span><span class="n">ihc_hdx</span><span class="p">,</span> <span class="n">rgb_from_hdx</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="label2rgb">
+<h2>label2rgb<a class="headerlink" href="#label2rgb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.label2rgb">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">label2rgb</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">image=None</em>, <em class="sig-param">colors=None</em>, <em class="sig-param">alpha=0.3</em>, <em class="sig-param">bg_label=-1</em>, <em class="sig-param">bg_color=(0</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">image_alpha=1</em>, <em class="sig-param">kind='overlay'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/colorlabel.py#L74"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.label2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an RGB image where color-coded labels are painted over the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label</strong><span class="classifier">array, shape (M, N)</span></dt><dd><p>Integer array of labels with the same shape as <em class="xref py py-obj">image</em>.</p>
+</dd>
+<dt><strong>image</strong><span class="classifier">array, shape (M, N, 3), optional</span></dt><dd><p>Image used as underlay for labels. If the input is an RGB image, it’s
+converted to grayscale before coloring.</p>
+</dd>
+<dt><strong>colors</strong><span class="classifier">list, optional</span></dt><dd><p>List of colors. If the number of labels exceeds the number of colors,
+then the colors are cycled.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">float [0, 1], optional</span></dt><dd><p>Opacity of colorized labels. Ignored if image is <em class="xref py py-obj">None</em>.</p>
+</dd>
+<dt><strong>bg_label</strong><span class="classifier">int, optional</span></dt><dd><p>Label that’s treated as the background.</p>
+</dd>
+<dt><strong>bg_color</strong><span class="classifier">str or array, optional</span></dt><dd><p>Background color. Must be a name in <code class="xref py py-obj docutils literal notranslate"><span class="pre">color_dict</span></code> or RGB float values
+between [0, 1].</p>
+</dd>
+<dt><strong>image_alpha</strong><span class="classifier">float [0, 1], optional</span></dt><dd><p>Opacity of the image.</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier">string, one of {‘overlay’, ‘avg’}</span></dt><dd><p>The kind of color image desired. ‘overlay’ cycles over defined colors
+and overlays the colored labels over the original image. ‘avg’ replaces
+each labeled segment with its average color, for a stained-class or
+pastel painting appearance.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">array of float, shape (M, N, 3)</span></dt><dd><p>The result of blending a cycling colormap (<em class="xref py py-obj">colors</em>) for each distinct
+value in <em class="xref py py-obj">label</em> with the image, at a certain alpha value.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-color-label2rgb">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code><a class="headerlink" href="#examples-using-skimage-color-label2rgb" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to classify textures based on LBP (Local Binary Pattern). LBP ..."><div class="figure align-default" id="id70">
+<img alt="../_images/sphx_glr_plot_local_binary_pattern_thumb.png" src="../_images/sphx_glr_plot_local_binary_pattern_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_local_binary_pattern.html#sphx-glr-auto-examples-features-detection-plot-local-binary-pattern-py"><span class="std std-ref">Local Binary Pattern for texture classification</span></a></span><a class="headerlink" href="#id70" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and recursively performs a Normalized Cu..."><div class="figure align-default" id="id71">
+<img alt="../_images/sphx_glr_plot_ncut_thumb.png" src="../_images/sphx_glr_plot_ncut_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_ncut.html#sphx-glr-auto-examples-segmentation-plot-ncut-py"><span class="std std-ref">Normalized Cut</span></a></span><a class="headerlink" href="#id71" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and merges regions which are similar in ..."><div class="figure align-default" id="id72">
+<img alt="../_images/sphx_glr_plot_rag_mean_color_thumb.png" src="../_images/sphx_glr_plot_rag_mean_color_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_mean_color.html#sphx-glr-auto-examples-segmentation-plot-rag-mean-color-py"><span class="std std-ref">RAG Thresholding</span></a></span><a class="headerlink" href="#id72" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The watershed transform is commonly used as a starting point for many segmentation algorithms. ..."><div class="figure align-default" id="id73">
+<img alt="../_images/sphx_glr_plot_compact_watershed_thumb.png" src="../_images/sphx_glr_plot_compact_watershed_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_compact_watershed.html#sphx-glr-auto-examples-segmentation-plot-compact-watershed-py"><span class="std std-ref">Find Regular Segments Using Compact Watershed</span></a></span><a class="headerlink" href="#id73" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to segment an image with image labelling. The following steps are applie..."><div class="figure align-default" id="id74">
+<img alt="../_images/sphx_glr_plot_label_thumb.png" src="../_images/sphx_glr_plot_label_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_label.html#sphx-glr-auto-examples-segmentation-plot-label-py"><span class="std std-ref">Label image regions</span></a></span><a class="headerlink" href="#id74" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="When segmenting an image, you may want to combine multiple alternative segmentations. The :py:f..."><div class="figure align-default" id="id75">
+<img alt="../_images/sphx_glr_plot_join_segmentations_thumb.png" src="../_images/sphx_glr_plot_join_segmentations_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_join_segmentations.html#sphx-glr-auto-examples-segmentation-plot-join-segmentations-py"><span class="std std-ref">Find the intersection of two segmentations</span></a></span><a class="headerlink" href="#id75" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and progressively merges regions that ar..."><div class="figure align-default" id="id76">
+<img alt="../_images/sphx_glr_plot_rag_merge_thumb.png" src="../_images/sphx_glr_plot_rag_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_merge.html#sphx-glr-auto-examples-segmentation-plot-rag-merge-py"><span class="std std-ref">RAG Merging</span></a></span><a class="headerlink" href="#id76" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to perform hierarchical merging on region boundary Region Adjacen..."><div class="figure align-default" id="id77">
+<img alt="../_images/sphx_glr_plot_boundary_merge_thumb.png" src="../_images/sphx_glr_plot_boundary_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_boundary_merge.html#sphx-glr-auto-examples-segmentation-plot-boundary-merge-py"><span class="std std-ref">Hierarchical Merging of Region Boundary RAGs</span></a></span><a class="headerlink" href="#id77" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We detect local maxima in a galaxy image. The image is corrupted by noise, generating many loca..."><div class="figure align-default" id="id78">
+<img alt="../_images/sphx_glr_plot_extrema_thumb.png" src="../_images/sphx_glr_plot_extrema_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_extrema.html#sphx-glr-auto-examples-segmentation-plot-extrema-py"><span class="std std-ref">Extrema</span></a></span><a class="headerlink" href="#id78" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to segment objects from a background. We use the coins image f..."><div class="figure align-default" id="id79">
+<img alt="../_images/sphx_glr_plot_coins_segmentation_thumb.png" src="../_images/sphx_glr_plot_coins_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/applications/plot_coins_segmentation.html#sphx-glr-auto-examples-applications-plot-coins-segmentation-py"><span class="std std-ref">Comparing edge-based and region-based segmentation</span></a></span><a class="headerlink" href="#id79" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="deltae-cie76">
+<h2>deltaE_cie76<a class="headerlink" href="#deltae-cie76" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.deltaE_cie76">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">deltaE_cie76</code><span class="sig-paren">(</span><em class="sig-param">lab1</em>, <em class="sig-param">lab2</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/delta_e.py#L26"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.deltaE_cie76" title="Permalink to this definition">¶</a></dt>
+<dd><p>Euclidean distance between two points in Lab color space</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab1</strong><span class="classifier">array_like</span></dt><dd><p>reference color (Lab colorspace)</p>
+</dd>
+<dt><strong>lab2</strong><span class="classifier">array_like</span></dt><dd><p>comparison color (Lab colorspace)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dE</strong><span class="classifier">array_like</span></dt><dd><p>distance between colors <em class="xref py py-obj">lab1</em> and <em class="xref py py-obj">lab2</em></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="recf559e1e24c-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Color_difference">https://en.wikipedia.org/wiki/Color_difference</a></p>
+</dd>
+<dt class="label" id="recf559e1e24c-2"><span class="brackets">2</span></dt>
+<dd><p>A. R. Robertson, “The CIE 1976 color-difference formulae,”
+Color Res. Appl. 2, 7-11 (1977).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="deltae-ciede94">
+<h2>deltaE_ciede94<a class="headerlink" href="#deltae-ciede94" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.deltaE_ciede94">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">deltaE_ciede94</code><span class="sig-paren">(</span><em class="sig-param">lab1</em>, <em class="sig-param">lab2</em>, <em class="sig-param">kH=1</em>, <em class="sig-param">kC=1</em>, <em class="sig-param">kL=1</em>, <em class="sig-param">k1=0.045</em>, <em class="sig-param">k2=0.015</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/delta_e.py#L54"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.deltaE_ciede94" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color difference according to CIEDE 94 standard</p>
+<p>Accommodates perceptual non-uniformities through the use of application
+specific scale factors (<em class="xref py py-obj">kH</em>, <em class="xref py py-obj">kC</em>, <em class="xref py py-obj">kL</em>, <em class="xref py py-obj">k1</em>, and <em class="xref py py-obj">k2</em>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab1</strong><span class="classifier">array_like</span></dt><dd><p>reference color (Lab colorspace)</p>
+</dd>
+<dt><strong>lab2</strong><span class="classifier">array_like</span></dt><dd><p>comparison color (Lab colorspace)</p>
+</dd>
+<dt><strong>kH</strong><span class="classifier">float, optional</span></dt><dd><p>Hue scale</p>
+</dd>
+<dt><strong>kC</strong><span class="classifier">float, optional</span></dt><dd><p>Chroma scale</p>
+</dd>
+<dt><strong>kL</strong><span class="classifier">float, optional</span></dt><dd><p>Lightness scale</p>
+</dd>
+<dt><strong>k1</strong><span class="classifier">float, optional</span></dt><dd><p>first scale parameter</p>
+</dd>
+<dt><strong>k2</strong><span class="classifier">float, optional</span></dt><dd><p>second scale parameter</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dE</strong><span class="classifier">array_like</span></dt><dd><p>color difference between <em class="xref py py-obj">lab1</em> and <em class="xref py py-obj">lab2</em></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>deltaE_ciede94 is not symmetric with respect to lab1 and lab2.  CIEDE94
+defines the scales for the lightness, hue, and chroma in terms of the first
+color.  Consequently, the first color should be regarded as the “reference”
+color.</p>
+<p><em class="xref py py-obj">kL</em>, <em class="xref py py-obj">k1</em>, <em class="xref py py-obj">k2</em> depend on the application and default to the values
+suggested for graphic arts</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 41%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Graphic Arts</p></th>
+<th class="head"><p>Textiles</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em class="xref py py-obj">kL</em></p></td>
+<td><p>1.000</p></td>
+<td><p>2.000</p></td>
+</tr>
+<tr class="row-odd"><td><p><em class="xref py py-obj">k1</em></p></td>
+<td><p>0.045</p></td>
+<td><p>0.048</p></td>
+</tr>
+<tr class="row-even"><td><p><em class="xref py py-obj">k2</em></p></td>
+<td><p>0.015</p></td>
+<td><p>0.014</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r1823c4852a43-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Color_difference">https://en.wikipedia.org/wiki/Color_difference</a></p>
+</dd>
+<dt class="label" id="r1823c4852a43-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html">http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="deltae-ciede2000">
+<h2>deltaE_ciede2000<a class="headerlink" href="#deltae-ciede2000" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.deltaE_ciede2000">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">deltaE_ciede2000</code><span class="sig-paren">(</span><em class="sig-param">lab1</em>, <em class="sig-param">lab2</em>, <em class="sig-param">kL=1</em>, <em class="sig-param">kC=1</em>, <em class="sig-param">kH=1</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/delta_e.py#L122"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.deltaE_ciede2000" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color difference as given by the CIEDE 2000 standard.</p>
+<p>CIEDE 2000 is a major revision of CIDE94.  The perceptual calibration is
+largely based on experience with automotive paint on smooth surfaces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab1</strong><span class="classifier">array_like</span></dt><dd><p>reference color (Lab colorspace)</p>
+</dd>
+<dt><strong>lab2</strong><span class="classifier">array_like</span></dt><dd><p>comparison color (Lab colorspace)</p>
+</dd>
+<dt><strong>kL</strong><span class="classifier">float (range), optional</span></dt><dd><p>lightness scale factor, 1 for “acceptably close”; 2 for “imperceptible”
+see deltaE_cmc</p>
+</dd>
+<dt><strong>kC</strong><span class="classifier">float (range), optional</span></dt><dd><p>chroma scale factor, usually 1</p>
+</dd>
+<dt><strong>kH</strong><span class="classifier">float (range), optional</span></dt><dd><p>hue scale factor, usually 1</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>deltaE</strong><span class="classifier">array_like</span></dt><dd><p>The distance between <em class="xref py py-obj">lab1</em> and <em class="xref py py-obj">lab2</em></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>CIEDE 2000 assumes parametric weighting factors for the lightness, chroma,
+and hue (<em class="xref py py-obj">kL</em>, <em class="xref py py-obj">kC</em>, <em class="xref py py-obj">kH</em> respectively).  These default to 1.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r6d08e505fdf3-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Color_difference">https://en.wikipedia.org/wiki/Color_difference</a></p>
+</dd>
+<dt class="label" id="r6d08e505fdf3-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="http://www.ece.rochester.edu/~gsharma/ciede2000/ciede2000noteCRNA.pdf">http://www.ece.rochester.edu/~gsharma/ciede2000/ciede2000noteCRNA.pdf</a>
+<a class="reference external" href="https://doi.org/10.1364/AO.33.008069">DOI:10.1364/AO.33.008069</a></p>
+</dd>
+<dt class="label" id="r6d08e505fdf3-3"><span class="brackets">3</span></dt>
+<dd><p>M. Melgosa, J. Quesada, and E. Hita, “Uniformity of some recent
+color metrics tested with an accurate color-difference tolerance
+dataset,” Appl. Opt. 33, 8069-8077 (1994).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="deltae-cmc">
+<h2>deltaE_cmc<a class="headerlink" href="#deltae-cmc" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.color.deltaE_cmc">
+<code class="sig-prename descclassname">skimage.color.</code><code class="sig-name descname">deltaE_cmc</code><span class="sig-paren">(</span><em class="sig-param">lab1</em>, <em class="sig-param">lab2</em>, <em class="sig-param">kL=1</em>, <em class="sig-param">kC=1</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/delta_e.py#L247"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.color.deltaE_cmc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Color difference from the  CMC l:c standard.</p>
+<p>This color difference was developed by the Colour Measurement Committee
+(CMC) of the Society of Dyers and Colourists (United Kingdom). It is
+intended for use in the textile industry.</p>
+<p>The scale factors <em class="xref py py-obj">kL</em>, <em class="xref py py-obj">kC</em> set the weight given to differences in
+lightness and chroma relative to differences in hue.  The usual values are
+<code class="docutils literal notranslate"><span class="pre">kL=2</span></code>, <code class="docutils literal notranslate"><span class="pre">kC=1</span></code> for “acceptability” and <code class="docutils literal notranslate"><span class="pre">kL=1</span></code>, <code class="docutils literal notranslate"><span class="pre">kC=1</span></code> for
+“imperceptibility”.  Colors with <code class="docutils literal notranslate"><span class="pre">dE</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> are “different” for the given
+scale factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lab1</strong><span class="classifier">array_like</span></dt><dd><p>reference color (Lab colorspace)</p>
+</dd>
+<dt><strong>lab2</strong><span class="classifier">array_like</span></dt><dd><p>comparison color (Lab colorspace)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dE</strong><span class="classifier">array_like</span></dt><dd><p>distance between colors <em class="xref py py-obj">lab1</em> and <em class="xref py py-obj">lab2</em></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>deltaE_cmc the defines the scales for the lightness, hue, and chroma
+in terms of the first color.  Consequently
+<code class="docutils literal notranslate"><span class="pre">deltaE_cmc(lab1,</span> <span class="pre">lab2)</span> <span class="pre">!=</span> <span class="pre">deltaE_cmc(lab2,</span> <span class="pre">lab1)</span></code></p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r1c96f965f867-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Color_difference">https://en.wikipedia.org/wiki/Color_difference</a></p>
+</dd>
+<dt class="label" id="r1c96f965f867-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html">http://www.brucelindbloom.com/index.html?Eqn_DeltaE_CIE94.html</a></p>
+</dd>
+<dt class="label" id="r1c96f965f867-3"><span class="brackets">3</span></dt>
+<dd><p>F. J. J. Clarke, R. McDonald, and B. Rigg, “Modification to the
+JPC79 colour-difference formula,” J. Soc. Dyers Colour. 100, 128-132
+(1984).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

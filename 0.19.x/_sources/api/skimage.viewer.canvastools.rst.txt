@@ -1,0 +1,76 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+Module: :mod:`viewer.canvastools`
+=================================
+.. automodule:: skimage.viewer.canvastools
+
+.. currentmodule:: skimage.viewer.canvastools
+.. autosummary::
+
+
+   skimage.viewer.canvastools.LineTool
+   skimage.viewer.canvastools.PaintTool
+   skimage.viewer.canvastools.RectangleTool
+   skimage.viewer.canvastools.ThickLineTool
+
+    skimage.viewer.canvastools.base
+    skimage.viewer.canvastools.linetool
+    skimage.viewer.canvastools.painttool
+    skimage.viewer.canvastools.recttool
+
+
+:class:`LineTool`
+-----------------
+
+
+.. autoclass:: LineTool
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__
+
+.. include:: skimage.viewer.canvastools.LineTool.examples
+
+
+:class:`PaintTool`
+------------------
+
+
+.. autoclass:: PaintTool
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__
+
+.. include:: skimage.viewer.canvastools.PaintTool.examples
+
+
+:class:`RectangleTool`
+----------------------
+
+
+.. autoclass:: RectangleTool
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__
+
+.. include:: skimage.viewer.canvastools.RectangleTool.examples
+
+
+:class:`ThickLineTool`
+----------------------
+
+
+.. autoclass:: ThickLineTool
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__
+
+.. include:: skimage.viewer.canvastools.ThickLineTool.examples
+

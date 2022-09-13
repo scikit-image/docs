@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Max-tree &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Release notes" href="../../release_notes_and_installation.html" />
+        <link rel="prev" title="Li thresholding" href="plot_threshold_li.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Max-tree</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#references">References</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#image-definition">Image Definition</a></li>
+<li><a class="reference internal" href="#id9">Max-tree</a></li>
+<li><a class="reference internal" href="#image-plots">Image plots</a></li>
+<li><a class="reference internal" href="#visualizing-threshold-operations">Visualizing threshold operations</a></li>
+<li><a class="reference internal" href="#max-tree-plots">Max-tree plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-developers-plot-max-tree-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="max-tree">
+<span id="sphx-glr-auto-examples-developers-plot-max-tree-py"></span><h1>Max-tree<a class="headerlink" href="#max-tree" title="Permalink to this headline">¶</a></h1>
+<p>The max-tree is a hierarchical representation of an image that is the basis
+for a large family of morphological filters.</p>
+<p>If we apply a threshold operation to an image, we obtain a binary image
+containing one or several connected components. If we apply a lower
+threshold, all the connected components from the higher threshold are
+contained in the connected components from the lower threshold. This
+naturally defines a hierarchy of nested components that can be
+represented by a tree. whenever a connected component A obtained by
+thresholding with threshold t1 is contained in a component B obtained by
+thresholding with threshold t1 &lt; t2, we say that B is the parent of A.
+The resulting tree structure is called a component tree. The max-tree
+is a compact representation of such a component tree. <a class="footnote-reference brackets" href="#id5" id="id1">1</a>, <a class="footnote-reference brackets" href="#id6" id="id2">2</a>, <a class="footnote-reference brackets" href="#id7" id="id3">3</a>, <a class="footnote-reference brackets" href="#id8" id="id4">4</a></p>
+<p>In this example we give an intuition of what a max-tree is.</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Salembier, P., Oliveras, A., &amp; Garrido, L. (1998). Antiextensive
+Connected Operators for Image and Sequence Processing.
+IEEE Transactions on Image Processing, 7(4), 555-570.
+<a class="reference external" href="https://doi.org/10.1109/83.663500">DOI:10.1109/83.663500</a></p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Berger, C., Geraud, T., Levillain, R., Widynski, N., Baillard, A.,
+Bertin, E. (2007). Effective Component Tree Computation with
+Application to Pattern Recognition in Astronomical Imaging.
+In International Conference on Image Processing (ICIP) (pp. 41-44).
+<a class="reference external" href="https://doi.org/10.1109/ICIP.2007.4379949">DOI:10.1109/ICIP.2007.4379949</a></p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>Najman, L., &amp; Couprie, M. (2006). Building the component tree in
+quasi-linear time. IEEE Transactions on Image Processing, 15(11),
+3531-3539.
+<a class="reference external" href="https://doi.org/10.1109/TIP.2006.877518">DOI:10.1109/TIP.2006.877518</a></p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>Carlinet, E., &amp; Geraud, T. (2014). A Comparative Review of
+Component Tree Computation Algorithms. IEEE Transactions on Image
+Processing, 23(9), 3885-3895.
+<a class="reference external" href="https://doi.org/10.1109/TIP.2014.2336551">DOI:10.1109/TIP.2014.2336551</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="k">import</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="View documentation for matplotlib.lines.Line2D"><span class="n">Line2D</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.max_tree" title="View documentation for skimage.morphology.max_tree"><span class="n">max_tree</span></a>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+</pre></div>
+</div>
+<p>Before we start : a few helper functions</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_img</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">plot_text</span><span class="p">,</span> <span class="n">image_values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot an image, overlaying image values or indices.&quot;&quot;&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="View documentation for matplotlib.lines.Line2D"><span class="n">Line2D</span></a><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span>
+                             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="View documentation for matplotlib.lines.Line2D"><span class="n">Line2D</span></a><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">plot_text</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndindex.html#numpy.ndindex" title="View documentation for numpy.ndindex"><span class="n">np</span><span class="o">.</span><span class="n">ndindex</span></a><span class="p">(</span><span class="o">*</span><span class="n">image_values</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">image_values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                    <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                    <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">prune</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform a canonical max tree to a max tree.&quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preds</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;, </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">p</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prune</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">accumulate</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transform a max tree to a component tree.&quot;&quot;&quot;</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+
+<span class="k">def</span> <span class="nf">position_nodes_for_max_tree</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">image_rav</span><span class="p">,</span> <span class="n">root_x</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">delta_x</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the position of nodes of a max-tree.</span>
+
+<span class="sd">    This function helps to visually distinguish between nodes at the same</span>
+<span class="sd">    level of the hierarchy and nodes at different levels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">topological_sort</span><span class="p">(</span><span class="n">canonical_max_tree</span><span class="p">))):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># root</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">root_x</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">in_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">)]</span>
+
+        <span class="c1"># place the nodes at the same level</span>
+        <span class="n">level_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span>
+                       <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">image_rav</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">,</span> <span class="n">in_nodes</span><span class="p">)]</span>
+        <span class="n">nb_level_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="n">nb_level_nodes</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="o">-</span> <span class="n">c</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="n">hy</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hy</span> <span class="o">=</span> <span class="mf">0.25</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">hy</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">level_node</span> <span class="ow">in</span> <span class="n">level_nodes</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">):</span>
+                <span class="n">pos</span><span class="p">[</span><span class="n">level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span><span class="p">[</span><span class="n">level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span>
+                                   <span class="n">value</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># place the nodes at different levels</span>
+        <span class="n">other_level_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span>
+                             <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">image_rav</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">,</span> <span class="n">in_nodes</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">other_level_node</span> <span class="ow">in</span> <span class="n">other_level_nodes</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)):</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">other_level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span>
+                                     <span class="n">image_rav</span><span class="p">[</span><span class="n">other_level_node</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">pos</span>
+
+
+<span class="k">def</span> <span class="nf">plot_tree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot max and component trees.&quot;&quot;&quot;</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                     <span class="n">node_size</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">node_shape</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                     <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">xlimit</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">image_rav</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">image_rav</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">v</span> <span class="o">-</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;val: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">text_size</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="image-definition">
+<h3>Image Definition<a class="headerlink" href="#image-definition" title="Permalink to this headline">¶</a></h3>
+<p>We define a small test image.
+For clarity, we choose an example image, where image values cannot be
+confounded with indices (different range).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">36</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>Max-tree<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Next, we calculate the max-tree of this image.
+max-tree of the image</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">P</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.max_tree" title="View documentation for skimage.morphology.max_tree"><span class="n">max_tree</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<span class="n">P_rav</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image-plots">
+<h3>Image plots<a class="headerlink" href="#image-plots" title="Permalink to this headline">¶</a></h3>
+<p>Then, we visualize the image and its raveled indices.
+Concretely, we plot the image with the following overlays:
+- the image values
+- the raveled indices (serve as pixel identifiers)
+- the output of the max_tree function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># raveled image</span>
+<span class="n">image_rav</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># raveled indices of the example image (for display purpose)</span>
+<span class="n">raveled_indices</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">plot_img</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">image</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">&#39;Image Values&#39;</span><span class="p">,</span>
+         <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+<span class="n">plot_img</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">image</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">&#39;Raveled Indices&#39;</span><span class="p">,</span>
+         <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><span class="n">raveled_indices</span><span class="p">)</span>
+<span class="n">plot_img</span><span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="n">image</span> <span class="o">-</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">&#39;Max-tree indices&#39;</span><span class="p">,</span>
+         <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_max_tree_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_max_tree_001.png" />
+</div>
+<div class="section" id="visualizing-threshold-operations">
+<h3>Visualizing threshold operations<a class="headerlink" href="#visualizing-threshold-operations" title="Permalink to this headline">¶</a></h3>
+<p>Now, we investigate the results of a series of threshold operations.
+The component tree (and max-tree) provide representations of the
+inclusion relationships between connected components at different
+levels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">thresholds</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.unique.html#numpy.unique" title="View documentation for numpy.unique"><span class="n">np</span><span class="o">.</span><span class="n">unique</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">threshold</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">thresholds</span><span class="p">):</span>
+    <span class="n">bin_img</span> <span class="o">=</span> <span class="n">image</span> <span class="o">&gt;=</span> <span class="n">threshold</span>
+    <span class="n">plot_img</span><span class="p">(</span><span class="n">axes</span><span class="p">[(</span><span class="n">k</span> <span class="o">//</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">k</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)],</span> <span class="n">bin_img</span><span class="p">,</span> <span class="s1">&#39;Threshold : </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">threshold</span><span class="p">,</span>
+             <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><span class="n">raveled_indices</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_max_tree_002.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_max_tree_002.png" />
+</div>
+<div class="section" id="max-tree-plots">
+<h3>Max-tree plots<a class="headerlink" href="#max-tree-plots" title="Permalink to this headline">¶</a></h3>
+<p>Now, we plot the component and max-trees. A component tree relates
+the different pixel sets resulting from all possible threshold operations
+to each other. There is an arrow in the graph, if a component at one level
+is included in the component of a lower level. The max-tree is just
+a different encoding of the pixel sets.</p>
+<ol class="arabic simple">
+<li><p>the component tree: pixel sets are explicitly written out. We see for
+instance that {6} (result of applying a threshold at 41) is the parent
+of {0, 1, 5, 6} (threshold at 40).</p></li>
+<li><p>the max-tree: only pixels that come into the set at this level
+are explicitly written out. We therefore will write
+{6} -&gt; {0,1,5} instead of {6} -&gt; {0, 1, 5, 6}</p></li>
+<li><p>the canonical max-treeL this is the representation which is given by
+our implementation. Here, every pixel is a node. Connected components
+of several pixels are represented by one of the pixels. We thus replace
+{6} -&gt; {0,1,5} by {6} -&gt; {5}, {1} -&gt; {5}, {0} -&gt; {5}
+This allows us to represent the graph by an image (top row, third column).</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># the canonical max-tree graph</span>
+<span class="n">canonical_max_tree</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+<span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_rav</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+<span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="n">n</span><span class="p">,</span> <span class="n">P_rav</span><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+
+<span class="c1"># max-tree from the canonical max-tree</span>
+<span class="n">nx_max_tree</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">(</span><span class="n">canonical_max_tree</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">prune</span><span class="p">(</span><span class="n">nx_max_tree</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># component tree from the max-tree</span>
+<span class="n">labels_ct</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">total</span> <span class="o">=</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">nx_max_tree</span><span class="p">,</span> <span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels_ct</span><span class="p">)</span>
+
+<span class="c1"># positions of nodes : canonical max-tree (CMT)</span>
+<span class="n">pos_cmt</span> <span class="o">=</span> <span class="n">position_nodes_for_max_tree</span><span class="p">(</span><span class="n">canonical_max_tree</span><span class="p">,</span> <span class="n">image_rav</span><span class="p">)</span>
+
+<span class="c1"># positions of nodes : max-tree (MT)</span>
+<span class="n">pos_mt</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">nx_max_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="p">[</span><span class="n">pos_cmt</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+                                      <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nx_max_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">]))</span>
+
+<span class="c1"># plot the trees with networkx and matplotlib</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">nx_max_tree</span><span class="p">,</span> <span class="n">pos_mt</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Component tree&#39;</span><span class="p">,</span>
+          <span class="n">labels</span><span class="o">=</span><span class="n">labels_ct</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">nx_max_tree</span><span class="p">,</span> <span class="n">pos_mt</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Max tree&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">canonical_max_tree</span><span class="p">,</span> <span class="n">pos_cmt</span><span class="p">,</span> <span class="n">ax3</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Canonical max tree&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_max_tree_003.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_max_tree_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/networkx/drawing/nx_pylab.py:579: MatplotlibDeprecationWarning:
+The iterable function was deprecated in Matplotlib 3.1 and will be removed in 3.3. Use np.iterable instead.
+  if not cb.iterable(width):
+/home/nelle/.miniconda3/envs/skimage/lib/python3.6/site-packages/networkx/drawing/nx_pylab.py:676: MatplotlibDeprecationWarning:
+The iterable function was deprecated in Matplotlib 3.1 and will be removed in 3.3. Use np.iterable instead.
+  if cb.iterable(node_size):  # many node sizes
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.332 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-developers-plot-max-tree-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/36f61bcadc7d4a834ce457e3714826df/plot_max_tree.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_max_tree.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a6f710429c34a8591797d74c1c5b4285/plot_max_tree.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_max_tree.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

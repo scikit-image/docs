@@ -1,0 +1,41 @@
+.. AUTO-GENERATED FILE -- DO NOT EDIT!
+
+Module: :mod:`viewer`
+=====================
+.. automodule:: skimage.viewer
+
+.. currentmodule:: skimage.viewer
+.. autosummary::
+
+   skimage.viewer.warn
+
+   skimage.viewer.CollectionViewer
+   skimage.viewer.ImageViewer
+
+warn
+----
+
+.. autofunction:: skimage.viewer.warn
+
+
+:class:`CollectionViewer`
+-------------------------
+
+
+.. autoclass:: CollectionViewer
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__
+
+:class:`ImageViewer`
+--------------------
+
+
+.. autoclass:: ImageViewer
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+  .. automethod:: __init__

@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>ORB feature detector and binary descriptor &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script src="../../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Gabors / Primary Visual Cortex “Simple Cells” from an Image" href="plot_gabors_from_astronaut.html" />
+        <link rel="prev" title="Blob Detection" href="plot_blob.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-features-detection-plot-orb-py"><span class="std std-ref">here</span></a>     to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<div class="sphx-glr-example-title section" id="orb-feature-detector-and-binary-descriptor">
+<span id="sphx-glr-auto-examples-features-detection-plot-orb-py"></span><h1>ORB feature detector and binary descriptor<a class="headerlink" href="#orb-feature-detector-and-binary-descriptor" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates the ORB feature detection and binary description
+algorithm. It uses an oriented FAST detection method and the rotated BRIEF
+descriptors.</p>
+<p>Unlike BRIEF, ORB is comparatively scale and rotation invariant while still
+employing the very efficient Hamming distance metric for matching. As such, it
+is preferred for real-time applications.</p>
+<img alt="Original Image vs. Transformed Image, Original Image vs. Transformed Image" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_orb_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.match_descriptors" title="skimage.feature.match_descriptors" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">match_descriptors</span></a><span class="p">,</span> <span class="n">corner_harris</span><span class="p">,</span>
+                             <span class="n">corner_peaks</span><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.ORB" title="skimage.feature.ORB" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-class"><span class="n">ORB</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="skimage.feature.plot_matches" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">plot_matches</span></a><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">rgb2gray</span></a>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">rgb2gray</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.astronaut" title="skimage.data.astronaut" class="sphx-glr-backref-module-skimage-data sphx-glr-backref-type-py-function"><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span></a><span class="p">())</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img2</span></a> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="skimage.transform.rotate" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-function"><span class="n">transform</span><span class="o">.</span><span class="n">rotate</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+<a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="skimage.transform.AffineTransform" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tform</span></a> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="skimage.transform.AffineTransform" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-class"><span class="n">transform</span><span class="o">.</span><span class="n">AffineTransform</span></a><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                  <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">200</span><span class="p">))</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img3</span></a> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.warp" title="skimage.transform.warp" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-function"><span class="n">transform</span><span class="o">.</span><span class="n">warp</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a><span class="p">,</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="skimage.transform.AffineTransform" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tform</span></a><span class="p">)</span>
+
+<a href="../../api/skimage.feature.html#skimage.feature.ORB" title="skimage.feature.ORB" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span></a> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.ORB" title="skimage.feature.ORB" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-class"><span class="n">ORB</span></a><span class="p">(</span><span class="n">n_keypoints</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<a href="../../api/skimage.feature.html#skimage.feature.ORB.detect_and_extract" title="skimage.feature.ORB.detect_and_extract" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-method"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">detect_and_extract</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints1</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">keypoints</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors1</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">descriptors</span></a>
+
+<a href="../../api/skimage.feature.html#skimage.feature.ORB.detect_and_extract" title="skimage.feature.ORB.detect_and_extract" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-method"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">detect_and_extract</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img2</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints2</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">keypoints</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors2</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">descriptors</span></a>
+
+<a href="../../api/skimage.feature.html#skimage.feature.ORB.detect_and_extract" title="skimage.feature.ORB.detect_and_extract" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-method"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">detect_and_extract</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img3</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints3</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">keypoints</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors3</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptor_extractor</span><span class="o">.</span><span class="n">descriptors</span></a>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">matches12</span></a> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.match_descriptors" title="skimage.feature.match_descriptors" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">match_descriptors</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors2</span></a><span class="p">,</span> <span class="n">cross_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">matches13</span></a> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.match_descriptors" title="skimage.feature.match_descriptors" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">match_descriptors</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">descriptors3</span></a><span class="p">,</span> <span class="n">cross_check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.gray.html#matplotlib.pyplot.gray" title="matplotlib.pyplot.gray" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">gray</span></a><span class="p">()</span>
+
+<a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="skimage.feature.plot_matches" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">plot_matches</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img2</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints2</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">matches12</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original Image vs. Transformed Image&quot;</span><span class="p">)</span>
+
+<a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="skimage.feature.plot_matches" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">plot_matches</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">keypoints3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">matches13</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original Image vs. Transformed Image&quot;</span><span class="p">)</span>
+
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.641 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-features-detection-plot-orb-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/master?filepath=notebooks/auto_examples/features_detection/plot_orb.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/2bcc8d0bb5f1361996dc96bea6dd130a/plot_orb.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_orb.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/cc81319dae6ae0431287a745efb9aa1a/plot_orb.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_orb.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+		We hope that this example was useful. If you have questions
+		unanswered by our documentation, you can ask them on the 
+		<a href="https://forum.image.sc/tag/scikit-image"> Image.sc
+		    forum</a>, 
+		where scikit-image developers and users are present.</br>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

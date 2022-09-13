@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Hierarchical Merging of Region Boundary RAGs &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Extrema" href="plot_extrema.html" />
+        <link rel="prev" title="RAG Merging" href="plot_rag_merge.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-boundary-merge-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="hierarchical-merging-of-region-boundary-rags">
+<span id="sphx-glr-auto-examples-segmentation-plot-boundary-merge-py"></span><h1>Hierarchical Merging of Region Boundary RAGs<a class="headerlink" href="#hierarchical-merging-of-region-boundary-rags" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates how to perform hierarchical merging on region
+boundary Region Adjacency Graphs (RAGs). Region boundary RAGs can be
+constructed with the <a class="reference internal" href="../../api/skimage.future.graph.html#skimage.future.graph.rag_boundary" title="skimage.future.graph.rag_boundary"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.future.graph.rag_boundary()</span></code></a> function.
+The regions with the lowest edge weights are successively merged until there
+is no edge with weight less than <code class="docutils literal notranslate"><span class="pre">thresh</span></code>. The hierarchical merging is done
+through the <a class="reference internal" href="../../api/skimage.future.graph.html#skimage.future.graph.merge_hierarchical" title="skimage.future.graph.merge_hierarchical"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.future.graph.merge_hierarchical()</span></code></a> function.
+For an example of how to construct region boundary based RAGs, see
+<a class="reference internal" href="plot_rag_boundary.html"><span class="doc">Region Boundary based RAGs</span></a>.</p>
+<ul class="sphx-glr-horizontal">
+<li><img alt="../../_images/sphx_glr_plot_boundary_merge_001.png" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_boundary_merge_001.png" />
+</li>
+<li><img alt="../../_images/sphx_glr_plot_boundary_merge_002.png" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_boundary_merge_002.png" />
+</li>
+<li><img alt="../../_images/sphx_glr_plot_boundary_merge_003.png" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_boundary_merge_003.png" />
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">color</span>
+<span class="kn">from</span> <span class="nn">skimage.future</span> <span class="k">import</span> <a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="k">def</span> <span class="nf">weight_boundary</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handle merging of nodes of a region boundary region adjacency graph.</span>
+
+<span class="sd">    This function computes the `&quot;weight&quot;` and the count `&quot;count&quot;`</span>
+<span class="sd">    attributes of the edge between `n` and the node formed after</span>
+<span class="sd">    merging `src` and `dst`.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : RAG</span>
+<span class="sd">        The graph under consideration.</span>
+<span class="sd">    src, dst : int</span>
+<span class="sd">        The vertices in `graph` to be merged.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        A neighbor of `src` or `dst` or both.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        A dictionary with the &quot;weight&quot; and &quot;count&quot; attributes to be</span>
+<span class="sd">        assigned for the merged node.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="n">count_src</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">[</span><span class="n">src</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">default</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+    <span class="n">count_dst</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">[</span><span class="n">dst</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">default</span><span class="p">)[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+
+    <span class="n">weight_src</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">[</span><span class="n">src</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">default</span><span class="p">)[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+    <span class="n">weight_dst</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">[</span><span class="n">dst</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">default</span><span class="p">)[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+
+    <span class="n">count</span> <span class="o">=</span> <span class="n">count_src</span> <span class="o">+</span> <span class="n">count_dst</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span>
+        <span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">count_src</span> <span class="o">*</span> <span class="n">weight_src</span> <span class="o">+</span> <span class="n">count_dst</span> <span class="o">*</span> <span class="n">weight_dst</span><span class="p">)</span><span class="o">/</span><span class="n">count</span>
+    <span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">merge_boundary</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#module-skimage.future.graph" title="View documentation for skimage.future.graph"><span class="n">graph</span></a><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Call back called before merging 2 nodes.</span>
+
+<span class="sd">    In this case we don&#39;t need to do any computation here.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="n">img</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.coffee" title="View documentation for skimage.data.coffee"><span class="n">data</span><span class="o">.</span><span class="n">coffee</span></a><span class="p">()</span>
+<span class="n">edges</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.sobel" title="View documentation for skimage.filters.sobel"><span class="n">filters</span><span class="o">.</span><span class="n">sobel</span></a><span class="p">(</span><a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span></a><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+<span class="n">labels</span> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.slic" title="View documentation for skimage.segmentation.slic"><span class="n">segmentation</span><span class="o">.</span><span class="n">slic</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">compactness</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.rag_boundary" title="View documentation for skimage.future.graph.rag_boundary"><span class="n">graph</span><span class="o">.</span><span class="n">rag_boundary</span></a><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.show_rag" title="View documentation for skimage.future.graph.show_rag"><span class="n">graph</span><span class="o">.</span><span class="n">show_rag</span></a><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Initial RAG&#39;</span><span class="p">)</span>
+
+<span class="n">labels2</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.merge_hierarchical" title="View documentation for skimage.future.graph.merge_hierarchical"><span class="n">graph</span><span class="o">.</span><span class="n">merge_hierarchical</span></a><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">rag_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">in_place_merge</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">merge_func</span><span class="o">=</span><span class="n">merge_boundary</span><span class="p">,</span>
+                                   <span class="n">weight_func</span><span class="o">=</span><span class="n">weight_boundary</span><span class="p">)</span>
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.show_rag" title="View documentation for skimage.future.graph.show_rag"><span class="n">graph</span><span class="o">.</span><span class="n">show_rag</span></a><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;RAG after hierarchical merging&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<span class="n">out</span> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="View documentation for skimage.color.label2rgb"><span class="n">color</span><span class="o">.</span><span class="n">label2rgb</span></a><span class="p">(</span><span class="n">labels2</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;avg&#39;</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Final segmentation&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.217 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-boundary-merge-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/844bb1eea2a604a94d074ab2a4eaeffc/plot_boundary_merge.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_boundary_merge.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/10cf0dbd55cbaa2777edf990ae181ab8/plot_boundary_merge.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_boundary_merge.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

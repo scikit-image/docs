@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module: measure &mdash; skimage v0.4 docs</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="skimage v0.4 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">measure</span></tt></a><ul>
+<li><a class="reference internal" href="#find-contours">find_contours</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/skimage.measure.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-skimage.measure">
+<span id="module-measure"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">measure</span></tt><a class="headerlink" href="#module-skimage.measure" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="#skimage.measure.find_contours" title="skimage.measure.find_contours"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.measure.find_contours</span></tt></a>(array,&nbsp;level)</td>
+<td>Find iso-valued contours in a 2D array for a given level value.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="find-contours">
+<h2>find_contours<a class="headerlink" href="#find-contours" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.measure.find_contours">
+<tt class="descclassname">skimage.measure.</tt><tt class="descname">find_contours</tt><big>(</big><em>array</em>, <em>level</em>, <em>fully_connected='low'</em>, <em>positive_orientation='low'</em><big>)</big><a class="headerlink" href="#skimage.measure.find_contours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find iso-valued contours in a 2D array for a given level value.</p>
+<p>Uses the &#8220;marching squares&#8221; method to compute a the iso-valued contours of
+the input 2D array for a particular level value. Array values are linearly
+interpolated to provide better precision for the output contours.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>array</strong> : 2D ndarray of double</p>
+<blockquote>
+<div><p>Input data in which to find contours.</p>
+</div></blockquote>
+<p><strong>level</strong> : float</p>
+<blockquote>
+<div><p>Value along which to find contours in the array.</p>
+</div></blockquote>
+<p><strong>fully_connected</strong> : str, {&#8216;low&#8217;, &#8216;high&#8217;}</p>
+<blockquote>
+<div><p>Indicates whether array elements below the given level value are to be
+considered fully-connected (and hence elements above the value will
+only be face connected), or vice-versa. (See notes below for details.)</p>
+</div></blockquote>
+<p><strong>positive_orientation</strong> : either &#8216;low&#8217; or &#8216;high&#8217;</p>
+<blockquote>
+<div><p>Indicates whether the output contours will produce positively-oriented
+polygons around islands of low- or high-valued elements. If &#8216;low&#8217; then
+contours will wind counter- clockwise around elements below the
+iso-value. Alternately, this means that low-valued elements are always
+on the left of the contour. (See below for details.)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>contours</strong> : list of (n,2)-ndarrays</p>
+<blockquote class="last">
+<div><p>Each contour is an ndarray of shape <tt class="docutils literal"><span class="pre">(n,</span> <span class="pre">2)</span></tt>,
+consisting of n <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">y)</span></tt> coordinates along the contour.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The marching squares algorithm is a special case of the marching cubes
+algorithm <a class="reference internal" href="#r30">[R30]</a>.  A simple explanation is available here:</p>
+<div class="highlight-python"><pre>http://www.essi.fr/~lingrand/MarchingCubes/algo.html</pre>
+</div>
+<p>There is a single ambiguous case in the marching squares algorithm: when
+a given <tt class="docutils literal"><span class="pre">2</span> <span class="pre">x</span> <span class="pre">2</span></tt>-element square has two high-valued and two low-valued
+elements, each pair diagonally adjacent. (Where high- and low-valued is
+with respect to the contour value sought.) In this case, either the
+high-valued elements can be &#8216;connected together&#8217; via a thin isthmus that
+separates the low-valued elements, or vice-versa. When elements are
+connected together across a diagonal, they are considered &#8216;fully
+connected&#8217; (also known as &#8216;face+vertex-connected&#8217; or &#8216;8-connected&#8217;). Only
+high-valued or low-valued elements can be fully-connected, the other set
+will be considered as &#8216;face-connected&#8217; or &#8216;4-connected&#8217;. By default,
+low-valued elements are considered fully-connected; this can be altered
+with the &#8216;fully_connected&#8217; parameter.</p>
+<p>Output contours are not guaranteed to be closed: contours which intersect
+the array edge will be left open. All other contours will be closed. (The
+closed-ness of a contours can be tested by checking whether the beginning
+point is the same as the end point.)</p>
+<p>Contours are oriented. By default, array values lower than the contour
+value are to the left of the contour and values greater than the contour
+value are to the right. This means that contours will wind
+counter-clockwise (i.e. in &#8216;positive orientation&#8217;) around islands of
+low-valued pixels. This behavior can be altered with the
+&#8216;positive_orientation&#8217; parameter.</p>
+<p>The order of the contours in the output list is determined by the position
+of the smallest <tt class="docutils literal"><span class="pre">x,y</span></tt> (in lexicographical order) coordinate in the
+contour.  This is a side-effect of how the input array is traversed, but
+can be relied upon.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Array coordinates/values are assumed to refer to the <em>center</em> of the
+array element. Take a simple example input: <tt class="docutils literal"><span class="pre">[0,</span> <span class="pre">1]</span></tt>. The interpolated
+position of 0.5 in this array is midway between the 0-element (at
+<tt class="docutils literal"><span class="pre">x=0</span></tt>) and the 1-element (at <tt class="docutils literal"><span class="pre">x=1</span></tt>), and thus would fall at
+<tt class="docutils literal"><span class="pre">x=0.5</span></tt>.</p>
+</div>
+<p>This means that to find reasonable contours, it is best to find contours
+midway between the expected &#8220;light&#8221; and &#8220;dark&#8221; values. In particular,
+given a binarized array, <em>do not</em> choose to find contours at the low or high
+value of the array. This will often yield degenerate contours, especially
+around structures that are a single array element wide. Instead choose
+a middle value, as above.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r30" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R30]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Lorensen, William and Harvey E. Cline. Marching Cubes: A High
+Resolution 3D Surface Construction Algorithm. Computer Graphics
+(SIGGRAPH 87 Proceedings) 21(4) July 1987, p. 163-170).</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

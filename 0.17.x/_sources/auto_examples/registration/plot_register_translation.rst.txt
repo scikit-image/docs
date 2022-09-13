@@ -1,0 +1,173 @@
+.. only:: html
+
+    .. note::
+        :class: sphx-glr-download-link-note
+
+        Click :ref:`here <sphx_glr_download_auto_examples_registration_plot_register_translation.py>`     to download the full example code or to run this example in your browser via Binder
+    .. rst-class:: sphx-glr-example-title
+
+    .. _sphx_glr_auto_examples_registration_plot_register_translation.py:
+
+
+=====================================
+Image Registration
+=====================================
+
+In this example, we use phase cross-correlation to identify the
+relative shift between two similar-sized images.
+
+The ``phase_cross_correlation`` function uses cross-correlation in
+Fourier space, optionally employing an upsampled matrix-multiplication
+DFT to achieve arbitrary subpixel precision [1]_.
+
+.. [1] Manuel Guizar-Sicairos, Samuel T. Thurman, and James R. Fienup,
+       "Efficient subpixel image registration algorithms," Optics Letters 33,
+       156-158 (2008). :DOI:`10.1364/OL.33.000156`
+
+
+
+.. rst-class:: sphx-glr-horizontal
+
+
+    *
+
+      .. image:: /auto_examples/registration/images/sphx_glr_plot_register_translation_001.png
+            :class: sphx-glr-multi-img
+
+    *
+
+      .. image:: /auto_examples/registration/images/sphx_glr_plot_register_translation_002.png
+            :class: sphx-glr-multi-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    Known offset (y, x): (-22.4, 13.32)
+    Detected pixel offset (y, x): [ 22. -13.]
+    Detected subpixel offset (y, x): [ 22.4  -13.32]
+
+
+
+
+
+
+|
+
+
+.. code-block:: default
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    from skimage import data
+    from skimage.registration import phase_cross_correlation
+    from skimage.registration._phase_cross_correlation import _upsampled_dft
+    from scipy.ndimage import fourier_shift
+
+    image = data.camera()
+    shift = (-22.4, 13.32)
+    # The shift corresponds to the pixel offset relative to the reference image
+    offset_image = fourier_shift(np.fft.fftn(image), shift)
+    offset_image = np.fft.ifftn(offset_image)
+    print(f"Known offset (y, x): {shift}")
+
+    # pixel precision first
+    shift, error, diffphase = phase_cross_correlation(image, offset_image)
+
+    fig = plt.figure(figsize=(8, 3))
+    ax1 = plt.subplot(1, 3, 1)
+    ax2 = plt.subplot(1, 3, 2, sharex=ax1, sharey=ax1)
+    ax3 = plt.subplot(1, 3, 3)
+
+    ax1.imshow(image, cmap='gray')
+    ax1.set_axis_off()
+    ax1.set_title('Reference image')
+
+    ax2.imshow(offset_image.real, cmap='gray')
+    ax2.set_axis_off()
+    ax2.set_title('Offset image')
+
+    # Show the output of a cross-correlation to show what the algorithm is
+    # doing behind the scenes
+    image_product = np.fft.fft2(image) * np.fft.fft2(offset_image).conj()
+    cc_image = np.fft.fftshift(np.fft.ifft2(image_product))
+    ax3.imshow(cc_image.real)
+    ax3.set_axis_off()
+    ax3.set_title("Cross-correlation")
+
+    plt.show()
+
+    print(f"Detected pixel offset (y, x): {shift}")
+
+    # subpixel precision
+    shift, error, diffphase = phase_cross_correlation(image, offset_image,
+                                                      upsample_factor=100)
+
+    fig = plt.figure(figsize=(8, 3))
+    ax1 = plt.subplot(1, 3, 1)
+    ax2 = plt.subplot(1, 3, 2, sharex=ax1, sharey=ax1)
+    ax3 = plt.subplot(1, 3, 3)
+
+    ax1.imshow(image, cmap='gray')
+    ax1.set_axis_off()
+    ax1.set_title('Reference image')
+
+    ax2.imshow(offset_image.real, cmap='gray')
+    ax2.set_axis_off()
+    ax2.set_title('Offset image')
+
+    # Calculate the upsampled DFT, again to show what the algorithm is doing
+    # behind the scenes.  Constants correspond to calculated values in routine.
+    # See source code for details.
+    cc_image = _upsampled_dft(image_product, 150, 100, (shift*100)+75).conj()
+    ax3.imshow(cc_image.real)
+    ax3.set_axis_off()
+    ax3.set_title("Supersampled XC sub-area")
+
+
+    plt.show()
+
+    print(f"Detected subpixel offset (y, x): {shift}")
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  0.419 seconds)
+
+
+.. _sphx_glr_download_auto_examples_registration_plot_register_translation.py:
+
+
+.. only :: html
+
+ .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
+
+  .. container:: binder-badge
+
+    .. image:: https://mybinder.org/badge_logo.svg
+      :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/v0.17.x?filepath=notebooks/auto_examples/registration/plot_register_translation.ipynb
+      :width: 150 px
+
+
+  .. container:: sphx-glr-download sphx-glr-download-python
+
+     :download:`Download Python source code: plot_register_translation.py <plot_register_translation.py>`
+
+
+
+  .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+     :download:`Download Jupyter notebook: plot_register_translation.ipynb <plot_register_translation.ipynb>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

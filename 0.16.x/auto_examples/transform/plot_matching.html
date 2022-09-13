@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Robust matching using RANSAC &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Hysteresis thresholding" href="../filters/plot_hysteresis.html" />
+        <link rel="prev" title="Radon transform" href="plot_radon_transform.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-transform-plot-matching-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="robust-matching-using-ransac">
+<span id="sphx-glr-auto-examples-transform-plot-matching-py"></span><h1>Robust matching using RANSAC<a class="headerlink" href="#robust-matching-using-ransac" title="Permalink to this headline">¶</a></h1>
+<p>In this simplified example we first generate two synthetic images as if they
+were taken from different view points.</p>
+<p>In the next step we find interest points in both images and find
+correspondences based on a weighted sum of squared differences of a small
+neighborhood around them. Note, that this measure is only robust towards
+linear radiometric and not geometric distortions and is thus only usable with
+slight view point changes.</p>
+<p>After finding the correspondences we end up having a set of source and
+destination coordinates which can be used to estimate the geometric
+transformation between both images. However, many of the correspondences are
+faulty and simply estimating the parameter set with all coordinates is not
+sufficient. Therefore, the RANSAC algorithm is used on top of the normal model
+to robustly estimate the parameter set by detecting outliers.</p>
+<img alt="../../_images/sphx_glr_plot_matching_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_matching_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Ground truth:
+Scale: (0.9000, 0.9000), Translation: (-10.0000, 20.0000), Rotation: -0.2000
+Affine transform:
+Scale: (0.9015, 0.8913), Translation: (-9.3136, 14.9768), Rotation: -0.1678
+RANSAC:
+Scale: (0.8999, 0.9001), Translation: (-10.0005, 19.9744), Rotation: -0.1999
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="k">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.util</span> <span class="k">import</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.util.img_as_float"><span class="n">img_as_float</span></a>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.corner_harris" title="View documentation for skimage.feature.corner_harris"><span class="n">corner_harris</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_subpix" title="View documentation for skimage.feature.corner_subpix"><span class="n">corner_subpix</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_peaks" title="View documentation for skimage.feature.corner_peaks"><span class="n">corner_peaks</span></a><span class="p">,</span>
+                             <a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="View documentation for skimage.feature.plot_matches"><span class="n">plot_matches</span></a><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="k">import</span> <a href="../../api/skimage.transform.html#skimage.transform.warp" title="View documentation for skimage.transform.warp"><span class="n">warp</span></a><span class="p">,</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="View documentation for skimage.transform.AffineTransform"><span class="n">AffineTransform</span></a>
+<span class="kn">from</span> <span class="nn">skimage.exposure</span> <span class="k">import</span> <a href="../../api/skimage.exposure.html#skimage.exposure.rescale_intensity" title="View documentation for skimage.exposure.rescale_intensity"><span class="n">rescale_intensity</span></a>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">rgb2gray</span></a>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="k">import</span> <a href="../../api/skimage.measure.html#skimage.measure.ransac" title="View documentation for skimage.measure.ransac"><span class="n">ransac</span></a>
+
+
+<span class="c1"># generate synthetic checkerboard image and add gradient for the later matching</span>
+<span class="n">checkerboard</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.util.img_as_float"><span class="n">img_as_float</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.checkerboard" title="View documentation for skimage.data.checkerboard"><span class="n">data</span><span class="o">.</span><span class="n">checkerboard</span></a><span class="p">())</span>
+<span class="n">img_orig</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">checkerboard</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">img_orig</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkerboard</span>
+<span class="n">gradient_r</span><span class="p">,</span> <span class="n">gradient_c</span> <span class="o">=</span> <span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mgrid.html#numpy.mgrid" title="View documentation for numpy.mgrid"><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span></a><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">img_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                   <span class="mi">0</span><span class="p">:</span><span class="n">img_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                          <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">img_orig</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">img_orig</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">gradient_r</span>
+<span class="n">img_orig</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">gradient_c</span>
+<span class="n">img_orig</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.rescale_intensity" title="View documentation for skimage.exposure.rescale_intensity"><span class="n">rescale_intensity</span></a><span class="p">(</span><span class="n">img_orig</span><span class="p">)</span>
+<span class="n">img_orig_gray</span> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">rgb2gray</span></a><span class="p">(</span><span class="n">img_orig</span><span class="p">)</span>
+
+<span class="c1"># warp synthetic image</span>
+<span class="n">tform</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="View documentation for skimage.transform.AffineTransform"><span class="n">AffineTransform</span></a><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">img_warped</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.warp" title="View documentation for skimage.transform.warp"><span class="n">warp</span></a><span class="p">(</span><span class="n">img_orig</span><span class="p">,</span> <span class="n">tform</span><span class="o">.</span><span class="n">inverse</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">img_warped_gray</span> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">rgb2gray</span></a><span class="p">(</span><span class="n">img_warped</span><span class="p">)</span>
+
+<span class="c1"># extract corners using Harris&#39; corner measure</span>
+<span class="n">coords_orig</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_peaks" title="View documentation for skimage.feature.corner_peaks"><span class="n">corner_peaks</span></a><span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.corner_harris" title="View documentation for skimage.feature.corner_harris"><span class="n">corner_harris</span></a><span class="p">(</span><span class="n">img_orig_gray</span><span class="p">),</span> <span class="n">threshold_rel</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+                           <span class="n">min_distance</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">coords_warped</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_peaks" title="View documentation for skimage.feature.corner_peaks"><span class="n">corner_peaks</span></a><span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.corner_harris" title="View documentation for skimage.feature.corner_harris"><span class="n">corner_harris</span></a><span class="p">(</span><span class="n">img_warped_gray</span><span class="p">),</span>
+                             <span class="n">threshold_rel</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># determine sub-pixel corner position</span>
+<span class="n">coords_orig_subpix</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_subpix" title="View documentation for skimage.feature.corner_subpix"><span class="n">corner_subpix</span></a><span class="p">(</span><span class="n">img_orig_gray</span><span class="p">,</span> <span class="n">coords_orig</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">coords_warped_subpix</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.corner_subpix" title="View documentation for skimage.feature.corner_subpix"><span class="n">corner_subpix</span></a><span class="p">(</span><span class="n">img_warped_gray</span><span class="p">,</span> <span class="n">coords_warped</span><span class="p">,</span>
+                                     <span class="n">window_size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">gaussian_weights</span><span class="p">(</span><span class="n">window_ext</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mgrid.html#numpy.mgrid" title="View documentation for numpy.mgrid"><span class="n">np</span><span class="o">.</span><span class="n">mgrid</span></a><span class="p">[</span><span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">g</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+    <span class="n">g</span><span class="p">[:]</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.exp.html#numpy.exp" title="View documentation for numpy.exp"><span class="n">np</span><span class="o">.</span><span class="n">exp</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">g</span> <span class="o">/=</span> <span class="mi">2</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/constants.html#numpy.pi" title="View documentation for numpy.pi"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span>
+    <span class="k">return</span> <span class="n">g</span>
+
+
+<span class="k">def</span> <span class="nf">match_corner</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">window_ext</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">intp</span><span class="p">)</span>
+    <span class="n">window_orig</span> <span class="o">=</span> <span class="n">img_orig</span><span class="p">[</span><span class="n">r</span><span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">r</span><span class="o">+</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                           <span class="n">c</span><span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">c</span><span class="o">+</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="c1"># weight pixels depending on distance to center pixel</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">gaussian_weights</span><span class="p">(</span><span class="n">window_ext</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.dstack.html#numpy.dstack" title="View documentation for numpy.dstack"><span class="n">np</span><span class="o">.</span><span class="n">dstack</span></a><span class="p">((</span><span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">))</span>
+
+    <span class="c1"># compute sum of squared differences to all corners in warped image</span>
+    <span class="n">SSDs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cr</span><span class="p">,</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">coords_warped</span><span class="p">:</span>
+        <span class="n">window_warped</span> <span class="o">=</span> <span class="n">img_warped</span><span class="p">[</span><span class="n">cr</span><span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">cr</span><span class="o">+</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                   <span class="n">cc</span><span class="o">-</span><span class="n">window_ext</span><span class="p">:</span><span class="n">cc</span><span class="o">+</span><span class="n">window_ext</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">SSD</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html#numpy.sum" title="View documentation for numpy.sum"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">weights</span> <span class="o">*</span> <span class="p">(</span><span class="n">window_orig</span> <span class="o">-</span> <span class="n">window_warped</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">SSDs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SSD</span><span class="p">)</span>
+
+    <span class="c1"># use corner with minimum SSD as correspondence</span>
+    <span class="n">min_idx</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.argmin.html#numpy.argmin" title="View documentation for numpy.argmin"><span class="n">np</span><span class="o">.</span><span class="n">argmin</span></a><span class="p">(</span><span class="n">SSDs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">coords_warped_subpix</span><span class="p">[</span><span class="n">min_idx</span><span class="p">]</span>
+
+
+<span class="c1"># find correspondences using simple weighted sum of squared differences</span>
+<span class="n">src</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dst</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">coords_orig_subpix</span><span class="p">:</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_corner</span><span class="p">(</span><span class="n">coord</span><span class="p">))</span>
+<span class="n">src</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+<span class="n">dst</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><span class="n">dst</span><span class="p">)</span>
+
+
+<span class="c1"># estimate affine transform model using all coordinates</span>
+<span class="n">model</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="View documentation for skimage.transform.AffineTransform"><span class="n">AffineTransform</span></a><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+
+<span class="c1"># robustly estimate affine transform model with RANSAC</span>
+<span class="n">model_robust</span><span class="p">,</span> <span class="n">inliers</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.ransac" title="View documentation for skimage.measure.ransac"><span class="n">ransac</span></a><span class="p">((</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">),</span> <a href="../../api/skimage.transform.html#skimage.transform.AffineTransform" title="View documentation for skimage.transform.AffineTransform"><span class="n">AffineTransform</span></a><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                               <span class="n">residual_threshold</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">outliers</span> <span class="o">=</span> <span class="n">inliers</span> <span class="o">==</span> <span class="kc">False</span>
+
+
+<span class="c1"># compare &quot;true&quot; and estimated transform parameters</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ground truth:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Scale: (</span><span class="si">{tform.scale[1]:.4f}</span><span class="s2">, </span><span class="si">{tform.scale[0]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Translation: (</span><span class="si">{tform.translation[1]:.4f}</span><span class="s2">, &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;</span><span class="si">{tform.translation[0]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Rotation: {-tform.rotation:.4f}&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Affine transform:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Scale: (</span><span class="si">{model.scale[0]:.4f}</span><span class="s2">, </span><span class="si">{model.scale[1]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Translation: (</span><span class="si">{model.translation[0]:.4f}</span><span class="s2">, &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;</span><span class="si">{model.translation[1]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Rotation: </span><span class="si">{model.rotation:.4f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RANSAC:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Scale: (</span><span class="si">{model_robust.scale[0]:.4f}</span><span class="s2">, </span><span class="si">{model_robust.scale[1]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Translation: (</span><span class="si">{model_robust.translation[0]:.4f}</span><span class="s2">, &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;</span><span class="si">{model_robust.translation[1]:.4f}</span><span class="s2">), &quot;</span>
+      <span class="n">f</span><span class="s2">&quot;Rotation: </span><span class="si">{model_robust.rotation:.4f}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># visualize correspondence</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.gray.html#matplotlib.pyplot.gray" title="View documentation for matplotlib.pyplot.gray"><span class="n">plt</span><span class="o">.</span><span class="n">gray</span></a><span class="p">()</span>
+
+<span class="n">inlier_idxs</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.nonzero.html#numpy.nonzero" title="View documentation for numpy.nonzero"><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span></a><span class="p">(</span><span class="n">inliers</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="View documentation for skimage.feature.plot_matches"><span class="n">plot_matches</span></a><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img_orig_gray</span><span class="p">,</span> <span class="n">img_warped_gray</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span>
+             <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.column_stack.html#numpy.column_stack" title="View documentation for numpy.column_stack"><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span></a><span class="p">((</span><span class="n">inlier_idxs</span><span class="p">,</span> <span class="n">inlier_idxs</span><span class="p">)),</span> <span class="n">matches_color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Correct correspondences&#39;</span><span class="p">)</span>
+
+<span class="n">outlier_idxs</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.nonzero.html#numpy.nonzero" title="View documentation for numpy.nonzero"><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span></a><span class="p">(</span><span class="n">outliers</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<a href="../../api/skimage.feature.html#skimage.feature.plot_matches" title="View documentation for skimage.feature.plot_matches"><span class="n">plot_matches</span></a><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img_orig_gray</span><span class="p">,</span> <span class="n">img_warped_gray</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span>
+             <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.column_stack.html#numpy.column_stack" title="View documentation for numpy.column_stack"><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span></a><span class="p">((</span><span class="n">outlier_idxs</span><span class="p">,</span> <span class="n">outlier_idxs</span><span class="p">)),</span> <span class="n">matches_color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Faulty correspondences&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.511 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-transform-plot-matching-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/1e02d397b5a1a30acb277460050c7a35/plot_matching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_matching.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/0e3607c7429e3d908cebaf5856d396a7/plot_matching.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_matching.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

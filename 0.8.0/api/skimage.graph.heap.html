@@ -1,0 +1,489 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: graph.heap &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.graph.heap">
+<span id="module-graph-heap"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">graph.heap</span></tt><a class="headerlink" href="#module-skimage.graph.heap" title="Permalink to this headline">¶</a></h1>
+<p>Cython implementation of a binary min heap.</p>
+<p>Original author: Almar Klein
+Modified by: Zachary Pincus</p>
+<p>License: BSD</p>
+<p>Copyright 2009 Almar Klein</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:</p>
+<ol class="arabic simple">
+<li>Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.</li>
+</ol>
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHOR <a href="#id1"><span class="problematic" id="id2">``</span></a>AS IS&#8217;&#8217; AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<div class="section" id="binaryheap">
+<h2><a class="reference internal" href="#skimage.graph.heap.BinaryHeap" title="skimage.graph.heap.BinaryHeap"><tt class="xref py py-class docutils literal"><span class="pre">BinaryHeap</span></tt></a><a class="headerlink" href="#binaryheap" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.graph.heap.BinaryHeap">
+<em class="property">class </em><tt class="descclassname">skimage.graph.heap.</tt><tt class="descname">BinaryHeap</tt><big>(</big><em>initial_capacity=128</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A binary heap class that can store values and an integer reference.</p>
+<p>A binary heap is an object to store values in, optimized in such a way
+that the minimum (or maximum, but a minimum in this implementation)
+value can be found in O(log2(N)) time. In this implementation, a reference
+value (a single integer) can also be stored with each value.</p>
+<p>Use the methods push() and pop() to put in or extract values.
+In C, use the corresponding push_fast() and pop_fast().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>initial_capacity</strong> : int</p>
+<blockquote class="last">
+<div><p>Estimate of the size of the heap, if known in advance. (In any case,
+the heap will dynamically grow and shrink as required, though never
+below the <cite>initial_capacity</cite>.)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This implementation stores the binary heap in an array twice as long as
+the number of elements in the heap. The array is structured in levels,
+starting at level 0 with a single value, doubling the amount of values in
+each level. The final level contains the actual values, the level before
+it contains the pairwise minimum values. The level before that contains
+the pairwise minimum values of that level, etc. Take a look at this
+illustration:</p>
+<p>level: 0 11 2222 33333333 4444444444444444
+index: 0 12 3456 78901234 5678901234567890</p>
+<blockquote>
+<div><blockquote>
+<div>1          2         3</div></blockquote>
+<p>The actual values are stored in level 4. The minimum value of position 15</p>
+</div></blockquote>
+<p>and 16 is stored in position 7. min(17,18)-&gt;8, min(7,8)-&gt;3, min(3,4)-&gt;1.
+When adding a value, only the path to the top has to be updated, which
+takesO(log2(N)) time.</p>
+<blockquote>
+<div>The advantage of this implementation relative to more common</div></blockquote>
+<p>implementations that swap values when pushing to the array is that data
+only needs to be swapped once when an element is removed. This means that
+keeping an array of references along with the values is very inexpensive.
+Th disadvantage is that if you pop the minimum value, the tree has to be
+traced from top to bottom and back. So if you only want values and no
+references, this implementation will probably be slower. If you need
+references (and maybe cross references to be kept up to date) this
+implementation will be faster.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.graph.heap.BinaryHeap.count" title="skimage.graph.heap.BinaryHeap.count"><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.graph.heap.BinaryHeap.levels" title="skimage.graph.heap.BinaryHeap.levels"><tt class="xref py py-obj docutils literal"><span class="pre">levels</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.graph.heap.BinaryHeap.min_levels" title="skimage.graph.heap.BinaryHeap.min_levels"><tt class="xref py py-obj docutils literal"><span class="pre">min_levels</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>initial_capacity=128</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+<p>Takes an optional parameter &#8216;initial_capacity&#8217; so that
+if the required heap capacity is known or can be estimated in advance,
+there will need to be fewer resize operations on the heap.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.graph.heap.BinaryHeap.count">
+<tt class="descname">count</tt><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.graph.heap.BinaryHeap.levels">
+<tt class="descname">levels</tt><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.levels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.graph.heap.BinaryHeap.min_levels">
+<tt class="descname">min_levels</tt><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.min_levels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.min_val">
+<tt class="descname">min_val</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.min_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the minimum value on the heap.</p>
+<p>Returns only the value, and does not remove it from the heap.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the minimum value and remove it from the list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>value</strong> : float</p>
+<p><strong>reference</strong> : int</p>
+<blockquote>
+<div><p>If no reference was provided, -1 is returned here.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>IndexError</strong> :</p>
+<blockquote class="last">
+<div><p>On attempt to pop from an empty heap</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.push">
+<tt class="descname">push</tt><big>(</big><em>value</em>, <em>reference=-1</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a value to the heap, with optional reference.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : float</p>
+<blockquote>
+<div><p>Value to push onto the heap</p>
+</div></blockquote>
+<p><strong>reference</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>Reference to associate with the given value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.references">
+<tt class="descname">references</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.references" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the references in the heap as a list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the heap to default, empty state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.BinaryHeap.values">
+<tt class="descname">values</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.BinaryHeap.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the values in the heap as a list.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="fastupdatebinaryheap">
+<h2><a class="reference internal" href="#skimage.graph.heap.FastUpdateBinaryHeap" title="skimage.graph.heap.FastUpdateBinaryHeap"><tt class="xref py py-class docutils literal"><span class="pre">FastUpdateBinaryHeap</span></tt></a><a class="headerlink" href="#fastupdatebinaryheap" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap">
+<em class="property">class </em><tt class="descclassname">skimage.graph.heap.</tt><tt class="descname">FastUpdateBinaryHeap</tt><big>(</big><em>initial_capacity=128</em>, <em>max_reference=None</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#skimage.graph.heap.BinaryHeap" title="skimage.graph.heap.BinaryHeap"><tt class="xref py py-class docutils literal"><span class="pre">skimage.graph.heap.BinaryHeap</span></tt></a></p>
+<p>Binary heap that allows the value of a reference to be updated quickly.</p>
+<p>This heap class keeps cross-references so that the value associated with a
+given reference can be quickly queried (O(1) time) or updated (O(log2(N))
+time). This is ideal for pathfinding algorithms that implement some
+variant of Dijkstra&#8217;s algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>initial_capacity</strong> : int</p>
+<blockquote>
+<div><p>Estimate of the size of the heap, if known in advance. (In any case,
+the heap will dynamically grow and shrink as required, though never
+below the <cite>initial_capacity</cite>.)</p>
+</div></blockquote>
+<p><strong>max_reference</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>Largest reference value that might be pushed to the heap. (Pushing a
+larger value will result in an error.) If no value is provided,
+<cite>1-initial_capacity</cite> will be used. For the cross-reference index to
+work, all references must be in the range [0, max_reference];
+references pushed outside of that range will not be added to the heap.
+The cross-references are kept as a 1-d array of length
+<a href="#id3"><span class="problematic" id="id4">`</span></a>max_reference+1&#8217;, so memory use of this heap is effectively
+O(max_reference)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The cross-references map data[reference]-&gt;internalindex, such that the
+value corresponding to a given reference can be found efficiently. This
+can be queried with the value_of() method.</p>
+<p>A special method, push_if_lower() is provided that will update the heap if
+the given reference is not in the heap, or if it is and the provided value
+is lower than the current value in the heap. This is again useful for
+pathfinding algorithms.</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">count</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">levels</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">min_levels</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.graph.heap.FastUpdateBinaryHeap.max_reference" title="skimage.graph.heap.FastUpdateBinaryHeap.max_reference"><tt class="xref py py-obj docutils literal"><span class="pre">max_reference</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>initial_capacity=128</em>, <em>max_reference=None</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class constructor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.cross_references">
+<tt class="descname">cross_references</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.cross_references" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cross references in the heap as a list.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.max_reference">
+<tt class="descname">max_reference</tt><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.max_reference" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.push">
+<tt class="descname">push</tt><big>(</big><em>value</em>, <em>reference</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append/update a value in the heap.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : float</p>
+<p><strong>reference</strong> : int</p>
+<blockquote>
+<div><p>If the reference is already present in the array, the value for
+that reference will be updated, otherwise the (value, reference)
+pair will be added to the heap.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>On pushing a reference outside the range [0, max_reference].</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.push_if_lower">
+<tt class="descname">push_if_lower</tt><big>(</big><em>value</em>, <em>reference</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.push_if_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append/update a value in the heap if the extant value is lower.</p>
+<p>If the reference is already in the heap, update only of the new value
+is lower than the current one. If the reference is not present, the
+value will always be pushed to the heap.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : float</p>
+<p><strong>reference</strong> : int</p>
+<blockquote>
+<div><p>If the reference is already present in the array, the value for
+that reference will be updated, otherwise the (value, reference)
+pair will be added to the heap.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>pushed</strong> : bool</p>
+<blockquote>
+<div><p>True if an append/update occured, False if otherwise.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>On pushing a reference outside the range [0, max_reference].</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the heap to default, empty state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.graph.heap.FastUpdateBinaryHeap.value_of">
+<tt class="descname">value_of</tt><big>(</big><em>reference</em><big>)</big><a class="headerlink" href="#skimage.graph.heap.FastUpdateBinaryHeap.value_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value corresponding to a given reference.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>reference</strong> : int</p>
+<blockquote>
+<div><p>A reference already pushed to the heap.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>value</strong> : float</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>On querying a reference outside the range [0, max_reference], or
+not already pushed to the heap.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">graph.heap</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#binaryheap"><tt class="docutils literal"><span class="pre">BinaryHeap</span></tt></a><ul class="nav nav-list">
+</ul>
+</li>
+<li><a class="reference internal" href="#fastupdatebinaryheap"><tt class="docutils literal"><span class="pre">FastUpdateBinaryHeap</span></tt></a><ul class="nav nav-list">
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

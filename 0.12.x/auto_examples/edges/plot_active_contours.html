@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Active Contour Model &mdash; skimage v0.12.2 docs</title>
+    
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.12.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.12.2 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Canny edge detector" href="plot_canny.html" />
+        <link rel="prev" title="Tinting gray-scale images" href="../color_exposure/plot_tinting_grayscale_images.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+            <form class="navbar-form pull-right" action="../../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="active-contour-model">
+<span id="example-edges-plot-active-contours-py"></span><h1>Active Contour Model<a class="headerlink" href="#active-contour-model" title="Permalink to this headline">¶</a></h1>
+<p>The active contour model is a method to fit open or closed splines to lines or
+edges in an image. It works by minimising an energy that is in part defined by
+the image and part by the spline&#8217;s shape: length and smoothness. The
+minimization is done implicitly in the shape energy and explicitly in the
+image energy.</p>
+<p>In the following two examples the active contour model is used (1) to segment
+the face of a person from the rest of an image by fitting a closed curve
+to the edges of the face and (2) to find the darkest curve between two fixed
+points while obeying smoothness considerations. Typically it is a good idea to
+smooth images a bit before analyzing, as done in the following examples.</p>
+<table class="docutils footnote" frame="void" id="id1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>Snakes: Active contour models</em>. Kass, M.; Witkin, A.; Terzopoulos, D.
+International Journal of Computer Vision 1 (4): 321 (1988).</td></tr>
+</tbody>
+</table>
+<p>We initialize a circle around the astronaut&#8217;s face and use the default boundary
+condition <code class="docutils literal"><span class="pre">bc='periodic'</span></code> to fit a closed curve. The default parameters
+<code class="docutils literal"><span class="pre">w_line=0,</span> <span class="pre">w_edge=1</span></code> will make the curve search towards edges, such as the
+boundaries of the face.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <span class="n">gaussian</span>
+<span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="kn">import</span> <span class="n">active_contour</span>
+
+<span class="c"># Test scipy version, since active contour is only possible</span>
+<span class="c"># with recent scipy version</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="n">scipy_version</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)))</span>
+<span class="n">new_scipy</span> <span class="o">=</span> <span class="n">scipy_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> \
+            <span class="p">(</span><span class="n">scipy_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">scipy_version</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">14</span><span class="p">)</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mi">220</span> <span class="o">+</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">+</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">new_scipy</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;You are using an old version of scipy. &#39;</span>
+          <span class="s">&#39;Active contours is implemented for scipy versions &#39;</span>
+          <span class="s">&#39;0.14.0 and above.&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">new_scipy</span><span class="p">:</span>
+    <span class="n">snake</span> <span class="o">=</span> <span class="n">active_contour</span><span class="p">(</span><span class="n">gaussian</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                           <span class="n">init</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.015</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gray</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">init</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">init</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">&#39;--r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">snake</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">snake</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">&#39;-b&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([]),</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_active_contours_1.png" src="../../_images/plot_active_contours_1.png" />
+<p>Here we initialize a straight line between two points, <cite>(5, 136)</cite> and
+<cite>(424, 50)</cite>, and require that the spline has its end points there by giving
+the boundary condition <cite>bc=&#8217;fixed&#8217;</cite>. We furthermore make the algorithm search
+for dark lines by giving a negative <cite>w_line</cite> value.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">424</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">136</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+
+<span class="k">if</span> <span class="n">new_scipy</span><span class="p">:</span>
+    <span class="n">snake</span> <span class="o">=</span> <span class="n">active_contour</span><span class="p">(</span><span class="n">gaussian</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">init</span><span class="p">,</span> <span class="n">bc</span><span class="o">=</span><span class="s">&#39;fixed&#39;</span><span class="p">,</span>
+                           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">w_line</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">w_edge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">gray</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">init</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">init</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">&#39;--r&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">snake</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">snake</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s">&#39;-b&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([]),</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_active_contours_2.png" src="../../_images/plot_active_contours_2.png" />
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../../_downloads/plot_active_contours.py"><code class="xref download docutils literal"><span class="pre">download</span></code></a>
+(generated using <code class="docutils literal"><span class="pre">skimage</span></code> 0.12.2)</p>
+<p><strong>IPython Notebook:</strong> <a class="reference download internal" href="../../_downloads/plot_active_contours.ipynb"><code class="xref download docutils literal"><span class="pre">download</span></code></a>
+(generated using <code class="docutils literal"><span class="pre">skimage</span></code> 0.12.2)</p>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+    <h4 class="sidebar-box-heading">Previous topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="../color_exposure/plot_tinting_grayscale_images.html" title="previous chapter">Tinting gray-scale images</a></li>
+        </ul>
+    </div>
+    <h4 class="sidebar-box-heading">Next topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="plot_canny.html" title="next chapter">Canny edge detector</a></li>
+        </ul>
+    </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

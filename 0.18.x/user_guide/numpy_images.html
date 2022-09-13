@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>A crash course on NumPy for images &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script src="../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../index.html" />
+        <link rel="up" title="User Guide" href="../user_guide.html" />
+        <link rel="next" title="Image data types and what they mean" href="data_types.html" />
+        <link rel="prev" title="Getting started" href="getting_started.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">A crash course on NumPy for images</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#numpy-indexing">NumPy indexing</a></li>
+<li><a class="reference internal" href="#color-images">Color images</a></li>
+<li><a class="reference internal" href="#coordinate-conventions">Coordinate conventions</a></li>
+<li><a class="reference internal" href="#notes-on-the-order-of-array-dimensions">Notes on the order of array dimensions</a></li>
+<li><a class="reference internal" href="#a-note-on-the-time-dimension">A note on the time dimension</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="a-crash-course-on-numpy-for-images">
+<span id="numpy"></span><h1>A crash course on NumPy for images<a class="headerlink" href="#a-crash-course-on-numpy-for-images" title="Permalink to this headline">¶</a></h1>
+<p>Images in <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> are represented by NumPy ndarrays. Hence, many
+common operations can be achieved using standard NumPy methods for
+manipulating arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+<span class="go">&lt;type &#39;numpy.ndarray&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Retrieving the geometry of the image and the number of pixels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(512, 512)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="o">.</span><span class="n">size</span>
+<span class="go">262144</span>
+</pre></div>
+</div>
+<p>Retrieving statistical information about image intensity values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">camera</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">(0, 255)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="go">118.31400299072266</span>
+</pre></div>
+</div>
+<p>NumPy arrays representing images can be of different integer or float
+numerical types. See <a class="reference internal" href="data_types.html#data-types"><span class="std std-ref">Image data types and what they mean</span></a> for more information about these
+types and how <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> treats them.</p>
+<div class="section" id="numpy-indexing">
+<h2>NumPy indexing<a class="headerlink" href="#numpy-indexing" title="Permalink to this headline">¶</a></h2>
+<p>NumPy indexing can be used both for looking at the pixel values and to
+modify them:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the value of the pixel at the 10th row and 20th column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="go">153</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set to black the pixel at the 3rd row and 10th column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Be careful! In NumPy indexing, the first dimension (<code class="docutils literal notranslate"><span class="pre">camera.shape[0]</span></code>)
+corresponds to rows, while the second (<code class="docutils literal notranslate"><span class="pre">camera.shape[1]</span></code>) corresponds
+to columns, with the origin (<code class="docutils literal notranslate"><span class="pre">camera[0,</span> <span class="pre">0]</span></code>) at the top-left corner.
+This matches matrix/linear algebra notation, but is in contrast to
+Cartesian (x, y) coordinates. See <a class="reference internal" href="#coordinate-conventions">Coordinate conventions</a> below for
+more details.</p>
+<p>Beyond individual pixels, it is possible to access/modify values of
+whole sets of pixels using the different indexing capabilities of NumPy.</p>
+<p>Slicing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set the first ten lines to &quot;black&quot; (0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Masking (indexing with masks of booleans):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">camera</span> <span class="o">&lt;</span> <span class="mi">87</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set to &quot;white&quot; (255) the pixels where mask is True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+</pre></div>
+</div>
+<p>Fancy indexing (indexing with sets of indices):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">inds_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">camera</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inds_c</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">inds_r</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">camera</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="n">inds_r</span><span class="p">,</span> <span class="n">inds_c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Masks are very useful when you need to select a set of pixels on which
+to perform the manipulations. The mask can be any boolean array
+of the same shape as the image (or a shape broadcastable to the image shape).
+This can be used to define a region of interest, for example, a disk:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">shape</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[:</span><span class="n">nrows</span><span class="p">,</span> <span class="p">:</span><span class="n">ncols</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cnt_row</span><span class="p">,</span> <span class="n">cnt_col</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">outer_disk_mask</span> <span class="o">=</span> <span class="p">((</span><span class="n">row</span> <span class="o">-</span> <span class="n">cnt_row</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">col</span> <span class="o">-</span> <span class="n">cnt_col</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span>
+<span class="gp">... </span>                   <span class="p">(</span><span class="n">nrows</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="n">outer_disk_mask</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<a class="reference external image-reference" href="../auto_examples/numpy_operations/plot_camera_numpy.html"><img alt="../_images/sphx_glr_plot_camera_numpy_0011.png" src="../_images/sphx_glr_plot_camera_numpy_0011.png" style="width: 45%;" /></a>
+<p>Boolean operations from NumPy can be used to define even more complex masks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lower_half</span> <span class="o">=</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="n">cnt_row</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lower_half_disk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">lower_half</span><span class="p">,</span> <span class="n">outer_disk_mask</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="p">[</span><span class="n">lower_half_disk</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="color-images">
+<h2>Color images<a class="headerlink" href="#color-images" title="Permalink to this headline">¶</a></h2>
+<p>All of the above remains true for color images. A color image is a
+NumPy array with an additional trailing dimension for the channels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">chelsea</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+<span class="go">&lt;type &#39;numpy.ndarray&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(300, 451, 3)</span>
+</pre></div>
+</div>
+<p>This shows that <code class="docutils literal notranslate"><span class="pre">cat</span></code> is a 300-by-451 pixel image with three channels
+(red, green, and blue). As before, we can get and set the pixel values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="go">array([151, 129, 115], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Set the pixel at (50th row, 60th column) to &quot;black&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># set the pixel at (50th row, 61st column) to &quot;green&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span><span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">61</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># [red, green, blue]</span>
+</pre></div>
+</div>
+<p>We can also use 2D boolean masks for 2D multichannel images, as we did with
+the grayscale image above:</p>
+<p>Using a 2D mask on a 2D color image</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">chelsea</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reddish</span> <span class="o">=</span> <span class="n">cat</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">160</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cat</span><span class="p">[</span><span class="n">reddish</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../user_guide/numpy_images-1.py">Source code</a>, <a class="reference external" href="../user_guide/numpy_images-1.png">png</a>, <a class="reference external" href="../user_guide/numpy_images-1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="../_images/numpy_images-1.png" src="../_images/numpy_images-1.png" />
+</div>
+</div>
+<div class="section" id="coordinate-conventions">
+<span id="numpy-images-coordinate-conventions"></span><h2>Coordinate conventions<a class="headerlink" href="#coordinate-conventions" title="Permalink to this headline">¶</a></h2>
+<p>Because <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> represents images using NumPy arrays, the
+coordinate conventions must match. Two-dimensional (2D) grayscale images
+(such as <em class="xref py py-obj">camera</em> above) are indexed by rows and columns (abbreviated to
+either <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code> or <code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">c)</span></code>), with the lowest element <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">0)</span></code>
+at the top-left corner. In various parts of the library, you will
+also see <code class="docutils literal notranslate"><span class="pre">rr</span></code> and <code class="docutils literal notranslate"><span class="pre">cc</span></code> refer to lists of row and column
+coordinates. We distinguish this convention from <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>, which commonly
+denote standard Cartesian coordinates, where <code class="docutils literal notranslate"><span class="pre">x</span></code> is the horizontal coordinate,
+<code class="docutils literal notranslate"><span class="pre">y</span></code> - the vertical one, and the origin is at the bottom left
+(Matplotlib axes, for example, use this convention).</p>
+<p>In the case of multichannel images, the last dimension is used for color channels
+and is denoted by <code class="docutils literal notranslate"><span class="pre">channel</span></code> or <code class="docutils literal notranslate"><span class="pre">ch</span></code>.</p>
+<p>Finally, for volumetric (3D) images, such as videos, magnetic resonance imaging
+(MRI) scans, confocal microscopy, etc. we refer to the leading dimension
+as <code class="docutils literal notranslate"><span class="pre">plane</span></code>, abbreviated as <code class="docutils literal notranslate"><span class="pre">pln</span></code> or <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p>
+<p>These conventions are summarized below:</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Dimension name and order conventions in scikit-image</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 62%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Image type</p></th>
+<th class="head"><p>Coordinates</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2D grayscale</p></td>
+<td><p>(row, col)</p></td>
+</tr>
+<tr class="row-odd"><td><p>2D multichannel (eg. RGB)</p></td>
+<td><p>(row, col, ch)</p></td>
+</tr>
+<tr class="row-even"><td><p>3D grayscale</p></td>
+<td><p>(pln, row, col)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3D multichannel</p></td>
+<td><p>(pln, row, col, ch)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Many functions in <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> can operate on 3D images directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">im3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">morphology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span> <span class="k">as</span> <span class="n">ndi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seeds</span> <span class="o">=</span> <span class="n">ndi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">im3d</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ws</span> <span class="o">=</span> <span class="n">morphology</span><span class="o">.</span><span class="n">watershed</span><span class="p">(</span><span class="n">im3d</span><span class="p">,</span> <span class="n">seeds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In many cases, however, the third spatial dimension has lower resolution
+than the other two. Some <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> functions provide a <code class="docutils literal notranslate"><span class="pre">spacing</span></code>
+keyword argument to help handle this kind of data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">segmentation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">slics</span> <span class="o">=</span> <span class="n">segmentation</span><span class="o">.</span><span class="n">slic</span><span class="p">(</span><span class="n">im3d</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other times, the processing must be done plane-wise. When planes are stacked
+along the leading dimension (in agreement with our convention), the following
+syntax can be used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">filters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">im3d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">pln</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">im3d</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># Iterate over the leading dimension</span>
+<span class="gp">... </span>    <span class="n">edges</span><span class="p">[</span><span class="n">pln</span><span class="p">]</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes-on-the-order-of-array-dimensions">
+<h2>Notes on the order of array dimensions<a class="headerlink" href="#notes-on-the-order-of-array-dimensions" title="Permalink to this headline">¶</a></h2>
+<p>Although the labeling of the axes might seem arbitrary, it can have a
+significant effect on the speed of operations. This is because modern
+processors never retrieve just one item from memory, but rather a whole
+chunk of adjacent items (an operation called prefetching). Therefore,
+processing of elements that are next to each other in memory is faster
+than processing them when they are scattered, even if the number of operations
+is the same:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">in_order_multiply</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">plane</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+<span class="gp">... </span>        <span class="n">arr</span><span class="p">[</span><span class="n">plane</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="n">scalar</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">out_of_order_multiply</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">scalar</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">for</span> <span class="n">plane</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])):</span>
+<span class="gp">... </span>        <span class="n">arr</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">plane</span><span class="p">]</span> <span class="o">*=</span> <span class="n">scalar</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im3d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">();</span> <span class="n">x</span> <span class="o">=</span> <span class="n">in_order_multiply</span><span class="p">(</span><span class="n">im3d</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>  
+<span class="go">0.14 seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">();</span> <span class="n">x</span> <span class="o">=</span> <span class="n">out_of_order_multiply</span><span class="p">(</span><span class="n">im3d</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%.2f</span><span class="s2"> seconds&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s1</span> <span class="o">-</span> <span class="n">s0</span><span class="p">))</span>  
+<span class="go">1.18 seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Speedup: </span><span class="si">%.1f</span><span class="s2">x&quot;</span> <span class="o">%</span> <span class="p">((</span><span class="n">s1</span> <span class="o">-</span> <span class="n">s0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)))</span>  
+<span class="go">Speedup: 8.6x</span>
+</pre></div>
+</div>
+<p>When the last/rightmost dimension becomes even larger the speedup is
+even more dramatic. It is worth thinking about <em>data locality</em> when
+developing algorithms. In particular, <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> uses C-contiguous
+arrays by default.
+When using nested loops, the last/rightmost dimension of the array
+should be in the innermost loop of the computation. In the example
+above, the <code class="docutils literal notranslate"><span class="pre">*=</span></code> numpy operator iterates over all remaining dimensions.</p>
+</div>
+<div class="section" id="a-note-on-the-time-dimension">
+<h2>A note on the time dimension<a class="headerlink" href="#a-note-on-the-time-dimension" title="Permalink to this headline">¶</a></h2>
+<p>Although <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> does not currently provide functions to
+work specifically with time-varying 3D data, its compatibility with
+NumPy arrays allows us to work quite naturally with a 5D array of the
+shape (t, pln, row, col, ch):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">timepoint</span> <span class="ow">in</span> <span class="n">image5d</span><span class="p">:</span>  
+<span class="gp">... </span>    <span class="c1"># Each timepoint is a 3D multichannel image</span>
+<span class="gp">... </span>    <span class="n">do_something_with</span><span class="p">(</span><span class="n">timepoint</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can then supplement the above table as follows:</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Addendum to dimension names and orders in scikit-image</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Image type</p></th>
+<th class="head"><p>coordinates</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2D color video</p></td>
+<td><p>(t, row, col, ch)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3D multichannel video</p></td>
+<td><p>(t, pln, row, col, ch)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

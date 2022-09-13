@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>I/O Plugin Infrastructure &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="User Guide" href="../user_guide.html" />
+        <link rel="next" title="Handling Video Files" href="video.html" />
+        <link rel="prev" title="Image adjustment: transforming image content" href="transforming_image_data.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="i-o-plugin-infrastructure">
+<h1>I/O Plugin Infrastructure<a class="headerlink" href="#i-o-plugin-infrastructure" title="Permalink to this headline">¶</a></h1>
+<p>A plugin consists of two files, the source and the descriptor <code class="docutils literal notranslate"><span class="pre">.ini</span></code>.  Let’s
+say we’d like to provide a plugin for <code class="docutils literal notranslate"><span class="pre">imshow</span></code> using <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>.  We’ll
+call our plugin <code class="docutils literal notranslate"><span class="pre">mpl</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skimage</span><span class="o">/</span><span class="n">io</span><span class="o">/</span><span class="n">_plugins</span><span class="o">/</span><span class="n">mpl</span><span class="o">.</span><span class="n">py</span>
+<span class="n">skimage</span><span class="o">/</span><span class="n">io</span><span class="o">/</span><span class="n">_plugins</span><span class="o">/</span><span class="n">mpl</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+<p>The name of the <code class="docutils literal notranslate"><span class="pre">.py</span></code> and <code class="docutils literal notranslate"><span class="pre">.ini</span></code> files must correspond.  Inside the
+<code class="docutils literal notranslate"><span class="pre">.ini</span></code> file, we give the plugin meta-data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">mpl</span><span class="p">]</span> <span class="o">&lt;--</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">may</span> <span class="n">be</span> <span class="n">anything</span>
+<span class="n">description</span> <span class="o">=</span> <span class="n">Matplotlib</span> <span class="n">image</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="n">plugin</span>
+<span class="n">provides</span> <span class="o">=</span> <span class="n">imshow</span> <span class="o">&lt;--</span> <span class="n">a</span> <span class="n">comma</span><span class="o">-</span><span class="n">separated</span> <span class="nb">list</span><span class="p">,</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">of</span>
+                      <span class="n">imshow</span><span class="p">,</span> <span class="n">imsave</span><span class="p">,</span> <span class="n">imread</span><span class="p">,</span> <span class="n">_app_show</span>
+</pre></div>
+</div>
+<p>The “provides”-line lists all the functions provided by the plugin.  Since our
+plugin provides <code class="docutils literal notranslate"><span class="pre">imshow</span></code>, we have to define it inside <code class="docutils literal notranslate"><span class="pre">mpl.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is mpl.py</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that, by default, <code class="docutils literal notranslate"><span class="pre">imshow</span></code> is non-blocking, so a special function
+<code class="docutils literal notranslate"><span class="pre">_app_show</span></code> must be provided to block the GUI.  We can modify our plugin to
+provide it as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">mpl</span><span class="p">]</span>
+<span class="n">provides</span> <span class="o">=</span> <span class="n">imshow</span><span class="p">,</span> <span class="n">_app_show</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is mpl.py</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_app_show</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Any plugin in the <code class="docutils literal notranslate"><span class="pre">_plugins</span></code> directory is automatically examined by
+<code class="docutils literal notranslate"><span class="pre">skimage.io</span></code> upon import.  You may list all the plugins on your
+system:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">find_available_plugins</span><span class="p">()</span>
+<span class="go">{&#39;gtk&#39;: [&#39;imshow&#39;],</span>
+<span class="go"> &#39;matplotlib&#39;: [&#39;imshow&#39;, &#39;imread&#39;, &#39;imread_collection&#39;],</span>
+<span class="go"> &#39;pil&#39;: [&#39;imread&#39;, &#39;imsave&#39;, &#39;imread_collection&#39;],</span>
+<span class="go"> &#39;qt&#39;: [&#39;imshow&#39;, &#39;imsave&#39;, &#39;imread&#39;, &#39;imread_collection&#39;],</span>
+<span class="go"> &#39;test&#39;: [&#39;imsave&#39;, &#39;imshow&#39;, &#39;imread&#39;, &#39;imread_collection&#39;],}</span>
+</pre></div>
+</div>
+<p>or only those already loaded:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">find_available_plugins</span><span class="p">(</span><span class="n">loaded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{&#39;matplotlib&#39;: [&#39;imshow&#39;, &#39;imread&#39;, &#39;imread_collection&#39;],</span>
+<span class="go"> &#39;pil&#39;: [&#39;imread&#39;, &#39;imsave&#39;, &#39;imread_collection&#39;]}</span>
+</pre></div>
+</div>
+<p>A plugin is loaded using the <code class="docutils literal notranslate"><span class="pre">use_plugin</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">use_plugin</span><span class="p">(</span><span class="s1">&#39;pil&#39;</span><span class="p">)</span> <span class="c1"># Use all capabilities provided by PIL</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">use_plugin</span><span class="p">(</span><span class="s1">&#39;pil&#39;</span><span class="p">,</span> <span class="s1">&#39;imread&#39;</span><span class="p">)</span> <span class="c1"># Use only the imread capability of PIL</span>
+</pre></div>
+</div>
+<p>Note that, if more than one plugin provides certain functionality, the
+last plugin loaded is used.</p>
+<p>To query a plugin’s capabilities, use <code class="docutils literal notranslate"><span class="pre">plugin_info</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">plugin_info</span><span class="p">(</span><span class="s1">&#39;pil&#39;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">{&#39;description&#39;: &#39;Image reading via the Python Imaging Library&#39;,</span>
+<span class="go"> &#39;provides&#39;: &#39;imread, imsave&#39;}</span>
+</pre></div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

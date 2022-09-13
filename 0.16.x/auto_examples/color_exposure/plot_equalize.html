@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Histogram Equalization &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Tinting gray-scale images" href="plot_tinting_grayscale_images.html" />
+        <link rel="prev" title="Gamma and log contrast adjustment" href="plot_log_gamma.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="histogram-equalization">
+<span id="sphx-glr-auto-examples-color-exposure-plot-equalize-py"></span><h1>Histogram Equalization<a class="headerlink" href="#histogram-equalization" title="Permalink to this headline">¶</a></h1>
+<p>This examples enhances an image with low contrast, using a method called
+<em>histogram equalization</em>, which “spreads out the most frequent intensity
+values” in an image <a class="footnote-reference brackets" href="#id3" id="id1">1</a>. The equalized image has a roughly linear cumulative
+distribution function.</p>
+<p>While histogram equalization has the advantage that it requires no parameters,
+it sometimes yields unnatural looking images.  An alternative method is
+<em>contrast stretching</em>, where the image is rescaled to include all intensities
+that fall within the 2nd and 98th percentiles <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Histogram_equalization">https://en.wikipedia.org/wiki/Histogram_equalization</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/stretch.htm">http://homepages.inf.ed.ac.uk/rbf/HIPR2/stretch.htm</a></p>
+</dd>
+</dl>
+<img alt="../../_images/sphx_glr_plot_equalize_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_equalize_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.img_as_float"><span class="n">img_as_float</span></a>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">exposure</span>
+
+
+<a href="https://matplotlib.org/api/matplotlib_configuration_api.html#matplotlib.rcParams" title="View documentation for matplotlib.rcParams"><span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span></a><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+
+
+<span class="k">def</span> <span class="nf">plot_img_and_hist</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot an image along with its histogram and cumulative histogram.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.img_as_float"><span class="n">img_as_float</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span> <span class="o">=</span> <span class="n">axes</span>
+    <span class="n">ax_cdf</span> <span class="o">=</span> <span class="n">ax_hist</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+
+    <span class="c1"># Display image</span>
+    <span class="n">ax_img</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+    <span class="n">ax_img</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+    <span class="c1"># Display histogram</span>
+    <span class="n">ax_hist</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">histtype</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">ax_hist</span><span class="o">.</span><span class="n">ticklabel_format</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;scientific&#39;</span><span class="p">,</span> <span class="n">scilimits</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">ax_hist</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pixel intensity&#39;</span><span class="p">)</span>
+    <span class="n">ax_hist</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax_hist</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+    <span class="c1"># Display cumulative distribution</span>
+    <span class="n">img_cdf</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.cumulative_distribution" title="View documentation for skimage.exposure.cumulative_distribution"><span class="n">exposure</span><span class="o">.</span><span class="n">cumulative_distribution</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">ax_cdf</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">img_cdf</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">ax_cdf</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+
+    <span class="k">return</span> <span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">,</span> <span class="n">ax_cdf</span>
+
+
+<span class="c1"># Load an example image</span>
+<span class="n">img</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.moon" title="View documentation for skimage.data.moon"><span class="n">data</span><span class="o">.</span><span class="n">moon</span></a><span class="p">()</span>
+
+<span class="c1"># Contrast stretching</span>
+<span class="n">p2</span><span class="p">,</span> <span class="n">p98</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.percentile.html#numpy.percentile" title="View documentation for numpy.percentile"><span class="n">np</span><span class="o">.</span><span class="n">percentile</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">))</span>
+<span class="n">img_rescale</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.rescale_intensity" title="View documentation for skimage.exposure.rescale_intensity"><span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="n">p98</span><span class="p">))</span>
+
+<span class="c1"># Equalization</span>
+<span class="n">img_eq</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.equalize_hist" title="View documentation for skimage.exposure.equalize_hist"><span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span></a><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+<span class="c1"># Adaptive Equalization</span>
+<span class="n">img_adapteq</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.equalize_adapthist" title="View documentation for skimage.exposure.equalize_adapthist"><span class="n">exposure</span><span class="o">.</span><span class="n">equalize_adapthist</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">clip_limit</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+
+<span class="c1"># Display results</span>
+<span class="n">fig</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">sharey</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="n">i</span><span class="p">)</span>
+
+<span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">,</span> <span class="n">ax_cdf</span> <span class="o">=</span> <span class="n">plot_img_and_hist</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">ax_img</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Low contrast image&#39;</span><span class="p">)</span>
+
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">ax_hist</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+<span class="n">ax_hist</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Number of pixels&#39;</span><span class="p">)</span>
+<span class="n">ax_hist</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html#numpy.linspace" title="View documentation for numpy.linspace"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">,</span> <span class="n">ax_cdf</span> <span class="o">=</span> <span class="n">plot_img_and_hist</span><span class="p">(</span><span class="n">img_rescale</span><span class="p">,</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax_img</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Contrast stretching&#39;</span><span class="p">)</span>
+
+<span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">,</span> <span class="n">ax_cdf</span> <span class="o">=</span> <span class="n">plot_img_and_hist</span><span class="p">(</span><span class="n">img_eq</span><span class="p">,</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">ax_img</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram equalization&#39;</span><span class="p">)</span>
+
+<span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">,</span> <span class="n">ax_cdf</span> <span class="o">=</span> <span class="n">plot_img_and_hist</span><span class="p">(</span><span class="n">img_adapteq</span><span class="p">,</span> <span class="n">axes</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">ax_img</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Adaptive equalization&#39;</span><span class="p">)</span>
+
+<span class="n">ax_cdf</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Fraction of total intensity&#39;</span><span class="p">)</span>
+<span class="n">ax_cdf</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html#numpy.linspace" title="View documentation for numpy.linspace"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># prevent overlap of y-axis labels</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.529 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-color-exposure-plot-equalize-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c2722a333f59c8e504730bdbfd746fa3/plot_equalize.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_equalize.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b0c785e37c85e92a8c24f773c9d72b87/plot_equalize.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_equalize.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

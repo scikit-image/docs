@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fill shapes &mdash; skimage v0.7.0 docs</title>
+    
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.7.0 docs" href="../index.html" />
+    <link rel="up" title="General examples" href="index.html" />
+    <link rel="next" title="Skeletonize" href="plot_skeleton.html" />
+    <link rel="prev" title="Comparison of segmentation and superpixel algorithms" href="plot_segmentations.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plot_segmentations.html"
+                        title="previous chapter">Comparison of segmentation and superpixel algorithms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plot_skeleton.html"
+                        title="next chapter">Skeletonize</a></p>
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="fill-shapes">
+<span id="example-plot-shapes-py"></span><h1>Fill shapes<a class="headerlink" href="#fill-shapes" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to fill several different shapes:
+* line
+* polygon
+* circle
+* ellipse</p>
+<img alt="../_images/plot_shapes_1.png" class="align-center" src="../_images/plot_shapes_1.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">line</span><span class="p">,</span> <span class="n">polygon</span><span class="p">,</span> <span class="n">circle</span><span class="p">,</span> <span class="n">ellipse</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s">&#39;uint8&#39;</span><span class="p">)</span>
+
+<span class="c"># draw line</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span><span class="n">cc</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+
+<span class="c"># fill polygon</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span>
+    <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">320</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">380</span><span class="p">,</span> <span class="mi">430</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="mi">590</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+<span class="p">))</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">poly</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">poly</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span><span class="n">cc</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+
+<span class="c"># fill circle</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">circle</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span><span class="n">cc</span><span class="p">,:]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c"># fill ellipse</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span><span class="n">cc</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_shapes.py"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.7.0)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image data types and what they mean &mdash; skimage v0.4 docs</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="skimage v0.4 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Image data types and what they mean</a><ul>
+<li><a class="reference internal" href="#input-types">Input types</a></li>
+<li><a class="reference internal" href="#output-types">Output types</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/user_guide/data_types.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="image-data-types-and-what-they-mean">
+<h1>Image data types and what they mean<a class="headerlink" href="#image-data-types-and-what-they-mean" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is a preliminary design document.</p>
+</div>
+<p>In <tt class="docutils literal"><span class="pre">skimage</span></tt>, we assume the following dtype ranges:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Data type</th>
+<th class="head">Range</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>uint8</td>
+<td>0 to 255</td>
+</tr>
+<tr><td>uint16</td>
+<td>0 to 65535</td>
+</tr>
+<tr><td>float</td>
+<td>0 to 1</td>
+</tr>
+<tr><td>int8</td>
+<td>-128 to 127</td>
+</tr>
+<tr><td>int16</td>
+<td>-32768 to 32767</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="input-types">
+<h2>Input types<a class="headerlink" href="#input-types" title="Permalink to this headline">¶</a></h2>
+<p>Functions may choose to support only a subset of these data-types.  In
+such a case, the input will be converted to the required type (if
+possible) and a warning message printed to the log if a memory copy is
+needed.  Type requirements should be noted in the docstrings.</p>
+<p>The following utility functions are available to developers and
+users:</p>
+<p>(<em>Tentative list only &#8211; not implemented yet</em>)</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Function name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>img_as_float</td>
+<td>Convert to 64-bit floating point repr.
+Scaled to 0/1.</td>
+</tr>
+<tr><td>img_as_uint</td>
+<td>Convert to 16-bit uint repr.
+Scaled to 0-65535.</td>
+</tr>
+<tr><td>img_as_int</td>
+<td>Convert to 16-bit int repr.
+Scaled to -32767 to 32768.</td>
+</tr>
+</tbody>
+</table>
+<p>Wherever possible, functions should try to handle input
+without explicit conversion (e.g., there is no need to
+force values to a specific type for doing a convolution;
+a plotting function, on the other hand, needs to know the
+range of the input).</p>
+</div>
+<div class="section" id="output-types">
+<h2>Output types<a class="headerlink" href="#output-types" title="Permalink to this headline">¶</a></h2>
+<p>The output type of a function is determined by the function author,
+and documented for the benefit of the user.  While this requires the
+user to explicitly convert the output to whichever format is needed,
+it ensures that no unnecessary data copies take place.</p>
+<p>A user that requires a specific type of output (e.g., for display
+purposes), may do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">out</span> <span class="o">=</span> <span class="n">img_as_uint</span><span class="p">(</span><span class="n">sobel</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

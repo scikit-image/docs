@@ -1,0 +1,1560 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: util &mdash; skimage v0.13.1 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.13.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.13.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.13.1" href="api.html" />
+        <link rel="next" title="Module: viewer" href="skimage.viewer.html" />
+        <link rel="prev" title="Module: transform" href="skimage.transform.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="docutils literal"><span class="pre">util</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#apply-parallel">apply_parallel</a></li>
+<li><a class="reference internal" href="#copy-func">copy_func</a></li>
+<li><a class="reference internal" href="#crop">crop</a></li>
+<li><a class="reference internal" href="#dtype-limits">dtype_limits</a></li>
+<li><a class="reference internal" href="#img-as-bool">img_as_bool</a></li>
+<li><a class="reference internal" href="#img-as-float">img_as_float</a></li>
+<li><a class="reference internal" href="#img-as-int">img_as_int</a></li>
+<li><a class="reference internal" href="#img-as-ubyte">img_as_ubyte</a></li>
+<li><a class="reference internal" href="#img-as-uint">img_as_uint</a></li>
+<li><a class="reference internal" href="#invert">invert</a></li>
+<li><a class="reference internal" href="#numpy-pad">numpy_pad</a></li>
+<li><a class="reference internal" href="#pad">pad</a></li>
+<li><a class="reference internal" href="#random-noise">random_noise</a></li>
+<li><a class="reference internal" href="#regular-grid">regular_grid</a></li>
+<li><a class="reference internal" href="#regular-seeds">regular_seeds</a></li>
+<li><a class="reference internal" href="#unique-rows">unique_rows</a></li>
+<li><a class="reference internal" href="#view-as-blocks">view_as_blocks</a></li>
+<li><a class="reference internal" href="#view-as-windows">view_as_windows</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.13.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.util">
+<span id="module-util"></span><h1>Module: <code class="xref py py-mod docutils literal"><span class="pre">util</span></code><a class="headerlink" href="#module-skimage.util" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.apply_parallel" title="skimage.util.apply_parallel"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.apply_parallel</span></code></a>(function,&nbsp;array)</td>
+<td>Map a function in parallel across an array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.copy_func" title="skimage.util.copy_func"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.copy_func</span></code></a>(f[,&nbsp;name])</td>
+<td>Create a copy of a function.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.crop" title="skimage.util.crop"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.crop</span></code></a>(ar,&nbsp;crop_width[,&nbsp;copy,&nbsp;order])</td>
+<td>Crop array <cite>ar</cite> by <cite>crop_width</cite> along each dimension.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.dtype_limits" title="skimage.util.dtype_limits"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype_limits</span></code></a>(image[,&nbsp;clip_negative])</td>
+<td>Return intensity limits, i.e.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.img_as_bool" title="skimage.util.img_as_bool"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.img_as_bool</span></code></a>(image[,&nbsp;force_copy])</td>
+<td>Convert an image to boolean format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.img_as_float" title="skimage.util.img_as_float"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.img_as_float</span></code></a>(image[,&nbsp;force_copy])</td>
+<td>Convert an image to double-precision (64-bit) floating point format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.img_as_int" title="skimage.util.img_as_int"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.img_as_int</span></code></a>(image[,&nbsp;force_copy])</td>
+<td>Convert an image to 16-bit signed integer format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.img_as_ubyte" title="skimage.util.img_as_ubyte"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.img_as_ubyte</span></code></a>(image[,&nbsp;force_copy])</td>
+<td>Convert an image to 8-bit unsigned integer format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.img_as_uint" title="skimage.util.img_as_uint"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.img_as_uint</span></code></a>(image[,&nbsp;force_copy])</td>
+<td>Convert an image to 16-bit unsigned integer format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.invert" title="skimage.util.invert"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.invert</span></code></a>(image)</td>
+<td>Invert an image.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.numpy_pad" title="skimage.util.numpy_pad"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.numpy_pad</span></code></a>(array,&nbsp;pad_width,&nbsp;…)</td>
+<td>Pads an array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.pad" title="skimage.util.pad"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.pad</span></code></a>(array,&nbsp;pad_width,&nbsp;mode,&nbsp;…)</td>
+<td>Pads an array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.random_noise" title="skimage.util.random_noise"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.random_noise</span></code></a>(image[,&nbsp;mode,&nbsp;…])</td>
+<td>Function to add random noise of various types to a floating-point image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.regular_grid" title="skimage.util.regular_grid"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.regular_grid</span></code></a>(ar_shape,&nbsp;n_points)</td>
+<td>Find <cite>n_points</cite> regularly spaced along <cite>ar_shape</cite>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.regular_seeds" title="skimage.util.regular_seeds"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.regular_seeds</span></code></a>(ar_shape,&nbsp;n_points)</td>
+<td>Return an image with ~`n_points` regularly-spaced nonzero pixels.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.unique_rows" title="skimage.util.unique_rows"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.unique_rows</span></code></a>(ar)</td>
+<td>Remove repeated rows from a 2D array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.view_as_blocks" title="skimage.util.view_as_blocks"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.view_as_blocks</span></code></a>(arr_in,&nbsp;block_shape)</td>
+<td>Block view of the input n-dimensional array (using re-striding).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.view_as_windows" title="skimage.util.view_as_windows"><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.view_as_windows</span></code></a>(arr_in,&nbsp;…[,&nbsp;step])</td>
+<td>Rolling window view of the input n-dimensional array.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.arraycrop</span></code></td>
+<td>The arraycrop module contains functions to crop values from the edges of an n-dimensional array.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.colormap</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.noise</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.shape</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.util.unique</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="apply-parallel">
+<h2>apply_parallel<a class="headerlink" href="#apply-parallel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.apply_parallel">
+<code class="descclassname">skimage.util.</code><code class="descname">apply_parallel</code><span class="sig-paren">(</span><em>function</em>, <em>array</em>, <em>chunks=None</em>, <em>depth=0</em>, <em>mode=None</em>, <em>extra_arguments=()</em>, <em>extra_keywords={}</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/apply_parallel.py#L53"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.apply_parallel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a function in parallel across an array.</p>
+<p>Split an array into possibly overlapping chunks of a given depth and
+boundary type, call the given function in parallel on the chunks, combine
+the chunks and return the resulting array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>function</strong> : function</p>
+<blockquote>
+<div><p>Function to be mapped which takes an array as an argument.</p>
+</div></blockquote>
+<p><strong>array</strong> : numpy array</p>
+<blockquote>
+<div><p>Array which the function will be applied to.</p>
+</div></blockquote>
+<p><strong>chunks</strong> : int, tuple, or tuple of tuples, optional</p>
+<blockquote>
+<div><p>A single integer is interpreted as the length of one side of a square
+chunk that should be tiled across the array.  One tuple of length
+<code class="docutils literal"><span class="pre">array.ndim</span></code> represents the shape of a chunk, and it is tiled across
+the array.  A list of tuples of length <code class="docutils literal"><span class="pre">ndim</span></code>, where each sub-tuple
+is a sequence of chunk sizes along the corresponding dimension. If
+None, the array is broken up into chunks based on the number of
+available cpus. More information about chunks is in the documentation
+<a class="reference external" href="https://dask.pydata.org/en/latest/array-design.html">here</a>.</p>
+</div></blockquote>
+<p><strong>depth</strong> : int, optional</p>
+<blockquote>
+<div><p>Integer equal to the depth of the added boundary cells. Defaults to
+zero.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {‘reflect’, ‘symmetric’, ‘periodic’, ‘wrap’, ‘nearest’, ‘edge’}, optional</p>
+<blockquote>
+<div><p>type of external boundary padding.</p>
+</div></blockquote>
+<p><strong>extra_arguments</strong> : tuple, optional</p>
+<blockquote>
+<div><p>Tuple of arguments to be passed to the function.</p>
+</div></blockquote>
+<p><strong>extra_keywords</strong> : dictionary, optional</p>
+<blockquote class="last">
+<div><p>Dictionary of keyword arguments to be passed to the function.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Numpy edge modes ‘symmetric’, ‘wrap’, and ‘edge’ are converted to the
+equivalent <cite>dask</cite> boundary modes ‘reflect’, ‘periodic’ and ‘nearest’,
+respectively.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="copy-func">
+<h2>copy_func<a class="headerlink" href="#copy-func" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.copy_func">
+<code class="descclassname">skimage.util.</code><code class="descname">copy_func</code><span class="sig-paren">(</span><em>f</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L181"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.copy_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a copy of a function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>f</strong> : function</p>
+<blockquote>
+<div><p>Function to copy.</p>
+</div></blockquote>
+<p><strong>name</strong> : str, optional</p>
+<blockquote class="last">
+<div><p>Name of new function.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="crop">
+<h2>crop<a class="headerlink" href="#crop" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.crop">
+<code class="descclassname">skimage.util.</code><code class="descname">crop</code><span class="sig-paren">(</span><em>ar</em>, <em>crop_width</em>, <em>copy=False</em>, <em>order='K'</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/arraycrop.py#L142"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop array <cite>ar</cite> by <cite>crop_width</cite> along each dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ar</strong> : array-like of rank N</p>
+<blockquote>
+<div><p>Input array.</p>
+</div></blockquote>
+<p><strong>crop_width</strong> : {sequence, int}</p>
+<blockquote>
+<div><p>Number of values to remove from the edges of each axis.
+<code class="docutils literal"><span class="pre">((before_1,</span> <span class="pre">after_1),</span></code> … <code class="docutils literal"><span class="pre">(before_N,</span> <span class="pre">after_N))</span></code> specifies
+unique crop widths at the start and end of each axis.
+<code class="docutils literal"><span class="pre">((before,</span> <span class="pre">after),)</span></code> specifies a fixed start and end crop
+for every axis.
+<code class="docutils literal"><span class="pre">(n,)</span></code> or <code class="docutils literal"><span class="pre">n</span></code> for integer <code class="docutils literal"><span class="pre">n</span></code> is a shortcut for
+before = after = <code class="docutils literal"><span class="pre">n</span></code> for all axes.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>If <cite>True</cite>, ensure the returned array is a contiguous copy. Normally,
+a crop operation will return a discontiguous view of the underlying
+input array.</p>
+</div></blockquote>
+<p><strong>order</strong> : {‘C’, ‘F’, ‘A’, ‘K’}, optional</p>
+<blockquote>
+<div><p>If <code class="docutils literal"><span class="pre">copy==True</span></code>, control the memory layout of the copy. See
+<code class="docutils literal"><span class="pre">np.copy</span></code>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cropped</strong> : array</p>
+<blockquote class="last">
+<div><p>The cropped array. If <code class="docutils literal"><span class="pre">copy=False</span></code> (default), this is a sliced
+view of the input array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="dtype-limits">
+<h2>dtype_limits<a class="headerlink" href="#dtype-limits" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype_limits">
+<code class="descclassname">skimage.util.</code><code class="descname">dtype_limits</code><span class="sig-paren">(</span><em>image</em>, <em>clip_negative=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L28"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.dtype_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return intensity limits, i.e. (min, max) tuple, of the image’s dtype.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>clip_negative</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, clip the negative range (i.e. return 0 for min intensity)
+even if the image dtype allows negative values.
+The default behavior (None) is equivalent to True.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>imin, imax</strong> : tuple</p>
+<blockquote class="last">
+<div><p>Lower and upper intensity limits.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-bool">
+<h2>img_as_bool<a class="headerlink" href="#img-as-bool" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.img_as_bool">
+<code class="descclassname">skimage.util.</code><code class="descname">img_as_bool</code><span class="sig-paren">(</span><em>image</em>, <em>force_copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L412"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.img_as_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to boolean format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of bool (<cite>bool_</cite>)</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The upper half of the input dtype’s positive range is True, and the lower
+half is False. All negative values (if present) are False.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-float">
+<h2>img_as_float<a class="headerlink" href="#img-as-float" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.img_as_float">
+<code class="descclassname">skimage.util.</code><code class="descname">img_as_float</code><span class="sig-paren">(</span><em>image</em>, <em>force_copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L313"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.img_as_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to double-precision (64-bit) floating point format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of float64</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The range of a floating point image is [0.0, 1.0] or [-1.0, 1.0] when
+converting from unsigned or signed datatypes, respectively.
+If the input image has a float type, intensity values are not modified
+and can be outside the ranges [0.0, 1.0] or [-1.0, 1.0].</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-int">
+<h2>img_as_int<a class="headerlink" href="#img-as-int" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.img_as_int">
+<code class="descclassname">skimage.util.</code><code class="descname">img_as_int</code><span class="sig-paren">(</span><em>image</em>, <em>force_copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L363"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.img_as_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 16-bit signed integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of uint16</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The values are scaled between -32768 and 32767.
+If the input data-type is positive-only (e.g., uint8), then
+the output image will still only have positive values.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-ubyte">
+<h2>img_as_ubyte<a class="headerlink" href="#img-as-ubyte" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.img_as_ubyte">
+<code class="descclassname">skimage.util.</code><code class="descname">img_as_ubyte</code><span class="sig-paren">(</span><em>image</em>, <em>force_copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L388"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.img_as_ubyte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 8-bit unsigned integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of ubyte (uint8)</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Negative input values will be clipped.
+Positive values are scaled between 0 and 255.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-uint">
+<h2>img_as_uint<a class="headerlink" href="#img-as-uint" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.img_as_uint">
+<code class="descclassname">skimage.util.</code><code class="descname">img_as_uint</code><span class="sig-paren">(</span><em>image</em>, <em>force_copy=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/dtype.py#L339"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.img_as_uint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 16-bit unsigned integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of uint16</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Negative input values will be clipped.
+Positive values are scaled between 0 and 65535.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="invert">
+<h2>invert<a class="headerlink" href="#invert" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.invert">
+<code class="descclassname">skimage.util.</code><code class="descname">invert</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/_invert.py#L5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invert an image.</p>
+<p>Substract the image to the maximum value allowed by the dtype maximum.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>The input image.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>invert</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Inverted image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+<span class="gp">... </span>                <span class="p">[</span><span class="mi">0</span><span class="p">,</span>  <span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                <span class="p">[</span><span class="mi">30</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">invert</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="go">array([[155, 255,  55],</span>
+<span class="go">       [255, 205, 255],</span>
+<span class="go">       [225, 255,   0]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="numpy-pad">
+<h2>numpy_pad<a class="headerlink" href="#numpy-pad" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.numpy_pad">
+<code class="descclassname">skimage.util.</code><code class="descname">numpy_pad</code><span class="sig-paren">(</span><em>array</em>, <em>pad_width</em>, <em>mode</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/../../../envs/py36/lib/python3.6/site-packages/numpy/lib/arraypad.py#L1094"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.numpy_pad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pads an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : array_like of rank N</p>
+<blockquote>
+<div><p>Input array</p>
+</div></blockquote>
+<p><strong>pad_width</strong> : {sequence, array_like, int}</p>
+<blockquote>
+<div><p>Number of values padded to the edges of each axis.
+((before_1, after_1), … (before_N, after_N)) unique pad widths
+for each axis.
+((before, after),) yields same before and after pad for each axis.
+(pad,) or int is a shortcut for before = after = pad width for all
+axes.</p>
+</div></blockquote>
+<p><strong>mode</strong> : str or function</p>
+<blockquote>
+<div><p>One of the following string values or a user supplied function.</p>
+<dl class="docutils">
+<dt>‘constant’</dt>
+<dd><p class="first last">Pads with a constant value.</p>
+</dd>
+<dt>‘edge’</dt>
+<dd><p class="first last">Pads with the edge values of array.</p>
+</dd>
+<dt>‘linear_ramp’</dt>
+<dd><p class="first last">Pads with the linear ramp between end_value and the
+array edge value.</p>
+</dd>
+<dt>‘maximum’</dt>
+<dd><p class="first last">Pads with the maximum value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘mean’</dt>
+<dd><p class="first last">Pads with the mean value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘median’</dt>
+<dd><p class="first last">Pads with the median value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘minimum’</dt>
+<dd><p class="first last">Pads with the minimum value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘reflect’</dt>
+<dd><p class="first last">Pads with the reflection of the vector mirrored on
+the first and last values of the vector along each
+axis.</p>
+</dd>
+<dt>‘symmetric’</dt>
+<dd><p class="first last">Pads with the reflection of the vector mirrored
+along the edge of the array.</p>
+</dd>
+<dt>‘wrap’</dt>
+<dd><p class="first last">Pads with the wrap of the vector along the axis.
+The first values are used to pad the end and the
+end values are used to pad the beginning.</p>
+</dd>
+<dt>&lt;function&gt;</dt>
+<dd><p class="first last">Padding function, see Notes.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>stat_length</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘maximum’, ‘mean’, ‘median’, and ‘minimum’.  Number of
+values at edge of each axis used to calculate the statistic value.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique statistic
+lengths for each axis.</p>
+<p>((before, after),) yields same before and after statistic lengths
+for each axis.</p>
+<p>(stat_length,) or int is a shortcut for before = after = statistic
+length for all axes.</p>
+<p>Default is <code class="docutils literal"><span class="pre">None</span></code>, to use the entire axis.</p>
+</div></blockquote>
+<p><strong>constant_values</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘constant’.  The values to set the padded values for each
+axis.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique pad constants
+for each axis.</p>
+<p>((before, after),) yields same before and after constants for each
+axis.</p>
+<p>(constant,) or int is a shortcut for before = after = constant for
+all axes.</p>
+<p>Default is 0.</p>
+</div></blockquote>
+<p><strong>end_values</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘linear_ramp’.  The values used for the ending value of the
+linear_ramp and that will form the edge of the padded array.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique end values
+for each axis.</p>
+<p>((before, after),) yields same before and after end values for each
+axis.</p>
+<p>(constant,) or int is a shortcut for before = after = end value for
+all axes.</p>
+<p>Default is 0.</p>
+</div></blockquote>
+<p><strong>reflect_type</strong> : {‘even’, ‘odd’}, optional</p>
+<blockquote>
+<div><p>Used in ‘reflect’, and ‘symmetric’.  The ‘even’ style is the
+default with an unaltered reflection around the edge value.  For
+the ‘odd’ style, the extented part of the array is created by
+subtracting the reflected values from two times the edge value.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pad</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Padded array of rank equal to <cite>array</cite> with shape increased
+according to <cite>pad_width</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.7.0.</span></p>
+</div>
+<p>For an array with rank greater than 1, some of the padding of later
+axes is calculated from padding of previous axes.  This is easiest to
+think about with a rank 2 array where the corners of the padded array
+are calculated by using padded values from the first axis.</p>
+<p>The padding function, if used, should return a rank 1 array equal in
+length to the vector argument with padded values replaced. It has the
+following signature:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padding_func</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">iaxis_pad_width</span><span class="p">,</span> <span class="n">iaxis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>vector <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>A rank 1 array already padded with zeros.  Padded values are
+vector[:pad_tuple[0]] and vector[-pad_tuple[1]:].</dd>
+<dt>iaxis_pad_width <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd>A 2-tuple of ints, iaxis_pad_width[0] represents the number of
+values padded at the beginning of vector where
+iaxis_pad_width[1] represents the number of values padded at
+the end of vector.</dd>
+<dt>iaxis <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The axis currently being calculated.</dd>
+<dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">misc</span></dt>
+<dd>Any keyword arguments the function requires.</dd>
+</dl>
+</div></blockquote>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">array([4, 4, 1, 2, 3, 4, 5, 6, 6, 6])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;edge&#39;</span><span class="p">)</span>
+<span class="go">array([1, 1, 1, 2, 3, 4, 5, 5, 5, 5])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;linear_ramp&#39;</span><span class="p">,</span> <span class="n">end_values</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">array([ 5,  3,  1,  2,  3,  4,  5,  2, -1, -4])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;maximum&#39;</span><span class="p">)</span>
+<span class="go">array([5, 5, 1, 2, 3, 4, 5, 5, 5])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="go">array([3, 3, 1, 2, 3, 4, 5, 3, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="go">array([3, 3, 1, 2, 3, 4, 5, 3, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s1">&#39;minimum&#39;</span><span class="p">)</span>
+<span class="go">array([[1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [3, 3, 3, 4, 3, 3, 3],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="go">array([3, 2, 1, 2, 3, 4, 5, 4, 3, 2])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s1">&#39;odd&#39;</span><span class="p">)</span>
+<span class="go">array([-1,  0,  1,  2,  3,  4,  5,  6,  7,  8])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+<span class="go">array([2, 1, 1, 2, 3, 4, 5, 5, 4, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s1">&#39;odd&#39;</span><span class="p">)</span>
+<span class="go">array([0, 1, 1, 2, 3, 4, 5, 5, 6, 7])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;wrap&#39;</span><span class="p">)</span>
+<span class="go">array([4, 5, 1, 2, 3, 4, 5, 1, 2, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">padwithtens</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">pad_width</span><span class="p">,</span> <span class="n">iaxis</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">vector</span><span class="p">[:</span><span class="n">pad_width</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">... </span>    <span class="n">vector</span><span class="p">[</span><span class="o">-</span><span class="n">pad_width</span><span class="p">[</span><span class="mi">1</span><span class="p">]:]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">vector</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padwithtens</span><span class="p">)</span>
+<span class="go">array([[10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10,  0,  1,  2, 10, 10],</span>
+<span class="go">       [10, 10,  3,  4,  5, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="pad">
+<h2>pad<a class="headerlink" href="#pad" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.pad">
+<code class="descclassname">skimage.util.</code><code class="descname">pad</code><span class="sig-paren">(</span><em>array</em>, <em>pad_width</em>, <em>mode</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/../../../envs/py36/lib/python3.6/site-packages/numpy/lib/arraypad.py#L1094"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.pad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pads an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : array_like of rank N</p>
+<blockquote>
+<div><p>Input array</p>
+</div></blockquote>
+<p><strong>pad_width</strong> : {sequence, array_like, int}</p>
+<blockquote>
+<div><p>Number of values padded to the edges of each axis.
+((before_1, after_1), … (before_N, after_N)) unique pad widths
+for each axis.
+((before, after),) yields same before and after pad for each axis.
+(pad,) or int is a shortcut for before = after = pad width for all
+axes.</p>
+</div></blockquote>
+<p><strong>mode</strong> : str or function</p>
+<blockquote>
+<div><p>One of the following string values or a user supplied function.</p>
+<dl class="docutils">
+<dt>‘constant’</dt>
+<dd><p class="first last">Pads with a constant value.</p>
+</dd>
+<dt>‘edge’</dt>
+<dd><p class="first last">Pads with the edge values of array.</p>
+</dd>
+<dt>‘linear_ramp’</dt>
+<dd><p class="first last">Pads with the linear ramp between end_value and the
+array edge value.</p>
+</dd>
+<dt>‘maximum’</dt>
+<dd><p class="first last">Pads with the maximum value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘mean’</dt>
+<dd><p class="first last">Pads with the mean value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘median’</dt>
+<dd><p class="first last">Pads with the median value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘minimum’</dt>
+<dd><p class="first last">Pads with the minimum value of all or part of the
+vector along each axis.</p>
+</dd>
+<dt>‘reflect’</dt>
+<dd><p class="first last">Pads with the reflection of the vector mirrored on
+the first and last values of the vector along each
+axis.</p>
+</dd>
+<dt>‘symmetric’</dt>
+<dd><p class="first last">Pads with the reflection of the vector mirrored
+along the edge of the array.</p>
+</dd>
+<dt>‘wrap’</dt>
+<dd><p class="first last">Pads with the wrap of the vector along the axis.
+The first values are used to pad the end and the
+end values are used to pad the beginning.</p>
+</dd>
+<dt>&lt;function&gt;</dt>
+<dd><p class="first last">Padding function, see Notes.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>stat_length</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘maximum’, ‘mean’, ‘median’, and ‘minimum’.  Number of
+values at edge of each axis used to calculate the statistic value.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique statistic
+lengths for each axis.</p>
+<p>((before, after),) yields same before and after statistic lengths
+for each axis.</p>
+<p>(stat_length,) or int is a shortcut for before = after = statistic
+length for all axes.</p>
+<p>Default is <code class="docutils literal"><span class="pre">None</span></code>, to use the entire axis.</p>
+</div></blockquote>
+<p><strong>constant_values</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘constant’.  The values to set the padded values for each
+axis.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique pad constants
+for each axis.</p>
+<p>((before, after),) yields same before and after constants for each
+axis.</p>
+<p>(constant,) or int is a shortcut for before = after = constant for
+all axes.</p>
+<p>Default is 0.</p>
+</div></blockquote>
+<p><strong>end_values</strong> : sequence or int, optional</p>
+<blockquote>
+<div><p>Used in ‘linear_ramp’.  The values used for the ending value of the
+linear_ramp and that will form the edge of the padded array.</p>
+<p>((before_1, after_1), … (before_N, after_N)) unique end values
+for each axis.</p>
+<p>((before, after),) yields same before and after end values for each
+axis.</p>
+<p>(constant,) or int is a shortcut for before = after = end value for
+all axes.</p>
+<p>Default is 0.</p>
+</div></blockquote>
+<p><strong>reflect_type</strong> : {‘even’, ‘odd’}, optional</p>
+<blockquote>
+<div><p>Used in ‘reflect’, and ‘symmetric’.  The ‘even’ style is the
+default with an unaltered reflection around the edge value.  For
+the ‘odd’ style, the extented part of the array is created by
+subtracting the reflected values from two times the edge value.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pad</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Padded array of rank equal to <cite>array</cite> with shape increased
+according to <cite>pad_width</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 1.7.0.</span></p>
+</div>
+<p>For an array with rank greater than 1, some of the padding of later
+axes is calculated from padding of previous axes.  This is easiest to
+think about with a rank 2 array where the corners of the padded array
+are calculated by using padded values from the first axis.</p>
+<p>The padding function, if used, should return a rank 1 array equal in
+length to the vector argument with padded values replaced. It has the
+following signature:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padding_func</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">iaxis_pad_width</span><span class="p">,</span> <span class="n">iaxis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>vector <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>A rank 1 array already padded with zeros.  Padded values are
+vector[:pad_tuple[0]] and vector[-pad_tuple[1]:].</dd>
+<dt>iaxis_pad_width <span class="classifier-delimiter">:</span> <span class="classifier">tuple</span></dt>
+<dd>A 2-tuple of ints, iaxis_pad_width[0] represents the number of
+values padded at the beginning of vector where
+iaxis_pad_width[1] represents the number of values padded at
+the end of vector.</dd>
+<dt>iaxis <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The axis currently being calculated.</dd>
+<dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">misc</span></dt>
+<dd>Any keyword arguments the function requires.</dd>
+</dl>
+</div></blockquote>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">array([4, 4, 1, 2, 3, 4, 5, 6, 6, 6])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;edge&#39;</span><span class="p">)</span>
+<span class="go">array([1, 1, 1, 2, 3, 4, 5, 5, 5, 5])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;linear_ramp&#39;</span><span class="p">,</span> <span class="n">end_values</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+<span class="go">array([ 5,  3,  1,  2,  3,  4,  5,  2, -1, -4])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;maximum&#39;</span><span class="p">)</span>
+<span class="go">array([5, 5, 1, 2, 3, 4, 5, 5, 5])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="go">array([3, 3, 1, 2, 3, 4, 5, 3, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,),</span> <span class="s1">&#39;median&#39;</span><span class="p">)</span>
+<span class="go">array([3, 3, 1, 2, 3, 4, 5, 3, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s1">&#39;minimum&#39;</span><span class="p">)</span>
+<span class="go">array([[1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [3, 3, 3, 4, 3, 3, 3],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 2, 1, 1, 1]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="go">array([3, 2, 1, 2, 3, 4, 5, 4, 3, 2])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s1">&#39;odd&#39;</span><span class="p">)</span>
+<span class="go">array([-1,  0,  1,  2,  3,  4,  5,  6,  7,  8])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">)</span>
+<span class="go">array([2, 1, 1, 2, 3, 4, 5, 5, 4, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;symmetric&#39;</span><span class="p">,</span> <span class="n">reflect_type</span><span class="o">=</span><span class="s1">&#39;odd&#39;</span><span class="p">)</span>
+<span class="go">array([0, 1, 1, 2, 3, 4, 5, 5, 6, 7])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;wrap&#39;</span><span class="p">)</span>
+<span class="go">array([4, 5, 1, 2, 3, 4, 5, 1, 2, 3])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">padwithtens</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">pad_width</span><span class="p">,</span> <span class="n">iaxis</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">vector</span><span class="p">[:</span><span class="n">pad_width</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">... </span>    <span class="n">vector</span><span class="p">[</span><span class="o">-</span><span class="n">pad_width</span><span class="p">[</span><span class="mi">1</span><span class="p">]:]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">vector</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">padwithtens</span><span class="p">)</span>
+<span class="go">array([[10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10,  0,  1,  2, 10, 10],</span>
+<span class="go">       [10, 10,  3,  4,  5, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10],</span>
+<span class="go">       [10, 10, 10, 10, 10, 10, 10]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="random-noise">
+<h2>random_noise<a class="headerlink" href="#random-noise" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.random_noise">
+<code class="descclassname">skimage.util.</code><code class="descname">random_noise</code><span class="sig-paren">(</span><em>image</em>, <em>mode='gaussian'</em>, <em>seed=None</em>, <em>clip=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/noise.py#L8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.random_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to add random noise of various types to a floating-point image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image data. Will be converted to float.</p>
+</div></blockquote>
+<p><strong>mode</strong> : str</p>
+<blockquote>
+<div><p>One of the following strings, selecting the type of noise to add:</p>
+<ul class="simple">
+<li>‘gaussian’  Gaussian-distributed additive noise.</li>
+<li><dl class="first docutils">
+<dt>‘localvar’  Gaussian-distributed additive noise, with specified</dt>
+<dd>local variance at each point of <cite>image</cite></dd>
+</dl>
+</li>
+<li>‘poisson’   Poisson-distributed noise generated from the data.</li>
+<li>‘salt’      Replaces random pixels with 1.</li>
+<li><dl class="first docutils">
+<dt>‘pepper’    Replaces random pixels with 0 (for unsigned images) or</dt>
+<dd>-1 (for signed images).</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>‘s&amp;p’       Replaces random pixels with either 1 or <cite>low_val</cite>, where</dt>
+<dd><cite>low_val</cite> is 0 for unsigned images or -1 for signed
+images.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>‘speckle’   Multiplicative noise using out = image + n*image, where</dt>
+<dd>n is uniform noise with specified mean &amp; variance.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>seed</strong> : int</p>
+<blockquote>
+<div><p>If provided, this will set the random seed before generating noise,
+for valid pseudo-random comparisons.</p>
+</div></blockquote>
+<p><strong>clip</strong> : bool</p>
+<blockquote>
+<div><p>If True (default), the output will be clipped after noise applied
+for modes <cite>‘speckle’</cite>, <cite>‘poisson’</cite>, and <cite>‘gaussian’</cite>. This is
+needed to maintain the proper image data range. If False, clipping
+is not applied, and the output may extend beyond the range [-1, 1].</p>
+</div></blockquote>
+<p><strong>mean</strong> : float</p>
+<blockquote>
+<div><p>Mean of random distribution. Used in ‘gaussian’ and ‘speckle’.
+Default : 0.</p>
+</div></blockquote>
+<p><strong>var</strong> : float</p>
+<blockquote>
+<div><p>Variance of random distribution. Used in ‘gaussian’ and ‘speckle’.
+Note: variance = (standard deviation) ** 2. Default : 0.01</p>
+</div></blockquote>
+<p><strong>local_vars</strong> : ndarray</p>
+<blockquote>
+<div><p>Array of positive floats, same shape as <cite>image</cite>, defining the local
+variance at every image point. Used in ‘localvar’.</p>
+</div></blockquote>
+<p><strong>amount</strong> : float</p>
+<blockquote>
+<div><p>Proportion of image pixels to replace with noise on range [0, 1].
+Used in ‘salt’, ‘pepper’, and ‘salt &amp; pepper’. Default : 0.05</p>
+</div></blockquote>
+<p><strong>salt_vs_pepper</strong> : float</p>
+<blockquote>
+<div><p>Proportion of salt vs. pepper noise for ‘s&amp;p’ on range [0, 1].
+Higher values represent more salt. Default : 0.5 (equal amounts)</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Output floating-point image data on range [0, 1] or [-1, 1] if the
+input <cite>image</cite> was unsigned or signed, respectively.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Speckle, Poisson, Localvar, and Gaussian noise may generate noise outside
+the valid image range. The default is to clip (not alias) these values,
+but they may be preserved by setting <cite>clip=False</cite>. Note that in this case
+the output may contain values outside the ranges [0, 1] or [-1, 1].
+Use this option with care.</p>
+<p>Because of the prevalence of exclusively positive floating-point images in
+intermediate calculations, it is not possible to intuit if an input is
+signed based on dtype alone. Instead, negative values are explicity
+searched for. Only if found does this function assume signed input.
+Unexpected results only occur in rare, poorly exposes cases (e.g. if all
+values are above 50 percent gray in a signed <cite>image</cite>). In this event,
+manually scaling the input to the positive domain will solve the problem.</p>
+<p>The Poisson distribution is only defined for positive integers. To apply
+this noise type, the number of unique values in the image is found and
+the next round power of two is used to scale up the floating-point result,
+after which it is scaled back down to the floating-point image range.</p>
+<p>To generate Poisson noise against a signed image, the signed image is
+temporarily converted to an unsigned image in the floating point domain,
+Poisson noise is generated, then it is returned to the original range.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="regular-grid">
+<h2>regular_grid<a class="headerlink" href="#regular-grid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.regular_grid">
+<code class="descclassname">skimage.util.</code><code class="descname">regular_grid</code><span class="sig-paren">(</span><em>ar_shape</em>, <em>n_points</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/_regular_grid.py#L4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.regular_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find <cite>n_points</cite> regularly spaced along <cite>ar_shape</cite>.</p>
+<p>The returned points (as slices) should be as close to cubically-spaced as
+possible. Essentially, the points are spaced by the Nth root of the input
+array size, where N is the number of dimensions. However, if an array
+dimension cannot fit a full step size, it is “discarded”, and the
+computation is done for only the remaining dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ar_shape</strong> : array-like of ints</p>
+<blockquote>
+<div><p>The shape of the space embedding the grid. <code class="docutils literal"><span class="pre">len(ar_shape)</span></code> is the
+number of dimensions.</p>
+</div></blockquote>
+<p><strong>n_points</strong> : int</p>
+<blockquote>
+<div><p>The (approximate) number of points to embed in the space.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>slices</strong> : list of slice objects</p>
+<blockquote class="last">
+<div><p>A slice along each dimension of <cite>ar_shape</cite>, such that the intersection
+of all the slices give the coordinates of regularly spaced points.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">regular_grid</span><span class="p">(</span><span class="n">ar</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span>
+<span class="go">[slice(5, None, 10), slice(5, None, 10)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="go">8.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">regular_grid</span><span class="p">(</span><span class="n">ar</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span>
+<span class="go">[slice(2, None, 5), slice(2, None, 5)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="go">32.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">regular_grid</span><span class="p">(</span><span class="n">ar</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span>
+<span class="go">[slice(1, None, 3), slice(5, None, 10), slice(5, None, 10)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="p">[</span><span class="n">g</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="go">8.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="regular-seeds">
+<h2>regular_seeds<a class="headerlink" href="#regular-seeds" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.regular_seeds">
+<code class="descclassname">skimage.util.</code><code class="descname">regular_seeds</code><span class="sig-paren">(</span><em>ar_shape</em>, <em>n_points</em>, <em>dtype=&lt;class 'int'&gt;</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/_regular_grid.py#L75"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.regular_seeds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an image with ~`n_points` regularly-spaced nonzero pixels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ar_shape</strong> : tuple of int</p>
+<blockquote>
+<div><p>The shape of the desired output image.</p>
+</div></blockquote>
+<p><strong>n_points</strong> : int</p>
+<blockquote>
+<div><p>The desired number of nonzero points.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : numpy data type, optional</p>
+<blockquote>
+<div><p>The desired data type of the output.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>seed_img</strong> : array of int or bool</p>
+<blockquote class="last">
+<div><p>The desired image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">regular_seeds</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 2, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 3, 0, 4, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="unique-rows">
+<h2>unique_rows<a class="headerlink" href="#unique-rows" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.unique_rows">
+<code class="descclassname">skimage.util.</code><code class="descname">unique_rows</code><span class="sig-paren">(</span><em>ar</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/unique.py#L4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.unique_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove repeated rows from a 2D array.</p>
+<p>In particular, if given an array of coordinates of shape
+(Npoints, Ndim), it will remove repeated points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ar</strong> : 2-D ndarray</p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ar_out</strong> : 2-D ndarray</p>
+<blockquote>
+<div><p>A copy of the input array with repeated rows removed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><strong>ValueError</strong> : if <cite>ar</cite> is not two-dimensional.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The function will generate a copy of <cite>ar</cite> if it is not
+C-contiguous, which will negatively affect performance for large
+input arrays.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unique_rows</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
+<span class="go">array([[0, 1, 0],</span>
+<span class="go">       [1, 0, 1]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="view-as-blocks">
+<h2>view_as_blocks<a class="headerlink" href="#view-as-blocks" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.view_as_blocks">
+<code class="descclassname">skimage.util.</code><code class="descname">view_as_blocks</code><span class="sig-paren">(</span><em>arr_in</em>, <em>block_shape</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/shape.py#L10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.view_as_blocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block view of the input n-dimensional array (using re-striding).</p>
+<p>Blocks are non-overlapping views of the input array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>arr_in</strong> : ndarray</p>
+<blockquote>
+<div><p>N-d input array.</p>
+</div></blockquote>
+<p><strong>block_shape</strong> : tuple</p>
+<blockquote>
+<div><p>The shape of the block. Each dimension must divide evenly into the
+corresponding dimensions of <cite>arr_in</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>arr_out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Block view of the input array.  If <cite>arr_in</cite> is non-contiguous, a copy
+is made.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util.shape</span> <span class="k">import</span> <span class="n">view_as_blocks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span>
+<span class="go">array([[ 0,  1,  2,  3],</span>
+<span class="go">       [ 4,  5,  6,  7],</span>
+<span class="go">       [ 8,  9, 10, 11],</span>
+<span class="go">       [12, 13, 14, 15]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">view_as_blocks</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">block_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">array([[0, 1],</span>
+<span class="go">       [4, 5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go">array([[2, 3],</span>
+<span class="go">       [6, 7]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go">13</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span>  
+<span class="go">array([[[ 0,  1,  2,  3,  4,  5],</span>
+<span class="go">        [ 6,  7,  8,  9, 10, 11],</span>
+<span class="go">        [12, 13, 14, 15, 16, 17],</span>
+<span class="go">        [18, 19, 20, 21, 22, 23]],</span>
+<span class="go">       [[24, 25, 26, 27, 28, 29],</span>
+<span class="go">        [30, 31, 32, 33, 34, 35],</span>
+<span class="go">        [36, 37, 38, 39, 40, 41],</span>
+<span class="go">        [42, 43, 44, 45, 46, 47]],</span>
+<span class="go">       [[48, 49, 50, 51, 52, 53],</span>
+<span class="go">        [54, 55, 56, 57, 58, 59],</span>
+<span class="go">        [60, 61, 62, 63, 64, 65],</span>
+<span class="go">        [66, 67, 68, 69, 70, 71]],</span>
+<span class="go">       [[72, 73, 74, 75, 76, 77],</span>
+<span class="go">        [78, 79, 80, 81, 82, 83],</span>
+<span class="go">        [84, 85, 86, 87, 88, 89],</span>
+<span class="go">        [90, 91, 92, 93, 94, 95]]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">view_as_blocks</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">block_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(4, 2, 3, 1, 2, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>  
+<span class="go">array([[[[52, 53],</span>
+<span class="go">         [58, 59]]],</span>
+<span class="go">       [[[76, 77],</span>
+<span class="go">         [82, 83]]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="view-as-windows">
+<h2>view_as_windows<a class="headerlink" href="#view-as-windows" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.view_as_windows">
+<code class="descclassname">skimage.util.</code><code class="descname">view_as_windows</code><span class="sig-paren">(</span><em>arr_in</em>, <em>window_shape</em>, <em>step=1</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/util/shape.py#L107"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.util.view_as_windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rolling window view of the input n-dimensional array.</p>
+<p>Windows are overlapping views of the input array, with adjacent windows
+shifted by a single row or column (or an index of a higher dimension).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>arr_in</strong> : ndarray</p>
+<blockquote>
+<div><p>N-d input array.</p>
+</div></blockquote>
+<p><strong>window_shape</strong> : integer or tuple of length arr_in.ndim</p>
+<blockquote>
+<div><p>Defines the shape of the elementary n-dimensional orthotope
+(better know as hyperrectangle <a class="reference internal" href="#r504" id="id1">[R504]</a>) of the rolling window view.
+If an integer is given, the shape will be a hypercube of
+sidelength given by its value.</p>
+</div></blockquote>
+<p><strong>step</strong> : integer or tuple of length arr_in.ndim</p>
+<blockquote>
+<div><p>Indicates step size at which extraction shall be performed.
+If integer is given, then the step is uniform in all dimensions.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>arr_out</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>(rolling) window view of the input array.   If <cite>arr_in</cite> is
+non-contiguous, a copy is made.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>One should be very careful with rolling views when it comes to
+memory usage.  Indeed, although a ‘view’ has the same memory
+footprint as its base array, the actual array that emerges when this
+‘view’ is used in a computation is generally a (much) larger array
+than the original, especially for 2-dimensional arrays and above.</p>
+<p>For example, let us consider a 3 dimensional array of size (100,
+100, 100) of <code class="docutils literal"><span class="pre">float64</span></code>. This array takes about 8*100**3 Bytes for
+storage which is just 8 MB. If one decides to build a rolling view
+on this array with a window of (3, 3, 3) the hypothetical size of
+the rolling view (if one was to reshape the view for example) would
+be 8*(100-3+1)**3*3**3 which is about 203 MB! The scaling becomes
+even worse as the dimension of the input array becomes larger.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r504" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R504]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Hyperrectangle">http://en.wikipedia.org/wiki/Hyperrectangle</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util.shape</span> <span class="k">import</span> <span class="n">view_as_windows</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span>
+<span class="go">array([[ 0,  1,  2,  3],</span>
+<span class="go">       [ 4,  5,  6,  7],</span>
+<span class="go">       [ 8,  9, 10, 11],</span>
+<span class="go">       [12, 13, 14, 15]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">window_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">view_as_windows</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">window_shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">array([[0, 1],</span>
+<span class="go">       [4, 5]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="go">array([[1, 2],</span>
+<span class="go">       [5, 6]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span>
+<span class="go">array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">window_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">view_as_windows</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">window_shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(8, 3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span>
+<span class="go">array([[0, 1, 2],</span>
+<span class="go">       [1, 2, 3],</span>
+<span class="go">       [2, 3, 4],</span>
+<span class="go">       [3, 4, 5],</span>
+<span class="go">       [4, 5, 6],</span>
+<span class="go">       [5, 6, 7],</span>
+<span class="go">       [6, 7, 8],</span>
+<span class="go">       [7, 8, 9]])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span>
+<span class="go">array([[ 0,  1,  2,  3],</span>
+<span class="go">       [ 4,  5,  6,  7],</span>
+<span class="go">       [ 8,  9, 10, 11],</span>
+<span class="go">       [12, 13, 14, 15],</span>
+<span class="go">       [16, 17, 18, 19]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">window_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">view_as_windows</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">window_shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 2, 4, 3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span>  
+<span class="go">array([[[[ 0,  1,  2],</span>
+<span class="go">         [ 4,  5,  6],</span>
+<span class="go">         [ 8,  9, 10],</span>
+<span class="go">         [12, 13, 14]],</span>
+<span class="go">        [[ 1,  2,  3],</span>
+<span class="go">         [ 5,  6,  7],</span>
+<span class="go">         [ 9, 10, 11],</span>
+<span class="go">         [13, 14, 15]]],</span>
+<span class="go">       [[[ 4,  5,  6],</span>
+<span class="go">         [ 8,  9, 10],</span>
+<span class="go">         [12, 13, 14],</span>
+<span class="go">         [16, 17, 18]],</span>
+<span class="go">        [[ 5,  6,  7],</span>
+<span class="go">         [ 9, 10, 11],</span>
+<span class="go">         [13, 14, 15],</span>
+<span class="go">         [17, 18, 19]]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

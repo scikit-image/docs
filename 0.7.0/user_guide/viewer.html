@@ -1,0 +1,188 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Image Viewer &mdash; skimage v0.7.0 docs</title>
+    
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.7.0 docs" href="../index.html" />
+    <link rel="up" title="User Guide" href="../user_guide.html" />
+    <link rel="next" title="How to contribute to skimage" href="../contribute.html" />
+    <link rel="prev" title="Getting help on using skimage" href="getting_help.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+    <h3>Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">Image Viewer</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_help.html"
+                        title="previous chapter">Getting help on using <tt class="docutils literal docutils literal docutils literal"><span class="pre">skimage</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../contribute.html"
+                        title="next chapter">How to contribute to <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">skimage</span></tt></a></p>
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="image-viewer">
+<h1>Image Viewer<a class="headerlink" href="#image-viewer" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">skimage.viewer</span></tt> provides a <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a>-based canvas for displaying images and
+a Qt-based GUI-toolkit, with the goal of making it easy to create interactive
+image editors. You can simply use it to display an image:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.viewer</span> <span class="kn">import</span> <span class="n">ImageViewer</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="n">viewer</span> <span class="o">=</span> <span class="n">ImageViewer</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">viewer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Of course, you could just as easily use <tt class="docutils literal"><span class="pre">imshow</span></tt> from <a class="reference external" href="http://matplotlib.sourceforge.net/">matplotlib</a> (or
+alternatively, <tt class="docutils literal"><span class="pre">skimage.io.imshow</span></tt> which adds support for multiple
+io-plugins) to display images. The advantage of <tt class="docutils literal"><span class="pre">ImageViewer</span></tt> is that you can
+easily add plugins for manipulating images. Currently, only a few plugins are
+implemented, but it is easy to write your own. Before going into the details,
+let&#8217;s see an example of how a plugin is added to the viewer:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.viewer.plugins</span> <span class="kn">import</span> <span class="n">Canny</span>
+
+<span class="n">viewer</span> <span class="o">=</span> <span class="n">ImageViewer</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">viewer</span> <span class="o">+=</span> <span class="n">Canny</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+<span class="n">viewer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>At the moment, there aren&#8217;t very many plugins pre-defined, but there&#8217;s a really
+simple interface for creating your own plugin. First, let&#8217;s create a plugin to
+call the total-variation denoising function, <tt class="docutils literal"><span class="pre">tv_denoise</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.filter</span> <span class="kn">import</span> <span class="n">tv_denoise</span>
+<span class="kn">from</span> <span class="nn">skimage.viewer.plugins.base</span> <span class="kn">import</span> <span class="n">Plugin</span>
+
+<span class="n">denoise_plugin</span> <span class="o">=</span> <span class="n">Plugin</span><span class="p">(</span><span class="n">image_filter</span><span class="o">=</span><span class="n">tv_denoise</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">Plugin</span></tt> assumes the first argument given to the image filter is the
+image from the image viewer. In the future, this should be changed so you
+can pass the image to a different argument of the filter function.</p>
+</div>
+<p>To actually interact with the filter, you have to add widgets that adjust the
+parameters of the function. Typically, that means adding a slider widget and
+connecting it to the filter parameter and the minimum and maximum values of the
+slider:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.viewer.widgets</span> <span class="kn">import</span> <span class="n">Slider</span>
+<span class="kn">from</span> <span class="nn">skimage.viewer.widgets.history</span> <span class="kn">import</span> <span class="n">SaveButtons</span>
+
+<span class="n">denoise_plugin</span> <span class="o">+=</span> <span class="n">Slider</span><span class="p">(</span><span class="s">&#39;weight&#39;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">update_on</span><span class="o">=</span><span class="s">&#39;release&#39;</span><span class="p">)</span>
+<span class="n">denoise_plugin</span> <span class="o">+=</span> <span class="n">SaveButtons</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Here, we connect a slider widget to the filter&#8217;s &#8216;weight&#8217; argument.  We also
+added some buttons for saving the image to file or to the <tt class="docutils literal"><span class="pre">scikits-image</span></tt>
+image stack (see <tt class="docutils literal"><span class="pre">skimage.io.push</span></tt> and <tt class="docutils literal"><span class="pre">skimage.io.pop</span></tt>).</p>
+<p>All that&#8217;s left is to create an image viewer and add the plugin to that viewer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">viewer</span> <span class="o">=</span> <span class="n">ImageViewer</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">viewer</span> <span class="o">+=</span> <span class="n">denoise_plugin</span>
+<span class="n">viewer</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/denoise_viewer_window.png" src="../_images/denoise_viewer_window.png" />
+<img alt="../_images/denoise_plugin_window.png" src="../_images/denoise_plugin_window.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+    </div>
+
+  </body>
+</html>

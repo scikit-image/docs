@@ -1,0 +1,148 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Build image pyramids &mdash; skimage v0.7.0 docs</title>
+    
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.7.0 docs" href="../index.html" />
+    <link rel="up" title="General examples" href="index.html" />
+    <link rel="next" title="Radon transform" href="plot_radon_transform.html" />
+    <link rel="prev" title="Approximate and subdivide polygons" href="plot_polygon.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plot_polygon.html"
+                        title="previous chapter">Approximate and subdivide polygons</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plot_radon_transform.html"
+                        title="next chapter">Radon transform</a></p>
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="build-image-pyramids">
+<span id="example-plot-pyramid-py"></span><h1>Build image pyramids<a class="headerlink" href="#build-image-pyramids" title="Permalink to this headline">¶</a></h1>
+<p>The <cite>pyramid_gaussian</cite> function takes an image and yields successive images
+shrunk by a constant scale factor. Image pyramids are often used, e.g., to
+implement algorithms for denoising, texture discrimination, and scale- invariant
+detection.</p>
+<img alt="../_images/plot_pyramid_1.png" class="align-center" src="../_images/plot_pyramid_1.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">pyramid_gaussian</span>
+
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">lena</span><span class="p">()</span>
+<span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">pyramid</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pyramid_gaussian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">downscale</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="n">composite_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">+</span> <span class="n">cols</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+
+<span class="n">composite_image</span><span class="p">[:</span><span class="n">rows</span><span class="p">,</span> <span class="p">:</span><span class="n">cols</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pyramid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">i_row</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pyramid</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+    <span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">composite_image</span><span class="p">[</span><span class="n">i_row</span><span class="p">:</span><span class="n">i_row</span> <span class="o">+</span> <span class="n">n_rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span><span class="n">cols</span> <span class="o">+</span> <span class="n">n_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="n">i_row</span> <span class="o">+=</span> <span class="n">n_rows</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">composite_image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_pyramid.py"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.7.0)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+    </div>
+
+  </body>
+</html>

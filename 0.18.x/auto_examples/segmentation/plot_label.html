@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Label image regions &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script src="../../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Markers for watershed transform" href="plot_marked_watershed.html" />
+        <link rel="prev" title="Watershed segmentation" href="plot_watershed.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-label-py"><span class="std std-ref">here</span></a>     to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<div class="sphx-glr-example-title section" id="label-image-regions">
+<span id="sphx-glr-auto-examples-segmentation-plot-label-py"></span><h1>Label image regions<a class="headerlink" href="#label-image-regions" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to segment an image with image labelling. The following
+steps are applied:</p>
+<ol class="arabic simple">
+<li><p>Thresholding with automatic Otsu method</p></li>
+<li><p>Close small holes with binary closing</p></li>
+<li><p>Remove artifacts touching image border</p></li>
+<li><p>Measure image regions to filter small objects</p></li>
+</ol>
+<img alt="plot label" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_label_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <a href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="skimage.filters.threshold_otsu" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">threshold_otsu</span></a>
+<span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="kn">import</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.clear_border" title="skimage.segmentation.clear_border" class="sphx-glr-backref-module-skimage-segmentation sphx-glr-backref-type-py-function"><span class="n">clear_border</span></a>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="kn">import</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">label</span></a><span class="p">,</span> <a href="../../api/skimage.measure.html#skimage.measure.regionprops" title="skimage.measure.regionprops" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">regionprops</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.closing" title="skimage.morphology.closing" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">closing</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="skimage.color.label2rgb" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">label2rgb</span></a>
+
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.coins" title="skimage.data.coins" class="sphx-glr-backref-module-skimage-data sphx-glr-backref-type-py-function"><span class="n">data</span><span class="o">.</span><span class="n">coins</span></a><span class="p">()[</span><span class="mi">50</span><span class="p">:</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">:</span><span class="o">-</span><span class="mi">50</span><span class="p">]</span>
+
+<span class="c1"># apply threshold</span>
+<span class="n">thresh</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="skimage.filters.threshold_otsu" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">threshold_otsu</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bw</span></a> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.closing" title="skimage.morphology.closing" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">closing</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">&gt;</span> <span class="n">thresh</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># remove artifacts connected to image border</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cleared</span></a> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.clear_border" title="skimage.segmentation.clear_border" class="sphx-glr-backref-module-skimage-segmentation sphx-glr-backref-type-py-function"><span class="n">clear_border</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bw</span></a><span class="p">)</span>
+
+<span class="c1"># label image regions</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_image</span></a> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="skimage.measure.label" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">label</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cleared</span></a><span class="p">)</span>
+<span class="c1"># to make the background transparent, pass the value of `bg_label`,</span>
+<span class="c1"># and leave `bg_color` as `None` and `kind` as `overlay`</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_label_overlay</span></a> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="skimage.color.label2rgb" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">label2rgb</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_image</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="n">bg_label</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.imshow.html#matplotlib.axes.Axes.imshow" title="matplotlib.axes.Axes.imshow" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_label_overlay</span></a><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <a href="../../api/skimage.measure.html#skimage.measure.regionprops" title="skimage.measure.regionprops" class="sphx-glr-backref-module-skimage-measure sphx-glr-backref-type-py-function"><span class="n">regionprops</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">label_image</span></a><span class="p">):</span>
+    <span class="c1"># take regions with large enough areas</span>
+    <span class="k">if</span> <span class="n">region</span><span class="o">.</span><span class="n">area</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="c1"># draw rectangle around segmented coins</span>
+        <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minr</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minc</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">maxr</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">maxc</span></a> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">bbox</span>
+        <a href="https://matplotlib.org/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class"><span class="n">mpatches</span><span class="o">.</span><span class="n">Rectangle</span></a><span class="p">((</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minc</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minr</span></a><span class="p">),</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">maxc</span></a> <span class="o">-</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minc</span></a><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">maxr</span></a> <span class="o">-</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">minr</span></a><span class="p">,</span>
+                                  <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.add_patch.html#matplotlib.axes.Axes.add_patch" title="matplotlib.axes.Axes.add_patch" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span></a><span class="p">(</span><a href="https://matplotlib.org/api/_as_gen/matplotlib.patches.Rectangle.html#matplotlib.patches.Rectangle" title="matplotlib.patches.Rectangle" class="sphx-glr-backref-module-matplotlib-patches sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rect</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.set_axis_off.html#matplotlib.axes.Axes.set_axis_off" title="matplotlib.axes.Axes.set_axis_off" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="matplotlib.pyplot.tight_layout" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.331 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-label-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/master?filepath=notebooks/auto_examples/segmentation/plot_label.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/8cc7399942d75e6f060d3f1de95a1fad/plot_label.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_label.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c35388741e352ccf3d63137b1216087a/plot_label.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_label.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+		We hope that this example was useful. If you have questions
+		unanswered by our documentation, you can ask them on the 
+		<a href="https://forum.image.sc/tag/scikit-image"> Image.sc
+		    forum</a>, 
+		where scikit-image developers and users are present.</br>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

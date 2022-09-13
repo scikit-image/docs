@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Image adjustment: transforming image content &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="User Guide" href="../user_guide.html" />
+        <link rel="next" title="I/O Plugin Infrastructure" href="plugins.html" />
+        <link rel="prev" title="Image data types and what they mean" href="data_types.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Image adjustment: transforming image content</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#color-manipulation">Color manipulation</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#conversion-between-color-models">Conversion between color models</a></li>
+<li><a class="reference internal" href="#conversion-from-rgba-to-rgb-removing-alpha-channel-through-alpha-blending">Conversion from RGBA to RGB - Removing alpha channel through alpha blending</a></li>
+<li><a class="reference internal" href="#conversion-between-color-and-gray-values">Conversion between color and gray values</a></li>
+<li><a class="reference internal" href="#image-inversion">Image inversion</a></li>
+<li><a class="reference internal" href="#painting-images-with-labels">Painting images with labels</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contrast-and-exposure">Contrast and exposure</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="image-adjustment-transforming-image-content">
+<h1>Image adjustment: transforming image content<a class="headerlink" href="#image-adjustment-transforming-image-content" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="color-manipulation">
+<h2>Color manipulation<a class="headerlink" href="#color-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>Most functions for manipulating color channels are found in the submodule
+<a class="reference internal" href="../api/skimage.color.html#module-skimage.color" title="skimage.color"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.color</span></code></a>.</p>
+<div class="section" id="conversion-between-color-models">
+<h3>Conversion between color models<a class="headerlink" href="#conversion-between-color-models" title="Permalink to this headline">¶</a></h3>
+<p>Color images can be represented using different <a class="reference external" href="https://en.wikipedia.org/wiki/Color_space">color spaces</a>. One of the most common
+color spaces is the <a class="reference external" href="https://en.wikipedia.org/wiki/RGB_color_model">RGB space</a>, where an image has red,
+green and blue channels. However, other color models are widely used,
+such as the <a class="reference external" href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV color model</a>, where hue, saturation and
+value are independent channels, or the <a class="reference external" href="https://en.wikipedia.org/wiki/CMYK_color_model">CMYK model</a> used for printing.</p>
+<p><a class="reference internal" href="../api/skimage.color.html#module-skimage.color" title="skimage.color"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.color</span></code></a> provides utility functions to convert images
+to and from different color spaces. Integer-type arrays can be
+transformed to floating-point type by the conversion operation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># bright saturated red</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">red_pixel_rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="o">.</span><span class="n">rgb2hsv</span><span class="p">(</span><span class="n">red_pixel_rgb</span><span class="p">)</span>
+<span class="go">array([[[ 0.,  1.,  1.]]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># darker saturated blue</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dark_blue_pixel_rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="o">.</span><span class="n">rgb2hsv</span><span class="p">(</span><span class="n">dark_blue_pixel_rgb</span><span class="p">)</span>
+<span class="go">array([[[ 0.66666667,  1.        ,  0.39215686]]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># less saturated pink</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pink_pixel_rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">255</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="o">.</span><span class="n">rgb2hsv</span><span class="p">(</span><span class="n">pink_pixel_rgb</span><span class="p">)</span>
+<span class="go">array([[[ 0.83333333,  0.60784314,  1.        ]]])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conversion-from-rgba-to-rgb-removing-alpha-channel-through-alpha-blending">
+<h3>Conversion from RGBA to RGB - Removing alpha channel through alpha blending<a class="headerlink" href="#conversion-from-rgba-to-rgb-removing-alpha-channel-through-alpha-blending" title="Permalink to this headline">¶</a></h3>
+<p>Converting an RGBA image to an RGB image by alpha blending it with a
+background is realized with <a class="reference internal" href="../api/skimage.color.html#skimage.color.rgba2rgb" title="skimage.color.rgba2rgb"><code class="xref py py-func docutils literal notranslate"><span class="pre">rgba2rgb()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgba2rgb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgba</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">logo</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_rgb</span> <span class="o">=</span> <span class="n">rgba2rgb</span><span class="p">(</span><span class="n">img_rgba</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conversion-between-color-and-gray-values">
+<h3>Conversion between color and gray values<a class="headerlink" href="#conversion-between-color-and-gray-values" title="Permalink to this headline">¶</a></h3>
+<p>Converting an RGB image to a grayscale image is realized with
+<a class="reference internal" href="../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray"><code class="xref py py-func docutils literal notranslate"><span class="pre">rgb2gray()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_gray</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray"><code class="xref py py-func docutils literal notranslate"><span class="pre">rgb2gray()</span></code></a> uses a non-uniform weighting of color channels, because of the
+different sensitivity of the human eye to different colors. Therefore,
+such a weighting ensures <a class="reference external" href="https://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale">luminance preservation</a>
+from RGB to grayscale:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">red_pixel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">red_pixel</span><span class="p">)</span>
+<span class="go">array([[ 0.2125]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">green_pixel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">green_pixel</span><span class="p">)</span>
+<span class="go">array([[ 0.7154]])</span>
+</pre></div>
+</div>
+<p>Converting a grayscale image to RGB with <a class="reference internal" href="../api/skimage.color.html#skimage.color.gray2rgb" title="skimage.color.gray2rgb"><code class="xref py py-func docutils literal notranslate"><span class="pre">gray2rgb()</span></code></a> simply
+duplicates the gray values over the three color channels.</p>
+</div>
+<div class="section" id="image-inversion">
+<h3>Image inversion<a class="headerlink" href="#image-inversion" title="Permalink to this headline">¶</a></h3>
+<p>An inverted image is also called complementary image. For binary images, True values
+become False and conversely. For grayscale images, pixel values are replaced by the
+difference of the maximum value of the data type and the actual value. For RGB
+images, the same operation is done for each channel. This operation can be achieved
+with <a class="reference internal" href="../api/skimage.util.html#skimage.util.invert" title="skimage.util.invert"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.util.invert()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">util</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inverted_img</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="painting-images-with-labels">
+<h3>Painting images with labels<a class="headerlink" href="#painting-images-with-labels" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../api/skimage.color.html#skimage.color.label2rgb" title="skimage.color.label2rgb"><code class="xref py py-func docutils literal notranslate"><span class="pre">label2rgb()</span></code></a> can be used to superimpose colors on a grayscale image
+using an array of labels to encode the regions to be represented with the
+same color.</p>
+<a class="reference external image-reference" href="../auto_examples/segmentation/plot_join_segmentations.html"><img alt="../_images/sphx_glr_plot_join_segmentations_0011.png" class="align-center" src="../_images/sphx_glr_plot_join_segmentations_0011.png" style="width: 80%;" /></a>
+<div class="topic">
+<p class="topic-title first">Examples:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../auto_examples/color_exposure/plot_tinting_grayscale_images.html#sphx-glr-auto-examples-color-exposure-plot-tinting-grayscale-images-py"><span class="std std-ref">Tinting gray-scale images</span></a></p></li>
+<li><p><a class="reference internal" href="../auto_examples/segmentation/plot_join_segmentations.html#sphx-glr-auto-examples-segmentation-plot-join-segmentations-py"><span class="std std-ref">Find the intersection of two segmentations</span></a></p></li>
+<li><p><a class="reference internal" href="../auto_examples/segmentation/plot_rag_mean_color.html#sphx-glr-auto-examples-segmentation-plot-rag-mean-color-py"><span class="std std-ref">RAG Thresholding</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="contrast-and-exposure">
+<span id="exposure"></span><h2>Contrast and exposure<a class="headerlink" href="#contrast-and-exposure" title="Permalink to this headline">¶</a></h2>
+<p>Image pixels can take values determined by the <code class="docutils literal notranslate"><span class="pre">dtype</span></code> of the image
+(see <a class="reference internal" href="data_types.html#data-types"><span class="std std-ref">Image data types and what they mean</span></a>), such as 0 to 255 for <code class="docutils literal notranslate"><span class="pre">uint8</span></code> images or <code class="docutils literal notranslate"><span class="pre">[0,</span>
+<span class="pre">1]</span></code> for floating-point images. However, most images either have a
+narrower range of values (because of poor contrast), or have most pixel
+values concentrated in a subrange of the accessible values.
+<a class="reference internal" href="../api/skimage.exposure.html#module-skimage.exposure" title="skimage.exposure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.exposure</span></code></a> provides functions that spread the intensity
+values over a larger range.</p>
+<p>A first class of methods compute a nonlinear function of the intensity,
+that is independent of the pixel values of a specific image. Such methods
+are often used for correcting a known non-linearity of sensors, or
+receptors such as the human eye. A well-known example is <a class="reference external" href="https://en.wikipedia.org/wiki/Gamma_correction">Gamma
+correction</a>, implemented
+in <a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.adjust_gamma" title="skimage.exposure.adjust_gamma"><code class="xref py py-func docutils literal notranslate"><span class="pre">adjust_gamma()</span></code></a>.</p>
+<p>Other methods re-distribute pixel values according to the <em>histogram</em> of
+the image. The histogram of pixel values is computed with
+<a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.histogram" title="skimage.exposure.histogram"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.exposure.histogram()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exposure</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">(array([3, 0, 1]), array([1, 2, 3]))</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.histogram" title="skimage.exposure.histogram"><code class="xref py py-func docutils literal notranslate"><span class="pre">histogram()</span></code></a> returns the number of pixels for each value bin, and
+the centers of the bins. The behavior of <a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.histogram" title="skimage.exposure.histogram"><code class="xref py py-func docutils literal notranslate"><span class="pre">histogram()</span></code></a> is therefore
+slightly different from the one of <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.17)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.histogram()</span></code></a>, which returns
+the boundaries of the bins.</p>
+<p>The simplest contrast enhancement <a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.rescale_intensity" title="skimage.exposure.rescale_intensity"><code class="xref py py-func docutils literal notranslate"><span class="pre">rescale_intensity()</span></code></a> consists in
+stretching pixel values to the whole allowed range, using a linear
+transformation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">exposure</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">text</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">(10, 197)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">better_contrast</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">better_contrast</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">better_contrast</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="go">(0, 255)</span>
+</pre></div>
+</div>
+<p>Even if an image uses the whole value range, sometimes there is very
+little weight at the ends of the value range. In such a case, clipping
+pixel values using percentiles of the image improves the contrast (at the
+expense of some loss of information, because some pixels are saturated by
+this operation):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">moon</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">moon</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v_min</span><span class="p">,</span> <span class="n">v_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">moon</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">99.8</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v_min</span><span class="p">,</span> <span class="n">v_max</span>
+<span class="go">(10.0, 186.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">better_contrast</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span>
+<span class="gp">... </span>                                    <span class="n">moon</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="n">v_min</span><span class="p">,</span> <span class="n">v_max</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The function <a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.equalize_hist" title="skimage.exposure.equalize_hist"><code class="xref py py-func docutils literal notranslate"><span class="pre">equalize_hist()</span></code></a> maps the cumulative distribution
+function (cdf) of pixel values onto a linear cdf, ensuring that all parts
+of the value range are equally represented in the image. As a result,
+details are enhanced in large regions with poor contrast. As a further
+refinement, histogram equalization can be performed in subregions of the
+image with <a class="reference internal" href="../api/skimage.exposure.html#skimage.exposure.equalize_adapthist" title="skimage.exposure.equalize_adapthist"><code class="xref py py-func docutils literal notranslate"><span class="pre">equalize_adapthist()</span></code></a>, in order to correct for exposure
+gradients across the image. See the example
+<a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a>.</p>
+<a class="reference external image-reference" href="../auto_examples/color_exposure/plot_equalize.html"><img alt="../_images/sphx_glr_plot_equalize_0011.png" class="align-center" src="../_images/sphx_glr_plot_equalize_0011.png" style="width: 90%;" /></a>
+<div class="topic">
+<p class="topic-title first">Examples:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

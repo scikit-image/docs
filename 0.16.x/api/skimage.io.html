@@ -1,0 +1,1014 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: io &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.16.1" href="api.html" />
+        <link rel="next" title="Module: measure" href="skimage.measure.html" />
+        <link rel="prev" title="Module: graph" href="skimage.graph.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">io</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#call-plugin">call_plugin</a></li>
+<li><a class="reference internal" href="#concatenate-images">concatenate_images</a></li>
+<li><a class="reference internal" href="#find-available-plugins">find_available_plugins</a></li>
+<li><a class="reference internal" href="#imread">imread</a></li>
+<li><a class="reference internal" href="#imread-collection">imread_collection</a></li>
+<li><a class="reference internal" href="#imread-collection-wrapper">imread_collection_wrapper</a></li>
+<li><a class="reference internal" href="#imsave">imsave</a></li>
+<li><a class="reference internal" href="#imshow">imshow</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-io-imshow">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.io.imshow</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#imshow-collection">imshow_collection</a></li>
+<li><a class="reference internal" href="#load-sift">load_sift</a></li>
+<li><a class="reference internal" href="#load-surf">load_surf</a></li>
+<li><a class="reference internal" href="#plugin-info">plugin_info</a></li>
+<li><a class="reference internal" href="#plugin-order">plugin_order</a></li>
+<li><a class="reference internal" href="#pop">pop</a></li>
+<li><a class="reference internal" href="#push">push</a></li>
+<li><a class="reference internal" href="#reset-plugins">reset_plugins</a></li>
+<li><a class="reference internal" href="#show">show</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-io-show">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.io.show</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-plugin">use_plugin</a></li>
+<li><a class="reference internal" href="#imagecollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageCollection</span></code></a></li>
+<li><a class="reference internal" href="#multiimage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiImage</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="module-skimage.io">
+<span id="module-io"></span><h1>Module: <a class="reference external" href="https://docs.python.org/3.6/library/io.html#module-io" title="(in Python v3.6)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">io</span></code></a><a class="headerlink" href="#module-skimage.io" title="Permalink to this headline">¶</a></h1>
+<p>Utilities to read and write images in various formats.</p>
+<p>The following plug-ins are available:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 86%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Plugin</p></td>
+<td><p>Description</p></td>
+</tr>
+<tr class="row-even"><td><p>fits</p></td>
+<td><p>FITS image reading via PyFITS</p></td>
+</tr>
+<tr class="row-odd"><td><p>imageio</p></td>
+<td><p>Image reading via the ImageIO Library</p></td>
+</tr>
+<tr class="row-even"><td><p>pil</p></td>
+<td><p>Image reading via the Python Imaging Library</p></td>
+</tr>
+<tr class="row-odd"><td><p>gdal</p></td>
+<td><p>Image reading via the GDAL Library (www.gdal.org)</p></td>
+</tr>
+<tr class="row-even"><td><p>matplotlib</p></td>
+<td><p>Display or save images using Matplotlib</p></td>
+</tr>
+<tr class="row-odd"><td><p>gtk</p></td>
+<td><p>Fast image display using the GTK library</p></td>
+</tr>
+<tr class="row-even"><td><p>simpleitk</p></td>
+<td><p>Image reading and writing via SimpleITK</p></td>
+</tr>
+<tr class="row-odd"><td><p>tifffile</p></td>
+<td><p>Load and save TIFF and TIFF-based images using tifffile.py</p></td>
+</tr>
+<tr class="row-even"><td><p>qt</p></td>
+<td><p>Fast image display using the Qt library</p></td>
+</tr>
+<tr class="row-odd"><td><p>imread</p></td>
+<td><p>Image reading and writing via imread</p></td>
+</tr>
+</tbody>
+</table>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.call_plugin" title="skimage.io.call_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.call_plugin</span></code></a>(kind, \*args, \*\*kwargs)</p></td>
+<td><p>Find the appropriate plugin of ‘kind’ and execute it.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.concatenate_images" title="skimage.io.concatenate_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.concatenate_images</span></code></a>(ic)</p></td>
+<td><p>Concatenate all images in the image collection into an array.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.find_available_plugins" title="skimage.io.find_available_plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.find_available_plugins</span></code></a>([loaded])</p></td>
+<td><p>List available plugins.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.imread" title="skimage.io.imread"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imread</span></code></a>(fname[, as_gray, plugin])</p></td>
+<td><p>Load an image from file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.imread_collection" title="skimage.io.imread_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imread_collection</span></code></a>(load_pattern[, …])</p></td>
+<td><p>Load a collection of images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.imread_collection_wrapper" title="skimage.io.imread_collection_wrapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imread_collection_wrapper</span></code></a>(imread)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.imsave" title="skimage.io.imsave"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imsave</span></code></a>(fname, arr[, plugin, …])</p></td>
+<td><p>Save an image to file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.imshow" title="skimage.io.imshow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imshow</span></code></a>(arr[, plugin])</p></td>
+<td><p>Display an image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.imshow_collection" title="skimage.io.imshow_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.imshow_collection</span></code></a>(ic[, plugin])</p></td>
+<td><p>Display a collection of images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.load_sift" title="skimage.io.load_sift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.load_sift</span></code></a>(f)</p></td>
+<td><p>Read SIFT or SURF features from externally generated file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.load_surf" title="skimage.io.load_surf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.load_surf</span></code></a>(f)</p></td>
+<td><p>Read SIFT or SURF features from externally generated file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.plugin_info" title="skimage.io.plugin_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.plugin_info</span></code></a>(plugin)</p></td>
+<td><p>Return plugin meta-data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.plugin_order" title="skimage.io.plugin_order"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.plugin_order</span></code></a>()</p></td>
+<td><p>Return the currently preferred plugin order.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.pop" title="skimage.io.pop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.pop</span></code></a>()</p></td>
+<td><p>Pop an image from the shared image stack.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.push" title="skimage.io.push"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.push</span></code></a>(img)</p></td>
+<td><p>Push an image onto the shared image stack.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.reset_plugins" title="skimage.io.reset_plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.reset_plugins</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.show" title="skimage.io.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.show</span></code></a>()</p></td>
+<td><p>Display pending images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.use_plugin" title="skimage.io.use_plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.use_plugin</span></code></a>(name[, kind])</p></td>
+<td><p>Set the default plugin for a specified operation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.io.ImageCollection" title="skimage.io.ImageCollection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.ImageCollection</span></code></a>(load_pattern[, …])</p></td>
+<td><p>Load and manage a collection of image files.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.io.MultiImage" title="skimage.io.MultiImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.MultiImage</span></code></a>(filename[, …])</p></td>
+<td><p>A class containing a single multi-frame image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.collection</span></code></p></td>
+<td><p>Data structures to hold collections of images, with optional caching.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.manage_plugins</span></code></p></td>
+<td><p>Handle image reading, writing and plotting plugins.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.sift</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.io.util</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="call-plugin">
+<h2>call_plugin<a class="headerlink" href="#call-plugin" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.call_plugin">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">call_plugin</code><span class="sig-paren">(</span><em class="sig-param">kind</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L174"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.call_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the appropriate plugin of ‘kind’ and execute it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>kind</strong><span class="classifier">{‘imshow’, ‘imsave’, ‘imread’, ‘imread_collection’}</span></dt><dd><p>Function to look up.</p>
+</dd>
+<dt><strong>plugin</strong><span class="classifier">str, optional</span></dt><dd><p>Plugin to load.  Defaults to None, in which case the first
+matching plugin is used.</p>
+</dd>
+<dt><strong>*args, **kwargs</strong><span class="classifier">arguments and keyword arguments</span></dt><dd><p>Passed to the plugin function.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="concatenate-images">
+<h2>concatenate_images<a class="headerlink" href="#concatenate-images" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.concatenate_images">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">concatenate_images</code><span class="sig-paren">(</span><em class="sig-param">ic</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L20"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.concatenate_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate all images in the image collection into an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ic</strong><span class="classifier">an iterable of images</span></dt><dd><p>The images to be concatenated.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>array_cat</strong><span class="classifier">ndarray</span></dt><dd><p>An array having one more dimension than the images in <em class="xref py py-obj">ic</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If images in <em class="xref py py-obj">ic</em> don’t have identical shapes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.io.ImageCollection.concatenate" title="skimage.io.ImageCollection.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImageCollection.concatenate</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiImage.concatenate</span></code></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p><code class="docutils literal notranslate"><span class="pre">concatenate_images</span></code> receives any iterable object containing images,
+including ImageCollection and MultiImage, and returns a NumPy array.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="find-available-plugins">
+<h2>find_available_plugins<a class="headerlink" href="#find-available-plugins" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.find_available_plugins">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">find_available_plugins</code><span class="sig-paren">(</span><em class="sig-param">loaded=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L141"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.find_available_plugins" title="Permalink to this definition">¶</a></dt>
+<dd><p>List available plugins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>loaded</strong><span class="classifier">bool</span></dt><dd><p>If True, show only those plugins currently loaded.  By default,
+all plugins are shown.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with plugin names as keys and exposed functions as
+values.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="imread">
+<h2>imread<a class="headerlink" href="#imread" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imread">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imread</code><span class="sig-paren">(</span><em class="sig-param">fname</em>, <em class="sig-param">as_gray=False</em>, <em class="sig-param">plugin=None</em>, <em class="sig-param">**plugin_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L14"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an image from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fname</strong><span class="classifier">string</span></dt><dd><p>Image file name, e.g. <code class="docutils literal notranslate"><span class="pre">test.jpg</span></code> or URL.</p>
+</dd>
+<dt><strong>as_gray</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, convert color images to gray-scale (64-bit floats).
+Images that are already in gray-scale format are not converted.</p>
+</dd>
+<dt><strong>plugin</strong><span class="classifier">str, optional</span></dt><dd><p>Name of plugin to use.  By default, the different plugins are
+tried (starting with imageio) until a suitable
+candidate is found.  If not given and fname is a tiff file, the
+tifffile plugin will be used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>img_array</strong><span class="classifier">ndarray</span></dt><dd><p>The different color bands/channels are stored in the
+third dimension, such that a gray-image is MxN, an
+RGB-image MxNx3 and an RGBA-image MxNx4.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Other Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>plugin_args</strong><span class="classifier">keywords</span></dt><dd><p>Passed to the given plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="imread-collection">
+<h2>imread_collection<a class="headerlink" href="#imread-collection" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imread_collection">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imread_collection</code><span class="sig-paren">(</span><em class="sig-param">load_pattern</em>, <em class="sig-param">conserve_memory=True</em>, <em class="sig-param">plugin=None</em>, <em class="sig-param">**plugin_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imread_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a collection of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>load_pattern</strong><span class="classifier">str or list</span></dt><dd><p>List of objects to load. These are usually filenames, but may
+vary depending on the currently active plugin.  See the docstring
+for <code class="docutils literal notranslate"><span class="pre">ImageCollection</span></code> for the default behaviour of this parameter.</p>
+</dd>
+<dt><strong>conserve_memory</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, never keep more than one in memory at a specific
+time.  Otherwise, images will be cached once they are loaded.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ic</strong><span class="classifier">ImageCollection</span></dt><dd><p>Collection of images.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Other Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>plugin_args</strong><span class="classifier">keywords</span></dt><dd><p>Passed to the given plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="imread-collection-wrapper">
+<h2>imread_collection_wrapper<a class="headerlink" href="#imread-collection-wrapper" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imread_collection_wrapper">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imread_collection_wrapper</code><span class="sig-paren">(</span><em class="sig-param">imread</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L369"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imread_collection_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="imsave">
+<h2>imsave<a class="headerlink" href="#imsave" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imsave">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imsave</code><span class="sig-paren">(</span><em class="sig-param">fname</em>, <em class="sig-param">arr</em>, <em class="sig-param">plugin=None</em>, <em class="sig-param">check_contrast=True</em>, <em class="sig-param">**plugin_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L94"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imsave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save an image to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fname</strong><span class="classifier">str</span></dt><dd><p>Target filename.</p>
+</dd>
+<dt><strong>arr</strong><span class="classifier">ndarray of shape (M,N) or (M,N,3) or (M,N,4)</span></dt><dd><p>Image data.</p>
+</dd>
+<dt><strong>plugin</strong><span class="classifier">str, optional</span></dt><dd><p>Name of plugin to use.  By default, the different plugins are
+tried (starting with imageio) until a suitable
+candidate is found.  If not given and fname is a tiff file, the
+tifffile plugin will be used.</p>
+</dd>
+<dt><strong>check_contrast</strong><span class="classifier">bool, optional</span></dt><dd><p>Check for low contrast and print warning (default: True).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>plugin_args</strong><span class="classifier">keywords</span></dt><dd><p>Passed to the given plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>When saving a JPEG, the compression ratio may be controlled using the
+<code class="docutils literal notranslate"><span class="pre">quality</span></code> keyword argument which is an integer with values in [1, 100]
+where 1 is worst quality and smallest file size, and 100 is best quality
+and largest file size (default 75).  This is only available when using
+the PIL and imageio plugins.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="imshow">
+<h2>imshow<a class="headerlink" href="#imshow" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imshow">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imshow</code><span class="sig-paren">(</span><em class="sig-param">arr</em>, <em class="sig-param">plugin=None</em>, <em class="sig-param">**plugin_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L134"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imshow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>arr</strong><span class="classifier">ndarray or str</span></dt><dd><p>Image data or name of image file.</p>
+</dd>
+<dt><strong>plugin</strong><span class="classifier">str</span></dt><dd><p>Name of plugin to use.  By default, the different plugins are
+tried (starting with imageio) until a suitable
+candidate is found.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>plugin_args</strong><span class="classifier">keywords</span></dt><dd><p>Passed to the given plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-io-imshow">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.io.imshow</span></code><a class="headerlink" href="#examples-using-skimage-io-imshow" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and progressively merges regions that ar..."><div class="figure align-default" id="id1">
+<img alt="../_images/sphx_glr_plot_rag_merge_thumb.png" src="../_images/sphx_glr_plot_rag_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_merge.html#sphx-glr-auto-examples-segmentation-plot-rag-merge-py"><span class="std std-ref">RAG Merging</span></a></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="imshow-collection">
+<h2>imshow_collection<a class="headerlink" href="#imshow-collection" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.imshow_collection">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">imshow_collection</code><span class="sig-paren">(</span><em class="sig-param">ic</em>, <em class="sig-param">plugin=None</em>, <em class="sig-param">**plugin_args</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L157"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.imshow_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a collection of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ic</strong><span class="classifier">ImageCollection</span></dt><dd><p>Collection to display.</p>
+</dd>
+<dt><strong>plugin</strong><span class="classifier">str</span></dt><dd><p>Name of plugin to use.  By default, the different plugins are
+tried until a suitable candidate is found.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>plugin_args</strong><span class="classifier">keywords</span></dt><dd><p>Passed to the given plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="load-sift">
+<h2>load_sift<a class="headerlink" href="#load-sift" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.load_sift">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">load_sift</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/sift.py#L72"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.load_sift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SIFT or SURF features from externally generated file.</p>
+<p>This routine reads SIFT or SURF files generated by binary utilities from
+<a class="reference external" href="http://people.cs.ubc.ca/~lowe/keypoints/">http://people.cs.ubc.ca/~lowe/keypoints/</a> and
+<a class="reference external" href="http://www.vision.ee.ethz.ch/~surf/">http://www.vision.ee.ethz.ch/~surf/</a>.</p>
+<p>This routine <em>does not</em> generate SIFT/SURF features from an image.  These
+algorithms are patent encumbered.  Please use <a class="reference internal" href="skimage.feature.html#skimage.feature.CENSURE" title="skimage.feature.CENSURE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.feature.CENSURE</span></code></a>
+instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filelike</strong><span class="classifier">string or open file</span></dt><dd><p>Input file generated by the feature detectors from
+<a class="reference external" href="http://people.cs.ubc.ca/~lowe/keypoints/">http://people.cs.ubc.ca/~lowe/keypoints/</a> or
+<a class="reference external" href="http://www.vision.ee.ethz.ch/~surf/">http://www.vision.ee.ethz.ch/~surf/</a> .</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">{‘SIFT’, ‘SURF’}, optional</span></dt><dd><p>Kind of descriptor used to generate <em class="xref py py-obj">filelike</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">record array with fields</span></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>row: int</dt><dd><p>row position of feature</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>column: int</dt><dd><p>column position of feature</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>scale: float</dt><dd><p>feature scale</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>orientation: float</dt><dd><p>feature orientation</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>data: array</dt><dd><p>feature values</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="load-surf">
+<h2>load_surf<a class="headerlink" href="#load-surf" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.load_surf">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">load_surf</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/sift.py#L76"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.load_surf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read SIFT or SURF features from externally generated file.</p>
+<p>This routine reads SIFT or SURF files generated by binary utilities from
+<a class="reference external" href="http://people.cs.ubc.ca/~lowe/keypoints/">http://people.cs.ubc.ca/~lowe/keypoints/</a> and
+<a class="reference external" href="http://www.vision.ee.ethz.ch/~surf/">http://www.vision.ee.ethz.ch/~surf/</a>.</p>
+<p>This routine <em>does not</em> generate SIFT/SURF features from an image.  These
+algorithms are patent encumbered.  Please use <a class="reference internal" href="skimage.feature.html#skimage.feature.CENSURE" title="skimage.feature.CENSURE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.feature.CENSURE</span></code></a>
+instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filelike</strong><span class="classifier">string or open file</span></dt><dd><p>Input file generated by the feature detectors from
+<a class="reference external" href="http://people.cs.ubc.ca/~lowe/keypoints/">http://people.cs.ubc.ca/~lowe/keypoints/</a> or
+<a class="reference external" href="http://www.vision.ee.ethz.ch/~surf/">http://www.vision.ee.ethz.ch/~surf/</a> .</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">{‘SIFT’, ‘SURF’}, optional</span></dt><dd><p>Kind of descriptor used to generate <em class="xref py py-obj">filelike</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">record array with fields</span></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>row: int</dt><dd><p>row position of feature</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>column: int</dt><dd><p>column position of feature</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>scale: float</dt><dd><p>feature scale</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>orientation: float</dt><dd><p>feature orientation</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>data: array</dt><dd><p>feature values</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="plugin-info">
+<h2>plugin_info<a class="headerlink" href="#plugin-info" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.plugin_info">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">plugin_info</code><span class="sig-paren">(</span><em class="sig-param">plugin</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L315"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.plugin_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return plugin meta-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>plugin</strong><span class="classifier">str</span></dt><dd><p>Name of plugin.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>m</strong><span class="classifier">dict</span></dt><dd><p>Meta data as specified in plugin <code class="docutils literal notranslate"><span class="pre">.ini</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="plugin-order">
+<h2>plugin_order<a class="headerlink" href="#plugin-order" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.plugin_order">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">plugin_order</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L335"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.plugin_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the currently preferred plugin order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">dict</span></dt><dd><p>Dictionary of preferred plugin order, with function name as key and
+plugins (in order of preference) as value.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pop">
+<h2>pop<a class="headerlink" href="#pop" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.pop">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_image_stack.py#L26"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop an image from the shared image stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>img</strong><span class="classifier">ndarray</span></dt><dd><p>Image popped from the stack.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="push">
+<h2>push<a class="headerlink" href="#push" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.push">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">push</code><span class="sig-paren">(</span><em class="sig-param">img</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_image_stack.py#L11"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push an image onto the shared image stack.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>img</strong><span class="classifier">ndarray</span></dt><dd><p>Image to push.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="reset-plugins">
+<h2>reset_plugins<a class="headerlink" href="#reset-plugins" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.reset_plugins">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">reset_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L89"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.reset_plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="show">
+<h2>show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.show">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/_io.py#L177"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display pending images.</p>
+<p>Launch the event loop of the current gui plugin, and display all
+pending images, queued via <a class="reference internal" href="#skimage.io.imshow" title="skimage.io.imshow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imshow</span></code></a>. This is required when using
+<a class="reference internal" href="#skimage.io.imshow" title="skimage.io.imshow"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imshow</span></code></a> from non-interactive scripts.</p>
+<p>A call to <a class="reference internal" href="#skimage.io.show" title="skimage.io.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a> will block execution of code until all windows
+have been closed.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">ax_im</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> 
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-io-show">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.io.show</span></code><a class="headerlink" href="#examples-using-skimage-io-show" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="Construct a region boundary RAG with the rag_boundary function. The function  :py:func:`skimage..."><div class="figure align-default" id="id2">
+<img alt="../_images/sphx_glr_plot_rag_boundary_thumb.png" src="../_images/sphx_glr_plot_rag_boundary_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_boundary.html#sphx-glr-auto-examples-segmentation-plot-rag-boundary-py"><span class="std std-ref">Region Boundary based RAGs</span></a></span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example constructs a Region Adjacency Graph (RAG) and progressively merges regions that ar..."><div class="figure align-default" id="id3">
+<img alt="../_images/sphx_glr_plot_rag_merge_thumb.png" src="../_images/sphx_glr_plot_rag_merge_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_rag_merge.html#sphx-glr-auto-examples-segmentation-plot-rag-merge-py"><span class="std std-ref">RAG Merging</span></a></span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="use-plugin">
+<h2>use_plugin<a class="headerlink" href="#use-plugin" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.io.use_plugin">
+<code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">use_plugin</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">kind=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/manage_plugins.py#L213"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.use_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the default plugin for a specified operation.  The plugin
+will be loaded if it hasn’t been already.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of plugin.</p>
+</dd>
+<dt><strong>kind</strong><span class="classifier">{‘imsave’, ‘imread’, ‘imshow’, ‘imread_collection’, ‘imshow_collection’}, optional</span></dt><dd><p>Set the plugin for this function.  By default,
+the plugin is set for all functions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">available_plugins</span></code></dt><dd><p>List of available plugins</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<p>To use Matplotlib as the default image reader, you would write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">io</span><span class="o">.</span><span class="n">use_plugin</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;imread&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To see a list of available plugins run <code class="docutils literal notranslate"><span class="pre">io.available_plugins</span></code>. Note that
+this lists plugins that are defined, but the full list may not be usable
+if your system does not have the required libraries installed.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="imagecollection">
+<h2><a class="reference internal" href="#skimage.io.ImageCollection" title="skimage.io.ImageCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageCollection</span></code></a><a class="headerlink" href="#imagecollection" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.io.ImageCollection">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">ImageCollection</code><span class="sig-paren">(</span><em class="sig-param">load_pattern</em>, <em class="sig-param">conserve_memory=True</em>, <em class="sig-param">load_func=None</em>, <em class="sig-param">**load_func_kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L98"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.ImageCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Load and manage a collection of image files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>load_pattern</strong><span class="classifier">str or list of str</span></dt><dd><p>Pattern string or list of strings to load. The filename path can be
+absolute or relative.</p>
+</dd>
+<dt><strong>conserve_memory</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, <a class="reference internal" href="#skimage.io.ImageCollection" title="skimage.io.ImageCollection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImageCollection</span></code></a> does not keep more than one in memory at a
+specific time. Otherwise, images will be cached once they are loaded.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>load_func</strong><span class="classifier">callable</span></dt><dd><p><code class="docutils literal notranslate"><span class="pre">imread</span></code> by default. See notes below.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Note that files are always returned in alphanumerical order. Also note
+that slicing returns a new ImageCollection, <em>not</em> a view into the data.</p>
+<p>ImageCollection can be modified to load images from an arbitrary
+source by specifying a combination of <em class="xref py py-obj">load_pattern</em> and
+<em class="xref py py-obj">load_func</em>.  For an ImageCollection <code class="docutils literal notranslate"><span class="pre">ic</span></code>, <code class="docutils literal notranslate"><span class="pre">ic[5]</span></code> uses
+<code class="docutils literal notranslate"><span class="pre">load_func(file_pattern[5])</span></code> to load the image.</p>
+<p>Imagine, for example, an ImageCollection that loads every tenth
+frame from a video file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AVILoader</span><span class="p">:</span>
+    <span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;myvideo.avi&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">video_read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">video_file</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+<span class="n">avi_load</span> <span class="o">=</span> <span class="n">AVILoader</span><span class="p">()</span>
+
+<span class="n">frames</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="c1"># 0, 10, 20, ...</span>
+<span class="n">ic</span> <span class="o">=</span> <span class="n">ImageCollection</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">load_func</span><span class="o">=</span><span class="n">avi_load</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">ic</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># calls avi_load(frames[5]) or equivalently avi_load(50)</span>
+</pre></div>
+</div>
+<p>Another use of <code class="docutils literal notranslate"><span class="pre">load_func</span></code> would be to convert all images to <code class="docutils literal notranslate"><span class="pre">uint8</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">imread_convert</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">imread</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">ic</span> <span class="o">=</span> <span class="n">ImageCollection</span><span class="p">(</span><span class="s1">&#39;/tmp/*.png&#39;</span><span class="p">,</span> <span class="n">load_func</span><span class="o">=</span><span class="n">imread_convert</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For files with multiple images, the images will be flattened into a list
+and added to the list of available images.  In this case, <code class="docutils literal notranslate"><span class="pre">load_func</span></code>
+should accept the keyword argument <code class="docutils literal notranslate"><span class="pre">img_num</span></code>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data_dir</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/chess*.png&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">coll</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(200, 200)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ic</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">([</span><span class="s1">&#39;/tmp/work/*.png&#39;</span><span class="p">,</span> <span class="s1">&#39;/tmp/other/*.jpg&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>files</strong><span class="classifier">list of str</span></dt><dd><p>If a pattern string is given for <em class="xref py py-obj">load_pattern</em>, this attribute
+stores the expanded file list. Otherwise, this is equal to
+<em class="xref py py-obj">load_pattern</em>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="skimage.io.ImageCollection.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">load_pattern</em>, <em class="sig-param">conserve_memory=True</em>, <em class="sig-param">load_func=None</em>, <em class="sig-param">**load_func_kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.ImageCollection.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load and manage a collection of images.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.io.ImageCollection.concatenate">
+<code class="sig-name descname">concatenate</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L349"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.ImageCollection.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate all images in the collection into an array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>ar</strong><span class="classifier">np.ndarray</span></dt><dd><p>An array having one more dimension than the images in <em class="xref py py-obj">self</em>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><dl class="simple">
+<dt>ValueError</dt><dd><p>If images in the <a class="reference internal" href="#skimage.io.ImageCollection" title="skimage.io.ImageCollection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ImageCollection</span></code></a> don’t have identical shapes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.io.concatenate_images" title="skimage.io.concatenate_images"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate_images</span></code></a></dt><dd></dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.io.ImageCollection.conserve_memory">
+<em class="property">property </em><code class="sig-name descname">conserve_memory</code><a class="headerlink" href="#skimage.io.ImageCollection.conserve_memory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.io.ImageCollection.files">
+<em class="property">property </em><code class="sig-name descname">files</code><a class="headerlink" href="#skimage.io.ImageCollection.files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.io.ImageCollection.reload">
+<code class="sig-name descname">reload</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">n=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L337"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.ImageCollection.reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the image cache.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n</strong><span class="classifier">None or int</span></dt><dd><p>Clear the cache for this image only. By default, the
+entire cache is erased.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="multiimage">
+<h2><a class="reference internal" href="#skimage.io.MultiImage" title="skimage.io.MultiImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiImage</span></code></a><a class="headerlink" href="#multiimage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.io.MultiImage">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.io.</code><code class="sig-name descname">MultiImage</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">conserve_memory=True</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">**imread_kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L395"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.MultiImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.io.collection.ImageCollection</span></code></p>
+<p>A class containing a single multi-frame image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>The complete path to the image file.</p>
+</dd>
+<dt><strong>conserve_memory</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to conserve memory by only caching a single frame. Default is
+True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">conserve_memory=True</span></code> the memory footprint can be reduced, however
+the performance can be affected because frames have to be read from file
+more often.</p>
+<p>The last accessed frame is cached, all other frames will have to be read
+from file.</p>
+<p>The current implementation makes use of <code class="docutils literal notranslate"><span class="pre">tifffile</span></code> for Tiff files and
+PIL otherwise.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data_dir</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">MultiImage</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;/multipage.tif&#39;</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> 
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">img</span><span class="p">:</span> 
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+<span class="go">(15, 10)</span>
+<span class="go">(15, 10)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="skimage.io.MultiImage.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filename</em>, <em class="sig-param">conserve_memory=True</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">**imread_kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/io/collection.py#L432"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.io.MultiImage.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a multi-img.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.io.MultiImage.filename">
+<em class="property">property </em><code class="sig-name descname">filename</code><a class="headerlink" href="#skimage.io.MultiImage.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

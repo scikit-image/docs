@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Seam Carving &mdash; skimage v0.12.2 docs</title>
+    
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.12.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.12.2 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Structural similarity index" href="plot_ssim.html" />
+        <link rel="prev" title="Cross-Correlation (Phase Correlation)" href="plot_register_translation.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+            <form class="navbar-form pull-right" action="../../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="seam-carving">
+<span id="example-transform-plot-seam-carving-py"></span><h1>Seam Carving<a class="headerlink" href="#seam-carving" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates how images can be resized using seam carving <a class="footnote-reference" href="#id2" id="id1">[1]</a>.
+Resizing to a new aspect ratio distorts image contents. Seam carving attempts
+to resize <em>without</em> distortion, by removing regions of an image which are less
+important. In this example we are using the Sobel filter to signify the
+importance of each pixel.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Shai Avidan and Ariel Shamir
+&#8220;Seam Carving for Content-Aware Image Resizing&#8221;
+<a class="reference external" href="http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Avidan07.pdf">http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Avidan07.pdf</a></td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">draw</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">filters</span><span class="p">,</span> <span class="n">color</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="n">hl_color</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rocket</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">img_as_float</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">eimg</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">sobel</span><span class="p">(</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original Image&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_seam_carving_1.png" src="../../_images/plot_seam_carving_1.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">resized</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">200</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Resized Image&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">resized</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_seam_carving_2.png" src="../../_images/plot_seam_carving_2.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">out</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">seam_carve</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">eimg</span><span class="p">,</span> <span class="s">&#39;vertical&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Resized using Seam Carving&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_seam_carving_3.png" src="../../_images/plot_seam_carving_3.png" />
+<p>Resizing distorts the rocket and surrounding objects, whereas seam carving
+removes empty spaces and preserves object proportions.</p>
+<div class="section" id="object-removal">
+<h2>Object Removal<a class="headerlink" href="#object-removal" title="Permalink to this headline">¶</a></h2>
+<p>Seam carving can also be used to remove artifacts from images.
+This requires weighting the artifact with low values. Recall lower weights are
+preferentially removed in seam carving. The following code masks the rocket&#8217;s
+region with low weights, indicating it should be removed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">masked_img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">poly</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">281</span><span class="p">),</span> <span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="p">(</span><span class="mi">359</span><span class="p">,</span> <span class="mi">364</span><span class="p">),</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">337</span><span class="p">),</span> <span class="p">(</span><span class="mi">145</span><span class="p">,</span> <span class="mi">337</span><span class="p">),</span> <span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">322</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">145</span><span class="p">,</span> <span class="mi">304</span><span class="p">),</span> <span class="p">(</span><span class="mi">340</span><span class="p">,</span> <span class="mi">306</span><span class="p">),</span> <span class="p">(</span><span class="mi">362</span><span class="p">,</span> <span class="mi">284</span><span class="p">)]</span>
+<span class="n">pr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">])</span>
+<span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">])</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">pr</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span>
+
+<span class="n">masked_img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">masked_img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="p">:]</span><span class="o">*</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">hl_color</span><span class="o">*.</span><span class="mi">5</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Object Marked&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">masked_img</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_seam_carving_4.png" src="../../_images/plot_seam_carving_4.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">eimg</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1000</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Object Removed&#39;</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">seam_carve</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">eimg</span><span class="p">,</span> <span class="s">&#39;vertical&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">resized</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/plot_seam_carving_5.png" src="../../_images/plot_seam_carving_5.png" />
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../../_downloads/plot_seam_carving.py"><code class="xref download docutils literal"><span class="pre">download</span></code></a>
+(generated using <code class="docutils literal"><span class="pre">skimage</span></code> 0.12.2)</p>
+<p><strong>IPython Notebook:</strong> <a class="reference download internal" href="../../_downloads/plot_seam_carving.ipynb"><code class="xref download docutils literal"><span class="pre">download</span></code></a>
+(generated using <code class="docutils literal"><span class="pre">skimage</span></code> 0.12.2)</p>
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+    <h4 class="sidebar-box-heading">Previous topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="plot_register_translation.html" title="previous chapter">Cross-Correlation (Phase Correlation)</a></li>
+        </ul>
+    </div>
+    <h4 class="sidebar-box-heading">Next topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="plot_ssim.html" title="next chapter">Structural similarity index</a></li>
+        </ul>
+    </div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Seam Carving</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#object-removal">Object Removal</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

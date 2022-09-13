@@ -1,0 +1,1276 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: segmentation &mdash; skimage v0.13.1 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.13.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.13.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.13.1" href="api.html" />
+        <link rel="next" title="Module: transform" href="skimage.transform.html" />
+        <link rel="prev" title="Module: restoration" href="skimage.restoration.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="docutils literal"><span class="pre">segmentation</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#active-contour">active_contour</a></li>
+<li><a class="reference internal" href="#clear-border">clear_border</a></li>
+<li><a class="reference internal" href="#felzenszwalb">felzenszwalb</a></li>
+<li><a class="reference internal" href="#find-boundaries">find_boundaries</a></li>
+<li><a class="reference internal" href="#join-segmentations">join_segmentations</a></li>
+<li><a class="reference internal" href="#mark-boundaries">mark_boundaries</a></li>
+<li><a class="reference internal" href="#quickshift">quickshift</a></li>
+<li><a class="reference internal" href="#random-walker">random_walker</a></li>
+<li><a class="reference internal" href="#relabel-from-one">relabel_from_one</a></li>
+<li><a class="reference internal" href="#relabel-sequential">relabel_sequential</a></li>
+<li><a class="reference internal" href="#slic">slic</a></li>
+<li><a class="reference internal" href="#watershed">watershed</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.13.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.segmentation">
+<span id="module-segmentation"></span><h1>Module: <code class="xref py py-mod docutils literal"><span class="pre">segmentation</span></code><a class="headerlink" href="#module-skimage.segmentation" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.active_contour" title="skimage.segmentation.active_contour"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.active_contour</span></code></a>(image,&nbsp;snake)</td>
+<td>Active contour model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.clear_border" title="skimage.segmentation.clear_border"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.clear_border</span></code></a>(labels[,&nbsp;…])</td>
+<td>Clear objects connected to the label image border.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.felzenszwalb" title="skimage.segmentation.felzenszwalb"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.felzenszwalb</span></code></a>(image[,&nbsp;…])</td>
+<td>Computes Felsenszwalb’s efficient graph based image segmentation.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.find_boundaries" title="skimage.segmentation.find_boundaries"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.find_boundaries</span></code></a>(label_img)</td>
+<td>Return bool array where boundaries between labeled regions are True.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.join_segmentations" title="skimage.segmentation.join_segmentations"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.join_segmentations</span></code></a>(s1,&nbsp;s2)</td>
+<td>Return the join of the two input segmentations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.mark_boundaries" title="skimage.segmentation.mark_boundaries"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.mark_boundaries</span></code></a>(image,&nbsp;…)</td>
+<td>Return image with boundaries between labeled regions highlighted.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.quickshift" title="skimage.segmentation.quickshift"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.quickshift</span></code></a>(image[,&nbsp;…])</td>
+<td>Segments image using quickshift clustering in Color-(x,y) space.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.random_walker" title="skimage.segmentation.random_walker"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.random_walker</span></code></a>(data,&nbsp;labels)</td>
+<td>Random walker algorithm for segmentation from markers.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.relabel_from_one" title="skimage.segmentation.relabel_from_one"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.relabel_from_one</span></code></a>(…)</td>
+<td><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">relabel_sequential</span></code> instead.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.relabel_sequential" title="skimage.segmentation.relabel_sequential"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.relabel_sequential</span></code></a>(…)</td>
+<td>Relabel arbitrary labels to {<cite>offset</cite>, …</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.segmentation.slic" title="skimage.segmentation.slic"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.slic</span></code></a>(image[,&nbsp;…])</td>
+<td>Segments image using k-means clustering in Color-(x,y,z) space.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.segmentation.watershed" title="skimage.segmentation.watershed"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.watershed</span></code></a>(image,&nbsp;markers)</td>
+<td>Find watershed basins in <cite>image</cite> flooded from given <cite>markers</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.active_contour_model</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.boundaries</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.random_walker_segmentation</span></code></td>
+<td>Random walker segmentation algorithm</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.slic_superpixels</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="active-contour">
+<h2>active_contour<a class="headerlink" href="#active-contour" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.active_contour">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">active_contour</code><span class="sig-paren">(</span><em>image</em>, <em>snake</em>, <em>alpha=0.01</em>, <em>beta=0.1</em>, <em>w_line=0</em>, <em>w_edge=1</em>, <em>gamma=0.01</em>, <em>bc='periodic'</em>, <em>max_px_move=1.0</em>, <em>max_iterations=2500</em>, <em>convergence=0.1</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/active_contour_model.py#L9"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.active_contour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Active contour model.</p>
+<p>Active contours by fitting snakes to features of images. Supports single
+and multichannel 2D images. Snakes can be periodic (for segmentation) or
+have fixed and/or free ends.
+The output snake has the same length as the input boundary.
+As the number of points is constant, make sure that the initial snake
+has enough points to capture the details of the final contour.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (N, M) or (N, M, 3) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>snake</strong> : (N, 2) ndarray</p>
+<blockquote>
+<div><p>Initialisation coordinates of snake. For periodic snakes, it should
+not include duplicate endpoints.</p>
+</div></blockquote>
+<p><strong>alpha</strong> : float, optional</p>
+<blockquote>
+<div><p>Snake length shape parameter. Higher values makes snake contract
+faster.</p>
+</div></blockquote>
+<p><strong>beta</strong> : float, optional</p>
+<blockquote>
+<div><p>Snake smoothness shape parameter. Higher values makes snake smoother.</p>
+</div></blockquote>
+<p><strong>w_line</strong> : float, optional</p>
+<blockquote>
+<div><p>Controls attraction to brightness. Use negative values to attract to
+dark regions.</p>
+</div></blockquote>
+<p><strong>w_edge</strong> : float, optional</p>
+<blockquote>
+<div><p>Controls attraction to edges. Use negative values to repel snake from
+edges.</p>
+</div></blockquote>
+<p><strong>gamma</strong> : float, optional</p>
+<blockquote>
+<div><p>Explicit time stepping parameter.</p>
+</div></blockquote>
+<p><strong>bc</strong> : {‘periodic’, ‘free’, ‘fixed’}, optional</p>
+<blockquote>
+<div><p>Boundary conditions for worm. ‘periodic’ attaches the two ends of the
+snake, ‘fixed’ holds the end-points in place, and’free’ allows free
+movement of the ends. ‘fixed’ and ‘free’ can be combined by parsing
+‘fixed-free’, ‘free-fixed’. Parsing ‘fixed-fixed’ or ‘free-free’
+yields same behaviour as ‘fixed’ and ‘free’, respectively.</p>
+</div></blockquote>
+<p><strong>max_px_move</strong> : float, optional</p>
+<blockquote>
+<div><p>Maximum pixel distance to move per iteration.</p>
+</div></blockquote>
+<p><strong>max_iterations</strong> : int, optional</p>
+<blockquote>
+<div><p>Maximum iterations to optimize snake shape.</p>
+</div></blockquote>
+<p><strong>convergence: float, optional</strong></p>
+<blockquote>
+<div><p>Convergence criteria.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>snake</strong> : (N, 2) ndarray</p>
+<blockquote class="last">
+<div><p>Optimised snake, same shape as input parameter.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r449" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R449]</a></td><td>Kass, M.; Witkin, A.; Terzopoulos, D. “Snakes: Active contour
+models”. International Journal of Computer Vision 1 (4): 321
+(1988).</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="k">import</span> <span class="n">circle_perimeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <span class="n">gaussian</span>
+</pre></div>
+</div>
+<p>Create and smooth image:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">circle_perimeter</span><span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Initiliaze spline:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">init</span> <span class="o">=</span> <span class="mi">50</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">s</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span><span class="o">+</span><span class="mi">50</span>
+</pre></div>
+</div>
+<p>Fit spline to image:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">snake</span> <span class="o">=</span> <span class="n">active_contour</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">w_edge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">w_line</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">45</span><span class="o">-</span><span class="n">snake</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span><span class="p">(</span><span class="mi">35</span><span class="o">-</span><span class="n">snake</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span> 
+<span class="go">25</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="clear-border">
+<h2>clear_border<a class="headerlink" href="#clear-border" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.clear_border">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">clear_border</code><span class="sig-paren">(</span><em>labels</em>, <em>buffer_size=0</em>, <em>bgval=0</em>, <em>in_place=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/_clear_border.py#L5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.clear_border" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear objects connected to the label image border.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>labels</strong> : (M[, N[, …, P]]) array of int or bool</p>
+<blockquote>
+<div><p>Imaging data labels.</p>
+</div></blockquote>
+<p><strong>buffer_size</strong> : int, optional</p>
+<blockquote>
+<div><p>The width of the border examined.  By default, only objects
+that touch the outside of the image are removed.</p>
+</div></blockquote>
+<p><strong>bgval</strong> : float or int, optional</p>
+<blockquote>
+<div><p>Cleared objects are set to this value.</p>
+</div></blockquote>
+<p><strong>in_place</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether or not to manipulate the labels array in-place.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : (M[, N[, …, P]]) array</p>
+<blockquote class="last">
+<div><p>Imaging data labels with cleared borders</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="n">clear_border</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clear_border</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="felzenszwalb">
+<h2>felzenszwalb<a class="headerlink" href="#felzenszwalb" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.felzenszwalb">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">felzenszwalb</code><span class="sig-paren">(</span><em>image</em>, <em>scale=1</em>, <em>sigma=0.8</em>, <em>min_size=20</em>, <em>multichannel=True</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/_felzenszwalb.py#L6"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.felzenszwalb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes Felsenszwalb’s efficient graph based image segmentation.</p>
+<p>Produces an oversegmentation of a multichannel (i.e. RGB) image
+using a fast, minimum spanning tree based clustering on the image grid.
+The parameter <code class="docutils literal"><span class="pre">scale</span></code> sets an observation level. Higher scale means
+less and larger segments. <code class="docutils literal"><span class="pre">sigma</span></code> is the diameter of a Gaussian kernel,
+used for smoothing the image prior to segmentation.</p>
+<p>The number of produced segments as well as their size can only be
+controlled indirectly through <code class="docutils literal"><span class="pre">scale</span></code>. Segment size within an image can
+vary greatly depending on local contrast.</p>
+<p>For RGB images, the algorithm uses the euclidean distance between pixels in
+color space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (width, height, 3) or (width, height) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>scale</strong> : float</p>
+<blockquote>
+<div><p>Free parameter. Higher means larger clusters.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float</p>
+<blockquote>
+<div><p>Width of Gaussian kernel used in preprocessing.</p>
+</div></blockquote>
+<p><strong>min_size</strong> : int</p>
+<blockquote>
+<div><p>Minimum component size. Enforced using postprocessing.</p>
+</div></blockquote>
+<p><strong>multichannel</strong> : bool, optional (default: True)</p>
+<blockquote>
+<div><p>Whether the last axis of the image is to be interpreted as multiple
+channels. A value of False, for a 3D image, is not currently supported.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>segment_mask</strong> : (width, height) ndarray</p>
+<blockquote class="last">
+<div><p>Integer mask indicating segment labels.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r450" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[R450]</a></td><td>Efficient graph-based image segmentation, Felzenszwalb, P.F. and
+Huttenlocher, D.P.  International Journal of Computer Vision, 2004</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="n">felzenszwalb</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">coffee</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">coffee</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">segments</span> <span class="o">=</span> <span class="n">felzenszwalb</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="find-boundaries">
+<h2>find_boundaries<a class="headerlink" href="#find-boundaries" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.find_boundaries">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">find_boundaries</code><span class="sig-paren">(</span><em>label_img</em>, <em>connectivity=1</em>, <em>mode='thick'</em>, <em>background=0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/boundaries.py#L49"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.find_boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return bool array where boundaries between labeled regions are True.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label_img</strong> : array of int or bool</p>
+<blockquote>
+<div><p>An array in which different regions are labeled with either different
+integers or boolean values.</p>
+</div></blockquote>
+<p><strong>connectivity: int in {1, …, `label_img.ndim`}, optional</strong></p>
+<blockquote>
+<div><p>A pixel is considered a boundary pixel if any of its neighbors
+has a different label. <cite>connectivity</cite> controls which pixels are
+considered neighbors. A connectivity of 1 (default) means
+pixels sharing an edge (in 2D) or a face (in 3D) will be
+considered neighbors. A connectivity of <cite>label_img.ndim</cite> means
+pixels sharing a corner will be considered neighbors.</p>
+</div></blockquote>
+<p><strong>mode: string in {‘thick’, ‘inner’, ‘outer’, ‘subpixel’}</strong></p>
+<blockquote>
+<div><p>How to mark the boundaries:</p>
+<ul class="simple">
+<li>thick: any pixel not completely surrounded by pixels of the
+same label (defined by <cite>connectivity</cite>) is marked as a boundary.
+This results in boundaries that are 2 pixels thick.</li>
+<li>inner: outline the pixels <em>just inside</em> of objects, leaving
+background pixels untouched.</li>
+<li>outer: outline pixels in the background around object
+boundaries. When two objects touch, their boundary is also
+marked.</li>
+<li>subpixel: return a doubled image, with pixels <em>between</em> the
+original pixels marked as boundary where appropriate.</li>
+</ul>
+</div></blockquote>
+<p><strong>background: int, optional</strong></p>
+<blockquote>
+<div><p>For modes ‘inner’ and ‘outer’, a definition of a background
+label is required. See <cite>mode</cite> for descriptions of these two.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>boundaries</strong> : array of bool, same shape as <cite>label_img</cite></p>
+<blockquote class="last">
+<div><p>A bool image where <code class="docutils literal"><span class="pre">True</span></code> represents a boundary pixel. For
+<cite>mode</cite> equal to ‘subpixel’, <code class="docutils literal"><span class="pre">boundaries.shape[i]</span></code> is equal
+to <code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">label_img.shape[i]</span> <span class="pre">-</span> <span class="pre">1</span></code> for all <code class="docutils literal"><span class="pre">i</span></code> (a pixel is
+inserted in between all other pairs of pixels).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_boundaries</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;thick&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_boundaries</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_boundaries</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels_small</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[::</span><span class="mi">2</span><span class="p">,</span> <span class="p">::</span><span class="mi">3</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels_small</span>
+<span class="go">array([[0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 5, 0],</span>
+<span class="go">       [0, 1, 5, 0],</span>
+<span class="go">       [0, 0, 5, 0],</span>
+<span class="go">       [0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_boundaries</span><span class="p">(</span><span class="n">labels_small</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;subpixel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bool_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                       <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">,</span>  <span class="kc">True</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">find_boundaries</span><span class="p">(</span><span class="n">bool_image</span><span class="p">)</span>
+<span class="go">array([[False, False, False, False, False],</span>
+<span class="go">       [False, False,  True,  True,  True],</span>
+<span class="go">       [False,  True,  True,  True,  True],</span>
+<span class="go">       [False,  True,  True, False, False],</span>
+<span class="go">       [False,  True,  True, False, False]], dtype=bool)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="join-segmentations">
+<h2>join_segmentations<a class="headerlink" href="#join-segmentations" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.join_segmentations">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">join_segmentations</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/_join.py#L5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.join_segmentations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the join of the two input segmentations.</p>
+<p>The join J of S1 and S2 is defined as the segmentation in which two
+voxels are in the same segment if and only if they are in the same
+segment in <em>both</em> S1 and S2.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>s1, s2</strong> : numpy arrays</p>
+<blockquote>
+<div><p>s1 and s2 are label fields of the same shape.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>j</strong> : numpy array</p>
+<blockquote class="last">
+<div><p>The join segmentation of s1 and s2.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="n">join_segmentations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>               <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">join_segmentations</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+<span class="go">array([[0, 1, 3, 2],</span>
+<span class="go">       [0, 5, 3, 2],</span>
+<span class="go">       [4, 5, 5, 3]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="mark-boundaries">
+<h2>mark_boundaries<a class="headerlink" href="#mark-boundaries" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.mark_boundaries">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">mark_boundaries</code><span class="sig-paren">(</span><em>image</em>, <em>label_img</em>, <em>color=(1</em>, <em>1</em>, <em>0)</em>, <em>outline_color=None</em>, <em>mode='outer'</em>, <em>background_label=0</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/boundaries.py#L184"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.mark_boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image with boundaries between labeled regions highlighted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (M, N[, 3]) array</p>
+<blockquote>
+<div><p>Grayscale or RGB image.</p>
+</div></blockquote>
+<p><strong>label_img</strong> : (M, N) array of int</p>
+<blockquote>
+<div><p>Label array where regions are marked by different integer values.</p>
+</div></blockquote>
+<p><strong>color</strong> : length-3 sequence, optional</p>
+<blockquote>
+<div><p>RGB color of boundaries in the output image.</p>
+</div></blockquote>
+<p><strong>outline_color</strong> : length-3 sequence, optional</p>
+<blockquote>
+<div><p>RGB color surrounding boundaries in the output image. If None, no
+outline is drawn.</p>
+</div></blockquote>
+<p><strong>mode</strong> : string in {‘thick’, ‘inner’, ‘outer’, ‘subpixel’}, optional</p>
+<blockquote>
+<div><p>The mode for finding boundaries.</p>
+</div></blockquote>
+<p><strong>background_label</strong> : int, optional</p>
+<blockquote>
+<div><p>Which label to consider background (this is only useful for
+modes <code class="docutils literal"><span class="pre">inner</span></code> and <code class="docutils literal"><span class="pre">outer</span></code>).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>marked</strong> : (M, N, 3) array of float</p>
+<blockquote class="last">
+<div><p>An image in which the boundaries between labels are
+superimposed on the original image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#skimage.segmentation.find_boundaries" title="skimage.segmentation.find_boundaries"><code class="xref py py-obj docutils literal"><span class="pre">find_boundaries</span></code></a></p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="quickshift">
+<h2>quickshift<a class="headerlink" href="#quickshift" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.quickshift">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">quickshift</code><span class="sig-paren">(</span><em>image</em>, <em>ratio=1.0</em>, <em>kernel_size=5</em>, <em>max_dist=10</em>, <em>return_tree=False</em>, <em>sigma=0</em>, <em>convert2lab=True</em>, <em>random_seed=42</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/_quickshift.py#L11"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.quickshift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Segments image using quickshift clustering in Color-(x,y) space.</p>
+<p>Produces an oversegmentation of the image using the quickshift mode-seeking
+algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : (width, height, channels) ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>ratio</strong> : float, optional, between 0 and 1</p>
+<blockquote>
+<div><p>Balances color-space proximity and image-space proximity.
+Higher values give more weight to color-space.</p>
+</div></blockquote>
+<p><strong>kernel_size</strong> : float, optional</p>
+<blockquote>
+<div><p>Width of Gaussian kernel used in smoothing the
+sample density. Higher means fewer clusters.</p>
+</div></blockquote>
+<p><strong>max_dist</strong> : float, optional</p>
+<blockquote>
+<div><p>Cut-off point for data distances.
+Higher means fewer clusters.</p>
+</div></blockquote>
+<p><strong>return_tree</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether to return the full segmentation hierarchy tree and distances.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, optional</p>
+<blockquote>
+<div><p>Width for Gaussian smoothing as preprocessing. Zero means no smoothing.</p>
+</div></blockquote>
+<p><strong>convert2lab</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether the input should be converted to Lab colorspace prior to
+segmentation. For this purpose, the input is assumed to be RGB.</p>
+</div></blockquote>
+<p><strong>random_seed</strong> : int, optional</p>
+<blockquote>
+<div><p>Random seed used for breaking ties.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>segment_mask</strong> : (width, height) ndarray</p>
+<blockquote class="last">
+<div><p>Integer mask indicating segment labels.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The authors advocate to convert the image to Lab color space prior to
+segmentation, though this is not strictly necessary. For this to work, the
+image must be given in RGB format.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r451" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[R451]</a></td><td>Quick shift and kernel methods for mode seeking,
+Vedaldi, A. and Soatto, S.
+European Conference on Computer Vision, 2008</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="random-walker">
+<h2>random_walker<a class="headerlink" href="#random-walker" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.random_walker">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">random_walker</code><span class="sig-paren">(</span><em>data</em>, <em>labels</em>, <em>beta=130</em>, <em>mode='bf'</em>, <em>tol=0.001</em>, <em>copy=True</em>, <em>multichannel=False</em>, <em>return_full_prob=False</em>, <em>spacing=None</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/random_walker_segmentation.py#L194"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.random_walker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random walker algorithm for segmentation from markers.</p>
+<p>Random walker algorithm is implemented for gray-level or multichannel
+images.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : array_like</p>
+<blockquote>
+<div><p>Image to be segmented in phases. Gray-level <cite>data</cite> can be two- or
+three-dimensional; multichannel data can be three- or four-
+dimensional (multichannel=True) with the highest dimension denoting
+channels. Data spacing is assumed isotropic unless the <cite>spacing</cite>
+keyword argument is used.</p>
+</div></blockquote>
+<p><strong>labels</strong> : array of ints, of same shape as <cite>data</cite> without channels dimension</p>
+<blockquote>
+<div><p>Array of seed markers labeled with different positive integers
+for different phases. Zero-labeled pixels are unlabeled pixels.
+Negative labels correspond to inactive pixels that are not taken
+into account (they are removed from the graph). If labels are not
+consecutive integers, the labels array will be transformed so that
+labels are consecutive. In the multichannel case, <cite>labels</cite> should have
+the same shape as a single channel of <cite>data</cite>, i.e. without the final
+dimension denoting channels.</p>
+</div></blockquote>
+<p><strong>beta</strong> : float</p>
+<blockquote>
+<div><p>Penalization coefficient for the random walker motion
+(the greater <cite>beta</cite>, the more difficult the diffusion).</p>
+</div></blockquote>
+<p><strong>mode</strong> : string, available options {‘cg_mg’, ‘cg’, ‘bf’}</p>
+<blockquote>
+<div><p>Mode for solving the linear system in the random walker algorithm.
+If no preference given, automatically attempt to use the fastest
+option available (‘cg_mg’ from pyamg &gt;&gt; ‘cg’ with UMFPACK &gt; ‘bf’).</p>
+<ul class="simple">
+<li>‘bf’ (brute force): an LU factorization of the Laplacian is
+computed. This is fast for small images (&lt;1024x1024), but very slow
+and memory-intensive for large images (e.g., 3-D volumes).</li>
+<li>‘cg’ (conjugate gradient): the linear system is solved iteratively
+using the Conjugate Gradient method from scipy.sparse.linalg. This is
+less memory-consuming than the brute force method for large images,
+but it is quite slow.</li>
+<li>‘cg_mg’ (conjugate gradient with multigrid preconditioner): a
+preconditioner is computed using a multigrid solver, then the
+solution is computed with the Conjugate Gradient method.  This mode
+requires that the pyamg module (<a class="reference external" href="http://pyamg.org/">http://pyamg.org/</a>) is
+installed. For images of size &gt; 512x512, this is the recommended
+(fastest) mode.</li>
+</ul>
+</div></blockquote>
+<p><strong>tol</strong> : float</p>
+<blockquote>
+<div><p>tolerance to achieve when solving the linear system, in
+cg’ and ‘cg_mg’ modes.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool</p>
+<blockquote>
+<div><p>If copy is False, the <cite>labels</cite> array will be overwritten with
+the result of the segmentation. Use copy=False if you want to
+save on memory.</p>
+</div></blockquote>
+<p><strong>multichannel</strong> : bool, default False</p>
+<blockquote>
+<div><p>If True, input data is parsed as multichannel data (see ‘data’ above
+for proper input format in this case)</p>
+</div></blockquote>
+<p><strong>return_full_prob</strong> : bool, default False</p>
+<blockquote>
+<div><p>If True, the probability that a pixel belongs to each of the labels
+will be returned, instead of only the most likely label.</p>
+</div></blockquote>
+<p><strong>spacing</strong> : iterable of floats</p>
+<blockquote>
+<div><p>Spacing between voxels in each spatial dimension. If <cite>None</cite>, then
+the spacing between pixels/voxels in each dimension is assumed 1.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>If <cite>return_full_prob</cite> is False, array of ints of same shape as
+<cite>data</cite>, in which each pixel has been labeled according to the marker
+that reached the pixel first by anisotropic diffusion.</li>
+<li>If <cite>return_full_prob</cite> is True, array of floats of shape
+<cite>(nlabels, data.shape)</cite>. <cite>output[label_nb, i, j]</cite> is the probability
+that label <cite>label_nb</cite> reaches the pixel <cite>(i, j)</cite> first.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="skimage.morphology.html#skimage.morphology.watershed" title="skimage.morphology.watershed"><code class="xref py py-obj docutils literal"><span class="pre">skimage.morphology.watershed</span></code></a></dt>
+<dd>watershed segmentation A segmentation algorithm based on mathematical morphology and “flooding” of regions from markers.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>Multichannel inputs are scaled with all channel data combined. Ensure all
+channels are separately normalized prior to running this algorithm.</p>
+<p>The <cite>spacing</cite> argument is specifically for anisotropic datasets, where
+data points are spaced differently in one or more spatial dimensions.
+Anisotropic data is commonly encountered in medical imaging.</p>
+<p>The algorithm was first proposed in <em>Random walks for image
+segmentation</em>, Leo Grady, IEEE Trans Pattern Anal Mach Intell.
+2006 Nov;28(11):1768-83.</p>
+<p>The algorithm solves the diffusion equation at infinite times for
+sources placed on markers of each phase in turn. A pixel is labeled with
+the phase that has the greatest probability to diffuse first to the pixel.</p>
+<p>The diffusion equation is solved by minimizing x.T L x for each phase,
+where L is the Laplacian of the weighted graph of the image, and x is
+the probability that a marker of the given phase arrives first at a pixel
+by diffusion (x=1 on markers of the phase, x=0 on the other markers, and
+the other coefficients are looked for). Each pixel is attributed the label
+for which it has a maximal value of x. The Laplacian L of the image
+is defined as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>L_ii = d_i, the number of neighbors of pixel i (the degree of i)</li>
+<li>L_ij = -w_ij if i and j are adjacent pixels</li>
+</ul>
+</div></blockquote>
+<p>The weight w_ij is a decreasing function of the norm of the local gradient.
+This ensures that diffusion is easier between pixels of similar values.</p>
+<p>When the Laplacian is decomposed into blocks of marked and unmarked
+pixels:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">M</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">B</span> <span class="n">A</span>
+</pre></div>
+</div>
+<p>with first indices corresponding to marked pixels, and then to unmarked
+pixels, minimizing x.T L x for one phase amount to solving:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">x</span> <span class="o">=</span> <span class="o">-</span> <span class="n">B</span> <span class="n">x_m</span>
+</pre></div>
+</div>
+<p>where x_m = 1 on markers of the given phase, and 0 on other markers.
+This linear system is solved in the algorithm using a direct method for
+small images, and an iterative method for larger images.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Marker for first phase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Marker for second phase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_walker</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 2, 2, 2, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 2, 2, 2, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 2, 2, 2, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]], dtype=int32)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="relabel-from-one">
+<h2>relabel_from_one<a class="headerlink" href="#relabel-from-one" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.relabel_from_one">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">relabel_from_one</code><span class="sig-paren">(</span><em>label_field</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/_shared/utils.py#L59"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.relabel_from_one" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Deprecated function</strong>. Use <code class="docutils literal"><span class="pre">relabel_sequential</span></code> instead.</p>
+<p>Convert labels in an arbitrary label field to {1, … number_of_labels}.</p>
+<p>This function is deprecated, see <code class="docutils literal"><span class="pre">relabel_sequential</span></code> for more.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="relabel-sequential">
+<h2>relabel_sequential<a class="headerlink" href="#relabel-sequential" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.relabel_sequential">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">relabel_sequential</code><span class="sig-paren">(</span><em>label_field</em>, <em>offset=1</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/_join.py#L55"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.relabel_sequential" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relabel arbitrary labels to {<cite>offset</cite>, … <cite>offset</cite> + number_of_labels}.</p>
+<p>This function also returns the forward map (mapping the original labels to
+the reduced labels) and the inverse map (mapping the reduced labels back
+to the original ones).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>label_field</strong> : numpy array of int, arbitrary shape</p>
+<blockquote>
+<div><p>An array of labels.</p>
+</div></blockquote>
+<p><strong>offset</strong> : int, optional</p>
+<blockquote>
+<div><p>The return labels will start at <cite>offset</cite>, which should be
+strictly positive.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>relabeled</strong> : numpy array of int, same shape as <cite>label_field</cite></p>
+<blockquote>
+<div><p>The input label field with labels mapped to
+{offset, …, number_of_labels + offset - 1}.</p>
+</div></blockquote>
+<p><strong>forward_map</strong> : numpy array of int, shape <code class="docutils literal"><span class="pre">(label_field.max()</span> <span class="pre">+</span> <span class="pre">1,)</span></code></p>
+<blockquote>
+<div><p>The map from the original label space to the returned label
+space. Can be used to re-apply the same mapping. See examples
+for usage.</p>
+</div></blockquote>
+<p><strong>inverse_map</strong> : 1D numpy array of int, of length offset + number of labels</p>
+<blockquote class="last">
+<div><p>The map from the new label space to the original space. This
+can be used to reconstruct the original label field from the
+relabeled one.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The label 0 is assumed to denote the background and is never remapped.</p>
+<p>The forward map can be extremely big for some inputs, since its
+length is given by the maximum of the label field. However, in most
+situations, <code class="docutils literal"><span class="pre">label_field.max()</span></code> is much smaller than
+<code class="docutils literal"><span class="pre">label_field.size</span></code>, and in these cases the forward map is
+guaranteed to be smaller than either the input or output images.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="n">relabel_sequential</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">label_field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="mi">42</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relab</span><span class="p">,</span> <span class="n">fw</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="n">relabel_sequential</span><span class="p">(</span><span class="n">label_field</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relab</span>
+<span class="go">array([1, 1, 2, 2, 3, 5, 4])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fw</span>
+<span class="go">array([0, 1, 0, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0,</span>
+<span class="go">       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,</span>
+<span class="go">       0, 0, 0, 0, 0, 0, 0, 5])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">inv</span>
+<span class="go">array([ 0,  1,  5,  8, 42, 99])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">fw</span><span class="p">[</span><span class="n">label_field</span><span class="p">]</span> <span class="o">==</span> <span class="n">relab</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">inv</span><span class="p">[</span><span class="n">relab</span><span class="p">]</span> <span class="o">==</span> <span class="n">label_field</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relab</span><span class="p">,</span> <span class="n">fw</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="n">relabel_sequential</span><span class="p">(</span><span class="n">label_field</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">relab</span>
+<span class="go">array([5, 5, 6, 6, 7, 9, 8])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="slic">
+<h2>slic<a class="headerlink" href="#slic" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.slic">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">slic</code><span class="sig-paren">(</span><em>image</em>, <em>n_segments=100</em>, <em>compactness=10.0</em>, <em>max_iter=10</em>, <em>sigma=0</em>, <em>spacing=None</em>, <em>multichannel=True</em>, <em>convert2lab=None</em>, <em>enforce_connectivity=True</em>, <em>min_size_factor=0.5</em>, <em>max_size_factor=3</em>, <em>slic_zero=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/segmentation/slic_superpixels.py#L13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.slic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Segments image using k-means clustering in Color-(x,y,z) space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : 2D, 3D or 4D ndarray</p>
+<blockquote>
+<div><p>Input image, which can be 2D or 3D, and grayscale or multichannel
+(see <cite>multichannel</cite> parameter).</p>
+</div></blockquote>
+<p><strong>n_segments</strong> : int, optional</p>
+<blockquote>
+<div><p>The (approximate) number of labels in the segmented output image.</p>
+</div></blockquote>
+<p><strong>compactness</strong> : float, optional</p>
+<blockquote>
+<div><p>Balances color proximity and space proximity. Higher values give
+more weight to space proximity, making superpixel shapes more
+square/cubic. In SLICO mode, this is the initial compactness.
+This parameter depends strongly on image contrast and on the
+shapes of objects in the image. We recommend exploring possible
+values on a log scale, e.g., 0.01, 0.1, 1, 10, 100, before
+refining around a chosen value.</p>
+</div></blockquote>
+<p><strong>max_iter</strong> : int, optional</p>
+<blockquote>
+<div><p>Maximum number of iterations of k-means.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float or (3,) array-like of floats, optional</p>
+<blockquote>
+<div><p>Width of Gaussian smoothing kernel for pre-processing for each
+dimension of the image. The same sigma is applied to each dimension in
+case of a scalar value. Zero means no smoothing.
+Note, that <cite>sigma</cite> is automatically scaled if it is scalar and a
+manual voxel spacing is provided (see Notes section).</p>
+</div></blockquote>
+<p><strong>spacing</strong> : (3,) array-like of floats, optional</p>
+<blockquote>
+<div><p>The voxel spacing along each image dimension. By default, <cite>slic</cite>
+assumes uniform spacing (same voxel resolution along z, y and x).
+This parameter controls the weights of the distances along z, y,
+and x during k-means clustering.</p>
+</div></blockquote>
+<p><strong>multichannel</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether the last axis of the image is to be interpreted as multiple
+channels or another spatial dimension.</p>
+</div></blockquote>
+<p><strong>convert2lab</strong> : bool, optional</p>
+<blockquote>
+<div><p>Whether the input should be converted to Lab colorspace prior to
+segmentation. The input image <em>must</em> be RGB. Highly recommended.
+This option defaults to <code class="docutils literal"><span class="pre">True</span></code> when <code class="docutils literal"><span class="pre">multichannel=True</span></code> <em>and</em>
+<code class="docutils literal"><span class="pre">image.shape[-1]</span> <span class="pre">==</span> <span class="pre">3</span></code>.</p>
+</div></blockquote>
+<p><strong>enforce_connectivity: bool, optional</strong></p>
+<blockquote>
+<div><p>Whether the generated segments are connected or not</p>
+</div></blockquote>
+<p><strong>min_size_factor: float, optional</strong></p>
+<blockquote>
+<div><p>Proportion of the minimum segment size to be removed with respect
+to the supposed segment size <code class="docutils literal"><span class="pre">`depth*width*height/n_segments`</span></code></p>
+</div></blockquote>
+<p><strong>max_size_factor: float, optional</strong></p>
+<blockquote>
+<div><p>Proportion of the maximum connected segment size. A value of 3 works
+in most of the cases.</p>
+</div></blockquote>
+<p><strong>slic_zero: bool, optional</strong></p>
+<blockquote>
+<div><p>Run SLIC-zero, the zero-parameter mode of SLIC. <a class="reference internal" href="#r453" id="id4">[R453]</a></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>labels</strong> : 2D or 3D array</p>
+<blockquote>
+<div><p>Integer mask indicating segment labels.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If <code class="docutils literal"><span class="pre">convert2lab</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code> but the last array
+dimension is not of length 3.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>If <cite>sigma &gt; 0</cite>, the image is smoothed using a Gaussian kernel prior to
+segmentation.</li>
+<li>If <cite>sigma</cite> is scalar and <cite>spacing</cite> is provided, the kernel width is
+divided along each dimension by the spacing. For example, if <code class="docutils literal"><span class="pre">sigma=1</span></code>
+and <code class="docutils literal"><span class="pre">spacing=[5,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>, the effective <cite>sigma</cite> is <code class="docutils literal"><span class="pre">[0.2,</span> <span class="pre">1,</span> <span class="pre">1]</span></code>. This
+ensures sensible smoothing for anisotropic images.</li>
+<li>The image is rescaled to be in [0, 1] prior to processing.</li>
+<li>Images of shape (M, N, 3) are interpreted as 2D RGB images by default. To
+interpret them as 3D with the last dimension having length 3, use
+<cite>multichannel=False</cite>.</li>
+</ul>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r452" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[R452]</a></td><td>Radhakrishna Achanta, Appu Shaji, Kevin Smith, Aurelien Lucchi,
+Pascal Fua, and Sabine Süsstrunk, SLIC Superpixels Compared to
+State-of-the-art Superpixel Methods, TPAMI, May 2012.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r453" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R453]</td><td><em>(<a class="fn-backref" href="#id4">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> <a class="reference external" href="http://ivrg.epfl.ch/research/superpixels#SLICO">http://ivrg.epfl.ch/research/superpixels#SLICO</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="n">slic</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="k">import</span> <span class="n">astronaut</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">segments</span> <span class="o">=</span> <span class="n">slic</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">compactness</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Increasing the compactness parameter yields more square regions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">segments</span> <span class="o">=</span> <span class="n">slic</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">compactness</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="watershed">
+<h2>watershed<a class="headerlink" href="#watershed" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.watershed">
+<code class="descclassname">skimage.segmentation.</code><code class="descname">watershed</code><span class="sig-paren">(</span><em>image</em>, <em>markers</em>, <em>connectivity=1</em>, <em>offset=None</em>, <em>mask=None</em>, <em>compactness=0</em>, <em>watershed_line=False</em><span class="sig-paren">)</span><a class="reference external" href="http://github.com/scikit-image/scikit-image/blob/v0.13.1/skimage/morphology/watershed.py#L134"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.segmentation.watershed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find watershed basins in <cite>image</cite> flooded from given <cite>markers</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image: ndarray (2-D, 3-D, …) of integers</strong></p>
+<blockquote>
+<div><p>Data array where the lowest value points are labeled first.</p>
+</div></blockquote>
+<p><strong>markers: int, or ndarray of int, same shape as `image`</strong></p>
+<blockquote>
+<div><p>The desired number of markers, or an array marking the basins with the
+values to be assigned in the label matrix. Zero means not a marker.</p>
+</div></blockquote>
+<p><strong>connectivity: ndarray, optional</strong></p>
+<blockquote>
+<div><p>An array with the same number of dimensions as <cite>image</cite> whose
+non-zero elements indicate neighbors for connection.
+Following the scipy convention, default is a one-connected array of
+the dimension of the image.</p>
+</div></blockquote>
+<p><strong>offset: array_like of shape image.ndim, optional</strong></p>
+<blockquote>
+<div><p>offset of the connectivity (one offset per dimension)</p>
+</div></blockquote>
+<p><strong>mask: ndarray of bools or 0s and 1s, optional</strong></p>
+<blockquote>
+<div><p>Array of same shape as <cite>image</cite>. Only points at which mask == True
+will be labeled.</p>
+</div></blockquote>
+<p><strong>compactness</strong> : float, optional</p>
+<blockquote>
+<div><p>Use compact watershed <a class="reference internal" href="#r456" id="id7">[R456]</a> with given compactness parameter.
+Higher values result in more regularly-shaped watershed basins.</p>
+</div></blockquote>
+<p><strong>watershed_line</strong> : bool, optional</p>
+<blockquote>
+<div><p>If watershed_line is True, a one-pixel wide line separates the regions
+obtained by the watershed algorithm. The line has the label 0.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: ndarray</p>
+<blockquote class="last">
+<div><p>A labeled matrix of the same type and shape as markers</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#skimage.segmentation.random_walker" title="skimage.segmentation.random_walker"><code class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.random_walker</span></code></a></dt>
+<dd>random walker segmentation A segmentation algorithm based on anisotropic diffusion, usually slower than the watershed but with good results on noisy data and boundaries with holes.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This function implements a watershed algorithm <a class="reference internal" href="#r454" id="id8">[R454]</a> <a class="reference internal" href="#r455" id="id9">[R455]</a> that apportions
+pixels into marked basins. The algorithm uses a priority queue to hold
+the pixels with the metric for the priority queue being pixel value, then
+the time of entry into the queue - this settles ties in favor of the
+closest marker.</p>
+<p>Some ideas taken from
+Soille, “Automated Basin Delineation from Digital Elevation Models Using
+Mathematical Morphology”, Signal Processing 20 (1990) 171-182</p>
+<p>The most important insight in the paper is that entry time onto the queue
+solves two problems: a pixel should be assigned to the neighbor with the
+largest gradient or, if there is no gradient, pixels on a plateau should
+be split between markers on opposite sides.</p>
+<p>This implementation converts all arguments to specific, lowest common
+denominator types, then passes these to a C algorithm.</p>
+<p>Markers can be determined manually, or automatically using for example
+the local minima of the gradient of the image, or the local maxima of the
+distance function to the background for separating overlapping objects
+(see example).</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r454" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R454]</td><td><em>(<a class="fn-backref" href="#id8">1</a>, <a class="fn-backref" href="#id10">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Watershed_%28image_processing%29">http://en.wikipedia.org/wiki/Watershed_%28image_processing%29</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r455" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R455]</td><td><em>(<a class="fn-backref" href="#id9">1</a>, <a class="fn-backref" href="#id11">2</a>)</em> <a class="reference external" href="http://cmm.ensmp.fr/~beucher/wtshed.html">http://cmm.ensmp.fr/~beucher/wtshed.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r456" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R456]</td><td><em>(<a class="fn-backref" href="#id7">1</a>, <a class="fn-backref" href="#id12">2</a>)</em> Peer Neubert &amp; Peter Protzel (2014). Compact Watershed and
+Preemptive SLIC: On Improving Trade-offs of Superpixel Segmentation
+Algorithms. ICPR 2014, pp 996-1001. DOI:10.1109/ICPR.2014.181
+https://www.tu-chemnitz.de/etit/proaut/forschung/rsrc/cws_pSLIC_ICPR.pdf</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>The watershed algorithm is useful to separate overlapping objects.</p>
+<p>We first generate an initial image with two overlapping circles:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="mi">52</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask_circle1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">r1</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask_circle2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="n">r2</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">mask_circle1</span><span class="p">,</span> <span class="n">mask_circle2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we want to separate the two circles. We generate markers at the
+maxima of the distance to the background:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">ndimage</span> <span class="k">as</span> <span class="n">ndi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">distance</span> <span class="o">=</span> <span class="n">ndi</span><span class="o">.</span><span class="n">distance_transform_edt</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <span class="n">peak_local_max</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local_maxi</span> <span class="o">=</span> <span class="n">peak_local_max</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">footprint</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span>
+<span class="gp">... </span>                            <span class="n">indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">markers</span> <span class="o">=</span> <span class="n">ndi</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">local_maxi</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, we run the watershed on the image and markers:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="n">watershed</span><span class="p">(</span><span class="o">-</span><span class="n">distance</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The algorithm works also for 3-D images, and can be used for example to
+separate overlapping spheres.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

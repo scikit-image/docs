@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module: feature &mdash; skimage v0.4 docs</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="skimage v0.4 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">feature</span></tt></a><ul>
+<li><a class="reference internal" href="#greycomatrix">greycomatrix</a></li>
+<li><a class="reference internal" href="#greycoprops">greycoprops</a></li>
+<li><a class="reference internal" href="#hog">hog</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/skimage.feature.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-skimage.feature">
+<span id="module-feature"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">feature</span></tt><a class="headerlink" href="#module-skimage.feature" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="#skimage.feature.greycomatrix" title="skimage.feature.greycomatrix"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.greycomatrix</span></tt></a>(image,&nbsp;...[,&nbsp;...])</td>
+<td>Calculate the grey-level co-occurrence matrix.</td>
+</tr>
+<tr><td><a class="reference internal" href="#skimage.feature.greycoprops" title="skimage.feature.greycoprops"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.greycoprops</span></tt></a>(P[,&nbsp;prop])</td>
+<td>Calculate texture properties of a GLCM.</td>
+</tr>
+<tr><td><a class="reference internal" href="#skimage.feature.hog" title="skimage.feature.hog"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.hog</span></tt></a>(image[,&nbsp;orientations,&nbsp;...])</td>
+<td>Extract Histogram of Oriented Gradients (HOG) for a given image.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="greycomatrix">
+<h2>greycomatrix<a class="headerlink" href="#greycomatrix" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.greycomatrix">
+<tt class="descclassname">skimage.feature.</tt><tt class="descname">greycomatrix</tt><big>(</big><em>image</em>, <em>distances</em>, <em>angles</em>, <em>levels=256</em>, <em>symmetric=False</em>, <em>normed=False</em><big>)</big><a class="headerlink" href="#skimage.feature.greycomatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the grey-level co-occurrence matrix.</p>
+<p>A grey level co-occurence matrix is a histogram of co-occuring
+greyscale values at a given offset over an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like of uint8</p>
+<blockquote>
+<div><p>Integer typed input image. The image will be cast to uint8, so
+the maximum value must be less than 256.</p>
+</div></blockquote>
+<p><strong>distances</strong> : array_like</p>
+<blockquote>
+<div><p>List of pixel pair distance offsets.</p>
+</div></blockquote>
+<p><strong>angles</strong> : array_like</p>
+<blockquote>
+<div><p>List of pixel pair angles in radians.</p>
+</div></blockquote>
+<p><strong>levels</strong> : int, optional</p>
+<blockquote>
+<div><p>The input image should contain integers in [0, levels-1],
+where levels indicate the number of grey-levels counted
+(typically 256 for an 8-bit image). The maximum value is 
+256.</p>
+</div></blockquote>
+<p><strong>symmetric</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, the output matrix <cite>P[:, :, d, theta]</cite> is symmetric. This 
+is accomplished by ignoring the order of value pairs, so both 
+(i, j) and (j, i) are accumulated when (i, j) is encountered 
+for a given offset. The default is False.</p>
+</div></blockquote>
+<p><strong>normed</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True, normalize each matrix <cite>P[:, :, d, theta]</cite> by dividing 
+by the total number of accumulated co-occurrences for the given
+offset. The elements of the resulting matrix sum to 1. The 
+default is False.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>P</strong> : 4-D ndarray</p>
+<blockquote class="last">
+<div><p>The grey-level co-occurrence histogram. The value
+<cite>P[i,j,d,theta]</cite> is the number of times that grey-level <cite>j</cite>
+occurs at a distance <cite>d</cite> and at an angle <cite>theta</cite> from
+grey-level <cite>i</cite>. If <cite>normed</cite> is <cite>False</cite>, the output is of
+type uint32, otherwise it is float64.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r23" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R23]</a></td><td>The GLCM Tutorial Home Page,
+<a class="reference external" href="http://www.fp.ucalgary.ca/mhallbey/tutorial.htm">http://www.fp.ucalgary.ca/mhallbey/tutorial.htm</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r24" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[R24]</a></td><td>Pattern Recognition Engineering, Morton Nadler &amp; Eric P. 
+Smith</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r25" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[R25]</a></td><td>Wikipedia, <a class="reference external" href="http://en.wikipedia.org/wiki/Co-occurrence_matrix">http://en.wikipedia.org/wiki/Co-occurrence_matrix</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Compute 2 GLCMs: One for a 1-pixel offset to the right, and one
+for a 1-pixel offset upwards.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">greycomatrix</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="n">levels</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">array([[2, 2, 1, 0],</span>
+<span class="go">       [0, 2, 0, 0],</span>
+<span class="go">       [0, 0, 3, 1],</span>
+<span class="go">       [0, 0, 0, 1]], dtype=uint32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> 
+<span class="go">array([[3, 0, 2, 0],</span>
+<span class="go">       [0, 2, 2, 0],</span>
+<span class="go">       [0, 0, 1, 2],</span>
+<span class="go">       [0, 0, 0, 0]], dtype=uint32)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="greycoprops">
+<h2>greycoprops<a class="headerlink" href="#greycoprops" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.greycoprops">
+<tt class="descclassname">skimage.feature.</tt><tt class="descname">greycoprops</tt><big>(</big><em>P</em>, <em>prop='contrast'</em><big>)</big><a class="headerlink" href="#skimage.feature.greycoprops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate texture properties of a GLCM.</p>
+<blockquote>
+<div><p>Compute a feature of a grey level co-occurrence matrix to serve as 
+a compact summary of the matrix. The properties are computed as
+follows:</p>
+<ul class="simple">
+<li>&#8216;contrast&#8217;: <img class="math" src="../_images/math/205d8f8904b8573f58a249e5ea632c4c25443359.png" alt="\sum_{i,j=0}^{levels-1} P_{i,j}(i-j)^2"/></li>
+<li>&#8216;dissimilarity&#8217;: <img class="math" src="../_images/math/9b4b5740ddf6c9266b62ece671c15d797f397fc0.png" alt="\sum_{i,j=0}^{levels-1}P_{i,j}|i-j|"/></li>
+<li>&#8216;homogeneity&#8217;: <img class="math" src="../_images/math/59369a5976101a0d3136b6a9462bf2250e8d9cf0.png" alt="\sum_{i,j=0}^{levels-1}\frac{P_{i,j}}{1+(i-j)^2}"/></li>
+<li>&#8216;ASM&#8217;: <img class="math" src="../_images/math/67b319e5a321f56099306cb0e92a3f838487daab.png" alt="\sum_{i,j=0}^{levels-1} P_{i,j}^2"/></li>
+<li>&#8216;energy&#8217;: <img class="math" src="../_images/math/95cdb2c1be1f3d664e0d0d8fe0a56db6053909e7.png" alt="\sqrt{ASM}"/></li>
+<li>&#8216;correlation&#8217;:</li>
+</ul>
+</div></blockquote>
+<div class="math">
+<p><img src="../_images/math/45913f9a90f56535a98b313f273b77c03adb3fa5.png" alt="\sum_{i,j=0}^{levels-1} P_{i,j}\left[\frac{(i-\mu_i) \ 
+(j-\mu_j)}{\sqrt{(\sigma_i^2)(\sigma_j^2)}}\right]" /></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>P</strong> : ndarray</p>
+<blockquote>
+<div><blockquote>
+<div><p>Input array. <cite>P</cite> is the grey-level co-occurrence histogram 
+for which to compute the specified property. The value
+<cite>P[i,j,d,theta]</cite> is the number of times that grey-level j
+occurs at a distance d and at an angle theta from
+grey-level i.</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>prop <span class="classifier-delimiter">:</span> <span class="classifier">{&#8216;contrast&#8217;, &#8216;dissimilarity&#8217;, &#8216;homogeneity&#8217;, &#8216;energy&#8217;,             &#8216;correlation&#8217;, &#8216;ASM&#8217;}, optional</span></dt>
+<dd><p class="first last">The property of the GLCM to compute. The default is &#8216;contrast&#8217;.</p>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>results</strong> : 2-D ndarray</p>
+<blockquote class="last">
+<div><p>2-dimensional array. <cite>results[d, a]</cite> is the property &#8216;prop&#8217; for 
+the d&#8217;th distance and the a&#8217;th angle.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Compute the contrast for GLCMs with distances [1, 2] and angles
+[0 degrees, 90 degrees]</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+<span class="gp">... </span>                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">greycomatrix</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">],</span> <span class="n">levels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+<span class="gp">... </span>                 <span class="n">normed</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">symmetric</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contrast</span> <span class="o">=</span> <span class="n">greycoprops</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&#39;contrast&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contrast</span>
+<span class="go">array([[ 0.58333333,  1.        ],</span>
+<span class="go">       [ 1.25      ,  2.75      ]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="hog">
+<h2>hog<a class="headerlink" href="#hog" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.hog">
+<tt class="descclassname">skimage.feature.</tt><tt class="descname">hog</tt><big>(</big><em>image</em>, <em>orientations=9</em>, <em>pixels_per_cell=(8</em>, <em>8)</em>, <em>cells_per_block=(3</em>, <em>3)</em>, <em>visualise=False</em>, <em>normalise=False</em><big>)</big><a class="headerlink" href="#skimage.feature.hog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract Histogram of Oriented Gradients (HOG) for a given image.</p>
+<dl class="docutils">
+<dt>Compute a Histogram of Oriented Gradients (HOG) by</dt>
+<dd><ol class="first arabic simple">
+<li>(optional) global image normalisation</li>
+<li>computing the gradient image in x and y</li>
+</ol>
+<p class="last">3) computing gradient histograms
+3) normalising across blocks
+4) flattening into a feature vector</p>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : (M, N) ndarray</p>
+<blockquote>
+<div><p>Input image (greyscale).</p>
+</div></blockquote>
+<p><strong>orientations</strong> : int</p>
+<blockquote>
+<div><p>Number of orientation bins.</p>
+</div></blockquote>
+<p><strong>pixels_per_cell</strong> : 2 tuple (int, int)</p>
+<blockquote>
+<div><p>Size (in pixels) of a cell.</p>
+</div></blockquote>
+<p><strong>cells_per_block</strong> : 2 tuple (int,int)</p>
+<blockquote>
+<div><p>Number of cells in each block.</p>
+</div></blockquote>
+<p><strong>visualise</strong> : bool, optional</p>
+<blockquote>
+<div><p>Also return an image of the HOG.</p>
+</div></blockquote>
+<p><strong>normalise</strong> : bool, optional</p>
+<blockquote>
+<div><p>Apply power law compression to normalise the image before
+processing.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>newarr</strong> : ndarray</p>
+<blockquote>
+<div><p>HOG for the image as a 1D (flattened) array.</p>
+</div></blockquote>
+<p><strong>hog_image</strong> : ndarray (if visualise=True)</p>
+<blockquote class="last">
+<div><p>A visualisation of the HOG image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Histogram_of_oriented_gradients">http://en.wikipedia.org/wiki/Histogram_of_oriented_gradients</a></li>
+<li>Dalal, N and Triggs, B, Histograms of Oriented Gradients for
+Human Detection, IEEE Computer Society Conference on Computer
+Vision and Pattern Recognition 2005 San Diego, CA, USA</li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

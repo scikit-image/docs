@@ -1,0 +1,396 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: transform.radon_transform &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.transform.radon_transform">
+<span id="module-transform-radon-transform"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">transform.radon_transform</span></tt><a class="headerlink" href="#module-skimage.transform.radon_transform" title="Permalink to this headline">¶</a></h1>
+<p>radon.py - Radon and inverse radon transforms</p>
+<p>Based on code of Justin K. Romberg
+(<a class="reference external" href="http://www.clear.rice.edu/elec431/projects96/DSP/bpanalysis.html">http://www.clear.rice.edu/elec431/projects96/DSP/bpanalysis.html</a>)
+J. Gillam and Chris Griffin.</p>
+<dl class="docutils">
+<dt>References:</dt>
+<dd>-B.R. Ramesh, N. Srinivasa, K. Rajgopal, &#8220;An Algorithm for Computing
+the Discrete Radon Transform With Some Applications&#8221;, Proceedings of
+the Fourth IEEE Region 10 International Conference, TENCON &#8216;89, 1989.
+-A. C. Kak, Malcolm Slaney, &#8220;Principles of Computerized Tomographic
+Imaging&#8221;, IEEE Press 1988.</dd>
+</dl>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.transform.radon_transform.fft" title="skimage.transform.radon_transform.fft"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.transform.radon_transform.fft</span></tt></a>(x[,&nbsp;...])</td>
+<td>Return discrete Fourier transform of real or complex sequence.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.transform.radon_transform.fftshift" title="skimage.transform.radon_transform.fftshift"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.transform.radon_transform.fftshift</span></tt></a>(x)</td>
+<td>Shift the zero-frequency component to the center of the spectrum.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.transform.radon_transform.ifft" title="skimage.transform.radon_transform.ifft"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.transform.radon_transform.ifft</span></tt></a>(x[,&nbsp;...])</td>
+<td>Return discrete inverse Fourier transform of real or complex sequence.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.transform.radon_transform.iradon" title="skimage.transform.radon_transform.iradon"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.transform.radon_transform.iradon</span></tt></a>(...)</td>
+<td>Inverse radon transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.transform.radon_transform.radon" title="skimage.transform.radon_transform.radon"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.transform.radon_transform.radon</span></tt></a>(image)</td>
+<td>Calculates the radon transform of an image given specified projection angles.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="fft">
+<h2>fft<a class="headerlink" href="#fft" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.transform.radon_transform.fft">
+<tt class="descclassname">skimage.transform.radon_transform.</tt><tt class="descname">fft</tt><big>(</big><em>x</em>, <em>n=None</em>, <em>axis=-1</em>, <em>overwrite_x=0</em><big>)</big><a class="headerlink" href="#skimage.transform.radon_transform.fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return discrete Fourier transform of real or complex sequence.</p>
+<p>The returned complex array contains <tt class="docutils literal"><span class="pre">y(0),</span> <span class="pre">y(1),...,</span> <span class="pre">y(n-1)</span></tt> where</p>
+<p><tt class="docutils literal"><span class="pre">y(j)</span> <span class="pre">=</span> <span class="pre">(x</span> <span class="pre">*</span> <span class="pre">exp(-2*pi*sqrt(-1)*j*np.arange(n)/n)).sum()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Array to Fourier transform.</p>
+</div></blockquote>
+<p><strong>n</strong> : int, optional</p>
+<blockquote>
+<div><p>Length of the Fourier transform.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&lt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is
+truncated.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is zero-padded. The
+default results in <tt class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">x.shape[axis]</span></tt>.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>Axis along which the fft&#8217;s are computed; the default is over the
+last axis (i.e., <tt class="docutils literal"><span class="pre">axis=-1</span></tt>).</p>
+</div></blockquote>
+<p><strong>overwrite_x</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True the contents of <cite>x</cite> can be destroyed; the default is False.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>z</strong> : complex ndarray</p>
+<blockquote class="last">
+<div><p>with the elements:</p>
+<div class="highlight-python"><pre>[y(0),y(1),..,y(n/2),y(1-n/2),...,y(-1)]        if n is even
+[y(0),y(1),..,y((n-1)/2),y(-(n-1)/2),...,y(-1)]  if n is odd</pre>
+</div>
+<p>where:</p>
+<div class="highlight-python"><pre>y(j) = sum[k=0..n-1] x[k] * exp(-sqrt(-1)*j*k* 2*pi/n), j = 0..n-1</pre>
+</div>
+<p>Note that <tt class="docutils literal"><span class="pre">y(-j)</span> <span class="pre">=</span> <span class="pre">y(n-j).conjugate()</span></tt>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#skimage.transform.radon_transform.ifft" title="skimage.transform.radon_transform.ifft"><tt class="xref py py-obj docutils literal"><span class="pre">ifft</span></tt></a></dt>
+<dd>Inverse FFT</dd>
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">rfft</span></tt></dt>
+<dd>FFT of a real sequence</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The packing of the result is &#8220;standard&#8221;: If A = fft(a, n), then A[0]
+contains the zero-frequency term, A[1:n/2+1] contains the
+positive-frequency terms, and A[n/2+1:] contains the negative-frequency
+terms, in order of decreasingly negative frequency. So for an 8-point
+transform, the frequencies of the result are [ 0, 1, 2, 3, 4, -3, -2, -1].</p>
+<p>For n even, A[n/2] contains the sum of the positive and negative-frequency
+terms. For n even and x real, A[n/2] will always be real.</p>
+<p>This is most efficient for n a power of two.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>  <span class="c">#within numerical accuracy.</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="fftshift">
+<h2>fftshift<a class="headerlink" href="#fftshift" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.transform.radon_transform.fftshift">
+<tt class="descclassname">skimage.transform.radon_transform.</tt><tt class="descname">fftshift</tt><big>(</big><em>x</em>, <em>axes=None</em><big>)</big><a class="headerlink" href="#skimage.transform.radon_transform.fftshift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift the zero-frequency component to the center of the spectrum.</p>
+<p>This function swaps half-spaces for all axes listed (defaults to all).
+Note that <tt class="docutils literal"><span class="pre">y[0]</span></tt> is the Nyquist component only if <tt class="docutils literal"><span class="pre">len(x)</span></tt> is even.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Input array.</p>
+</div></blockquote>
+<p><strong>axes</strong> : int or shape tuple, optional</p>
+<blockquote>
+<div><p>Axes over which to shift.  Default is None, which shifts all axes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The shifted array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">ifftshift</span></tt></dt>
+<dd>The inverse of <cite>fftshift</cite>.</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span>
+<span class="go">array([ 0.,  1.,  2.,  3.,  4., -5., -4., -3., -2., -1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
+<span class="go">array([-5., -4., -3., -2., -1.,  0.,  1.,  2.,  3.,  4.])</span>
+</pre></div>
+</div>
+<p>Shift the zero-frequency component only along the second axis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span>
+<span class="go">array([[ 0.,  1.,  2.],</span>
+<span class="go">       [ 3.,  4., -4.],</span>
+<span class="go">       [-3., -2., -1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+<span class="go">array([[ 2.,  0.,  1.],</span>
+<span class="go">       [-4.,  3.,  4.],</span>
+<span class="go">       [-1., -3., -2.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="ifft">
+<h2>ifft<a class="headerlink" href="#ifft" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.transform.radon_transform.ifft">
+<tt class="descclassname">skimage.transform.radon_transform.</tt><tt class="descname">ifft</tt><big>(</big><em>x</em>, <em>n=None</em>, <em>axis=-1</em>, <em>overwrite_x=0</em><big>)</big><a class="headerlink" href="#skimage.transform.radon_transform.ifft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return discrete inverse Fourier transform of real or complex sequence.</p>
+<p>The returned complex array contains <tt class="docutils literal"><span class="pre">y(0),</span> <span class="pre">y(1),...,</span> <span class="pre">y(n-1)</span></tt> where</p>
+<p><tt class="docutils literal"><span class="pre">y(j)</span> <span class="pre">=</span> <span class="pre">(x</span> <span class="pre">*</span> <span class="pre">exp(2*pi*sqrt(-1)*j*np.arange(n)/n)).mean()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Transformed data to invert.</p>
+</div></blockquote>
+<p><strong>n</strong> : int, optional</p>
+<blockquote>
+<div><p>Length of the inverse Fourier transform.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&lt;</span> <span class="pre">x.shape[axis]</span></tt>,
+<cite>x</cite> is truncated.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is zero-padded.
+The default results in <tt class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">x.shape[axis]</span></tt>.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>Axis along which the ifft&#8217;s are computed; the default is over the
+last axis (i.e., <tt class="docutils literal"><span class="pre">axis=-1</span></tt>).</p>
+</div></blockquote>
+<p><strong>overwrite_x</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If True the contents of <cite>x</cite> can be destroyed; the default is False.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="iradon">
+<h2>iradon<a class="headerlink" href="#iradon" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.transform.radon_transform.iradon">
+<tt class="descclassname">skimage.transform.radon_transform.</tt><tt class="descname">iradon</tt><big>(</big><em>radon_image</em>, <em>theta=None</em>, <em>output_size=None</em>, <em>filter='ramp'</em>, <em>interpolation='linear'</em><big>)</big><a class="headerlink" href="#skimage.transform.radon_transform.iradon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse radon transform.</p>
+<p>Reconstruct an image from the radon transform, using the filtered
+back projection algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>radon_image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image containing radon transform (sinogram). Each column of
+the image corresponds to a projection along a different angle.</p>
+</div></blockquote>
+<p><strong>theta</strong> : array_like, dtype=float, optional</p>
+<blockquote>
+<div><p>Reconstruction angles (in degrees). Default: m angles evenly spaced
+between 0 and 180 (if the shape of <cite>radon_image</cite> is (N, M)).</p>
+</div></blockquote>
+<p><strong>output_size</strong> : int</p>
+<blockquote>
+<div><p>Number of rows and columns in the reconstruction.</p>
+</div></blockquote>
+<p><strong>filter</strong> : str, optional (default ramp)</p>
+<blockquote>
+<div><p>Filter used in frequency domain filtering. Ramp filter used by default.
+Filters available: ramp, shepp-logan, cosine, hamming, hann
+Assign None to use no filter.</p>
+</div></blockquote>
+<p><strong>interpolation</strong> : str, optional (default linear)</p>
+<blockquote>
+<div><p>Interpolation method used in reconstruction.
+Methods available: nearest, linear.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Reconstructed image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It applies the fourier slice theorem to reconstruct an image by
+multiplying the frequency domain of the filter with the FFT of the
+projection data. This algorithm is called filtered back projection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="radon">
+<h2>radon<a class="headerlink" href="#radon" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.transform.radon_transform.radon">
+<tt class="descclassname">skimage.transform.radon_transform.</tt><tt class="descname">radon</tt><big>(</big><em>image</em>, <em>theta=None</em><big>)</big><a class="headerlink" href="#skimage.transform.radon_transform.radon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the radon transform of an image given specified
+projection angles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>theta</strong> : array_like, dtype=float, optional (default np.arange(180))</p>
+<blockquote>
+<div><p>Projection angles (in degrees).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Radon transform (sinogram).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">transform.radon_transform</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#fft">fft</a></li>
+<li><a class="reference internal" href="#fftshift">fftshift</a></li>
+<li><a class="reference internal" href="#ifft">ifft</a></li>
+<li><a class="reference internal" href="#iradon">iradon</a></li>
+<li><a class="reference internal" href="#radon">radon</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

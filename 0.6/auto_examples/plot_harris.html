@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Harris Corner detector &mdash; skimage v0.6 docs</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.6 docs" href="../index.html" />
+    <link rel="up" title="General examples" href="index.html" />
+    <link rel="next" title="Histogram of Oriented Gradients" href="plot_hog.html" />
+    <link rel="prev" title="GLCM Texture Features" href="plot_glcm.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plot_glcm.html"
+                        title="previous chapter">GLCM Texture Features</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plot_hog.html"
+                        title="next chapter">Histogram of Oriented Gradients</a></p>
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="harris-corner-detector">
+<span id="example-plot-harris-py"></span><h1>Harris Corner detector<a class="headerlink" href="#harris-corner-detector" title="Permalink to this headline">¶</a></h1>
+<p>The Harris corner filter <a class="footnote-reference" href="#id3" id="id1">[1]</a> detects &#8220;interest points&#8221; <a class="footnote-reference" href="#id4" id="id2">[2]</a> using edge
+detection in multiple directions.</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Corner_detection">http://en.wikipedia.org/wiki/Corner_detection</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Interest_point_detection">http://en.wikipedia.org/wiki/Interest_point_detection</a></td></tr>
+</tbody>
+</table>
+<img alt="../_images/plot_harris_1.png" class="align-center" src="../_images/plot_harris_1.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">img_as_float</span>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="n">harris</span>
+
+
+<span class="k">def</span> <span class="nf">plot_harris_points</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">filtered_coords</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; plots corners found in image&quot;&quot;&quot;</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">filtered_coords</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;b.&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="c"># display results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">im_lena</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">lena</span><span class="p">())</span>
+<span class="n">im_text</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
+
+<span class="n">filtered_coords</span> <span class="o">=</span> <span class="n">harris</span><span class="p">(</span><span class="n">im_lena</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">])</span>
+<span class="n">plot_harris_points</span><span class="p">(</span><span class="n">im_lena</span><span class="p">,</span> <span class="n">filtered_coords</span><span class="p">)</span>
+
+<span class="n">filtered_coords</span> <span class="o">=</span> <span class="n">harris</span><span class="p">(</span><span class="n">im_text</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.77</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plot_harris_points</span><span class="p">(</span><span class="n">im_text</span><span class="p">,</span> <span class="n">filtered_coords</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_harris.py"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.6)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

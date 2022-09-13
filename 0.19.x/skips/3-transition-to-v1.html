@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>SKIP 3 — Transitioning to scikit-image 1.0 &mdash; skimage v0.19.2 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script src="../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.19.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        LINK_SUFFIX: '.html',
+        SOURCELINK_SUFFIX: '.txt',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.19.2 docs" href="../index.html" />
+        <link rel="up" title="scikit-image proposals (SKIPS)" href="index.html" />
+        <link rel="next" title="SKIP X — Template and Instructions" href="template.html" />
+        <link rel="prev" title="SKIP 2 — scikit-image mission statement" href="2-values.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">SKIP 3 — Transitioning to scikit-image 1.0</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#abstract">Abstract</a></li>
+<li><a class="reference internal" href="#motivation-and-scope">Motivation and Scope</a></li>
+<li><a class="reference internal" href="#detailed-description">Detailed description</a></li>
+<li><a class="reference internal" href="#related-work">Related Work</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+<li><a class="reference internal" href="#backward-compatibility">Backward compatibility</a></li>
+<li><a class="reference internal" href="#alternatives">Alternatives</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#new-package-naming">New package naming</a></li>
+<li><a class="reference internal" href="#continuous-deprecation-over-multiple-versions">Continuous deprecation over multiple versions</a></li>
+<li><a class="reference internal" href="#not-making-the-proposed-api-changes">Not making the proposed API changes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#discussion">Discussion</a></li>
+<li><a class="reference internal" href="#resolution">Resolution</a></li>
+<li><a class="reference internal" href="#references-and-footnotes">References and Footnotes</a></li>
+<li><a class="reference internal" href="#copyright">Copyright</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.19.2<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="skip-3-transitioning-to-scikit-image-1-0">
+<span id="skip-3-transition-v1"></span><h1>SKIP 3 — Transitioning to scikit-image 1.0<a class="headerlink" href="#skip-3-transitioning-to-scikit-image-1-0" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Juan Nunez-Iglesias &lt;<a class="reference external" href="mailto:juan&#46;nunez-iglesias&#37;&#52;&#48;monash&#46;edu">juan<span>&#46;</span>nunez-iglesias<span>&#64;</span>monash<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Status</dt>
+<dd class="field-even"><p>Final</p>
+</dd>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Created</dt>
+<dd class="field-even"><p>2021-07-15</p>
+</dd>
+<dt class="field-odd">Resolved</dt>
+<dd class="field-odd"><p>2021-09-13</p>
+</dd>
+<dt class="field-even">Resolution</dt>
+<dd class="field-even"><p>Rejected</p>
+</dd>
+<dt class="field-odd">Version effective</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+<div class="section" id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<p>scikit-image is preparing to release version 1.0. This is potentially an
+opportunity to clean up the API, including backwards incompatible changes. Some
+of these changes involve changing return values without changing function
+signatures, which can ordinarily only be done by adding an otherwise useless
+keyword argument (such as <code class="docutils literal notranslate"><span class="pre">new_return_style=True</span></code>) whose default value
+changes over several releases. The result is <em>still</em> a backwards incompatible
+change, but made over a longer time period.</p>
+<p>Despite being in beta and in a 0.x series of releases, scikit-image is used
+extremely broadly, and any backwards incompatible changes are likely to be
+disruptive. This SKIP proposes a process to ensure that the community is aware
+of upcoming changes, and can adapt their libraries <em>or</em> their declared
+scikit-image version dependencies accordingly.</p>
+</div>
+<div class="section" id="motivation-and-scope">
+<h2>Motivation and Scope<a class="headerlink" href="#motivation-and-scope" title="Permalink to this headline">¶</a></h2>
+<p>scikit-image has grown organically over the past 12 years, with functionality
+being added by a broad community of contributors from different backgrounds.
+This has resulted in various parts of the API being inconsistent: for example,
+<code class="docutils literal notranslate"><span class="pre">skimage.transform.warp</span></code> inverts the order of coordinates, so that a
+translation of (45, 32) actually moves the values in a NumPy array by 32 along
+the 0th axis, and 45 along the 1st, <em>but only in 2D</em>.</p>
+<p>Additionally, as our user base has grown, it has become apparent that certain
+early API choices turned out to be more confusing than helpful. For example,
+scikit-image will automatically convert images to various data types,
+<em>rescaling them in the process</em>. A uint8 image in the range [0, 255] will
+automatically be converted to a float64 image in [0, 1]. This might initially
+seem reasonable, but, for consistency, uint16 images in [0, 65535] are rescaled
+to [0, 1] floats, and uint16 images with 12-bit range in [0, 4095], which are
+common in microscopy, are rescaled to [0, 0.0625]. These silent conversions
+have resulted in much user confusion.</p>
+<p>Changing this convention would require adding a <code class="docutils literal notranslate"><span class="pre">preserve_range=</span></code> keyword
+argument to almost <em>all</em> scikit-image functions, whose default value would
+change from False to True over 4 versions. Eventually, the change would be
+backwards-incompatible, no matter how gentle we made the deprecation curve.</p>
+<p>Given the accumulation of potential API changes that have turned out to be too
+burdensome and noisy to fix with a standard deprecation cycle, principally
+because they involve changing function outputs for the same inputs, it makes
+sense to make all those changes in a transition to version 1.0 – semantic
+versioning, which we use, explicitly allows breaking API changes on major
+version updates <a class="footnote-reference brackets" href="#id28" id="id1">6</a>. However, we must acknowledge that (1) an enormous number
+of projects depend on scikit-image and would thus be affected by backwards
+incompatible changes, and (2) it is not yet common practice in the scientific
+Python community to put upper version bounds on dependencies, so it is very
+unlikely that anyone used <code class="docutils literal notranslate"><span class="pre">scikit-image&lt;1.*</span></code> in their dependency list (though
+this is slowly changing <a class="footnote-reference brackets" href="#id27" id="id2">5</a>).</p>
+<p>Given the above, we need to come up with a way to notify all our users that
+this change is coming, while also allowing them to silence any warnings once
+they have been noted.</p>
+</div>
+<div class="section" id="detailed-description">
+<h2>Detailed description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h2>
+<p>It is beyond the scope of this document to list all of the proposed API changes
+for scikit-image 1.0, many of which have yet to be decided upon. Indeed, the
+scope and ambition of the 1.0 transition could grow if this SKIP is accepted.
+The SKIP instead proposes a mechanism for warning users about upcoming breaking
+changes. A meta-issue tracking the proposed changes can be found on GitHub,
+scikit-image/scikit-image#5439 <a class="footnote-reference brackets" href="#id29" id="id3">7</a>. Some examples are briefly included below
+for illustrative purposes:</p>
+<ul class="simple">
+<li><p>Stop rescaling input arrays when the dtype must be coerced to float.</p></li>
+<li><p>Stop swapping coordinate axis order in different contexts, such as drawing or
+warping.</p></li>
+<li><p>Allow automatic return of non-NumPy types, so long as they are coercible to
+NumPy with <code class="docutils literal notranslate"><span class="pre">numpy.asarray</span></code>.</p></li>
+<li><p>Harmonizing similar parameters in different functions to have the same name;
+for example, we currently have <code class="docutils literal notranslate"><span class="pre">random_seed</span></code>, <code class="docutils literal notranslate"><span class="pre">random_state</span></code>, <code class="docutils literal notranslate"><span class="pre">seed</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">sample_seed</span></code> in different functions, all to mean the same thing.</p></li>
+<li><p>Changing <code class="docutils literal notranslate"><span class="pre">measure.regionprops</span></code> to return a dictionary instead of a list.</p></li>
+<li><p>Combine functions that have the same purpose, such as <code class="docutils literal notranslate"><span class="pre">watershed</span></code>,
+<code class="docutils literal notranslate"><span class="pre">slic</span></code>, or <code class="docutils literal notranslate"><span class="pre">felzenschwalb</span></code>, into a common namespace. This would make it
+easier for new users to find out which functions they should try out for a
+specific task.</p></li>
+</ul>
+<p>The question is, how do we make this transition while causing as little
+disruption as possible?</p>
+<p>This document proposes releasing 0.19 as the final 0.x series release, then
+immediately releasing a nearly identical 0.20 release that warns users about
+breaking changes in 1.0, thus giving them an opportunity to pin their
+scikit-image dependency to 0.19.x. The warning would also point users to a
+transition guide to prepare their code for 1.0. See <em class="xref py py-obj">Implementation</em> for
+details.</p>
+<p>This approach ensures that all users get ample warning, and a chance to ensure
+that their scripts and libraries will continue to work after 1.0 is released.
+Users who don’t have the time or inclination to make the transition will be
+able to pin their dependencies correctly. Those who prefer to be on the cutting
+edge will also be able to plan around the 1.0 release and update their code
+correctly, in sync with scikit-image.</p>
+</div>
+<div class="section" id="related-work">
+<h2>Related Work<a class="headerlink" href="#related-work" title="Permalink to this headline">¶</a></h2>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas</span></code> released 1.0.0 in January 2020, including many backwards-incompatible
+API changes <a class="footnote-reference brackets" href="#id25" id="id4">3</a>. <a class="reference external" href="https://docs.scipy.org/doc/scipy/index.html#module-scipy" title="(in SciPy v1.8.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> released version 1.0 in 2017, but, given its stage of
+maturity and position at the base of the scientific Python ecosystem, opted not
+to make major breaking changes <a class="footnote-reference brackets" href="#id26" id="id5">4</a>. However, SciPy has adopted a policy of
+adding upper-bounds on dependencies <a class="footnote-reference brackets" href="#id27" id="id6">5</a>, acknowledging that the ecosystem as a
+whole makes backwards incompatible changes on a 2 version deprecation cycle.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>The details of the proposal are as follows:</p>
+<ul class="simple">
+<li><p>scikit-image 0.19 will be the final <em>true</em> 0.x release. It contains some new
+features, bug fixes, and several API changes following on from deprecations
+in 0.17.</p></li>
+<li><p>shortly after 0.19, we release 0.20, which is identical except that it emits
+a warning at import time. The warning reads something like the following:
+“scikit-image 1.0 will be released later this year and will contain breaking
+changes. To ensure your code keeps running, please install
+<code class="docutils literal notranslate"><span class="pre">scikit-image&lt;=0.19.*</span></code>. To silence this warning but still depend on
+scikit-image after 1.0 is released, install <code class="docutils literal notranslate"><span class="pre">scikit-image!=0.20.*</span></code>.” The
+warning also contains a link for further details, and instructions for
+managing the dependency in both conda and pip environments.</p></li>
+<li><p>After 0.20, we make all the API changes we need, without deprecation cycles.
+Importantly, for every API change, we add a line to a “scikit-image 1.0
+transition guide” in the documentation, which maps every changed
+functionality in the library from its old form to its new form. These changes
+are tracked on a GitHub issue <a class="footnote-reference brackets" href="#id29" id="id7">7</a> and in the 1.0 milestone <a class="footnote-reference brackets" href="#id30" id="id8">8</a>.</p></li>
+<li><p>Once the transition has happened in the repository, we release 1.0.0a0, an
+alpha release which contains a global warning pointing to the transition
+guide, as well as all of the new functionality. We also release 0.21, which
+contains the same warning but is functionally identical to 0.19. This gives
+authors who chose to pin to <code class="docutils literal notranslate"><span class="pre">scikit-image!=0.20.*</span></code> a chance to make the
+migration to 1.0.</p></li>
+<li><p>After at least one month, we release 1.0.</p></li>
+<li><p>We continue to maintain a 0.19.x branch with bug fixes for a year, in order
+to give users time to transition to the new API.</p></li>
+</ul>
+</div>
+<div class="section" id="backward-compatibility">
+<h2>Backward compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>This proposal breaks backwards compatibility in numerous places in the library.</p>
+</div>
+<div class="section" id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-package-naming">
+<h3>New package naming<a class="headerlink" href="#new-package-naming" title="Permalink to this headline">¶</a></h3>
+<p>Instead of breaking compatibility in the <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> package, we could
+leave that package at 0.19, and release a <em>new</em> package, e.g.
+<code class="docutils literal notranslate"><span class="pre">scikit-image1</span></code>, which starts at 1.0 and imports as <code class="docutils literal notranslate"><span class="pre">skimage1</span></code>. This would
+obviate the need for users to pin their scikit-image version — users depending
+on skimage 0.x would be able to use that library “in perpetuity.”</p>
+<p>Ultimately, the core developers felt that this approach could unnecessarily
+fragment the community, between those that continue using 0.19 and those that
+shift to 1.0. Ultimately, the transition of downstream code to 1.0 would be
+equally painful as the proposed approach, but the pressure to make the switch
+would be decreased, as everyone installing <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> would still get the
+old version.</p>
+</div>
+<div class="section" id="continuous-deprecation-over-multiple-versions">
+<h3>Continuous deprecation over multiple versions<a class="headerlink" href="#continuous-deprecation-over-multiple-versions" title="Permalink to this headline">¶</a></h3>
+<p>This transition could occur gradually over many versions. For example, for
+functions automatically converting and rescaling float inputs, we could add a
+<code class="docutils literal notranslate"><span class="pre">preserve_range</span></code> keyword argument that would initially default to False, but
+the default value of False would be deprecated, with users getting a warning to
+switch to True. After the switch, we could (optionally) deprecate the
+argument, arriving, after a further two releases, at the same place:
+scikit-image no longer rescales data automatically, there are no
+unnecessary keyword arguments lingering all over the API.</p>
+<p>Of course, this kind of operation would have to be done simultaneously over all
+of the above proposed changes.</p>
+<p>Ultimately, the core team felt that this approach generates more work for both
+the scikit-image developers and the developers of downstream libraries, for
+dubious benefit: ultimately, later versions of scikit-image will still be
+incompatible with prior versions, although over a longer time scale.</p>
+</div>
+<div class="section" id="not-making-the-proposed-api-changes">
+<h3>Not making the proposed API changes<a class="headerlink" href="#not-making-the-proposed-api-changes" title="Permalink to this headline">¶</a></h3>
+<p>Another possibility is to reject backwards incompatible API changes outright,
+except in extreme cases. The core team feels that this is essentially
+equivalent to pinning the library at 0.19.</p>
+</div>
+</div>
+<div class="section" id="discussion">
+<h2>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h2>
+<p>In early July 2021, the core team held a series of meetings to discuss this
+approach. The minutes of this meeting are in the scikit-image meeting notes
+repository <a class="footnote-reference brackets" href="#id31" id="id9">9</a>.</p>
+<p>Ongoing discussion will happen on the user forum <a class="footnote-reference brackets" href="#id32" id="id10">10</a>, the
+developer forum <a class="footnote-reference brackets" href="#id33" id="id11">11</a>, and GitHub discussion <a class="footnote-reference brackets" href="#id29" id="id12">7</a>. Specific links to relevant
+posts will be added to this document before acceptance.</p>
+</div>
+<div class="section" id="resolution">
+<h2>Resolution<a class="headerlink" href="#resolution" title="Permalink to this headline">¶</a></h2>
+<p>This SKIP was discussed most extensively in a thread on the mailing list in
+July 2021 <a class="footnote-reference brackets" href="#id34" id="id13">12</a>. In the end, many and core developers felt that this plan
+posed too big a risk of either changing code behavior silently or eroding
+goodwill in the community, or both. Matthew Brett wrote <a class="footnote-reference brackets" href="#id35" id="id14">13</a>:</p>
+<blockquote>
+<div><p>I’m afraid I wasn’t completely sure whether the 1.0 option would
+result in breaking what I call the Konrad Hinsen rule for scientific
+software:</p>
+<p>“””
+Under (virtually) no circumstances should new versions of a scientific
+package silently give substantially different results for the same
+function / method call from a previous version of the package.
+“””</p>
+</div></blockquote>
+<p>Matthew further wrote <a class="footnote-reference brackets" href="#id36" id="id15">14</a> that if we <em>don’t</em> break the Hinsen rule, but
+instead break users’ unpinned scripts, we will lose a lot of goodwill from the
+community:</p>
+<blockquote>
+<div><p>If you make all these break (if they are lucky) or give completely
+wrong results, it’s hard to imagine you aren’t going to cause
+significant damage to the rest-of-iceberg body of users who are not on
+the mailing list.</p>
+</div></blockquote>
+<p>Riadh Fezzani, one of our core developers, felt strongly that SemVer <a class="footnote-reference brackets" href="#id28" id="id16">6</a> was
+sufficient to protect users <a class="footnote-reference brackets" href="#id37" id="id17">15</a>:</p>
+<blockquote>
+<div><p>In scikit-image, we adopted the semantic versioning as it
+is largely adopted in the engineering community. This convention manages
+API breaking and that’s what we are doing by releasing v1.0</p>
+</div></blockquote>
+<p>Even taking this view, though, it cannot address the issue of external
+scikit-image “documentation”, such as a decade’s worth of accumulated
+StackOverflow answers, that would be made obsolete by a breaking 1.0 release,
+as pointed out by Josh Warner <a class="footnote-reference brackets" href="#id38" id="id18">16</a>:</p>
+<blockquote>
+<div><p>It’s also worth considering that there is a substantial corpus of
+scikit-image teaching material out there. The majority we do not control,
+so cannot be updated or edited. The first hits on YouTube for tutorials
+are not the most recent, but older ones with lots of views.</p>
+</div></blockquote>
+<p>Nor can it address the issue of <em>gradually</em> migrating a code base from the old
+API to the new API, as pointed out by Tom Caswell <a class="footnote-reference brackets" href="#id39" id="id19">17</a>:</p>
+<blockquote>
+<div><p>Put another way, you do not want to put a graduate student in the position
+of saying “I _want_ to use the new API, but I have 10k LoC of inherited
+code using the old API …..”.</p>
+</div></blockquote>
+<p>Ultimately, all these concerns add up to a compelling case to rejecting the
+SKIP. Juan Nunez-Iglesias wrote on the mailing list <a class="footnote-reference brackets" href="#id40" id="id20">18</a>:</p>
+<blockquote>
+<div><p>My proposal going forward is to reject SKIP-3 and create a SKIP-4 proposing
+the skimage2 package.</p>
+</div></blockquote>
+<p>The SKIP is therefore rejected.</p>
+</div>
+<div class="section" id="references-and-footnotes">
+<h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Permalink to this headline">¶</a></h2>
+<p>All SKIPs should be declared as dedicated to the public domain with the CC0
+license <a class="footnote-reference brackets" href="#id23" id="id21">1</a>, as in <em class="xref py py-obj">Copyright</em>, below, with attribution encouraged with CC0+BY
+<a class="footnote-reference brackets" href="#id24" id="id22">2</a>.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id23"><span class="brackets">1</span><span class="fn-backref">(<a href="#id21">1</a>,<a href="#id41">2</a>)</span></dt>
+<dd><p>CC0 1.0 Universal (CC0 1.0) Public Domain Dedication,
+<a class="reference external" href="https://creativecommons.org/publicdomain/zero/1.0/">https://creativecommons.org/publicdomain/zero/1.0/</a></p>
+</dd>
+<dt class="label" id="id24"><span class="brackets">2</span><span class="fn-backref">(<a href="#id22">1</a>,<a href="#id42">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://dancohen.org/2013/11/26/cc0-by/">https://dancohen.org/2013/11/26/cc0-by/</a></p>
+</dd>
+<dt class="label" id="id25"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/whatsnew/v1.0.0.html#backwards-incompatible-api-changes">https://pandas.pydata.org/pandas-docs/stable/whatsnew/v1.0.0.html#backwards-incompatible-api-changes</a></p>
+</dd>
+<dt class="label" id="id26"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/release.1.0.0.html">https://docs.scipy.org/doc/scipy/reference/release.1.0.0.html</a></p>
+</dd>
+<dt class="label" id="id27"><span class="brackets">5</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id6">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://github.com/scipy/scipy/pull/12862">https://github.com/scipy/scipy/pull/12862</a></p>
+</dd>
+<dt class="label" id="id28"><span class="brackets">6</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id16">2</a>)</span></dt>
+<dd><p><a class="reference external" href="https://semver.org/">https://semver.org/</a></p>
+</dd>
+<dt class="label" id="id29"><span class="brackets">7</span><span class="fn-backref">(<a href="#id3">1</a>,<a href="#id7">2</a>,<a href="#id12">3</a>)</span></dt>
+<dd><p><a class="reference external" href="https://github.com/scikit-image/scikit-image/discussions/5651">https://github.com/scikit-image/scikit-image/discussions/5651</a></p>
+</dd>
+<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id8">8</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/scikit-image/scikit-image/milestones/1.0">https://github.com/scikit-image/scikit-image/milestones/1.0</a></p>
+</dd>
+<dt class="label" id="id31"><span class="brackets"><a class="fn-backref" href="#id9">9</a></span></dt>
+<dd><p><a class="reference external" href="https://github.com/scikit-image/meeting-notes/blob/main/2021/july-api-meetings.md">https://github.com/scikit-image/meeting-notes/blob/main/2021/july-api-meetings.md</a></p>
+</dd>
+<dt class="label" id="id32"><span class="brackets"><a class="fn-backref" href="#id10">10</a></span></dt>
+<dd><p><a class="reference external" href="https://forum.image.sc/tag/scikit-image">https://forum.image.sc/tag/scikit-image</a></p>
+</dd>
+<dt class="label" id="id33"><span class="brackets"><a class="fn-backref" href="#id11">11</a></span></dt>
+<dd><p><a class="reference external" href="https://discuss.scientific-python.org/c/contributor/skimage">https://discuss.scientific-python.org/c/contributor/skimage</a></p>
+</dd>
+<dt class="label" id="id34"><span class="brackets"><a class="fn-backref" href="#id13">12</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/thread/DSV6PEYVJ4RZRUWWV5SBNF7FFRERTSCF/">https://mail.python.org/archives/list/scikit-image&#64;python.org/thread/DSV6PEYVJ4RZRUWWV5SBNF7FFRERTSCF/</a></p>
+</dd>
+<dt class="label" id="id35"><span class="brackets"><a class="fn-backref" href="#id14">13</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/UYARUQM5LBWXIAWBAPNHIQIDRKUUDTEK/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/UYARUQM5LBWXIAWBAPNHIQIDRKUUDTEK/</a></p>
+</dd>
+<dt class="label" id="id36"><span class="brackets"><a class="fn-backref" href="#id15">14</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/63ZGG7DY5SWVM62XASHMCPFAG6KPJCMT/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/63ZGG7DY5SWVM62XASHMCPFAG6KPJCMT/</a></p>
+</dd>
+<dt class="label" id="id37"><span class="brackets"><a class="fn-backref" href="#id17">15</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/HXI7YVCN6IFF5TL54JBP5QRUDHKTTYRR/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/HXI7YVCN6IFF5TL54JBP5QRUDHKTTYRR/</a></p>
+</dd>
+<dt class="label" id="id38"><span class="brackets"><a class="fn-backref" href="#id18">16</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/HRZGMOJLD2WDIO3JXQV3PRWKIUOVOF7P/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/HRZGMOJLD2WDIO3JXQV3PRWKIUOVOF7P/</a></p>
+</dd>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id19">17</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/GFXBQYKDACDCH7BGNEGOU7LKHR2LPFX6/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/GFXBQYKDACDCH7BGNEGOU7LKHR2LPFX6/</a></p>
+</dd>
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id20">18</a></span></dt>
+<dd><p><a class="reference external" href="https://mail.python.org/archives/list/scikit-image&#64;python.org/message/5J4W63BXFQTT4GHPTZFH3AM4QHAXOW5R/">https://mail.python.org/archives/list/scikit-image&#64;python.org/message/5J4W63BXFQTT4GHPTZFH3AM4QHAXOW5R/</a></p>
+</dd>
+</dl>
+</div>
+<div class="section" id="copyright">
+<h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
+<p>This document is dedicated to the public domain with the Creative Commons CC0
+license <a class="footnote-reference brackets" href="#id23" id="id41">1</a>. Attribution to this source is encouraged where appropriate, as per
+CC0+BY <a class="footnote-reference brackets" href="#id24" id="id42">2</a>.</p>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

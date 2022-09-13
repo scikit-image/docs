@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Region Adjacency Graphs &mdash; skimage v0.11.3 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.11.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.11.3 docs" href="../index.html" />
+        <link rel="up" title="General examples" href="index.html" />
+        <link rel="next" title="Drawing Region Adjacency Graphs (RAGs)" href="plot_rag_draw.html" />
+        <link rel="prev" title="Radon transform" href="plot_radon_transform.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="region-adjacency-graphs">
+<span id="example-plot-rag-py"></span><h1>Region Adjacency Graphs<a class="headerlink" href="#region-adjacency-graphs" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates the use of the <cite>merge_nodes</cite> function of a Region
+Adjacency Graph (RAG). The <cite>RAG</cite> class represents a undirected weighted graph
+which inherits from <cite>networkx.graph</cite> class. When a new node is formed by
+merging two nodes, the edge weight of all the edges incident on the resulting
+node can be updated by a user defined function <cite>weight_func</cite>.</p>
+<p>The default behaviour is to use the smaller edge weight in case of a conflict.
+The example below also shows how to use a custom function to select the larger
+weight instead.</p>
+<img alt="../_images/plot_rag_1.png" class="align-center" src="../_images/plot_rag_1.png" />
+<img alt="../_images/plot_rag_2.png" class="align-center" src="../_images/plot_rag_2.png" />
+<img alt="../_images/plot_rag_3.png" class="align-center" src="../_images/plot_rag_3.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">skimage.future.graph</span> <span class="kn">import</span> <span class="n">rag</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">max_edge</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Callback to handle merging nodes by choosing maximum weight.</span>
+
+<span class="sd">    Returns either the weight between (`src`, `n`) or (`dst`, `n`)</span>
+<span class="sd">    in `g` or the maximum of the two when both exist.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : RAG</span>
+<span class="sd">        The graph under consideration.</span>
+<span class="sd">    src, dst : int</span>
+<span class="sd">        The vertices in `g` to be merged.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        A neighbor of `src` or `dst` or both.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weight : float</span>
+<span class="sd">        The weight between (`src`, `n`) or (`dst`, `n`) in `g` or the</span>
+<span class="sd">        maximum of the two when both exist.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">w1</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;weight&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">})[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span>
+    <span class="n">w2</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;weight&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">})[</span><span class="s">&#39;weight&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Displays a graph with the given title.&quot;&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">rag</span><span class="o">.</span><span class="n">RAG</span><span class="p">()</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c"># Assigning dummy labels.</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
+<span class="n">gc</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&quot;Original Graph&quot;</span><span class="p">)</span>
+
+<span class="n">g</span><span class="o">.</span><span class="n">merge_nodes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&quot;Merged with default (min)&quot;</span><span class="p">)</span>
+
+<span class="n">gc</span><span class="o">.</span><span class="n">merge_nodes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight_func</span><span class="o">=</span><span class="n">max_edge</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">gc</span><span class="p">,</span> <span class="s">&quot;Merged with max without in_place&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Python source code:</strong> <a class="reference download internal" href="../_downloads/plot_rag.py"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.11.3)</p>
+<p><strong>IPython Notebook:</strong> <a class="reference download internal" href="../_downloads/plot_rag.ipynb"><tt class="xref download docutils literal"><span class="pre">download</span></tt></a>
+(generated using <tt class="docutils literal"><span class="pre">skimage</span></tt> 0.11.3)</p>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+    <h4 class="sidebar-box-heading">Previous topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="plot_radon_transform.html" title="previous chapter">Radon transform</a></li>
+        </ul>
+    </div>
+    <h4 class="sidebar-box-heading">Next topic</h4>
+    <div class="well sidebar-box">
+        <ul class="nav nav-list">
+            <li><a href="plot_rag_draw.html" title="next chapter">Drawing Region Adjacency Graphs (RAGs)</a></li>
+        </ul>
+    </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

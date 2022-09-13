@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Measure region properties &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Random walker segmentation" href="plot_random_walker_segmentation.html" />
+        <link rel="prev" title="Label image regions" href="plot_label.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-regionprops-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="measure-region-properties">
+<span id="sphx-glr-auto-examples-segmentation-plot-regionprops-py"></span><h1>Measure region properties<a class="headerlink" href="#measure-region-properties" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to measure properties of labelled image regions.</p>
+<img alt="../../_images/sphx_glr_plot_regionprops_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_regionprops_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="k">import</span> <a href="../../api/skimage.draw.html#skimage.draw.ellipse" title="View documentation for skimage.draw.ellipse"><span class="n">ellipse</span></a>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="k">import</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="View documentation for skimage.measure.label"><span class="n">label</span></a><span class="p">,</span> <a href="../../api/skimage.measure.html#skimage.measure.regionprops" title="View documentation for skimage.measure.regionprops"><span class="n">regionprops</span></a>
+<span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="k">import</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a>
+
+
+<span class="n">image</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <a href="../../api/skimage.draw.html#skimage.draw.ellipse" title="View documentation for skimage.draw.ellipse"><span class="n">ellipse</span></a><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">220</span><span class="p">)</span>
+<span class="n">image</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">label_img</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="View documentation for skimage.measure.label"><span class="n">label</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">regions</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.regionprops" title="View documentation for skimage.measure.regionprops"><span class="n">regionprops</span></a><span class="p">(</span><span class="n">label_img</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">props</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">:</span>
+    <span class="n">y0</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">centroid</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">props</span><span class="o">.</span><span class="n">major_axis_length</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">props</span><span class="o">.</span><span class="n">major_axis_length</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">props</span><span class="o">.</span><span class="n">minor_axis_length</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">props</span><span class="o">.</span><span class="n">minor_axis_length</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">),</span> <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">x2</span><span class="p">),</span> <span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="s1">&#39;.g&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="n">minr</span><span class="p">,</span> <span class="n">minc</span><span class="p">,</span> <span class="n">maxr</span><span class="p">,</span> <span class="n">maxc</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">bbox</span>
+    <span class="n">bx</span> <span class="o">=</span> <span class="p">(</span><span class="n">minc</span><span class="p">,</span> <span class="n">maxc</span><span class="p">,</span> <span class="n">maxc</span><span class="p">,</span> <span class="n">minc</span><span class="p">,</span> <span class="n">minc</span><span class="p">)</span>
+    <span class="n">by</span> <span class="o">=</span> <span class="p">(</span><span class="n">minr</span><span class="p">,</span> <span class="n">minr</span><span class="p">,</span> <span class="n">maxr</span><span class="p">,</span> <span class="n">maxr</span><span class="p">,</span> <span class="n">minr</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.195 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-regionprops-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b4fda93c9428b9668d7fd5cbdc1e50b6/plot_regionprops.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_regionprops.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/45129ac40b774e0e24ebf0d8b39464c0/plot_regionprops.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_regionprops.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

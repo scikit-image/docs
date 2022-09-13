@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: restoration &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.16.1" href="api.html" />
+        <link rel="next" title="Module: segmentation" href="skimage.segmentation.html" />
+        <link rel="prev" title="Module: registration" href="skimage.registration.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">restoration</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#wiener">wiener</a></li>
+<li><a class="reference internal" href="#unsupervised-wiener">unsupervised_wiener</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-unsupervised-wiener">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.unsupervised_wiener</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#richardson-lucy">richardson_lucy</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-richardson-lucy">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.richardson_lucy</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unwrap-phase">unwrap_phase</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-unwrap-phase">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.unwrap_phase</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#denoise-tv-bregman">denoise_tv_bregman</a></li>
+<li><a class="reference internal" href="#denoise-tv-chambolle">denoise_tv_chambolle</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-denoise-tv-chambolle">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_chambolle</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#denoise-bilateral">denoise_bilateral</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-denoise-bilateral">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_bilateral</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#denoise-wavelet">denoise_wavelet</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-denoise-wavelet">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_wavelet</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#denoise-nl-means">denoise_nl_means</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-denoise-nl-means">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_nl_means</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#estimate-sigma">estimate_sigma</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-estimate-sigma">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.estimate_sigma</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inpaint-biharmonic">inpaint_biharmonic</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-inpaint-biharmonic">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.inpaint_biharmonic</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cycle-spin">cycle_spin</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-restoration-cycle-spin">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.cycle_spin</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="module-skimage.restoration">
+<span id="module-restoration"></span><h1>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">restoration</span></code><a class="headerlink" href="#module-skimage.restoration" title="Permalink to this headline">¶</a></h1>
+<p>Image restoration module.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.wiener" title="skimage.restoration.wiener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.wiener</span></code></a>(image, psf, balance)</p></td>
+<td><p>Wiener-Hunt deconvolution</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.unsupervised_wiener" title="skimage.restoration.unsupervised_wiener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.unsupervised_wiener</span></code></a>(…)</p></td>
+<td><p>Unsupervised Wiener-Hunt deconvolution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.richardson_lucy" title="skimage.restoration.richardson_lucy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.richardson_lucy</span></code></a>(image, psf)</p></td>
+<td><p>Richardson-Lucy deconvolution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.unwrap_phase" title="skimage.restoration.unwrap_phase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.unwrap_phase</span></code></a>(image[, …])</p></td>
+<td><p>Recover the original from a wrapped phase image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.denoise_tv_bregman" title="skimage.restoration.denoise_tv_bregman"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_bregman</span></code></a>(…)</p></td>
+<td><p>Perform total-variation denoising using split-Bregman optimization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.denoise_tv_chambolle" title="skimage.restoration.denoise_tv_chambolle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_chambolle</span></code></a>(image)</p></td>
+<td><p>Perform total-variation denoising on n-dimensional images.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.denoise_bilateral" title="skimage.restoration.denoise_bilateral"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.denoise_bilateral</span></code></a>(image)</p></td>
+<td><p>Denoise image using bilateral filter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.denoise_wavelet" title="skimage.restoration.denoise_wavelet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.denoise_wavelet</span></code></a>(image[, …])</p></td>
+<td><p>Perform wavelet denoising on an image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.denoise_nl_means" title="skimage.restoration.denoise_nl_means"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.denoise_nl_means</span></code></a>(image)</p></td>
+<td><p>Perform non-local means denoising on 2-D or 3-D grayscale images, and 2-D RGB images.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.estimate_sigma" title="skimage.restoration.estimate_sigma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.estimate_sigma</span></code></a>(image[, …])</p></td>
+<td><p>Robust wavelet-based estimator of the (Gaussian) noise standard deviation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.restoration.inpaint_biharmonic" title="skimage.restoration.inpaint_biharmonic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.inpaint_biharmonic</span></code></a>(…)</p></td>
+<td><p>Inpaint masked points in image with biharmonic equations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.restoration.cycle_spin" title="skimage.restoration.cycle_spin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.restoration.cycle_spin</span></code></a>(x, func, …)</p></td>
+<td><p>Cycle spinning (repeatedly apply func to shifted versions of x).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="wiener">
+<h2>wiener<a class="headerlink" href="#wiener" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.wiener">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">wiener</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">psf</em>, <em class="sig-param">balance</em>, <em class="sig-param">reg=None</em>, <em class="sig-param">is_real=True</em>, <em class="sig-param">clip=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/deconvolution.py#L13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.wiener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wiener-Hunt deconvolution</p>
+<p>Return the deconvolution with a Wiener-Hunt approach (i.e. with
+Fourier diagonalisation).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>Input degraded image</p>
+</dd>
+<dt><strong>psf</strong><span class="classifier">ndarray</span></dt><dd><p>Point Spread Function. This is assumed to be the impulse
+response (input image space) if the data-type is real, or the
+transfer function (Fourier space) if the data-type is
+complex. There is no constraints on the shape of the impulse
+response. The transfer function must be of shape <em class="xref py py-obj">(M, N)</em> if
+<em class="xref py py-obj">is_real is True</em>, <em class="xref py py-obj">(M, N // 2 + 1)</em> otherwise (see
+<em class="xref py py-obj">np.fft.rfftn</em>).</p>
+</dd>
+<dt><strong>balance</strong><span class="classifier">float</span></dt><dd><p>The regularisation parameter value that tunes the balance
+between the data adequacy that improve frequency restoration
+and the prior adequacy that reduce frequency restoration (to
+avoid noise artifacts).</p>
+</dd>
+<dt><strong>reg</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The regularisation operator. The Laplacian by default. It can
+be an impulse response or a transfer function, as for the
+psf. Shape constraint is the same as for the <em class="xref py py-obj">psf</em> parameter.</p>
+</dd>
+<dt><strong>is_real</strong><span class="classifier">boolean, optional</span></dt><dd><p>True by default. Specify if <code class="docutils literal notranslate"><span class="pre">psf</span></code> and <code class="docutils literal notranslate"><span class="pre">reg</span></code> are provided
+with hermitian hypothesis, that is only half of the frequency
+plane is provided (due to the redundancy of Fourier transform
+of real signal). It’s apply only if <code class="docutils literal notranslate"><span class="pre">psf</span></code> and/or <code class="docutils literal notranslate"><span class="pre">reg</span></code> are
+provided as transfer function.  For the hermitian property see
+<code class="docutils literal notranslate"><span class="pre">uft</span></code> module or <code class="docutils literal notranslate"><span class="pre">np.fft.rfftn</span></code>.</p>
+</dd>
+<dt><strong>clip</strong><span class="classifier">boolean, optional</span></dt><dd><p>True by default. If True, pixel values of the result above 1 or
+under -1 are thresholded for skimage pipeline compatibility.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>im_deconv</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>The deconvolved image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function applies the Wiener filter to a noisy and degraded
+image by an impulse response (or PSF). If the data model is</p>
+<div class="math notranslate nohighlight">
+\[y = Hx + n\]</div>
+<p>where <span class="math notranslate nohighlight">\(n\)</span> is noise, <span class="math notranslate nohighlight">\(H\)</span> the PSF and <span class="math notranslate nohighlight">\(x\)</span> the
+unknown original image, the Wiener filter is</p>
+<div class="math notranslate nohighlight">
+\[\hat x = F^\dagger (|\Lambda_H|^2 + \lambda |\Lambda_D|^2)
+\Lambda_H^\dagger F y\]</div>
+<p>where <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(F^\dagger\)</span> are the Fourier and inverse
+Fourier transforms respectively, <span class="math notranslate nohighlight">\(\Lambda_H\)</span> the transfer
+function (or the Fourier transform of the PSF, see [Hunt] below)
+and <span class="math notranslate nohighlight">\(\Lambda_D\)</span> the filter to penalize the restored image
+frequencies (Laplacian by default, that is penalization of high
+frequency). The parameter <span class="math notranslate nohighlight">\(\lambda\)</span> tunes the balance
+between the data (that tends to increase high frequency, even
+those coming from noise), and the regularization.</p>
+<p>These methods are then specific to a prior model. Consequently,
+the application or the true image nature must corresponds to the
+prior model. By default, the prior model (Laplacian) introduce
+image smoothness or pixel correlation. It can also be interpreted
+as high-frequency penalization to compensate the instability of
+the solution with respect to the data (sometimes called noise
+amplification or “explosive” solution).</p>
+<p>Finally, the use of Fourier space implies a circulant property of
+<span class="math notranslate nohighlight">\(H\)</span>, see [Hunt].</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r78add0113d5e-1"><span class="brackets">1</span></dt>
+<dd><p>François Orieux, Jean-François Giovannelli, and Thomas
+Rodet, “Bayesian estimation of regularization and point
+spread function parameters for Wiener-Hunt deconvolution”,
+J. Opt. Soc. Am. A 27, 1593-1607 (2010)</p>
+<p><a class="reference external" href="https://www.osapublishing.org/josaa/abstract.cfm?URI=josaa-27-7-1593">https://www.osapublishing.org/josaa/abstract.cfm?URI=josaa-27-7-1593</a></p>
+<p><a class="reference external" href="http://research.orieux.fr/files/papers/OGR-JOSA10.pdf">http://research.orieux.fr/files/papers/OGR-JOSA10.pdf</a></p>
+</dd>
+<dt class="label" id="r78add0113d5e-2"><span class="brackets">2</span></dt>
+<dd><p>B. R. Hunt “A matrix theory proof of the discrete
+convolution theorem”, IEEE Trans. on Audio and
+Electroacoustics, vol. au-19, no. 4, pp. 285-288, dec. 1971</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">restoration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">convolve2d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">psf</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deconvolved_img</span> <span class="o">=</span> <span class="n">restoration</span><span class="o">.</span><span class="n">wiener</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">psf</span><span class="p">,</span> <span class="mi">1100</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="unsupervised-wiener">
+<h2>unsupervised_wiener<a class="headerlink" href="#unsupervised-wiener" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.unsupervised_wiener">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">unsupervised_wiener</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">psf</em>, <em class="sig-param">reg=None</em>, <em class="sig-param">user_params=None</em>, <em class="sig-param">is_real=True</em>, <em class="sig-param">clip=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/deconvolution.py#L140"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.unsupervised_wiener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsupervised Wiener-Hunt deconvolution.</p>
+<p>Return the deconvolution with a Wiener-Hunt approach, where the
+hyperparameters are automatically estimated. The algorithm is a
+stochastic iterative process (Gibbs sampler) described in the
+reference below. See also <code class="docutils literal notranslate"><span class="pre">wiener</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>The input degraded image.</p>
+</dd>
+<dt><strong>psf</strong><span class="classifier">ndarray</span></dt><dd><p>The impulse response (input image’s space) or the transfer
+function (Fourier space). Both are accepted. The transfer
+function is automatically recognized as being complex
+(<code class="docutils literal notranslate"><span class="pre">np.iscomplexobj(psf)</span></code>).</p>
+</dd>
+<dt><strong>reg</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The regularisation operator. The Laplacian by default. It can
+be an impulse response or a transfer function, as for the psf.</p>
+</dd>
+<dt><strong>user_params</strong><span class="classifier">dict, optional</span></dt><dd><p>Dictionary of parameters for the Gibbs sampler. See below.</p>
+</dd>
+<dt><strong>clip</strong><span class="classifier">boolean, optional</span></dt><dd><p>True by default. If true, pixel values of the result above 1 or
+under -1 are thresholded for skimage pipeline compatibility.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>x_postmean</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>The deconvolved image (the posterior mean).</p>
+</dd>
+<dt><strong>chains</strong><span class="classifier">dict</span></dt><dd><p>The keys <code class="docutils literal notranslate"><span class="pre">noise</span></code> and <code class="docutils literal notranslate"><span class="pre">prior</span></code> contain the chain list of
+noise and prior precision respectively.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Other Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>The keys of ``user_params`` are:</strong></dt><dd></dd>
+<dt><strong>threshold</strong><span class="classifier">float</span></dt><dd><p>The stopping criterion: the norm of the difference between to
+successive approximated solution (empirical mean of object
+samples, see Notes section). 1e-4 by default.</p>
+</dd>
+<dt><strong>burnin</strong><span class="classifier">int</span></dt><dd><p>The number of sample to ignore to start computation of the
+mean. 15 by default.</p>
+</dd>
+<dt><strong>min_iter</strong><span class="classifier">int</span></dt><dd><p>The minimum number of iterations. 30 by default.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int</span></dt><dd><p>The maximum number of iterations if <code class="docutils literal notranslate"><span class="pre">threshold</span></code> is not
+satisfied. 200 by default.</p>
+</dd>
+<dt><strong>callback</strong><span class="classifier">callable (None by default)</span></dt><dd><p>A user provided callable to which is passed, if the function
+exists, the current image sample for whatever purpose. The user
+can store the sample, or compute other moments than the
+mean. It has no influence on the algorithm execution and is
+only for inspection.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The estimated image is design as the posterior mean of a
+probability law (from a Bayesian analysis). The mean is defined as
+a sum over all the possible images weighted by their respective
+probability. Given the size of the problem, the exact sum is not
+tractable. This algorithm use of MCMC to draw image under the
+posterior law. The practical idea is to only draw highly probable
+images since they have the biggest contribution to the mean. At the
+opposite, the less probable images are drawn less often since
+their contribution is low. Finally the empirical mean of these
+samples give us an estimation of the mean, and an exact
+computation with an infinite sample set.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rc01bcdcadf9b-1"><span class="brackets">1</span></dt>
+<dd><p>François Orieux, Jean-François Giovannelli, and Thomas
+Rodet, “Bayesian estimation of regularization and point
+spread function parameters for Wiener-Hunt deconvolution”,
+J. Opt. Soc. Am. A 27, 1593-1607 (2010)</p>
+<p><a class="reference external" href="https://www.osapublishing.org/josaa/abstract.cfm?URI=josaa-27-7-1593">https://www.osapublishing.org/josaa/abstract.cfm?URI=josaa-27-7-1593</a></p>
+<p><a class="reference external" href="http://research.orieux.fr/files/papers/OGR-JOSA10.pdf">http://research.orieux.fr/files/papers/OGR-JOSA10.pdf</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">restoration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">convolve2d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">psf</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deconvolved_img</span> <span class="o">=</span> <span class="n">restoration</span><span class="o">.</span><span class="n">unsupervised_wiener</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">psf</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-unsupervised-wiener">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.unsupervised_wiener</span></code><a class="headerlink" href="#examples-using-skimage-restoration-unsupervised-wiener" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we deconvolve a noisy version of an image using Wiener and unsupervised Wiener..."><div class="figure align-default" id="id42">
+<img alt="../_images/sphx_glr_plot_restoration_thumb.png" src="../_images/sphx_glr_plot_restoration_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_restoration.html#sphx-glr-auto-examples-filters-plot-restoration-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id42" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="richardson-lucy">
+<h2>richardson_lucy<a class="headerlink" href="#richardson-lucy" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.richardson_lucy">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">richardson_lucy</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">psf</em>, <em class="sig-param">iterations=50</em>, <em class="sig-param">clip=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/deconvolution.py#L329"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.richardson_lucy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Richardson-Lucy deconvolution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input degraded image (can be N dimensional).</p>
+</dd>
+<dt><strong>psf</strong><span class="classifier">ndarray</span></dt><dd><p>The point spread function.</p>
+</dd>
+<dt><strong>iterations</strong><span class="classifier">int, optional</span></dt><dd><p>Number of iterations. This parameter plays the role of
+regularisation.</p>
+</dd>
+<dt><strong>clip</strong><span class="classifier">boolean, optional</span></dt><dd><p>True by default. If true, pixel value of the result above 1 or
+under -1 are thresholded for skimage pipeline compatibility.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>im_deconv</strong><span class="classifier">ndarray</span></dt><dd><p>The deconvolved image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rbba3d9c89116-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Richardson%E2%80%93Lucy_deconvolution">https://en.wikipedia.org/wiki/Richardson%E2%80%93Lucy_deconvolution</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">restoration</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">convolve2d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">=</span> <span class="n">convolve2d</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">psf</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">camera</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">camera</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">deconvolved</span> <span class="o">=</span> <span class="n">restoration</span><span class="o">.</span><span class="n">richardson_lucy</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">psf</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-richardson-lucy">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.richardson_lucy</span></code><a class="headerlink" href="#examples-using-skimage-restoration-richardson-lucy" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="The algorithm is based on a PSF (Point Spread Function), where PSF is described as the impulse ..."><div class="figure align-default" id="id43">
+<img alt="../_images/sphx_glr_plot_deconvolution_thumb.png" src="../_images/sphx_glr_plot_deconvolution_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_deconvolution.html#sphx-glr-auto-examples-filters-plot-deconvolution-py"><span class="std std-ref">Image Deconvolution</span></a></span><a class="headerlink" href="#id43" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="unwrap-phase">
+<h2>unwrap_phase<a class="headerlink" href="#unwrap-phase" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.unwrap_phase">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">unwrap_phase</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">wrap_around=False</em>, <em class="sig-param">seed=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/unwrap.py#L10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.unwrap_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recover the original from a wrapped phase image.</p>
+<p>From an image wrapped to lie in the interval [-pi, pi), recover the
+original, unwrapped image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">1D, 2D or 3D ndarray of floats, optionally a masked array</span></dt><dd><p>The values should be in the range [-pi, pi). If a masked array is
+provided, the masked entries will not be changed, and their values
+will not be used to guide the unwrapping of neighboring, unmasked
+values. Masked 1D arrays are not allowed, and will raise a
+<em class="xref py py-obj">ValueError</em>.</p>
+</dd>
+<dt><strong>wrap_around</strong><span class="classifier">bool or sequence of bool, optional</span></dt><dd><p>When an element of the sequence is  <em class="xref py py-obj">True</em>, the unwrapping process
+will regard the edges along the corresponding axis of the image to be
+connected and use this connectivity to guide the phase unwrapping
+process. If only a single boolean is given, it will apply to all axes.
+Wrap around is not supported for 1D arrays.</p>
+</dd>
+<dt><strong>seed</strong><span class="classifier">int, optional</span></dt><dd><p>Unwrapping 2D or 3D images uses random initialization. This sets the
+seed of the PRNG to achieve deterministic behavior.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>image_unwrapped</strong><span class="classifier">array_like, double</span></dt><dd><p>Unwrapped image of the same shape as the input. If the input <em class="xref py py-obj">image</em>
+was a masked array, the mask will be preserved.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If called with a masked 1D array or called with a 1D array and
+<code class="docutils literal notranslate"><span class="pre">wrap_around=True</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r160444e59583-1"><span class="brackets">1</span></dt>
+<dd><p>Miguel Arevallilo Herraez, David R. Burton, Michael J. Lalor,
+and Munther A. Gdeisat, “Fast two-dimensional phase-unwrapping
+algorithm based on sorting by reliability following a noncontinuous
+path”, Journal Applied Optics, Vol. 41, No. 35 (2002) 7437,</p>
+</dd>
+<dt class="label" id="r160444e59583-2"><span class="brackets">2</span></dt>
+<dd><p>Abdul-Rahman, H., Gdeisat, M., Burton, D., &amp; Lalor, M., “Fast
+three-dimensional phase-unwrapping algorithm based on sorting by
+reliability following a non-continuous path. In W. Osten,
+C. Gorecki, &amp; E. L. Novak (Eds.), Optical Metrology (2005) 32–40,
+International Society for Optics and Photonics.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">c0</span><span class="p">,</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">128</span><span class="n">j</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">128</span><span class="n">j</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">c0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c1</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_wrapped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">image</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_unwrapped</span> <span class="o">=</span> <span class="n">unwrap_phase</span><span class="p">(</span><span class="n">image_wrapped</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">image_unwrapped</span> <span class="o">-</span> <span class="n">image</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>   <span class="c1"># A constant offset is normal</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-unwrap-phase">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.unwrap_phase</span></code><a class="headerlink" href="#examples-using-skimage-restoration-unwrap-phase" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="Some signals can only be observed modulo 2*pi, and this can also apply to two- and three dimens..."><div class="figure align-default" id="id44">
+<img alt="../_images/sphx_glr_plot_phase_unwrap_thumb.png" src="../_images/sphx_glr_plot_phase_unwrap_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_phase_unwrap.html#sphx-glr-auto-examples-filters-plot-phase-unwrap-py"><span class="std std-ref">Phase Unwrapping</span></a></span><a class="headerlink" href="#id44" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="denoise-tv-bregman">
+<h2>denoise_tv_bregman<a class="headerlink" href="#denoise-tv-bregman" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.denoise_tv_bregman">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">denoise_tv_bregman</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">weight</em>, <em class="sig-param">max_iter=100</em>, <em class="sig-param">eps=0.001</em>, <em class="sig-param">isotropic=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_denoise.py#L235"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.denoise_tv_bregman" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform total-variation denoising using split-Bregman optimization.</p>
+<p>Total-variation denoising (also know as total-variation regularization)
+tries to find an image with less total-variation under the constraint
+of being similar to the input image, which is controlled by the
+regularization parameter (<a class="reference internal" href="#rc0e3588f2bc3-1" id="id7">[1]</a>, <a class="reference internal" href="#rc0e3588f2bc3-2" id="id8">[2]</a>, <a class="reference internal" href="#rc0e3588f2bc3-3" id="id9">[3]</a>, <a class="reference internal" href="#rc0e3588f2bc3-4" id="id10">[4]</a>).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input data to be denoised (converted using img_as_float`).</p>
+</dd>
+<dt><strong>weight</strong><span class="classifier">float</span></dt><dd><p>Denoising weight. The smaller the <em class="xref py py-obj">weight</em>, the more denoising (at
+the expense of less similarity to the <em class="xref py py-obj">input</em>). The regularization
+parameter <em class="xref py py-obj">lambda</em> is chosen as <em class="xref py py-obj">2 * weight</em>.</p>
+</dd>
+<dt><strong>eps</strong><span class="classifier">float, optional</span></dt><dd><p>Relative difference of the value of the cost function that determines
+the stop criterion. The algorithm stops when:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SUM</span><span class="p">((</span><span class="n">u</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">eps</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int, optional</span></dt><dd><p>Maximal number of iterations used for the optimization.</p>
+</dd>
+<dt><strong>isotropic</strong><span class="classifier">boolean, optional</span></dt><dd><p>Switch between isotropic and anisotropic TV denoising.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>u</strong><span class="classifier">ndarray</span></dt><dd><p>Denoised image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rc0e3588f2bc3-1"><span class="brackets"><a class="fn-backref" href="#id7">1</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Total_variation_denoising">https://en.wikipedia.org/wiki/Total_variation_denoising</a></p>
+</dd>
+<dt class="label" id="rc0e3588f2bc3-2"><span class="brackets"><a class="fn-backref" href="#id8">2</a></span></dt>
+<dd><p>Tom Goldstein and Stanley Osher, “The Split Bregman Method For L1
+Regularized Problems”,
+<a class="reference external" href="ftp://ftp.math.ucla.edu/pub/camreport/cam08-29.pdf">ftp://ftp.math.ucla.edu/pub/camreport/cam08-29.pdf</a></p>
+</dd>
+<dt class="label" id="rc0e3588f2bc3-3"><span class="brackets"><a class="fn-backref" href="#id9">3</a></span></dt>
+<dd><p>Pascal Getreuer, “Rudin–Osher–Fatemi Total Variation Denoising
+using Split Bregman” in Image Processing On Line on 2012–05–19,
+<a class="reference external" href="https://www.ipol.im/pub/art/2012/g-tvd/article_lr.pdf">https://www.ipol.im/pub/art/2012/g-tvd/article_lr.pdf</a></p>
+</dd>
+<dt class="label" id="rc0e3588f2bc3-4"><span class="brackets"><a class="fn-backref" href="#id10">4</a></span></dt>
+<dd><p><a class="reference external" href="https://web.math.ucsb.edu/~cgarcia/UGProjects/BregmanAlgorithms_JacquelineBush.pdf">https://web.math.ucsb.edu/~cgarcia/UGProjects/BregmanAlgorithms_JacquelineBush.pdf</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="denoise-tv-chambolle">
+<h2>denoise_tv_chambolle<a class="headerlink" href="#denoise-tv-chambolle" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.denoise_tv_chambolle">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">denoise_tv_chambolle</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">weight=0.1</em>, <em class="sig-param">eps=0.0002</em>, <em class="sig-param">n_iter_max=200</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_denoise.py#L375"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.denoise_tv_chambolle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform total-variation denoising on n-dimensional images.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>image</strong><span class="classifier">ndarray of ints, uints or floats</span></dt><dd><p>Input data to be denoised. <em class="xref py py-obj">image</em> can be of any numeric type,
+but it is cast into an ndarray of floats for the computation
+of the denoised image.</p>
+</dd>
+<dt><strong>weight</strong><span class="classifier">float, optional</span></dt><dd><p>Denoising weight. The greater <em class="xref py py-obj">weight</em>, the more denoising (at
+the expense of fidelity to <em class="xref py py-obj">input</em>).</p>
+</dd>
+<dt><strong>eps</strong><span class="classifier">float, optional</span></dt><dd><p>Relative difference of the value of the cost function that
+determines the stop criterion. The algorithm stops when:</p>
+<blockquote>
+<div><p>(E_(n-1) - E_n) &lt; eps * E_0</p>
+</div></blockquote>
+</dd>
+<dt><strong>n_iter_max</strong><span class="classifier">int, optional</span></dt><dd><p>Maximal number of iterations used for the optimization.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Apply total-variation denoising separately for each channel. This
+option should be true for color images, otherwise the denoising is
+also applied in the channels dimension.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Denoised image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Make sure to set the multichannel parameter appropriately for color images.</p>
+<p>The principle of total variation denoising is explained in
+<a class="reference external" href="https://en.wikipedia.org/wiki/Total_variation_denoising">https://en.wikipedia.org/wiki/Total_variation_denoising</a></p>
+<p>The principle of total variation denoising is to minimize the
+total variation of the image, which can be roughly described as
+the integral of the norm of the image gradient. Total variation
+denoising tends to produce “cartoon-like” images, that is,
+piecewise-constant images.</p>
+<p>This code is an implementation of the algorithm of Rudin, Fatemi and Osher
+that was proposed by Chambolle in <a class="reference internal" href="#r3f46bb237e10-1" id="id15">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r3f46bb237e10-1"><span class="brackets"><a class="fn-backref" href="#id15">1</a></span></dt>
+<dd><p>A. Chambolle, An algorithm for total variation minimization and
+applications, Journal of Mathematical Imaging and Vision,
+Springer, 2004, 20, 89-97.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>2D example on astronaut image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span><span class="p">,</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">())[:</span><span class="mi">50</span><span class="p">,</span> <span class="p">:</span><span class="mi">50</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">img</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">denoised_img</span> <span class="o">=</span> <span class="n">denoise_tv_chambolle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>3D example on synthetic data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">22</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">20</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="mi">17</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">+=</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">denoise_tv_chambolle</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-denoise-tv-chambolle">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_chambolle</span></code><a class="headerlink" href="#examples-using-skimage-restoration-denoise-tv-chambolle" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a noisy version of a picture using the total variation, bilateral, ..."><div class="figure align-default" id="id45">
+<img alt="../_images/sphx_glr_plot_denoise_thumb.png" src="../_images/sphx_glr_plot_denoise_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise.html#sphx-glr-auto-examples-filters-plot-denoise-py"><span class="std std-ref">Denoising a picture</span></a></span><a class="headerlink" href="#id45" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="denoise-bilateral">
+<h2>denoise_bilateral<a class="headerlink" href="#denoise-bilateral" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.denoise_bilateral">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">denoise_bilateral</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">win_size=None</em>, <em class="sig-param">sigma_color=None</em>, <em class="sig-param">sigma_spatial=1</em>, <em class="sig-param">bins=10000</em>, <em class="sig-param">mode='constant'</em>, <em class="sig-param">cval=0</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_denoise.py#L91"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.denoise_bilateral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Denoise image using bilateral filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray, shape (M, N[, 3])</span></dt><dd><p>Input image, 2D grayscale or RGB.</p>
+</dd>
+<dt><strong>win_size</strong><span class="classifier">int</span></dt><dd><p>Window size for filtering.
+If win_size is not specified, it is calculated as
+<code class="docutils literal notranslate"><span class="pre">max(5,</span> <span class="pre">2</span> <span class="pre">*</span> <span class="pre">ceil(3</span> <span class="pre">*</span> <span class="pre">sigma_spatial)</span> <span class="pre">+</span> <span class="pre">1)</span></code>.</p>
+</dd>
+<dt><strong>sigma_color</strong><span class="classifier">float</span></dt><dd><p>Standard deviation for grayvalue/color distance (radiometric
+similarity). A larger value results in averaging of pixels with larger
+radiometric differences. Note, that the image will be converted using
+the <em class="xref py py-obj">img_as_float</em> function and thus the standard deviation is in
+respect to the range <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>. If the value is <code class="docutils literal notranslate"><span class="pre">None</span></code> the standard
+deviation of the <code class="docutils literal notranslate"><span class="pre">image</span></code> will be used.</p>
+</dd>
+<dt><strong>sigma_spatial</strong><span class="classifier">float</span></dt><dd><p>Standard deviation for range distance. A larger value results in
+averaging of pixels with larger spatial differences.</p>
+</dd>
+<dt><strong>bins</strong><span class="classifier">int</span></dt><dd><p>Number of discrete values for Gaussian weights of color filtering.
+A larger value results in improved accuracy.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">{‘constant’, ‘edge’, ‘symmetric’, ‘reflect’, ‘wrap’}</span></dt><dd><p>How to handle values outside the image borders. See
+<a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.pad.html#numpy.pad" title="(in NumPy v1.17)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.pad</span></code></a> for detail.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">string</span></dt><dd><p>Used in conjunction with mode ‘constant’, the value outside
+the image boundaries.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
+channels or another spatial dimension.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>denoised</strong><span class="classifier">ndarray</span></dt><dd><p>Denoised image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This is an edge-preserving, denoising filter. It averages pixels based on
+their spatial closeness and radiometric similarity <a class="reference internal" href="#rb832e60bc162-1" id="id17">[1]</a>.</p>
+<p>Spatial closeness is measured by the Gaussian function of the Euclidean
+distance between two pixels and a certain standard deviation
+(<em class="xref py py-obj">sigma_spatial</em>).</p>
+<p>Radiometric similarity is measured by the Gaussian function of the
+Euclidean distance between two color values and a certain standard
+deviation (<em class="xref py py-obj">sigma_color</em>).</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rb832e60bc162-1"><span class="brackets"><a class="fn-backref" href="#id17">1</a></span></dt>
+<dd><p>C. Tomasi and R. Manduchi. “Bilateral Filtering for Gray and Color
+Images.” IEEE International Conference on Computer Vision (1998)
+839-846. <a class="reference external" href="https://doi.org/10.1109/ICCV.1998.710815">DOI:10.1109/ICCV.1998.710815</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">astro</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">astro</span> <span class="o">=</span> <span class="n">astro</span><span class="p">[</span><span class="mi">220</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="mi">220</span><span class="p">:</span><span class="mi">320</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">noisy</span> <span class="o">=</span> <span class="n">astro</span> <span class="o">+</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">astro</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">astro</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">noisy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">denoised</span> <span class="o">=</span> <span class="n">denoise_bilateral</span><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">sigma_color</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">sigma_spatial</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+<span class="gp">... </span>                             <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-denoise-bilateral">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_bilateral</span></code><a class="headerlink" href="#examples-using-skimage-restoration-denoise-bilateral" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a noisy version of a picture using the total variation, bilateral, ..."><div class="figure align-default" id="id46">
+<img alt="../_images/sphx_glr_plot_denoise_thumb.png" src="../_images/sphx_glr_plot_denoise_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise.html#sphx-glr-auto-examples-filters-plot-denoise-py"><span class="std std-ref">Denoising a picture</span></a></span><a class="headerlink" href="#id46" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="denoise-wavelet">
+<h2>denoise_wavelet<a class="headerlink" href="#denoise-wavelet" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.denoise_wavelet">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">denoise_wavelet</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">sigma=None</em>, <em class="sig-param">wavelet='db1'</em>, <em class="sig-param">mode='soft'</em>, <em class="sig-param">wavelet_levels=None</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">convert2ycbcr=False</em>, <em class="sig-param">method='BayesShrink'</em>, <em class="sig-param">rescale_sigma=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_denoise.py#L674"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.denoise_wavelet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform wavelet denoising on an image.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>image</strong><span class="classifier">ndarray ([M[, N[, …P]][, C]) of ints, uints or floats</span></dt><dd><p>Input data to be denoised. <em class="xref py py-obj">image</em> can be of any numeric type,
+but it is cast into an ndarray of floats for the computation
+of the denoised image.</p>
+</dd>
+<dt><strong>sigma</strong><span class="classifier">float or list, optional</span></dt><dd><p>The noise standard deviation used when computing the wavelet detail
+coefficient threshold(s). When None (default), the noise standard
+deviation is estimated via the method in <a class="reference internal" href="#r3b8ec6d23a4e-2" id="id19">[2]</a>.</p>
+</dd>
+<dt><strong>wavelet</strong><span class="classifier">string, optional</span></dt><dd><p>The type of wavelet to perform and can be any of the options
+<code class="docutils literal notranslate"><span class="pre">pywt.wavelist</span></code> outputs. The default is <em class="xref py py-obj">‘db1’</em>. For example,
+<code class="docutils literal notranslate"><span class="pre">wavelet</span></code> can be any of <code class="docutils literal notranslate"><span class="pre">{'db2',</span> <span class="pre">'haar',</span> <span class="pre">'sym9'}</span></code> and many more.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">{‘soft’, ‘hard’}, optional</span></dt><dd><p>An optional argument to choose the type of denoising performed. It
+noted that choosing soft thresholding given additive noise finds the
+best approximation of the original image.</p>
+</dd>
+<dt><strong>wavelet_levels</strong><span class="classifier">int or None, optional</span></dt><dd><p>The number of wavelet decomposition levels to use.  The default is
+three less than the maximum number of possible decomposition levels.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Apply wavelet denoising separately for each channel (where channels
+correspond to the final axis of the array).</p>
+</dd>
+<dt><strong>convert2ycbcr</strong><span class="classifier">bool, optional</span></dt><dd><p>If True and multichannel True, do the wavelet denoising in the YCbCr
+colorspace instead of the RGB color space. This typically results in
+better performance for RGB images.</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">{‘BayesShrink’, ‘VisuShrink’}, optional</span></dt><dd><p>Thresholding method to be used. The currently supported methods are
+“BayesShrink” <a class="reference internal" href="#r3b8ec6d23a4e-1" id="id20">[1]</a> and “VisuShrink” <a class="reference internal" href="#r3b8ec6d23a4e-2" id="id21">[2]</a>. Defaults to “BayesShrink”.</p>
+</dd>
+<dt><strong>rescale_sigma</strong><span class="classifier">bool or None, optional</span></dt><dd><p>If False, no rescaling of the user-provided <code class="docutils literal notranslate"><span class="pre">sigma</span></code> will be
+performed. The default of <code class="docutils literal notranslate"><span class="pre">None</span></code> rescales sigma appropriately if the
+image is rescaled internally. A <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> is raised to
+warn the user about this new behaviour. This warning can be avoided
+by setting <code class="docutils literal notranslate"><span class="pre">rescale_sigma=True</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.16: </span><code class="docutils literal notranslate"><span class="pre">rescale_sigma</span></code> was introduced in 0.16</p>
+</div>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Denoised image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The wavelet domain is a sparse representation of the image, and can be
+thought of similarly to the frequency domain of the Fourier transform.
+Sparse representations have most values zero or near-zero and truly random
+noise is (usually) represented by many small values in the wavelet domain.
+Setting all values below some threshold to 0 reduces the noise in the
+image, but larger thresholds also decrease the detail present in the image.</p>
+<p>If the input is 3D, this function performs wavelet denoising on each color
+plane separately.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.16: </span>For floating point inputs, the original input range is maintained and
+there is no clipping applied to the output. Other input types will be
+converted to a floating point value in the range [-1, 1] or [0, 1]
+depending on the input image range. Unless <code class="docutils literal notranslate"><span class="pre">rescale_sigma</span> <span class="pre">=</span> <span class="pre">False</span></code>,
+any internal rescaling applied to the <code class="docutils literal notranslate"><span class="pre">image</span></code> will also be applied
+to <code class="docutils literal notranslate"><span class="pre">sigma</span></code> to maintain the same relative amplitude.</p>
+</div>
+<p>Many wavelet coefficient thresholding approaches have been proposed. By
+default, <code class="docutils literal notranslate"><span class="pre">denoise_wavelet</span></code> applies BayesShrink, which is an adaptive
+thresholding method that computes separate thresholds for each wavelet
+sub-band as described in <a class="reference internal" href="#r3b8ec6d23a4e-1" id="id22">[1]</a>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">method</span> <span class="pre">==</span> <span class="pre">&quot;VisuShrink&quot;</span></code>, a single “universal threshold” is applied to
+all wavelet detail coefficients as described in <a class="reference internal" href="#r3b8ec6d23a4e-2" id="id23">[2]</a>. This threshold
+is designed to remove all Gaussian noise at a given <code class="docutils literal notranslate"><span class="pre">sigma</span></code> with high
+probability, but tends to produce images that appear overly smooth.</p>
+<p>Although any of the wavelets from <code class="docutils literal notranslate"><span class="pre">PyWavelets</span></code> can be selected, the
+thresholding methods assume an orthogonal wavelet transform and may not
+choose the threshold appropriately for biorthogonal wavelets. Orthogonal
+wavelets are desirable because white noise in the input remains white noise
+in the subbands. Biorthogonal wavelets lead to colored noise in the
+subbands. Additionally, the orthogonal wavelets in PyWavelets are
+orthonormal so that noise variance in the subbands remains identical to the
+noise variance of the input. Example orthogonal wavelets are the Daubechies
+(e.g. ‘db2’) or symmlet (e.g. ‘sym2’) families.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r3b8ec6d23a4e-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id20">1</a>,<a href="#id22">2</a>)</span></dt>
+<dd><p>Chang, S. Grace, Bin Yu, and Martin Vetterli. “Adaptive wavelet
+thresholding for image denoising and compression.” Image Processing,
+IEEE Transactions on 9.9 (2000): 1532-1546.
+<a class="reference external" href="https://doi.org/10.1109/83.862633">DOI:10.1109/83.862633</a></p>
+</dd>
+<dt class="label" id="r3b8ec6d23a4e-2"><span class="brackets">2</span><span class="fn-backref">(<a href="#id19">1</a>,<a href="#id21">2</a>,<a href="#id23">3</a>)</span></dt>
+<dd><p>D. L. Donoho and I. M. Johnstone. “Ideal spatial adaptation
+by wavelet shrinkage.” Biometrika 81.3 (1994): 425-455.
+<a class="reference external" href="https://doi.org/10.1093/biomet/81.3.425">DOI:10.1093/biomet/81.3.425</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">color</span><span class="p">,</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">denoised_img</span> <span class="o">=</span> <span class="n">denoise_wavelet</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rescale_sigma</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-denoise-wavelet">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_wavelet</span></code><a class="headerlink" href="#examples-using-skimage-restoration-denoise-wavelet" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a noisy version of a picture using the total variation, bilateral, ..."><div class="figure align-default" id="id47">
+<img alt="../_images/sphx_glr_plot_denoise_thumb.png" src="../_images/sphx_glr_plot_denoise_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise.html#sphx-glr-auto-examples-filters-plot-denoise-py"><span class="std std-ref">Denoising a picture</span></a></span><a class="headerlink" href="#id47" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The discrete wavelet transform is not `shift-invariant`_.  Shift invariance can be achieved thr..."><div class="figure align-default" id="id48">
+<img alt="../_images/sphx_glr_plot_cycle_spinning_thumb.png" src="../_images/sphx_glr_plot_cycle_spinning_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_cycle_spinning.html#sphx-glr-auto-examples-filters-plot-cycle-spinning-py"><span class="std std-ref">Shift-invariant wavelet denoising</span></a></span><a class="headerlink" href="#id48" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Wavelet denoising relies on the wavelet representation of the image. Gaussian noise tends to be..."><div class="figure align-default" id="id49">
+<img alt="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" src="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise_wavelet.html#sphx-glr-auto-examples-filters-plot-denoise-wavelet-py"><span class="std std-ref">Wavelet denoising</span></a></span><a class="headerlink" href="#id49" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="denoise-nl-means">
+<h2>denoise_nl_means<a class="headerlink" href="#denoise-nl-means" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.denoise_nl_means">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">denoise_nl_means</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">patch_size=7</em>, <em class="sig-param">patch_distance=11</em>, <em class="sig-param">h=0.1</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">fast_mode=True</em>, <em class="sig-param">sigma=0.0</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/non_local_means.py#L9"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.denoise_nl_means" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform non-local means denoising on 2-D or 3-D grayscale images, and
+2-D RGB images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">2D or 3D ndarray</span></dt><dd><p>Input image to be denoised, which can be 2D or 3D, and grayscale
+or RGB (for 2D images only, see <code class="docutils literal notranslate"><span class="pre">multichannel</span></code> parameter).</p>
+</dd>
+<dt><strong>patch_size</strong><span class="classifier">int, optional</span></dt><dd><p>Size of patches used for denoising.</p>
+</dd>
+<dt><strong>patch_distance</strong><span class="classifier">int, optional</span></dt><dd><p>Maximal distance in pixels where to search patches used for denoising.</p>
+</dd>
+<dt><strong>h</strong><span class="classifier">float, optional</span></dt><dd><p>Cut-off distance (in gray levels). The higher h, the more permissive
+one is in accepting patches. A higher h results in a smoother image,
+at the expense of blurring features. For a Gaussian noise of standard
+deviation sigma, a rule of thumb is to choose the value of h to be
+sigma of slightly less.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether the last axis of the image is to be interpreted as multiple
+channels or another spatial dimension.</p>
+</dd>
+<dt><strong>fast_mode</strong><span class="classifier">bool, optional</span></dt><dd><p>If True (default value), a fast version of the non-local means
+algorithm is used. If False, the original version of non-local means is
+used. See the Notes section for more details about the algorithms.</p>
+</dd>
+<dt><strong>sigma</strong><span class="classifier">float, optional</span></dt><dd><p>The standard deviation of the (Gaussian) noise.  If provided, a more
+robust computation of patch weights is computed that takes the expected
+noise variance into account (see Notes below).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>result</strong><span class="classifier">ndarray</span></dt><dd><p>Denoised image, of same shape as <em class="xref py py-obj">image</em>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The non-local means algorithm is well suited for denoising images with
+specific textures. The principle of the algorithm is to average the value
+of a given pixel with values of other pixels in a limited neighbourhood,
+provided that the <em>patches</em> centered on the other pixels are similar enough
+to the patch centered on the pixel of interest.</p>
+<p>In the original version of the algorithm <a class="reference internal" href="#rc9b3919da938-1" id="id26">[1]</a>, corresponding to
+<code class="docutils literal notranslate"><span class="pre">fast=False</span></code>, the computational complexity is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">patch_size</span> <span class="o">**</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">*</span> <span class="n">patch_distance</span> <span class="o">**</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span>
+</pre></div>
+</div>
+<p>Hence, changing the size of patches or their maximal distance has a
+strong effect on computing times, especially for 3-D images.</p>
+<p>However, the default behavior corresponds to <code class="docutils literal notranslate"><span class="pre">fast_mode=True</span></code>, for which
+another version of non-local means <a class="reference internal" href="#rc9b3919da938-2" id="id27">[2]</a> is used, corresponding to a
+complexity of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">patch_distance</span> <span class="o">**</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span>
+</pre></div>
+</div>
+<p>The computing time depends only weakly on the patch size, thanks to
+the computation of the integral of patches distances for a given
+shift, that reduces the number of operations <a class="reference internal" href="#rc9b3919da938-1" id="id28">[1]</a>. Therefore, this
+algorithm executes faster than the classic algorithm
+(<code class="docutils literal notranslate"><span class="pre">fast_mode=False</span></code>), at the expense of using twice as much memory.
+This implementation has been proven to be more efficient compared to
+other alternatives, see e.g. <a class="reference internal" href="#rc9b3919da938-3" id="id29">[3]</a>.</p>
+<p>Compared to the classic algorithm, all pixels of a patch contribute
+to the distance to another patch with the same weight, no matter
+their distance to the center of the patch. This coarser computation
+of the distance can result in a slightly poorer denoising
+performance. Moreover, for small images (images with a linear size
+that is only a few times the patch size), the classic algorithm can
+be faster due to boundary effects.</p>
+<p>The image is padded using the <em class="xref py py-obj">reflect</em> mode of <a class="reference internal" href="skimage.util.html#skimage.util.pad" title="skimage.util.pad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.util.pad</span></code></a>
+before denoising.</p>
+<p>If the noise standard deviation, <em class="xref py py-obj">sigma</em>, is provided a more robust
+computation of patch weights is used.  Subtracting the known noise variance
+from the computed patch distances improves the estimates of patch
+similarity, giving a moderate improvement to denoising performance <a class="reference internal" href="#rc9b3919da938-4" id="id30">[4]</a>.
+It was also mentioned as an option for the fast variant of the algorithm in
+<a class="reference internal" href="#rc9b3919da938-3" id="id31">[3]</a>.</p>
+<p>When <em class="xref py py-obj">sigma</em> is provided, a smaller <em class="xref py py-obj">h</em> should typically be used to
+avoid oversmoothing.  The optimal value for <em class="xref py py-obj">h</em> depends on the image
+content and noise level, but a reasonable starting point is
+<code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">0.8</span> <span class="pre">*</span> <span class="pre">sigma</span></code> when <em class="xref py py-obj">fast_mode</em> is <em class="xref py py-obj">True</em>, or <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">0.6</span> <span class="pre">*</span> <span class="pre">sigma</span></code> when
+<em class="xref py py-obj">fast_mode</em> is <em class="xref py py-obj">False</em>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rc9b3919da938-1"><span class="brackets">1</span><span class="fn-backref">(<a href="#id26">1</a>,<a href="#id28">2</a>)</span></dt>
+<dd><p>A. Buades, B. Coll, &amp; J-M. Morel. A non-local algorithm for image
+denoising. In CVPR 2005, Vol. 2, pp. 60-65, IEEE.
+<a class="reference external" href="https://doi.org/10.1109/CVPR.2005.38">DOI:10.1109/CVPR.2005.38</a></p>
+</dd>
+<dt class="label" id="rc9b3919da938-2"><span class="brackets"><a class="fn-backref" href="#id27">2</a></span></dt>
+<dd><p>J. Darbon, A. Cunha, T.F. Chan, S. Osher, and G.J. Jensen, Fast
+nonlocal filtering applied to electron cryomicroscopy, in 5th IEEE
+International Symposium on Biomedical Imaging: From Nano to Macro,
+2008, pp. 1331-1334.
+<a class="reference external" href="https://doi.org/10.1109/ISBI.2008.4541250">DOI:10.1109/ISBI.2008.4541250</a></p>
+</dd>
+<dt class="label" id="rc9b3919da938-3"><span class="brackets">3</span><span class="fn-backref">(<a href="#id29">1</a>,<a href="#id31">2</a>)</span></dt>
+<dd><p>Jacques Froment. Parameter-Free Fast Pixelwise Non-Local Means
+Denoising. Image Processing On Line, 2014, vol. 4, pp. 300-326.
+<a class="reference external" href="https://doi.org/10.5201/ipol.2014.120">DOI:10.5201/ipol.2014.120</a></p>
+</dd>
+<dt class="label" id="rc9b3919da938-4"><span class="brackets"><a class="fn-backref" href="#id30">4</a></span></dt>
+<dd><p>A. Buades, B. Coll, &amp; J-M. Morel. Non-Local Means Denoising.
+Image Processing On Line, 2011, vol. 1, pp. 208-212.
+<a class="reference external" href="https://doi.org/10.5201/ipol.2011.bcm_nlm">DOI:10.5201/ipol.2011.bcm_nlm</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">+=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">denoised_a</span> <span class="o">=</span> <span class="n">denoise_nl_means</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-denoise-nl-means">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_nl_means</span></code><a class="headerlink" href="#examples-using-skimage-restoration-denoise-nl-means" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a detail of the astronaut image using the non-local means filter. T..."><div class="figure align-default" id="id50">
+<img alt="../_images/sphx_glr_plot_nonlocal_means_thumb.png" src="../_images/sphx_glr_plot_nonlocal_means_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py"><span class="std std-ref">Non-local means denoising for preserving textures</span></a></span><a class="headerlink" href="#id50" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="estimate-sigma">
+<h2>estimate_sigma<a class="headerlink" href="#estimate-sigma" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.estimate_sigma">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">estimate_sigma</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">average_sigmas=False</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_denoise.py#L858"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.estimate_sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Robust wavelet-based estimator of the (Gaussian) noise standard deviation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image for which to estimate the noise standard deviation.</p>
+</dd>
+<dt><strong>average_sigmas</strong><span class="classifier">bool, optional</span></dt><dd><p>If true, average the channel estimates of <em class="xref py py-obj">sigma</em>.  Otherwise return
+a list of sigmas corresponding to each channel.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool</span></dt><dd><p>Estimate sigma separately for each channel.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>sigma</strong><span class="classifier">float or list</span></dt><dd><p>Estimated noise standard deviation(s).  If <em class="xref py py-obj">multichannel</em> is True and
+<em class="xref py py-obj">average_sigmas</em> is False, a separate noise estimate for each channel
+is returned.  Otherwise, the average of the individual channel
+estimates is returned.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function assumes the noise follows a Gaussian distribution. The
+estimation algorithm is based on the median absolute deviation of the
+wavelet detail coefficients as described in section 4.2 of <a class="reference internal" href="#rbc448ac95825-1" id="id36">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rbc448ac95825-1"><span class="brackets"><a class="fn-backref" href="#id36">1</a></span></dt>
+<dd><p>D. L. Donoho and I. M. Johnstone. “Ideal spatial adaptation
+by wavelet shrinkage.” Biometrika 81.3 (1994): 425-455.
+<a class="reference external" href="https://doi.org/10.1093/biomet/81.3.425">DOI:10.1093/biomet/81.3.425</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">skimage</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sigma_hat</span> <span class="o">=</span> <span class="n">estimate_sigma</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-estimate-sigma">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.estimate_sigma</span></code><a class="headerlink" href="#examples-using-skimage-restoration-estimate-sigma" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a noisy version of a picture using the total variation, bilateral, ..."><div class="figure align-default" id="id51">
+<img alt="../_images/sphx_glr_plot_denoise_thumb.png" src="../_images/sphx_glr_plot_denoise_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise.html#sphx-glr-auto-examples-filters-plot-denoise-py"><span class="std std-ref">Denoising a picture</span></a></span><a class="headerlink" href="#id51" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a detail of the astronaut image using the non-local means filter. T..."><div class="figure align-default" id="id52">
+<img alt="../_images/sphx_glr_plot_nonlocal_means_thumb.png" src="../_images/sphx_glr_plot_nonlocal_means_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py"><span class="std std-ref">Non-local means denoising for preserving textures</span></a></span><a class="headerlink" href="#id52" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Wavelet denoising relies on the wavelet representation of the image. Gaussian noise tends to be..."><div class="figure align-default" id="id53">
+<img alt="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" src="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_denoise_wavelet.html#sphx-glr-auto-examples-filters-plot-denoise-wavelet-py"><span class="std std-ref">Wavelet denoising</span></a></span><a class="headerlink" href="#id53" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="inpaint-biharmonic">
+<h2>inpaint_biharmonic<a class="headerlink" href="#inpaint-biharmonic" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.inpaint_biharmonic">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">inpaint_biharmonic</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">mask</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/inpaint.py#L76"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.inpaint_biharmonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inpaint masked points in image with biharmonic equations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">(M[, N[, …, P]][, C]) ndarray</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>mask</strong><span class="classifier">(M[, N[, …, P]]) ndarray</span></dt><dd><p>Array of pixels to be inpainted. Have to be the same shape as one
+of the ‘image’ channels. Unknown pixels have to be represented with 1,
+known pixels - with 0.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">boolean, optional</span></dt><dd><p>If True, the last <em class="xref py py-obj">image</em> dimension is considered as a color channel,
+otherwise as spatial.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">(M[, N[, …, P]][, C]) ndarray</span></dt><dd><p>Input image with masked pixels inpainted.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r2b3da8fbc807-1"><span class="brackets">1</span></dt>
+<dd><p>N.S.Hoang, S.B.Damelin, “On surface completion and image inpainting
+by biharmonic functions: numerical aspects”,
+<a class="reference external" href="https://arxiv.org/abs/1707.06567">arXiv:1707.06567</a></p>
+</dd>
+<dt class="label" id="r2b3da8fbc807-2"><span class="brackets">2</span></dt>
+<dd><p>C. K. Chui and H. N. Mhaskar, MRA Contextual-Recovery Extension of
+Smooth Functions on Manifolds, Appl. and Comp. Harmonic Anal.,
+28 (2010), 104-113,
+<a class="reference external" href="https://doi.org/10.1016/j.acha.2009.04.004">DOI:10.1016/j.acha.2009.04.004</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">inpaint_biharmonic</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-inpaint-biharmonic">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.inpaint_biharmonic</span></code><a class="headerlink" href="#examples-using-skimage-restoration-inpaint-biharmonic" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="The reconstruction is supposed to be performed in fully automatic way by exploiting the informa..."><div class="figure align-default" id="id54">
+<img alt="../_images/sphx_glr_plot_inpaint_thumb.png" src="../_images/sphx_glr_plot_inpaint_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_inpaint.html#sphx-glr-auto-examples-filters-plot-inpaint-py"><span class="std std-ref">Inpainting</span></a></span><a class="headerlink" href="#id54" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="cycle-spin">
+<h2>cycle_spin<a class="headerlink" href="#cycle-spin" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.restoration.cycle_spin">
+<code class="sig-prename descclassname">skimage.restoration.</code><code class="sig-name descname">cycle_spin</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">func</em>, <em class="sig-param">max_shifts</em>, <em class="sig-param">shift_steps=1</em>, <em class="sig-param">num_workers=None</em>, <em class="sig-param">multichannel=False</em>, <em class="sig-param">func_kw={}</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/restoration/_cycle_spin.py#L75"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.restoration.cycle_spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle spinning (repeatedly apply func to shifted versions of x).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">array-like</span></dt><dd><p>Data for input to <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p>
+</dd>
+<dt><strong>func</strong><span class="classifier">function</span></dt><dd><p>A function to apply to circularly shifted versions of <code class="docutils literal notranslate"><span class="pre">x</span></code>.  Should
+take <code class="docutils literal notranslate"><span class="pre">x</span></code> as its first argument. Any additional arguments can be
+supplied via <code class="docutils literal notranslate"><span class="pre">func_kw</span></code>.</p>
+</dd>
+<dt><strong>max_shifts</strong><span class="classifier">int or tuple</span></dt><dd><p>If an integer, shifts in <code class="docutils literal notranslate"><span class="pre">range(0,</span> <span class="pre">max_shifts+1)</span></code> will be used along
+each axis of <code class="docutils literal notranslate"><span class="pre">x</span></code>. If a tuple, <code class="docutils literal notranslate"><span class="pre">range(0,</span> <span class="pre">max_shifts[i]+1)</span></code> will be
+along axis i.</p>
+</dd>
+<dt><strong>shift_steps</strong><span class="classifier">int or tuple, optional</span></dt><dd><p>The step size for the shifts applied along axis, i, are::
+<code class="docutils literal notranslate"><span class="pre">range((0,</span> <span class="pre">max_shifts[i]+1,</span> <span class="pre">shift_steps[i]))</span></code>. If an integer is
+provided, the same step size is used for all axes.</p>
+</dd>
+<dt><strong>num_workers</strong><span class="classifier">int or None, optional</span></dt><dd><p>The number of parallel threads to use during cycle spinning. If set to
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, the full set of available cores are used.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to treat the final axis as channels (no cycle shifts are
+performed over the channels axis).</p>
+</dd>
+<dt><strong>func_kw</strong><span class="classifier">dict, optional</span></dt><dd><p>Additional keyword arguments to supply to <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>avg_y</strong><span class="classifier">np.ndarray</span></dt><dd><p>The output of <code class="docutils literal notranslate"><span class="pre">func(x,</span> <span class="pre">**func_kw)</span></code> averaged over all combinations of
+the specified axis shifts.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Cycle spinning was proposed as a way to approach shift-invariance via
+performing several circular shifts of a shift-variant transform <a class="reference internal" href="#r67eed921dbd3-1" id="id40">[1]</a>.</p>
+<p>For a n-level discrete wavelet transforms, one may wish to perform all
+shifts up to <code class="docutils literal notranslate"><span class="pre">max_shifts</span> <span class="pre">=</span> <span class="pre">2**n</span> <span class="pre">-</span> <span class="pre">1</span></code>. In practice, much of the benefit
+can often be realized with only a small number of shifts per axis.</p>
+<p>For transforms such as the blockwise discrete cosine transform, one may
+wish to evaluate shifts up to the block size used by the transform.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r67eed921dbd3-1"><span class="brackets"><a class="fn-backref" href="#id40">1</a></span></dt>
+<dd><p>R.R. Coifman and D.L. Donoho.  “Translation-Invariant De-Noising”.
+Wavelets and Statistics, Lecture Notes in Statistics, vol.103.
+Springer, New York, 1995, pp.125-150.
+<a class="reference external" href="https://doi.org/10.1007/978-1-4612-2544-7_9">DOI:10.1007/978-1-4612-2544-7_9</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.restoration</span> <span class="k">import</span> <span class="n">denoise_wavelet</span><span class="p">,</span> <span class="n">cycle_spin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">skimage</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">denoised</span> <span class="o">=</span> <span class="n">cycle_spin</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">denoise_wavelet</span><span class="p">,</span> <span class="n">max_shifts</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-restoration-cycle-spin">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.restoration.cycle_spin</span></code><a class="headerlink" href="#examples-using-skimage-restoration-cycle-spin" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="The discrete wavelet transform is not `shift-invariant`_.  Shift invariance can be achieved thr..."><div class="figure align-default" id="id55">
+<img alt="../_images/sphx_glr_plot_cycle_spinning_thumb.png" src="../_images/sphx_glr_plot_cycle_spinning_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_cycle_spinning.html#sphx-glr-auto-examples-filters-plot-cycle-spinning-py"><span class="std std-ref">Shift-invariant wavelet denoising</span></a></span><a class="headerlink" href="#id55" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

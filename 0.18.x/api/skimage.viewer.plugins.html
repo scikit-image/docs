@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: viewer.plugins &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script src="../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.18.0" href="api.html" />
+        <link rel="next" title="Module: viewer.utils" href="skimage.viewer.utils.html" />
+        <link rel="prev" title="Module: viewer.canvastools" href="skimage.viewer.canvastools.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">viewer.plugins</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#cannyplugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CannyPlugin</span></code></a></li>
+<li><a class="reference internal" href="#colorhistogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorHistogram</span></code></a></li>
+<li><a class="reference internal" href="#crop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Crop</span></code></a></li>
+<li><a class="reference internal" href="#labelpainter"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelPainter</span></code></a></li>
+<li><a class="reference internal" href="#lineprofile"><code class="xref py py-class docutils literal notranslate"><span class="pre">LineProfile</span></code></a></li>
+<li><a class="reference internal" href="#measure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Measure</span></code></a></li>
+<li><a class="reference internal" href="#overlayplugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">OverlayPlugin</span></code></a></li>
+<li><a class="reference internal" href="#plotplugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotPlugin</span></code></a></li>
+<li><a class="reference internal" href="#plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="module-skimage.viewer.plugins">
+<span id="module-viewer-plugins"></span><h1>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">viewer.plugins</span></code><a class="headerlink" href="#module-skimage.viewer.plugins" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.viewer.plugins.CannyPlugin" title="skimage.viewer.plugins.CannyPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.CannyPlugin</span></code></a>(*args, …)</p></td>
+<td><p>Canny filter plugin to show edges of an image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.viewer.plugins.ColorHistogram" title="skimage.viewer.plugins.ColorHistogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.ColorHistogram</span></code></a>([max_pct])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.viewer.plugins.Crop" title="skimage.viewer.plugins.Crop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.Crop</span></code></a>([maxdist])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.viewer.plugins.LabelPainter" title="skimage.viewer.plugins.LabelPainter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.LabelPainter</span></code></a>([max_radius])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.viewer.plugins.LineProfile" title="skimage.viewer.plugins.LineProfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.LineProfile</span></code></a>([…])</p></td>
+<td><p>Plugin to compute interpolated intensity under a scan line on an image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.viewer.plugins.Measure" title="skimage.viewer.plugins.Measure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.Measure</span></code></a>([maxdist])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.viewer.plugins.OverlayPlugin" title="skimage.viewer.plugins.OverlayPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.OverlayPlugin</span></code></a>(**kwargs)</p></td>
+<td><p>Plugin for ImageViewer that displays an overlay on top of main image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.viewer.plugins.PlotPlugin" title="skimage.viewer.plugins.PlotPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.PlotPlugin</span></code></a>([…])</p></td>
+<td><p>Plugin for ImageViewer that contains a plot canvas.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.viewer.plugins.Plugin" title="skimage.viewer.plugins.Plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.Plugin</span></code></a>([…])</p></td>
+<td><p>Base class for plugins that interact with an ImageViewer.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base</span></code></p></td>
+<td><p>Base class for Plugins that interact with ImageViewer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.canny</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.color_histogram</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.crop</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.labelplugin</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.lineprofile</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.measure</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.overlayplugin</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.viewer.plugins.plotplugin</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="cannyplugin">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.CannyPlugin" title="skimage.viewer.plugins.CannyPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">CannyPlugin</span></code></a><a class="headerlink" href="#cannyplugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.CannyPlugin">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">CannyPlugin</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/canny.py#L9-L30"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.CannyPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.overlayplugin.OverlayPlugin</span></code></p>
+<p>Canny filter plugin to show edges of an image.</p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.CannyPlugin.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/canny.py#L14-L15"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.CannyPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.CannyPlugin.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/canny.py#L17-L30"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.CannyPlugin.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.CannyPlugin.attach" title="skimage.viewer.plugins.CannyPlugin.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.CannyPlugin.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Canny Filter'</em><a class="headerlink" href="#skimage.viewer.plugins.CannyPlugin.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="colorhistogram">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.ColorHistogram" title="skimage.viewer.plugins.ColorHistogram"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorHistogram</span></code></a><a class="headerlink" href="#colorhistogram" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.ColorHistogram">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">ColorHistogram</code><span class="sig-paren">(</span><em class="sig-param">max_pct=0.99</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L8-L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.plotplugin.PlotPlugin</span></code></p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.ColorHistogram.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">max_pct=0.99</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L11-L15"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.ColorHistogram.ab_selected">
+<code class="sig-name descname">ab_selected</code><span class="sig-paren">(</span><em class="sig-param">extents</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L51-L61"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.ab_selected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.ColorHistogram.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L17-L22"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.ColorHistogram.attach" title="skimage.viewer.plugins.ColorHistogram.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.ColorHistogram.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L46-L49"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.ColorHistogram.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Color Histogram'</em><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.ColorHistogram.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/color_histogram.py#L63-L83"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.ColorHistogram.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the image mask and the histogram data.</p>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl>
+<dt><strong>mask</strong><span class="classifier">array of bool, same shape as image</span></dt><dd><p>The selected pixels.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>The data describing the histogram and the selected region.
+The dictionary contains:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>‘bins’ : array of float
+The bin boundaries for both <em class="xref py py-obj">a</em> and <em class="xref py py-obj">b</em> channels.</p></li>
+<li><p>‘hist’ : 2D array of float
+The normalized histogram.</p></li>
+<li><p>‘edges’ : tuple of array of float
+The bin edges along each dimension</p></li>
+<li><p>‘extents’ : tuple of float
+The left and right and top and bottom of the selected region.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="crop">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.Crop" title="skimage.viewer.plugins.Crop"><code class="xref py py-class docutils literal notranslate"><span class="pre">Crop</span></code></a><a class="headerlink" href="#crop" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.Crop">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">Crop</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L9-L45"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base.Plugin</span></code></p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.Crop.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L12-L16"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Crop.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L18-L27"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.Crop.attach" title="skimage.viewer.plugins.Crop.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Crop.crop">
+<code class="sig-name descname">crop</code><span class="sig-paren">(</span><em class="sig-param">extents</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L34-L40"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop.crop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Crop.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L29-L32"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.Crop.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Crop'</em><a class="headerlink" href="#skimage.viewer.plugins.Crop.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Crop.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/crop.py#L42-L45"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Crop.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="labelpainter">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.LabelPainter" title="skimage.viewer.plugins.LabelPainter"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelPainter</span></code></a><a class="headerlink" href="#labelpainter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.LabelPainter">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">LabelPainter</code><span class="sig-paren">(</span><em class="sig-param">max_radius=20</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/labelplugin.py#L14-L67"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base.Plugin</span></code></p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">max_radius=20</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/labelplugin.py#L17-L29"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/labelplugin.py#L36-L44"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.LabelPainter.attach" title="skimage.viewer.plugins.LabelPainter.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/labelplugin.py#L31-L34"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.label">
+<em class="property">property </em><code class="sig-name descname">label</code><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.LabelPainter.name">
+<code class="sig-name descname">name</code><em class="property"> = 'LabelPainter'</em><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.on_enter">
+<code class="sig-name descname">on_enter</code><span class="sig-paren">(</span><em class="sig-param">overlay</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/labelplugin.py#L50-L51"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.on_enter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LabelPainter.radius">
+<em class="property">property </em><code class="sig-name descname">radius</code><a class="headerlink" href="#skimage.viewer.plugins.LabelPainter.radius" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="lineprofile">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.LineProfile" title="skimage.viewer.plugins.LineProfile"><code class="xref py py-class docutils literal notranslate"><span class="pre">LineProfile</span></code></a><a class="headerlink" href="#lineprofile" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.LineProfile">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">LineProfile</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">epsilon='deprecated'</em>, <em class="sig-param">limits='image'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L13-L167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.plotplugin.PlotPlugin</span></code></p>
+<p>Plugin to compute interpolated intensity under a scan line on an image.</p>
+<p>See PlotPlugin and Plugin classes for additional details.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>maxdist</strong><span class="classifier">float</span></dt><dd><p>Maximum pixel distance allowed when selecting end point of scan line.</p>
+</dd>
+<dt><strong>limits</strong><span class="classifier">tuple or {None, ‘image’, ‘dtype’}</span></dt><dd><p>(minimum, maximum) intensity limits for plotted profile. The following
+special values are defined:</p>
+<blockquote>
+<div><p>None : rescale based on min/max intensity along selected scan line.
+‘image’ : fixed scale based on min/max intensity in image.
+‘dtype’ : fixed scale based on min/max intensity of image dtype.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">epsilon='deprecated'</em>, <em class="sig-param">limits='image'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L32-L37"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L39-L75"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.LineProfile.attach" title="skimage.viewer.plugins.LineProfile.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.get_profiles">
+<code class="sig-name descname">get_profiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L83-L95"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.get_profiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return intensity profile of the selected line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>end_points: (2, 2) array</dt><dd><p>The positions ((x1, y1), (x2, y2)) of the line ends.</p>
+</dd>
+<dt>profile: list of 1d arrays</dt><dd><p>Profile of intensity values. Length 1 (grayscale) or 3 (rgb).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L77-L81"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.line_changed">
+<code class="sig-name descname">line_changed</code><span class="sig-paren">(</span><em class="sig-param">end_points</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L103-L110"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.line_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.LineProfile.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Line Profile'</em><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L140-L167"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the drawn line and the resulting scan.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>line_image</strong><span class="classifier">(M, N) uint8 array, same shape as image</span></dt><dd><p>An array of 0s with the scanned line set to 255.
+If the linewidth of the line tool is greater than 1,
+sets the values within the profiled polygon to 128.</p>
+</dd>
+<dt><strong>scan</strong><span class="classifier">(P,) or (P, 3) array of int or float</span></dt><dd><p>The line scan values across the image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.LineProfile.reset_axes">
+<code class="sig-name descname">reset_axes</code><span class="sig-paren">(</span><em class="sig-param">scan_data</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/lineprofile.py#L128-L138"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.LineProfile.reset_axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="measure">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.Measure" title="skimage.viewer.plugins.Measure"><code class="xref py py-class docutils literal notranslate"><span class="pre">Measure</span></code></a><a class="headerlink" href="#measure" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.Measure">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">Measure</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/measure.py#L14-L49"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Measure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base.Plugin</span></code></p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.Measure.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">maxdist=10</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/measure.py#L17-L27"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Measure.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Measure.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/measure.py#L29-L37"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Measure.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.Measure.attach" title="skimage.viewer.plugins.Measure.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Measure.help">
+<code class="sig-name descname">help</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/measure.py#L39-L42"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Measure.help" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Measure.line_changed">
+<code class="sig-name descname">line_changed</code><span class="sig-paren">(</span><em class="sig-param">end_points</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/measure.py#L44-L49"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Measure.line_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.Measure.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Measure'</em><a class="headerlink" href="#skimage.viewer.plugins.Measure.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="overlayplugin">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.OverlayPlugin" title="skimage.viewer.plugins.OverlayPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">OverlayPlugin</span></code></a><a class="headerlink" href="#overlayplugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.OverlayPlugin">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">OverlayPlugin</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L12-L114"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base.Plugin</span></code></p>
+<p>Plugin for ImageViewer that displays an overlay on top of main image.</p>
+<p>The base Plugin class displays the filtered image directly on the viewer.
+OverlayPlugin will instead overlay an image with a transparent colormap.</p>
+<p>See base Plugin class for additional details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>overlay</strong><span class="classifier">array</span></dt><dd><p>Overlay displayed on top of image. This overlay defaults to a color map
+with alpha values varying linearly from 0 to 1.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">int</span></dt><dd><p>Color of overlay.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L33-L38"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L40-L43"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.OverlayPlugin.attach" title="skimage.viewer.plugins.OverlayPlugin.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.closeEvent">
+<code class="sig-name descname">closeEvent</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L100-L103"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.closeEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>On close disconnect all artists and events from ImageViewer.</p>
+<p>Note that artists must be appended to <em class="xref py py-obj">self.artists</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.color">
+<em class="property">property </em><code class="sig-name descname">color</code><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.color" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.OverlayPlugin.colors">
+<code class="sig-name descname">colors</code><em class="property"> = {'cyan': (0, 1, 1), 'green': (0, 1, 0), 'red': (1, 0, 0), 'yellow': (1, 1, 0)}</em><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.colors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.display_filtered_image">
+<code class="sig-name descname">display_filtered_image</code><span class="sig-paren">(</span><em class="sig-param">image</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L96-L98"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.display_filtered_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display filtered image as an overlay on top of image in viewer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.filtered_image">
+<em class="property">property </em><code class="sig-name descname">filtered_image</code><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.filtered_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return filtered image.</p>
+<p>This “filtered image” is used when saving from the plugin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/overlayplugin.py#L105-L114"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the overlaid image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>overlay</strong><span class="classifier">array, same shape as image</span></dt><dd><p>The overlay currently displayed.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">None</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.OverlayPlugin.overlay">
+<em class="property">property </em><code class="sig-name descname">overlay</code><a class="headerlink" href="#skimage.viewer.plugins.OverlayPlugin.overlay" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="plotplugin">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.PlotPlugin" title="skimage.viewer.plugins.PlotPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotPlugin</span></code></a><a class="headerlink" href="#plotplugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.PlotPlugin">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">PlotPlugin</code><span class="sig-paren">(</span><em class="sig-param">image_filter=None</em>, <em class="sig-param">height=150</em>, <em class="sig-param">width=400</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L12-L74"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.viewer.plugins.base.Plugin</span></code></p>
+<p>Plugin for ImageViewer that contains a plot canvas.</p>
+<p>Base class for plugins that contain a Matplotlib plot canvas, which can,
+for example, display an image histogram.</p>
+<p>See base Plugin class for additional details.</p>
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">image_filter=None</em>, <em class="sig-param">height=150</em>, <em class="sig-param">width=400</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L21-L29"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.add_plot">
+<code class="sig-name descname">add_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L43-L56"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.add_plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.add_tool">
+<code class="sig-name descname">add_tool</code><span class="sig-paren">(</span><em class="sig-param">tool</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L62-L66"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.add_tool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L31-L37"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.PlotPlugin.attach" title="skimage.viewer.plugins.PlotPlugin.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.redraw">
+<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L39-L41"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw plot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.PlotPlugin.remove_tool">
+<code class="sig-name descname">remove_tool</code><span class="sig-paren">(</span><em class="sig-param">tool</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/plotplugin.py#L68-L74"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.PlotPlugin.remove_tool" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="plugin">
+<h2><a class="reference internal" href="#skimage.viewer.plugins.Plugin" title="skimage.viewer.plugins.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plugin</span></code></a><a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.viewer.plugins.Plugin">
+<em class="property">class </em><code class="sig-prename descclassname">skimage.viewer.plugins.</code><code class="sig-name descname">Plugin</code><span class="sig-paren">(</span><em class="sig-param">image_filter=None</em>, <em class="sig-param">height=0</em>, <em class="sig-param">width=400</em>, <em class="sig-param">useblit=True</em>, <em class="sig-param">dock='bottom'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L11-L261"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.9/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for plugins that interact with an ImageViewer.</p>
+<p>A plugin connects an image filter (or another function) to an image viewer.
+Note that a Plugin is initialized <em>without</em> an image viewer and attached in
+a later step. See example below for details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_viewer</strong><span class="classifier">ImageViewer</span></dt><dd><p>Window containing image used in measurement/manipulation.</p>
+</dd>
+<dt><strong>image_filter</strong><span class="classifier">function</span></dt><dd><p>Function that gets called to update image in image viewer. This value
+can be <em class="xref py py-obj">None</em> if, for example, you have a plugin that extracts
+information from an image and doesn’t manipulate it. Alternatively,
+this function can be defined as a method in a Plugin subclass.</p>
+</dd>
+<dt><strong>height, width</strong><span class="classifier">int</span></dt><dd><p>Size of plugin window in pixels. Note that Qt will automatically resize
+a window to fit components. So if you’re adding rows of components, you
+can leave <em class="xref py py-obj">height = 0</em> and just let Qt determine the final height.</p>
+</dd>
+<dt><strong>useblit</strong><span class="classifier">bool</span></dt><dd><p>If True, use blitting to speed up animation. Only available on some
+Matplotlib backends. If None, set to True when using Agg backend.
+This only has an effect if you draw on top of an image viewer.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.viewer</span> <span class="kn">import</span> <span class="n">ImageViewer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.viewer.widgets</span> <span class="kn">import</span> <span class="n">Slider</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">Plugin</span><span class="p">(</span><span class="n">image_filter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">img</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">threshold</span><span class="p">:</span> <span class="n">img</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">+=</span> <span class="n">Slider</span><span class="p">(</span><span class="s1">&#39;threshold&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>       
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">viewer</span> <span class="o">=</span> <span class="n">ImageViewer</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>       
+<span class="gp">&gt;&gt;&gt; </span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">plugin</span>                  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">thresholded</span> <span class="o">=</span> <span class="n">viewer</span><span class="o">.</span><span class="n">show</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> 
+</pre></div>
+</div>
+<p>The plugin will automatically delegate parameters to <em class="xref py py-obj">image_filter</em> based
+on its parameter type, i.e., <em class="xref py py-obj">ptype</em> (widgets for required arguments must
+be added in the order they appear in the function). The image attached
+to the viewer is <strong>automatically passed as the first argument</strong> to the
+filter function.</p>
+<p>#TODO: Add flag so image is not passed to filter function by default.</p>
+<p><em class="xref py py-obj">ptype = ‘kwarg’</em> is the default for most widgets so it’s unnecessary here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_viewer</strong><span class="classifier">ImageViewer</span></dt><dd><p>Window containing image used in measurement.</p>
+</dd>
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of plugin. This is displayed as the window title.</p>
+</dd>
+<dt><strong>artist</strong><span class="classifier">list</span></dt><dd><p>List of Matplotlib artists and canvastools. Any artists created by the
+plugin should be added to this list so that it gets cleaned up on
+close.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">image_filter=None</em>, <em class="sig-param">height=0</em>, <em class="sig-param">width=400</em>, <em class="sig-param">useblit=True</em>, <em class="sig-param">dock='bottom'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L80-L105"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.add_widget">
+<code class="sig-name descname">add_widget</code><span class="sig-paren">(</span><em class="sig-param">widget</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L129-L150"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.add_widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add widget to plugin.</p>
+<p>Alternatively, Plugin’s <code class="xref py py-obj docutils literal notranslate"><span class="pre">__add__</span></code> method is overloaded to add widgets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plugin</span> <span class="o">+=</span> <span class="n">Widget</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Widgets can adjust required or optional arguments of filter function or
+parameters for the plugin. This is specified by the Widget’s <em class="xref py py-obj">ptype</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.attach">
+<code class="sig-name descname">attach</code><span class="sig-paren">(</span><em class="sig-param">image_viewer</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L107-L127"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.attach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attach the plugin to an ImageViewer.</p>
+<p>Note that the ImageViewer will automatically call this method when the
+plugin is added to the ImageViewer. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">viewer</span> <span class="o">+=</span> <span class="n">Plugin</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Also note that <a class="reference internal" href="#skimage.viewer.plugins.Plugin.attach" title="skimage.viewer.plugins.Plugin.attach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">attach</span></code></a> automatically calls the filter function so that
+the image matches the filtered value specified by attached widgets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.clean_up">
+<code class="sig-name descname">clean_up</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L232-L237"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.clean_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.closeEvent">
+<code class="sig-name descname">closeEvent</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L224-L230"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.closeEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>On close disconnect all artists and events from ImageViewer.</p>
+<p>Note that artists must be appended to <em class="xref py py-obj">self.artists</em>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.display_filtered_image">
+<code class="sig-name descname">display_filtered_image</code><span class="sig-paren">(</span><em class="sig-param">image</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L196-L203"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.display_filtered_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the filtered image on image viewer.</p>
+<p>If you don’t want to simply replace the displayed image with the
+filtered image (e.g., you want to display a transparent overlay),
+you can override this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.filter_image">
+<code class="sig-name descname">filter_image</code><span class="sig-paren">(</span><em class="sig-param">*widget_arg</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L156-L172"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.filter_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <em class="xref py py-obj">image_filter</em> with widget args and kwargs</p>
+<p>Note: <a class="reference internal" href="#skimage.viewer.plugins.Plugin.display_filtered_image" title="skimage.viewer.plugins.Plugin.display_filtered_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_filtered_image</span></code></a> is automatically called.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.filtered_image">
+<em class="property">property </em><code class="sig-name descname">filtered_image</code><a class="headerlink" href="#skimage.viewer.plugins.Plugin.filtered_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return filtered image.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.Plugin.image_changed">
+<code class="sig-name descname">image_changed</code><em class="property"> = None</em><a class="headerlink" href="#skimage.viewer.plugins.Plugin.image_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.Plugin.image_viewer">
+<code class="sig-name descname">image_viewer</code><em class="property"> = 'Plugin is not attached to ImageViewer'</em><a class="headerlink" href="#skimage.viewer.plugins.Plugin.image_viewer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.viewer.plugins.Plugin.name">
+<code class="sig-name descname">name</code><em class="property"> = 'Plugin'</em><a class="headerlink" href="#skimage.viewer.plugins.Plugin.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.output">
+<code class="sig-name descname">output</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L244-L261"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the plugin’s representation and data.</p>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl>
+<dt><strong>image</strong><span class="classifier">array, same shape as <code class="docutils literal notranslate"><span class="pre">self.image_viewer.image</span></code>, or None</span></dt><dd><p>The filtered image.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">None</span></dt><dd><p>Any data associated with the plugin.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Derived classes should override this method to return a tuple
+containing an <em>overlay</em> of the same shape of the image, and a
+<em>data</em> object. Either of these is optional: return <code class="docutils literal notranslate"><span class="pre">None</span></code> if
+you don’t want to return a value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.remove_image_artists">
+<code class="sig-name descname">remove_image_artists</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L239-L242"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.remove_image_artists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove artists that are connected to the image viewer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.show">
+<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param">main_window=True</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L213-L222"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show plugin.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.viewer.plugins.Plugin.update_plugin">
+<code class="sig-name descname">update_plugin</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.18.0/skimage/viewer/plugins/base.py#L205-L211"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.viewer.plugins.Plugin.update_plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update keyword parameters of the plugin itself.</p>
+<p>These parameters will typically be implemented as class properties so
+that they update the image or some other component.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

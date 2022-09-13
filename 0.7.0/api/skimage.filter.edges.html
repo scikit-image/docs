@@ -1,0 +1,773 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module: filter.edges &mdash; skimage v0.7.0 docs</title>
+    
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.7.0 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+    <h3>Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">filter.edges</span></tt></a><ul>
+<li><a class="reference internal" href="#binary-erosion">binary_erosion</a></li>
+<li><a class="reference internal" href="#convolve">convolve</a></li>
+<li><a class="reference internal" href="#generate-binary-structure">generate_binary_structure</a></li>
+<li><a class="reference internal" href="#hprewitt">hprewitt</a></li>
+<li><a class="reference internal" href="#hsobel">hsobel</a></li>
+<li><a class="reference internal" href="#img-as-float">img_as_float</a></li>
+<li><a class="reference internal" href="#prewitt">prewitt</a></li>
+<li><a class="reference internal" href="#sobel">sobel</a></li>
+<li><a class="reference internal" href="#vprewitt">vprewitt</a></li>
+<li><a class="reference internal" href="#vsobel">vsobel</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-skimage.filter.edges">
+<span id="module-filter-edges"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">filter.edges</span></tt><a class="headerlink" href="#module-skimage.filter.edges" title="Permalink to this headline">¶</a></h1>
+<p>edges.py - Sobel edge filter</p>
+<p>Originally part of CellProfiler, code licensed under both GPL and BSD licenses.
+Website: <a class="reference external" href="http://www.cellprofiler.org">http://www.cellprofiler.org</a>
+Copyright (c) 2003-2009 Massachusetts Institute of Technology
+Copyright (c) 2009-2011 Broad Institute
+All rights reserved.
+Original author: Lee Kamentsky</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filter.edges.binary_erosion" title="skimage.filter.edges.binary_erosion"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.binary_erosion</span></tt></a>(input[,&nbsp;...])</td>
+<td>Multi-dimensional binary erosion with a given structuring element.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filter.edges.convolve" title="skimage.filter.edges.convolve"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.convolve</span></tt></a>(input,&nbsp;weights)</td>
+<td>Multi-dimensional convolution.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filter.edges.generate_binary_structure" title="skimage.filter.edges.generate_binary_structure"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.generate_binary_structure</span></tt></a>(...)</td>
+<td>Generate a binary structure for binary morphological operations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filter.edges.hprewitt" title="skimage.filter.edges.hprewitt"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.hprewitt</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Find the horizontal edges of an image using the Prewitt transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filter.edges.hsobel" title="skimage.filter.edges.hsobel"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.hsobel</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Find the horizontal edges of an image using the Sobel transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filter.edges.img_as_float" title="skimage.filter.edges.img_as_float"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.img_as_float</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to double-precision floating point format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filter.edges.prewitt" title="skimage.filter.edges.prewitt"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.prewitt</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Find the edge magnitude using the Prewitt transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filter.edges.sobel" title="skimage.filter.edges.sobel"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.sobel</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Calculate the absolute magnitude Sobel to find edges.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.filter.edges.vprewitt" title="skimage.filter.edges.vprewitt"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.vprewitt</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Find the vertical edges of an image using the Prewitt transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.filter.edges.vsobel" title="skimage.filter.edges.vsobel"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.filter.edges.vsobel</span></tt></a>(image[,&nbsp;mask])</td>
+<td>Find the vertical edges of an image using the Sobel transform.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="binary-erosion">
+<h2>binary_erosion<a class="headerlink" href="#binary-erosion" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.binary_erosion">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">binary_erosion</tt><big>(</big><em>input</em>, <em>structure=None</em>, <em>iterations=1</em>, <em>mask=None</em>, <em>output=None</em>, <em>border_value=0</em>, <em>origin=0</em>, <em>brute_force=False</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.binary_erosion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional binary erosion with a given structuring element.</p>
+<p>Binary erosion is a mathematical morphology operation used for image
+processing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>input</strong> : array_like</p>
+<blockquote>
+<div><p>Binary image to be eroded. Non-zero (True) elements form
+the subset to be eroded.</p>
+</div></blockquote>
+<p><strong>structure</strong> : array_like, optional</p>
+<blockquote>
+<div><p>Structuring element used for the erosion. Non-zero elements are
+considered True. If no structuring element is provided, an element
+is generated with a square connectivity equal to one.</p>
+</div></blockquote>
+<p><strong>iterations</strong> : {int, float}, optional</p>
+<blockquote>
+<div><p>The erosion is repeated <cite>iterations</cite> times (one, by default).
+If iterations is less than 1, the erosion is repeated until the
+result does not change anymore.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, optional</p>
+<blockquote>
+<div><p>If a mask is given, only those elements with a True value at
+the corresponding mask element are modified at each iteration.</p>
+</div></blockquote>
+<p><strong>output</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>Array of the same shape as input, into which the output is placed.
+By default, a new array is created.</p>
+</div></blockquote>
+<p><strong>origin: int or tuple of ints, optional</strong> :</p>
+<blockquote>
+<div><p>Placement of the filter, by default 0.</p>
+</div></blockquote>
+<p><strong>border_value: int (cast to 0 or 1)</strong> :</p>
+<blockquote>
+<div><p>Value at the border in the output array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out: ndarray of bools</strong> :</p>
+<blockquote class="last">
+<div><p>Erosion of the input by the structuring element.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><tt class="xref py py-obj docutils literal"><span class="pre">grey_erosion</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">binary_dilation</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">binary_closing</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">binary_opening</span></tt>, <a class="reference internal" href="#skimage.filter.edges.generate_binary_structure" title="skimage.filter.edges.generate_binary_structure"><tt class="xref py py-obj docutils literal"><span class="pre">generate_binary_structure</span></tt></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Erosion <a class="reference internal" href="#r93">[R93]</a> is a mathematical morphology operation <a class="reference internal" href="#r94">[R94]</a> that uses a
+structuring element for shrinking the shapes in an image. The binary
+erosion of an image by a structuring element is the locus of the points
+where a superimposition of the structuring element centered on the point
+is entirely contained in the set of non-zero elements of the image.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r93" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R93]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Erosion_%28morphology%29">http://en.wikipedia.org/wiki/Erosion_%28morphology%29</a></td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="r94" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R94]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id4">2</a>)</em> <a class="reference external" href="http://en.wikipedia.org/wiki/Mathematical_morphology">http://en.wikipedia.org/wiki/Mathematical_morphology</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Erosion removes objects smaller than the structure</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">binary_erosion</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="convolve">
+<h2>convolve<a class="headerlink" href="#convolve" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.convolve">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">convolve</tt><big>(</big><em>input</em>, <em>weights</em>, <em>output=None</em>, <em>mode='reflect'</em>, <em>cval=0.0</em>, <em>origin=0</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.convolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-dimensional convolution.</p>
+<p>The array is convolved with the given kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>input</strong> : array_like</p>
+<blockquote>
+<div><p>Input array to filter.</p>
+</div></blockquote>
+<p><strong>weights</strong> : array_like</p>
+<blockquote>
+<div><p>Array of weights, same number of dimensions as input</p>
+</div></blockquote>
+<p><strong>output</strong> : ndarray, optional</p>
+<blockquote>
+<div><p>The <cite>output</cite> parameter passes an array in which to store the
+filter output.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {&#8216;reflect&#8217;,&#8217;constant&#8217;,&#8217;nearest&#8217;,&#8217;mirror&#8217;, &#8216;wrap&#8217;}, optional</p>
+<blockquote>
+<div><p>the <cite>mode</cite> parameter determines how the array borders are
+handled. For &#8216;constant&#8217; mode, values beyond borders are set to be
+<cite>cval</cite>. Default is &#8216;reflect&#8217;.</p>
+</div></blockquote>
+<p><strong>cval</strong> : scalar, optional</p>
+<blockquote>
+<div><p>Value to fill past edges of input if <cite>mode</cite> is &#8216;constant&#8217;. Default
+is 0.0</p>
+</div></blockquote>
+<p><strong>origin</strong> : array_like, optional</p>
+<blockquote>
+<div><p>The <cite>origin</cite> parameter controls the placement of the filter.
+Default is 0.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>result</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The result of convolution of <cite>input</cite> with <cite>weights</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">correlate</span></tt></dt>
+<dd>Correlate an image with a kernel.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>Each value in result is <img class="math" src="../_images/math/294584e6f9ae81792e28108987bf8c97f2eba2f1.png" alt="C_i = \sum_j{I_{i+j-k} W_j}"/>, where
+W is the <cite>weights</cite> kernel,
+j is the n-D spatial index over <img class="math" src="../_images/math/10cb764f88509fb1c8012366993fdbee98f31bc5.png" alt="W"/>,
+I is the <cite>input</cite> and k is the coordinate of the center of
+W, specified by <cite>origin</cite> in the input parameters.</p>
+<p class="rubric">Examples</p>
+<p>Perhaps the simplest case to understand is <tt class="docutils literal"><span class="pre">mode='constant',</span> <span class="pre">cval=0.0</span></tt>,
+because in this case borders (i.e. where the <cite>weights</cite> kernel, centered
+on any one value, extends beyond an edge of <cite>input</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="go">....    [5, 3, 0, 4],</span>
+<span class="go">....    [0, 0, 0, 7],</span>
+<span class="go">....    [9, 3, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;constant&#39;</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="go">array([[11, 10,  7,  4],</span>
+<span class="go">       [10,  3, 11, 11],</span>
+<span class="go">       [15, 12, 14,  7],</span>
+<span class="go">       [12,  3,  7,  0]])</span>
+</pre></div>
+</div>
+<p>Setting <tt class="docutils literal"><span class="pre">cval=1.0</span></tt> is equivalent to padding the outer edge of <cite>input</cite>
+with 1.0&#8217;s (and then extracting only the original region of the result).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;constant&#39;</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="go">array([[13, 11,  8,  7],</span>
+<span class="go">       [11,  3, 11, 14],</span>
+<span class="go">       [16, 12, 14, 10],</span>
+<span class="go">       [15,  6, 10,  5]])</span>
+</pre></div>
+</div>
+<p>With <tt class="docutils literal"><span class="pre">mode='reflect'</span></tt> (the default), outer values are reflected at the
+edge of <cite>input</cite> to fill in missing values.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="go">                  [1, 0, 0],</span>
+<span class="go">                  [0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="go">array([[5, 0, 0],</span>
+<span class="go">       [3, 0, 0],</span>
+<span class="go">       [1, 0, 0]])</span>
+</pre></div>
+</div>
+<p>This includes diagonally at the corners.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="go">array([[4, 2, 0],</span>
+<span class="go">       [3, 2, 0],</span>
+<span class="go">       [1, 1, 0]])</span>
+</pre></div>
+</div>
+<p>With <tt class="docutils literal"><span class="pre">mode='nearest'</span></tt>, the single nearest value in to an edge in
+<cite>input</cite> is repeated as many times as needed to match the overlapping
+<cite>weights</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="go">                  [1, 0, 0],</span>
+<span class="go">                  [0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="go">                  [0, 1, 0],</span>
+<span class="go">                  [0, 1, 0],</span>
+<span class="go">                  [0, 1, 0],</span>
+<span class="go">                  [0, 1, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="go">array([[7, 0, 3],</span>
+<span class="go">       [5, 0, 2],</span>
+<span class="go">       [3, 0, 1]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="generate-binary-structure">
+<h2>generate_binary_structure<a class="headerlink" href="#generate-binary-structure" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.generate_binary_structure">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">generate_binary_structure</tt><big>(</big><em>rank</em>, <em>connectivity</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.generate_binary_structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a binary structure for binary morphological operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rank</strong> : int</p>
+<blockquote>
+<div><p>Number of dimensions of the array to which the structuring element
+will be applied, as returned by <cite>np.ndim</cite>.</p>
+</div></blockquote>
+<p><strong>connectivity</strong> : int</p>
+<blockquote>
+<div><p><cite>connectivity</cite> determines which elements of the output array belong
+to the structure, i.e. are considered as neighbors of the central
+element. Elements up to a squared distance of <cite>connectivity</cite> from
+the center are considered neighbors. <cite>connectivity</cite> may range from 1
+(no diagonal elements are neighbors) to <cite>rank</cite> (all elements are
+neighbors).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray of bools</p>
+<blockquote class="last">
+<div><p>Structuring element which may be used for binary morphological
+operations, with <cite>rank</cite> dimensions and all dimensions equal to 3.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><tt class="xref py py-obj docutils literal"><span class="pre">iterate_structure</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">binary_dilation</span></tt>, <a class="reference internal" href="#skimage.filter.edges.binary_erosion" title="skimage.filter.edges.binary_erosion"><tt class="xref py py-obj docutils literal"><span class="pre">binary_erosion</span></tt></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p><cite>generate_binary_structure</cite> can only create structuring elements with
+dimensions equal to 3, i.e. minimal dimensions. For larger structuring
+elements, that are useful e.g. for eroding large objects, one may either
+use   <cite>iterate_structure</cite>, or create directly custom arrays with
+numpy functions such as <cite>numpy.ones</cite>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generate_binary_structure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span>
+<span class="go">array([[False,  True, False],</span>
+<span class="go">       [ True,  True,  True],</span>
+<span class="go">       [False,  True, False]], dtype=bool)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">binary_dilation</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="n">struct</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">array([[ 0.,  0.,  0.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  1.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  0.,  0.,  0.,  0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndimage</span><span class="o">.</span><span class="n">binary_dilation</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="n">struct</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+<span class="go">array([[ 0.,  0.,  1.,  0.,  0.],</span>
+<span class="go">       [ 0.,  1.,  1.,  1.,  0.],</span>
+<span class="go">       [ 1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">       [ 0.,  1.,  1.,  1.,  0.],</span>
+<span class="go">       [ 0.,  0.,  1.,  0.,  0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generate_binary_structure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span>
+<span class="go">array([[ True,  True,  True],</span>
+<span class="go">       [ True,  True,  True],</span>
+<span class="go">       [ True,  True,  True]], dtype=bool)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span> <span class="o">=</span> <span class="n">ndimage</span><span class="o">.</span><span class="n">generate_binary_structure</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">struct</span> <span class="c"># no diagonal elements</span>
+<span class="go">array([[[False, False, False],</span>
+<span class="go">        [False,  True, False],</span>
+<span class="go">        [False, False, False]],</span>
+<span class="go">       [[False,  True, False],</span>
+<span class="go">        [ True,  True,  True],</span>
+<span class="go">        [False,  True, False]],</span>
+<span class="go">       [[False, False, False],</span>
+<span class="go">        [False,  True, False],</span>
+<span class="go">        [False, False, False]]], dtype=bool)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="hprewitt">
+<h2>hprewitt<a class="headerlink" href="#hprewitt" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.hprewitt">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">hprewitt</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.hprewitt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal edges of an image using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel and return the absolute value of the
+result at each point:</p>
+<div class="highlight-python"><pre> 1   1   1
+ 0   0   0
+-1  -1  -1</pre>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="hsobel">
+<h2>hsobel<a class="headerlink" href="#hsobel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.hsobel">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">hsobel</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.hsobel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal edges of an image using the Sobel transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel and return the absolute value of the
+result at each point:</p>
+<div class="highlight-python"><pre> 1   2   1
+ 0   0   0
+-1  -2  -1</pre>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-float">
+<h2>img_as_float<a class="headerlink" href="#img-as-float" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.img_as_float">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">img_as_float</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.img_as_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to double-precision floating point format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of float64</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The range of a floating point image is [0.0, 1.0] or [-1.0, 1.0] when
+converting from unsigned or signed datatypes, respectively.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="prewitt">
+<h2>prewitt<a class="headerlink" href="#prewitt" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.prewitt">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">prewitt</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.prewitt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the edge magnitude using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Return the square root of the sum of squares of the horizontal
+and vertical Prewitt transforms.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="sobel">
+<h2>sobel<a class="headerlink" href="#sobel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.sobel">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">sobel</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.sobel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the absolute magnitude Sobel to find edges.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Take the square root of the sum of the squares of the horizontal and
+vertical Sobels to get a magnitude that&#8217;s somewhat insensitive to
+direction.</p>
+<p>Note that <tt class="docutils literal"><span class="pre">scipy.ndimage.sobel</span></tt> returns a directional Sobel which
+has to be further processed to perform edge detection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="vprewitt">
+<h2>vprewitt<a class="headerlink" href="#vprewitt" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.vprewitt">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">vprewitt</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.vprewitt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the vertical edges of an image using the Prewitt transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process.</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area.
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Prewitt edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel and return the absolute value of the
+result at each point:</p>
+<div class="highlight-python"><pre>1   0  -1
+1   0  -1
+1   0  -1</pre>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="vsobel">
+<h2>vsobel<a class="headerlink" href="#vsobel" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.filter.edges.vsobel">
+<tt class="descclassname">skimage.filter.edges.</tt><tt class="descname">vsobel</tt><big>(</big><em>image</em>, <em>mask=None</em><big>)</big><a class="headerlink" href="#skimage.filter.edges.vsobel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the vertical edges of an image using the Sobel transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image to process</p>
+</div></blockquote>
+<p><strong>mask</strong> : array_like, dtype=bool, optional</p>
+<blockquote>
+<div><p>An optional mask to limit the application to a certain area
+Note that pixels surrounding masked regions are also masked to
+prevent masked regions from affecting the result.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The Sobel edge map.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>We use the following kernel and return the absolute value of the
+result at each point:</p>
+<div class="highlight-python"><pre>1   0  -1
+2   0  -2
+1   0  -1</pre>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+    </div>
+
+  </body>
+</html>

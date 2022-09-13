@@ -1,0 +1,215 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: feature.peak &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.feature.peak">
+<span id="module-feature-peak"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">feature.peak</span></tt><a class="headerlink" href="#module-skimage.feature.peak" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.feature.peak.peak_local_max" title="skimage.feature.peak.peak_local_max"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.peak.peak_local_max</span></tt></a>(image[,&nbsp;...])</td>
+<td>Find peaks in an image, and return them as coordinates or a boolean array.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="peak-local-max">
+<h2>peak_local_max<a class="headerlink" href="#peak-local-max" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.peak.peak_local_max">
+<tt class="descclassname">skimage.feature.peak.</tt><tt class="descname">peak_local_max</tt><big>(</big><em>image</em>, <em>min_distance=10</em>, <em>threshold_abs=0</em>, <em>threshold_rel=0.1</em>, <em>exclude_border=True</em>, <em>indices=True</em>, <em>num_peaks=inf</em>, <em>footprint=None</em>, <em>labels=None</em><big>)</big><a class="headerlink" href="#skimage.feature.peak.peak_local_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find peaks in an image, and return them as coordinates or a boolean array.</p>
+<p>Peaks are the local maxima in a region of <cite>2 * min_distance + 1</cite>
+(i.e. peaks are separated by at least <cite>min_distance</cite>).</p>
+<p>NOTE: If peaks are flat (i.e. multiple adjacent pixels have identical
+intensities), the coordinates of all such pixels are returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray of floats</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>min_distance</strong> : int</p>
+<blockquote>
+<div><p>Minimum number of pixels separating peaks in a region of <cite>2 *
+min_distance + 1</cite> (i.e. peaks are separated by at least
+<cite>min_distance</cite>). If <cite>exclude_border</cite> is True, this value also excludes
+a border <cite>min_distance</cite> from the image boundary.
+To find the maximum number of peaks, use <cite>min_distance=1</cite>.</p>
+</div></blockquote>
+<p><strong>threshold_abs</strong> : float</p>
+<blockquote>
+<div><p>Minimum intensity of peaks.</p>
+</div></blockquote>
+<p><strong>threshold_rel</strong> : float</p>
+<blockquote>
+<div><p>Minimum intensity of peaks calculated as <cite>max(image) * threshold_rel</cite>.</p>
+</div></blockquote>
+<p><strong>exclude_border</strong> : bool</p>
+<blockquote>
+<div><p>If True, <cite>min_distance</cite> excludes peaks from the border of the image as
+well as from each other.</p>
+</div></blockquote>
+<p><strong>indices</strong> : bool</p>
+<blockquote>
+<div><p>If True, the output will be a matrix representing peak coordinates.
+If False, the output will be a boolean matrix shaped as <cite>image.shape</cite>
+with peaks present at True elements.</p>
+</div></blockquote>
+<p><strong>num_peaks</strong> : int</p>
+<blockquote>
+<div><p>Maximum number of peaks. When the number of peaks exceeds <cite>num_peaks</cite>,
+return <cite>num_peaks</cite> peaks based on highest peak intensity.</p>
+</div></blockquote>
+<p><strong>footprint</strong> : ndarray of bools, optional</p>
+<blockquote>
+<div><p>If provided, <cite>footprint == 1</cite> represents the local region within which
+to search for peaks at every point in <cite>image</cite>.  Overrides
+<cite>min_distance</cite>, except for border exclusion if <cite>exclude_border=True</cite>.</p>
+</div></blockquote>
+<p><strong>labels</strong> : ndarray of ints, optional</p>
+<blockquote>
+<div><p>If provided, each unique region <cite>labels == value</cite> represents a unique
+region to search for peaks. Zero is reserved for background.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : (N, 2) array or ndarray of bools</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>If <cite>indices = True</cite>  : (row, column) coordinates of peaks.</li>
+<li>If <cite>indices = False</cite> : Boolean array shaped like <cite>image</cite>, with peaks
+represented by True values.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The peak local maximum function returns the coordinates of local peaks
+(maxima) in a image. A maximum filter is used for finding local maxima.
+This operation dilates the original image. After comparison between
+dilated and original image, peak_local_max function returns the
+coordinates of peaks where dilated image = original.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span>
+<span class="go">array([[ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  1.5,  0. ,  1. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],</span>
+<span class="go">       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[3, 2],</span>
+<span class="go">       [3, 4]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[3, 2]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">feature.peak</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#peak-local-max">peak_local_max</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

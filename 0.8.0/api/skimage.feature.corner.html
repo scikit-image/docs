@@ -1,0 +1,515 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: feature.corner &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.feature.corner">
+<span id="module-feature-corner"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">feature.corner</span></tt><a class="headerlink" href="#module-skimage.feature.corner" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.feature.corner.corner_foerstner" title="skimage.feature.corner.corner_foerstner"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.corner_foerstner</span></tt></a>(image)</td>
+<td>Compute Foerstner corner measure response image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.feature.corner.corner_harris" title="skimage.feature.corner.corner_harris"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.corner_harris</span></tt></a>(image)</td>
+<td>Compute Harris corner measure response image.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.feature.corner.corner_kitchen_rosenfeld" title="skimage.feature.corner.corner_kitchen_rosenfeld"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.corner_kitchen_rosenfeld</span></tt></a>(image)</td>
+<td>Compute Kitchen and Rosenfeld corner measure response image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.feature.corner.corner_shi_tomasi" title="skimage.feature.corner.corner_shi_tomasi"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.corner_shi_tomasi</span></tt></a>(image)</td>
+<td>Compute Shi-Tomasi (Kanade-Tomasi) corner measure response image.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.feature.corner.corner_subpix" title="skimage.feature.corner.corner_subpix"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.corner_subpix</span></tt></a>(image,&nbsp;...)</td>
+<td>Determine subpixel position of corners.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.feature.corner.img_as_float" title="skimage.feature.corner.img_as_float"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.img_as_float</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to double-precision floating point format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.feature.corner.rgb2grey" title="skimage.feature.corner.rgb2grey"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.feature.corner.rgb2grey</span></tt></a>(rgb)</td>
+<td>Compute luminance of an RGB image.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="corner-foerstner">
+<h2>corner_foerstner<a class="headerlink" href="#corner-foerstner" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.corner_foerstner">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">corner_foerstner</tt><big>(</big><em>image</em>, <em>sigma=1</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.corner_foerstner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Foerstner corner measure response image.</p>
+<p>This corner detector uses information from the auto-correlation matrix A:</p>
+<div class="highlight-python"><pre>A = [(imx**2)   (imx*imy)] = [Axx Axy]
+    [(imx*imy)   (imy**2)]   [Axy Ayy]</pre>
+</div>
+<p>Where imx and imy are the first derivatives averaged with a gaussian filter.
+The corner measure is then defined as:</p>
+<div class="highlight-python"><pre>w = det(A) / trace(A)           (size of error ellipse)
+q = 4 * det(A) / trace(A)**2    (roundness of error ellipse)</pre>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation used for the Gaussian kernel, which is used as
+weighting function for the auto-correlation matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>w</strong> : ndarray</p>
+<blockquote>
+<div><p>Error ellipse sizes.</p>
+</div></blockquote>
+<p><strong>q</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Roundness of error ellipse.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>..[1] <a class="reference external" href="http://www.ipb.uni-bonn.de/uploads/tx_ikgpublication/">http://www.ipb.uni-bonn.de/uploads/tx_ikgpublication/</a>          foerstner87.fast.pdf
+..[2] <a class="reference external" href="http://en.wikipedia.org/wiki/Corner_detection">http://en.wikipedia.org/wiki/Corner_detection</a></p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="n">corner_foerstner</span><span class="p">,</span> <span class="n">corner_peaks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span>
+<span class="go">array([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">corner_foerstner</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy_thresh</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">roundness_thresh</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foerstner</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">&gt;</span> <span class="n">roundness_thresh</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">&gt;</span> <span class="n">accuracy_thresh</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corner_peaks</span><span class="p">(</span><span class="n">foerstner</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[2, 2],</span>
+<span class="go">       [2, 7],</span>
+<span class="go">       [7, 2],</span>
+<span class="go">       [7, 7]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="corner-harris">
+<h2>corner_harris<a class="headerlink" href="#corner-harris" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.corner_harris">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">corner_harris</tt><big>(</big><em>image</em>, <em>method='k'</em>, <em>k=0.05</em>, <em>eps=1e-06</em>, <em>sigma=1</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.corner_harris" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Harris corner measure response image.</p>
+<p>This corner detector uses information from the auto-correlation matrix A:</p>
+<div class="highlight-python"><pre>A = [(imx**2)   (imx*imy)] = [Axx Axy]
+    [(imx*imy)   (imy**2)]   [Axy Ayy]</pre>
+</div>
+<p>Where imx and imy are the first derivatives averaged with a gaussian filter.
+The corner measure is then defined as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">trace</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">2</span> <span class="o">*</span> <span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">trace</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>method</strong> : {&#8216;k&#8217;, &#8216;eps&#8217;}, optional</p>
+<blockquote>
+<div><p>Method to compute the response image from the auto-correlation matrix.</p>
+</div></blockquote>
+<p><strong>k</strong> : float, optional</p>
+<blockquote>
+<div><p>Sensitivity factor to separate corners from edges, typically in range
+<cite>[0, 0.2]</cite>. Small values of k result in detection of sharp corners.</p>
+</div></blockquote>
+<p><strong>eps</strong> : float, optional</p>
+<blockquote>
+<div><p>Normalisation factor (Noble&#8217;s corner measure).</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation used for the Gaussian kernel, which is used as
+weighting function for the auto-correlation matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>response</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Harris response image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>..[1] <a class="reference external" href="http://kiwi.cs.dal.ca/~dparks/CornerDetection/harris.htm">http://kiwi.cs.dal.ca/~dparks/CornerDetection/harris.htm</a>
+..[2] <a class="reference external" href="http://en.wikipedia.org/wiki/Corner_detection">http://en.wikipedia.org/wiki/Corner_detection</a></p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="n">corner_harris</span><span class="p">,</span> <span class="n">corner_peaks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span>
+<span class="go">array([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corner_peaks</span><span class="p">(</span><span class="n">corner_harris</span><span class="p">(</span><span class="n">square</span><span class="p">),</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[2, 2],</span>
+<span class="go">       [2, 7],</span>
+<span class="go">       [7, 2],</span>
+<span class="go">       [7, 7]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="corner-kitchen-rosenfeld">
+<h2>corner_kitchen_rosenfeld<a class="headerlink" href="#corner-kitchen-rosenfeld" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.corner_kitchen_rosenfeld">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">corner_kitchen_rosenfeld</tt><big>(</big><em>image</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.corner_kitchen_rosenfeld" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Kitchen and Rosenfeld corner measure response image.</p>
+<p>The corner measure is calculated as follows:</p>
+<div class="highlight-python"><pre>:Parameters:</pre>
+</div>
+<blockquote>
+<div><p><strong>image</strong> : ndarray</p>
+<blockquote>
+<div>Input image.</div></blockquote>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>response</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Kitchen and Rosenfeld response image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="corner-shi-tomasi">
+<h2>corner_shi_tomasi<a class="headerlink" href="#corner-shi-tomasi" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.corner_shi_tomasi">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">corner_shi_tomasi</tt><big>(</big><em>image</em>, <em>sigma=1</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.corner_shi_tomasi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute Shi-Tomasi (Kanade-Tomasi) corner measure response image.</p>
+<p>This corner detector uses information from the auto-correlation matrix A:</p>
+<div class="highlight-python"><pre>A = [(imx**2)   (imx*imy)] = [Axx Axy]
+    [(imx*imy)   (imy**2)]   [Axy Ayy]</pre>
+</div>
+<p>Where imx and imy are the first derivatives averaged with a gaussian filter.
+The corner measure is then defined as the smaller eigenvalue of A:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">((</span><span class="n">Axx</span> <span class="o">+</span> <span class="n">Ayy</span><span class="p">)</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">Axx</span> <span class="o">-</span> <span class="n">Ayy</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Axy</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>sigma</strong> : float, optional</p>
+<blockquote>
+<div><p>Standard deviation used for the Gaussian kernel, which is used as
+weighting function for the auto-correlation matrix.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>response</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Shi-Tomasi response image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>..[1] <a class="reference external" href="http://kiwi.cs.dal.ca/~dparks/CornerDetection/harris.htm">http://kiwi.cs.dal.ca/~dparks/CornerDetection/harris.htm</a>
+..[2] <a class="reference external" href="http://en.wikipedia.org/wiki/Corner_detection">http://en.wikipedia.org/wiki/Corner_detection</a></p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="n">corner_shi_tomasi</span><span class="p">,</span> <span class="n">corner_peaks</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span>
+<span class="go">array([[ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  1,  1,  1,  1,  1,  1,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0],</span>
+<span class="go">       [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corner_peaks</span><span class="p">(</span><span class="n">corner_shi_tomasi</span><span class="p">(</span><span class="n">square</span><span class="p">),</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[2, 2],</span>
+<span class="go">       [2, 7],</span>
+<span class="go">       [7, 2],</span>
+<span class="go">       [7, 7]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="corner-subpix">
+<h2>corner_subpix<a class="headerlink" href="#corner-subpix" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.corner_subpix">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">corner_subpix</tt><big>(</big><em>image</em>, <em>corners</em>, <em>window_size=11</em>, <em>alpha=0.99</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.corner_subpix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine subpixel position of corners.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>corners</strong> : (N, 2) ndarray</p>
+<blockquote>
+<div><p>Corner coordinates <cite>(row, col)</cite>.</p>
+</div></blockquote>
+<p><strong>window_size</strong> : int, optional</p>
+<blockquote>
+<div><p>Search window size for subpixel estimation.</p>
+</div></blockquote>
+<p><strong>alpha</strong> : float, optional</p>
+<blockquote>
+<div><p>Significance level for point classification.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>positions</strong> : (N, 2) ndarray</p>
+<blockquote class="last">
+<div><p>Subpixel corner positions. NaN for &#8220;not classified&#8221; corners.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>..[1] <a class="reference external" href="http://www.ipb.uni-bonn.de/uploads/tx_ikgpublication/">http://www.ipb.uni-bonn.de/uploads/tx_ikgpublication/</a>          foerstner87.fast.pdf
+..[2] <a class="reference external" href="http://en.wikipedia.org/wiki/Corner_detection">http://en.wikipedia.org/wiki/Corner_detection</a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-float">
+<h2>img_as_float<a class="headerlink" href="#img-as-float" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.img_as_float">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">img_as_float</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.img_as_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to double-precision floating point format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of float64</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The range of a floating point image is [0.0, 1.0] or [-1.0, 1.0] when
+converting from unsigned or signed datatypes, respectively.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="rgb2grey">
+<h2>rgb2grey<a class="headerlink" href="#rgb2grey" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.feature.corner.rgb2grey">
+<tt class="descclassname">skimage.feature.corner.</tt><tt class="descname">rgb2grey</tt><big>(</big><em>rgb</em><big>)</big><a class="headerlink" href="#skimage.feature.corner.rgb2grey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute luminance of an RGB image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>rgb</strong> : array_like</p>
+<blockquote>
+<div><p>The image in RGB format, in a 3-D array of shape (.., .., 3),
+or in RGBA format with shape (.., .., 4).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray</p>
+<blockquote>
+<div><p>The luminance image, a 2-D array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>If <cite>rgb2gray</cite> is not a 3-D array of shape (.., .., 3) or
+(.., .., 4).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The weights used in this conversion are calibrated for contemporary
+CRT phosphors:</p>
+<div class="highlight-python"><pre>Y = 0.2125 R + 0.7154 G + 0.0721 B</pre>
+</div>
+<p>If there is an alpha channel present, it is ignored.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r88" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R88]</a></td><td><a class="reference external" href="http://www.poynton.com/PDFs/ColorFAQ.pdf">http://www.poynton.com/PDFs/ColorFAQ.pdf</a></td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lena</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">lena</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lena_gray</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">lena</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">feature.corner</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#corner-foerstner">corner_foerstner</a></li>
+<li><a class="reference internal" href="#corner-harris">corner_harris</a></li>
+<li><a class="reference internal" href="#corner-kitchen-rosenfeld">corner_kitchen_rosenfeld</a></li>
+<li><a class="reference internal" href="#corner-shi-tomasi">corner_shi_tomasi</a></li>
+<li><a class="reference internal" href="#corner-subpix">corner_subpix</a></li>
+<li><a class="reference internal" href="#img-as-float">img_as_float</a></li>
+<li><a class="reference internal" href="#rgb2grey">rgb2grey</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

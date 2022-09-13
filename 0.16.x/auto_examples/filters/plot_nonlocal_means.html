@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Non-local means denoising for preserving textures &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Attribute operators" href="plot_attribute_operators.html" />
+        <link rel="prev" title="Phase Unwrapping" href="plot_phase_unwrap.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-filters-plot-nonlocal-means-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="non-local-means-denoising-for-preserving-textures">
+<span id="sphx-glr-auto-examples-filters-plot-nonlocal-means-py"></span><h1>Non-local means denoising for preserving textures<a class="headerlink" href="#non-local-means-denoising-for-preserving-textures" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we denoise a detail of the astronaut image using the non-local
+means filter. The non-local means algorithm replaces the value of a pixel by an
+average of a selection of other pixels values: small patches centered on the
+other pixels are compared to the patch centered on the pixel of interest, and
+the average is performed only for pixels that have patches close to the current
+patch. As a result, this algorithm can restore well textures, that would be
+blurred by other denoising algorithm.</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">fast_mode</span></code> argument is <code class="docutils literal notranslate"><span class="pre">False</span></code>, a spatial Gaussian weighting is
+applied to the patches when computing patch distances.  When <code class="docutils literal notranslate"><span class="pre">fast_mode</span></code> is
+<code class="docutils literal notranslate"><span class="pre">True</span></code> a faster algorithm employing uniform spatial weighting on the patches
+is applied.</p>
+<p>For either of these cases, if the noise standard deviation, <code class="docutils literal notranslate"><span class="pre">sigma</span></code>, is
+provided, the expected noise variance is subtracted out when computing patch
+distances.  This can lead to a modest improvement in image quality.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">estimate_sigma</span></code> function can provide a good starting point for setting
+the <code class="docutils literal notranslate"><span class="pre">h</span></code> (and optionally, <code class="docutils literal notranslate"><span class="pre">sigma</span></code>) parameters for the non-local means algorithm.
+<code class="docutils literal notranslate"><span class="pre">h</span></code> is a constant that controls the decay in patch weights as a function of the
+distance between patches.  Larger <code class="docutils literal notranslate"><span class="pre">h</span></code> allows more smoothing between disimilar
+patches.</p>
+<p>In this demo, <code class="docutils literal notranslate"><span class="pre">h</span></code>, was hand-tuned to give the approximate best-case performance
+of each variant.</p>
+<img alt="../../_images/sphx_glr_plot_nonlocal_means_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_nonlocal_means_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>estimated noise standard deviation = 0.07799947509798259
+PSNR (noisy) = 22.18
+PSNR (slow) = 29.38
+PSNR (slow, using sigma) = 29.77
+PSNR (fast) = 28.45
+PSNR (fast, using sigma) = 29.28
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.img_as_float"><span class="n">img_as_float</span></a>
+<span class="kn">from</span> <span class="nn">skimage.restoration</span> <span class="k">import</span> <a href="../../api/skimage.restoration.html#skimage.restoration.denoise_nl_means" title="View documentation for skimage.restoration.denoise_nl_means"><span class="n">denoise_nl_means</span></a><span class="p">,</span> <a href="../../api/skimage.restoration.html#skimage.restoration.estimate_sigma" title="View documentation for skimage.restoration.estimate_sigma"><span class="n">estimate_sigma</span></a>
+<span class="kn">from</span> <span class="nn">skimage.metrics</span> <span class="k">import</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a>
+<span class="kn">from</span> <span class="nn">skimage.util</span> <span class="k">import</span> <a href="../../api/skimage.util.html#skimage.util.random_noise" title="View documentation for skimage.util.random_noise"><span class="n">random_noise</span></a>
+
+
+<span class="n">astro</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.img_as_float"><span class="n">img_as_float</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.astronaut" title="View documentation for skimage.data.astronaut"><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span></a><span class="p">())</span>
+<span class="n">astro</span> <span class="o">=</span> <span class="n">astro</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">180</span><span class="p">,</span> <span class="mi">150</span><span class="p">:</span><span class="mi">300</span><span class="p">]</span>
+
+<span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.08</span>
+<span class="n">noisy</span> <span class="o">=</span> <a href="../../api/skimage.util.html#skimage.util.random_noise" title="View documentation for skimage.util.random_noise"><span class="n">random_noise</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># estimate the noise standard deviation from the noisy image</span>
+<span class="n">sigma_est</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html#numpy.mean" title="View documentation for numpy.mean"><span class="n">np</span><span class="o">.</span><span class="n">mean</span></a><span class="p">(</span><a href="../../api/skimage.restoration.html#skimage.restoration.estimate_sigma" title="View documentation for skimage.restoration.estimate_sigma"><span class="n">estimate_sigma</span></a><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;estimated noise standard deviation = </span><span class="si">{sigma_est}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">patch_kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">patch_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>      <span class="c1"># 5x5 patches</span>
+                <span class="n">patch_distance</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>  <span class="c1"># 13x13 search area</span>
+                <span class="n">multichannel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># slow algorithm</span>
+<span class="n">denoise</span> <span class="o">=</span> <a href="../../api/skimage.restoration.html#skimage.restoration.denoise_nl_means" title="View documentation for skimage.restoration.denoise_nl_means"><span class="n">denoise_nl_means</span></a><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">1.15</span> <span class="o">*</span> <span class="n">sigma_est</span><span class="p">,</span> <span class="n">fast_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="o">**</span><span class="n">patch_kw</span><span class="p">)</span>
+
+<span class="c1"># slow algorithm, sigma provided</span>
+<span class="n">denoise2</span> <span class="o">=</span> <a href="../../api/skimage.restoration.html#skimage.restoration.denoise_nl_means" title="View documentation for skimage.restoration.denoise_nl_means"><span class="n">denoise_nl_means</span></a><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">sigma_est</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma_est</span><span class="p">,</span>
+                            <span class="n">fast_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">patch_kw</span><span class="p">)</span>
+
+<span class="c1"># fast algorithm</span>
+<span class="n">denoise_fast</span> <span class="o">=</span> <a href="../../api/skimage.restoration.html#skimage.restoration.denoise_nl_means" title="View documentation for skimage.restoration.denoise_nl_means"><span class="n">denoise_nl_means</span></a><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">sigma_est</span><span class="p">,</span> <span class="n">fast_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">patch_kw</span><span class="p">)</span>
+
+<span class="c1"># fast algorithm, sigma provided</span>
+<span class="n">denoise2_fast</span> <span class="o">=</span> <a href="../../api/skimage.restoration.html#skimage.restoration.denoise_nl_means" title="View documentation for skimage.restoration.denoise_nl_means"><span class="n">denoise_nl_means</span></a><span class="p">(</span><span class="n">noisy</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mf">0.6</span> <span class="o">*</span> <span class="n">sigma_est</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma_est</span><span class="p">,</span>
+                                 <span class="n">fast_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">patch_kw</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;noisy&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">denoise</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;non-local means</span><span class="se">\n</span><span class="s1">(slow)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">denoise2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;non-local means</span><span class="se">\n</span><span class="s1">(slow, using $\sigma_</span><span class="si">{est}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">astro</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;original</span><span class="se">\n</span><span class="s1">(noise free)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">denoise_fast</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;non-local means</span><span class="se">\n</span><span class="s1">(fast)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">denoise2_fast</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;non-local means</span><span class="se">\n</span><span class="s1">(fast, using $\sigma_</span><span class="si">{est}</span><span class="s1">$)&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># print PSNR metric for each case</span>
+<span class="n">psnr_noisy</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">noisy</span><span class="p">)</span>
+<span class="n">psnr</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">denoise</span><span class="p">)</span>
+<span class="n">psnr2</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">denoise2</span><span class="p">)</span>
+<span class="n">psnr_fast</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">denoise_fast</span><span class="p">)</span>
+<span class="n">psnr2_fast</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.peak_signal_noise_ratio" title="View documentation for skimage.metrics.peak_signal_noise_ratio"><span class="n">peak_signal_noise_ratio</span></a><span class="p">(</span><span class="n">astro</span><span class="p">,</span> <span class="n">denoise2_fast</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PSNR (noisy) = </span><span class="si">{psnr_noisy:0.2f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PSNR (slow) = </span><span class="si">{psnr:0.2f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PSNR (slow, using sigma) = </span><span class="si">{psnr2:0.2f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PSNR (fast) = </span><span class="si">{psnr_fast:0.2f}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;PSNR (fast, using sigma) = </span><span class="si">{psnr2_fast:0.2f}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.036 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-filters-plot-nonlocal-means-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/00d929af82f15e4a9e4fa184af4f8bc2/plot_nonlocal_means.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_nonlocal_means.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/50750e1c6c5c3dae31ccb55209fee7b3/plot_nonlocal_means.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_nonlocal_means.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

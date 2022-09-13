@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Evaluating segmentation metrics &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Face detection using a cascade classifier" href="../applications/plot_face_detection.html" />
+        <link rel="prev" title="Morphological Snakes" href="plot_morphsnakes.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-metrics-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="evaluating-segmentation-metrics">
+<span id="sphx-glr-auto-examples-segmentation-plot-metrics-py"></span><h1>Evaluating segmentation metrics<a class="headerlink" href="#evaluating-segmentation-metrics" title="Permalink to this headline">¶</a></h1>
+<p>When trying out different segmentation methods, how do you know which one is
+best? If you have a <em>ground truth</em> or <em>gold standard</em> segmentation, you can use
+various metrics to check how close each automated method comes to the truth.
+In this example we use an easy-to-segment image as an example of how to
+interpret various segmentation metrics. We will use the the adapted Rand error
+and the variation of information as example metrics, and see how
+<em>oversegmentation</em> (splitting of true segments into too many sub-segments) and
+<em>undersegmentation</em> (merging of different true segments into a single segment)
+affect the different scores.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">ndimage</span> <span class="k">as</span> <span class="n">ndi</span>
+
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.metrics</span> <span class="k">import</span> <span class="p">(</span><a href="../../api/skimage.metrics.html#skimage.metrics.adapted_rand_error" title="View documentation for skimage.metrics.adapted_rand_error"><span class="n">adapted_rand_error</span></a><span class="p">,</span>
+                              <a href="../../api/skimage.metrics.html#skimage.metrics.variation_of_information" title="View documentation for skimage.metrics.variation_of_information"><span class="n">variation_of_information</span></a><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <a href="../../api/skimage.filters.html#skimage.filters.sobel" title="View documentation for skimage.filters.sobel"><span class="n">sobel</span></a>
+<span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="k">import</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="View documentation for skimage.measure.label"><span class="n">label</span></a>
+<span class="kn">from</span> <span class="nn">skimage.util</span> <span class="k">import</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.util.img_as_float"><span class="n">img_as_float</span></a>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <a href="../../api/skimage.feature.html#skimage.feature.canny" title="View documentation for skimage.feature.canny"><span class="n">canny</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.remove_small_objects" title="View documentation for skimage.morphology.remove_small_objects"><span class="n">remove_small_objects</span></a>
+<span class="kn">from</span> <span class="nn">skimage.segmentation</span> <span class="k">import</span> <span class="p">(</span><a href="../../api/skimage.segmentation.html#skimage.segmentation.morphological_geodesic_active_contour" title="View documentation for skimage.segmentation.morphological_geodesic_active_contour"><span class="n">morphological_geodesic_active_contour</span></a><span class="p">,</span>
+                                  <a href="../../api/skimage.segmentation.html#skimage.segmentation.inverse_gaussian_gradient" title="View documentation for skimage.segmentation.inverse_gaussian_gradient"><span class="n">inverse_gaussian_gradient</span></a><span class="p">,</span>
+                                  <a href="../../api/skimage.segmentation.html#skimage.segmentation.watershed" title="View documentation for skimage.segmentation.watershed"><span class="n">watershed</span></a><span class="p">,</span>
+                                  <a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="View documentation for skimage.segmentation.mark_boundaries"><span class="n">mark_boundaries</span></a><span class="p">)</span>
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.coins" title="View documentation for skimage.data.coins"><span class="n">data</span><span class="o">.</span><span class="n">coins</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p>First, we generate the true segmentation. For this simple image, we know
+exact functions and parameters that will produce a perfect segmentation. In
+a real scenario, typically you would generate ground truth by manual
+annotation or “painting” of a segmentation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">elevation_map</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.sobel" title="View documentation for skimage.filters.sobel"><span class="n">sobel</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">markers</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros_like.html#numpy.zeros_like" title="View documentation for numpy.zeros_like"><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">markers</span><span class="p">[</span><span class="n">image</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">markers</span><span class="p">[</span><span class="n">image</span> <span class="o">&gt;</span> <span class="mi">150</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">im_true</span> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.watershed" title="View documentation for skimage.segmentation.watershed"><span class="n">watershed</span></a><span class="p">(</span><span class="n">elevation_map</span><span class="p">,</span> <span class="n">markers</span><span class="p">)</span>
+<span class="n">im_true</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.label.html#scipy.ndimage.label" title="View documentation for scipy.ndimage.label"><span class="n">ndi</span><span class="o">.</span><span class="n">label</span></a><span class="p">(</span><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_fill_holes.html#scipy.ndimage.binary_fill_holes" title="View documentation for scipy.ndimage.binary_fill_holes"><span class="n">ndi</span><span class="o">.</span><span class="n">binary_fill_holes</span></a><span class="p">(</span><span class="n">im_true</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Next, we create three different segmentations with different characteristics.
+The first one uses <a class="reference internal" href="../../api/skimage.segmentation.html#skimage.segmentation.watershed" title="skimage.segmentation.watershed"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.segmentation.watershed()</span></code></a> with
+<em>compactness</em>, which is a useful initial segmentation but too fine as a
+final result. We will see how this causes the oversegmentation metrics to
+shoot up.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.sobel" title="View documentation for skimage.filters.sobel"><span class="n">sobel</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">im_test1</span> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.watershed" title="View documentation for skimage.segmentation.watershed"><span class="n">watershed</span></a><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">markers</span><span class="o">=</span><span class="mi">468</span><span class="p">,</span> <span class="n">compactness</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The next approach uses the Canny edge filter, <code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.canny()</span></code>.
+This is a very good edge finder, and gives balanced results.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">edges</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.canny" title="View documentation for skimage.feature.canny"><span class="n">canny</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">fill_coins</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_fill_holes.html#scipy.ndimage.binary_fill_holes" title="View documentation for scipy.ndimage.binary_fill_holes"><span class="n">ndi</span><span class="o">.</span><span class="n">binary_fill_holes</span></a><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">im_test2</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.label.html#scipy.ndimage.label" title="View documentation for scipy.ndimage.label"><span class="n">ndi</span><span class="o">.</span><span class="n">label</span></a><span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.remove_small_objects" title="View documentation for skimage.morphology.remove_small_objects"><span class="n">remove_small_objects</span></a><span class="p">(</span><span class="n">fill_coins</span><span class="p">,</span> <span class="mi">21</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, we use morphological geodesic active contours,
+<a class="reference internal" href="../../api/skimage.segmentation.html#skimage.segmentation.morphological_geodesic_active_contour" title="skimage.segmentation.morphological_geodesic_active_contour"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.segmentation.morphological_geodesic_active_contour()</span></code></a>, a method
+that generally produces good results, but requires a long time to converge on
+a good answer. We purposefully cut short the procedure at 100 iterations, so
+that the final result is <em>undersegmented</em>, meaning that many regions are
+merged into one segment. We will see the corresponding effect on the
+segmentation metrics.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.util.img_as_float"><span class="n">img_as_float</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">gradient</span> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.inverse_gaussian_gradient" title="View documentation for skimage.segmentation.inverse_gaussian_gradient"><span class="n">inverse_gaussian_gradient</span></a><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">init_ls</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="n">init_ls</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">im_test3</span> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.morphological_geodesic_active_contour" title="View documentation for skimage.segmentation.morphological_geodesic_active_contour"><span class="n">morphological_geodesic_active_contour</span></a><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                                 <span class="n">init_level_set</span><span class="o">=</span><span class="n">init_ls</span><span class="p">,</span>
+                                                 <span class="n">smoothing</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">balloon</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                                                 <span class="n">threshold</span><span class="o">=</span><span class="mf">0.69</span><span class="p">)</span>
+<span class="n">im_test3</span> <span class="o">=</span> <a href="../../api/skimage.measure.html#skimage.measure.label" title="View documentation for skimage.measure.label"><span class="n">label</span></a><span class="p">(</span><span class="n">im_test3</span><span class="p">)</span>
+
+<span class="n">method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Compact watershed&#39;</span><span class="p">,</span> <span class="s1">&#39;Canny filter&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Morphological Geodesic Active Contours&#39;</span><span class="p">]</span>
+<span class="n">short_method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Compact WS&#39;</span><span class="p">,</span> <span class="s1">&#39;Canny&#39;</span><span class="p">,</span> <span class="s1">&#39;GAC&#39;</span><span class="p">]</span>
+
+<span class="n">precision_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">recall_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">split_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">merge_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">im_test</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">method_names</span><span class="p">,</span> <span class="p">[</span><span class="n">im_test1</span><span class="p">,</span> <span class="n">im_test2</span><span class="p">,</span> <span class="n">im_test3</span><span class="p">]):</span>
+    <span class="n">error</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">recall</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.adapted_rand_error" title="View documentation for skimage.metrics.adapted_rand_error"><span class="n">adapted_rand_error</span></a><span class="p">(</span><span class="n">im_true</span><span class="p">,</span> <span class="n">im_test</span><span class="p">)</span>
+    <span class="n">splits</span><span class="p">,</span> <span class="n">merges</span> <span class="o">=</span> <a href="../../api/skimage.metrics.html#skimage.metrics.variation_of_information" title="View documentation for skimage.metrics.variation_of_information"><span class="n">variation_of_information</span></a><span class="p">(</span><span class="n">im_true</span><span class="p">,</span> <span class="n">im_test</span><span class="p">)</span>
+    <span class="n">split_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span>
+    <span class="n">merge_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merges</span><span class="p">)</span>
+    <span class="n">precision_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span>
+    <span class="n">recall_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">recall</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">## Method: </span><span class="si">{name}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Adapted Rand error: </span><span class="si">{error}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Adapted Rand precision: </span><span class="si">{precision}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Adapted Rand recall: </span><span class="si">{recall}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;False Splits: </span><span class="si">{splits}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;False Merges: </span><span class="si">{merges}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">merge_list</span><span class="p">,</span> <span class="n">split_list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">short_method_names</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">merge_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">split_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                   <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;False Merges (bits)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;False Splits (bits)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Split Variation of Information&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">precision_list</span><span class="p">,</span> <span class="n">recall_list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">short_method_names</span><span class="p">):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="p">(</span><span class="n">precision_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">recall_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                   <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Precision&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Recall&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Adapted Rand precision vs. recall&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="View documentation for skimage.segmentation.mark_boundaries"><span class="n">mark_boundaries</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">im_true</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;True Segmentation&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="View documentation for skimage.segmentation.mark_boundaries"><span class="n">mark_boundaries</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">im_test1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Compact Watershed&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="View documentation for skimage.segmentation.mark_boundaries"><span class="n">mark_boundaries</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">im_test2</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Edge Detection&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="View documentation for skimage.segmentation.mark_boundaries"><span class="n">mark_boundaries</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">im_test3</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Morphological GAC&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_metrics_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_metrics_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>## Method: Compact watershed
+Adapted Rand error: 0.5421684624091794
+Adapted Rand precision: 0.2968781380256405
+Adapted Rand recall: 0.9999664222191392
+False Splits: 6.032642761215397
+False Merges: 0.08261291671469607
+
+## Method: Canny filter
+Adapted Rand error: 0.0027247598212836177
+Adapted Rand precision: 0.9946425605360896
+Adapted Rand recall: 0.9999218934767155
+False Splits: 0.20042002116129515
+False Merges: 0.18076872508600775
+
+## Method: Morphological Geodesic Active Contours
+Adapted Rand error: 0.8346015951433162
+Adapted Rand precision: 0.9191321393095933
+Adapted Rand recall: 0.09087577915161697
+False Splits: 0.6466330168716372
+False Merges: 1.4656270133195097
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.780 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-metrics-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/5a67eea112aeea782156600393a96c28/plot_metrics.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_metrics.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6fcfd4f44aa42958771bca7fe28c3db2/plot_metrics.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_metrics.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

@@ -1,0 +1,896 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module: transform &mdash; scikits.image v0.3 docs</title>
+    
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="scikits.image v0.3 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="../index.html">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">transform</span></tt></a><ul>
+<li><a class="reference internal" href="#fast-homography">fast_homography</a></li>
+<li><a class="reference internal" href="#fft">fft</a></li>
+<li><a class="reference internal" href="#fftshift">fftshift</a></li>
+<li><a class="reference internal" href="#frt2">frt2</a></li>
+<li><a class="reference internal" href="#homography">homography</a></li>
+<li><a class="reference internal" href="#hough">hough</a></li>
+<li><a class="reference internal" href="#ifft">ifft</a></li>
+<li><a class="reference internal" href="#ifrt2">ifrt2</a></li>
+<li><a class="reference internal" href="#integral-image">integral_image</a></li>
+<li><a class="reference internal" href="#integrate">integrate</a></li>
+<li><a class="reference internal" href="#iradon">iradon</a></li>
+<li><a class="reference internal" href="#probabilistic-hough">probabilistic_hough</a></li>
+<li><a class="reference internal" href="#radon">radon</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/scikits.image.transform.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-scikits.image.transform">
+<span id="module-transform"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">transform</span></tt><a class="headerlink" href="#module-scikits.image.transform" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.fast_homography" title="scikits.image.transform.fast_homography"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.fast_homography</span></tt></a></td>
+<td>Projective transformation (homography).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.fft" title="scikits.image.transform.fft"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.fft</span></tt></a>(x[,&nbsp;n,&nbsp;axis,&nbsp;...])</td>
+<td>Return discrete Fourier transform of real or complex sequence.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.fftshift" title="scikits.image.transform.fftshift"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.fftshift</span></tt></a>(x[,&nbsp;axes])</td>
+<td>Shift the zero-frequency component to the center of the spectrum.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.frt2" title="scikits.image.transform.frt2"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.frt2</span></tt></a>(a)</td>
+<td>Compute the 2-dimensional finite radon transform (FRT) for an n x n</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.homography" title="scikits.image.transform.homography"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.homography</span></tt></a>(image,&nbsp;H)</td>
+<td>Perform a projective transformation (homography) on an image.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.hough" title="scikits.image.transform.hough"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.hough</span></tt></a>(img[,&nbsp;theta])</td>
+<td>Perform a straight line Hough transform.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.ifft" title="scikits.image.transform.ifft"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.ifft</span></tt></a>(x[,&nbsp;n,&nbsp;axis,&nbsp;...])</td>
+<td>Return discrete inverse Fourier transform of real or complex sequence.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.ifrt2" title="scikits.image.transform.ifrt2"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.ifrt2</span></tt></a>(a)</td>
+<td>Compute the 2-dimensional inverse finite radon transform (iFRT) for</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.integral_image" title="scikits.image.transform.integral_image"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.integral_image</span></tt></a>(x)</td>
+<td>Integral image / summed area table.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.integrate" title="scikits.image.transform.integrate"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.integrate</span></tt></a>(ii,&nbsp;r0,&nbsp;...)</td>
+<td>Use an integral image to integrate over a given window.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.iradon" title="scikits.image.transform.iradon"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.iradon</span></tt></a>(radon_image)</td>
+<td>Inverse radon transform.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#scikits.image.transform.probabilistic_hough" title="scikits.image.transform.probabilistic_hough"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.probabilistic_hough</span></tt></a>(img)</td>
+<td>Performs a progressive probabilistic line Hough transform and returns the detected lines.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#scikits.image.transform.radon" title="scikits.image.transform.radon"><tt class="xref py py-obj docutils literal"><span class="pre">scikits.image.transform.radon</span></tt></a>(image[,&nbsp;theta])</td>
+<td>Calculates the radon transform of an image given specified projection angles.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="fast-homography">
+<h2>fast_homography<a class="headerlink" href="#fast-homography" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.fast_homography">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">fast_homography</tt><big>(</big><big>)</big><a class="headerlink" href="#scikits.image.transform.fast_homography" title="Permalink to this definition">¶</a></dt>
+<dd><p>Projective transformation (homography).</p>
+<p>Perform a projective transformation (homography) of a
+floating point image, using bi-linear interpolation.</p>
+<p>For each pixel, given its homogeneous coordinate <img class="math" src="../_images/math/1aa9d7913003fccfc89a3c2961147dac616653a4.png" alt="\mathbf{x}
+= [x, y, 1]^T"/>, its target position is calculated by multiplying
+with the given matrix, <img class="math" src="../_images/math/b1902d279ba37d60bdce4e0e987b7cd19d48974e.png" alt="H"/>, to give <img class="math" src="../_images/math/42a03cd1c073037bd9cd9e953d4ab607bb70d4c5.png" alt="H \mathbf{x}"/>.
+E.g., to rotate by theta degrees clockwise, the matrix should be</p>
+<div class="highlight-python"><pre>[[cos(theta) -sin(theta) 0]
+ [sin(theta)  cos(theta) 0]
+ [0            0         1]]</pre>
+</div>
+<p>or, to translate x by 10 and y by 20,</p>
+<div class="highlight-python"><pre>[[1 0 10]
+ [0 1 20]
+ [0 0 1 ]].</pre>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>H</strong> : array of shape <tt class="docutils literal"><span class="pre">(3,</span> <span class="pre">3)</span></tt></p>
+<blockquote>
+<div><p>Transformation matrix H that defines the homography.</p>
+</div></blockquote>
+<p><strong>output_shape</strong> : tuple (rows, cols)</p>
+<blockquote>
+<div><p>Shape of the output image generated.</p>
+</div></blockquote>
+<p><strong>order</strong> : int</p>
+<blockquote>
+<div><p>Order of splines used in interpolation.</p>
+</div></blockquote>
+<p><strong>mode</strong> : {&#8216;constant&#8217;, &#8216;mirror&#8217;, &#8216;wrap&#8217;}</p>
+<blockquote>
+<div><p>How to handle values outside the image borders.</p>
+</div></blockquote>
+<p><strong>cval</strong> : string</p>
+<blockquote class="last">
+<div><p>Used in conjunction with mode &#8216;C&#8217; (constant), the value
+outside the image boundaries.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="fft">
+<h2>fft<a class="headerlink" href="#fft" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.fft">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">fft</tt><big>(</big><em>x</em>, <em>n=None</em>, <em>axis=-1</em>, <em>overwrite_x=0</em><big>)</big><a class="headerlink" href="#scikits.image.transform.fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return discrete Fourier transform of real or complex sequence.</p>
+<p>The returned complex array contains <tt class="docutils literal"><span class="pre">y(0),</span> <span class="pre">y(1),...,</span> <span class="pre">y(n-1)</span></tt> where</p>
+<p><tt class="docutils literal"><span class="pre">y(j)</span> <span class="pre">=</span> <span class="pre">(x</span> <span class="pre">*</span> <span class="pre">exp(-2*pi*sqrt(-1)*j*np.arange(n)/n)).sum()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Array to Fourier transform.</p>
+</div></blockquote>
+<p><strong>n</strong> : int, optional</p>
+<blockquote>
+<div><p>Length of the Fourier transform.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&lt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is
+truncated.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is zero-padded. The
+default results in <tt class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">x.shape[axis]</span></tt>.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>Axis along which the fft&#8217;s are computed; the default is over the
+last axis (i.e., <tt class="docutils literal"><span class="pre">axis=-1</span></tt>).</p>
+</div></blockquote>
+<p><strong>overwrite_x</strong> : bool, optional</p>
+<blockquote>
+<div><p>If True the contents of <cite>x</cite> can be destroyed; the default is False.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>z</strong> : complex ndarray</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>with the elements:</dt>
+<dd><p class="first last">[y(0),y(1),..,y(n/2),y(1-n/2),...,y(-1)]        if n is even
+[y(0),y(1),..,y((n-1)/2),y(-(n-1)/2),...,y(-1)]  if n is odd</p>
+</dd>
+<dt>where</dt>
+<dd><p class="first last">y(j) = sum[k=0..n-1] x[k] * exp(-sqrt(-1)*j*k* 2*pi/n), j = 0..n-1</p>
+</dd>
+</dl>
+<p>Note that y(-j) = y(n-j).conjugate().</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#scikits.image.transform.ifft" title="scikits.image.transform.ifft"><tt class="xref py py-obj docutils literal"><span class="pre">ifft</span></tt></a></dt>
+<dd>Inverse FFT</dd>
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">rfft</span></tt></dt>
+<dd>FFT of a real sequence</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The packing of the result is &#8220;standard&#8221;: If A = fft(a, n), then A[0]
+contains the zero-frequency term, A[1:n/2+1] contains the
+positive-frequency terms, and A[n/2+1:] contains the negative-frequency
+terms, in order of decreasingly negative frequency. So for an 8-point
+transform, the frequencies of the result are [ 0, 1, 2, 3, 4, -3, -2, -1].</p>
+<p>For n even, A[n/2] contains the sum of the positive and negative-frequency
+terms. For n even and x real, A[n/2] will always be real.</p>
+<p>This is most efficient for n a power of two.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">fft</span><span class="p">(</span><span class="n">ifft</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span> <span class="c">#within numerical accuracy.</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="fftshift">
+<h2>fftshift<a class="headerlink" href="#fftshift" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.fftshift">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">fftshift</tt><big>(</big><em>x</em>, <em>axes=None</em><big>)</big><a class="headerlink" href="#scikits.image.transform.fftshift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift the zero-frequency component to the center of the spectrum.</p>
+<p>This function swaps half-spaces for all axes listed (defaults to all).
+Note that <tt class="docutils literal"><span class="pre">y[0]</span></tt> is the Nyquist component only if <tt class="docutils literal"><span class="pre">len(x)</span></tt> is even.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Input array.</p>
+</div></blockquote>
+<p><strong>axes</strong> : int or shape tuple, optional</p>
+<blockquote>
+<div><p>Axes over which to shift.  Default is None, which shifts all axes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>The shifted array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">ifftshift</span></tt></dt>
+<dd>The inverse of <cite>fftshift</cite>.</dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span>
+<span class="go">array([ 0.,  1.,  2.,  3.,  4., -5., -4., -3., -2., -1.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
+<span class="go">array([-5., -4., -3., -2., -1.,  0.,  1.,  2.,  3.,  4.])</span>
+</pre></div>
+</div>
+<p>Shift the zero-frequency component only along the second axis:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">1.</span><span class="o">/</span><span class="mi">9</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span>
+<span class="go">array([[ 0.,  1.,  2.],</span>
+<span class="go">       [ 3.,  4., -4.],</span>
+<span class="go">       [-3., -2., -1.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+<span class="go">array([[ 2.,  0.,  1.],</span>
+<span class="go">       [-4.,  3.,  4.],</span>
+<span class="go">       [-1., -3., -2.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="frt2">
+<h2>frt2<a class="headerlink" href="#frt2" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.frt2">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">frt2</tt><big>(</big><em>a</em><big>)</big><a class="headerlink" href="#scikits.image.transform.frt2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the 2-dimensional finite radon transform (FRT) for an n x n
+integer array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>A 2-D square n x n integer array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>FRT</strong> : 2-D ndarray</p>
+<blockquote class="last">
+<div><p>Finite Radon Transform array of (n+1) x n integer coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#scikits.image.transform.ifrt2" title="scikits.image.transform.ifrt2"><tt class="xref py py-obj docutils literal"><span class="pre">ifrt2</span></tt></a></dt>
+<dd>The two-dimensional inverse FRT.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The FRT has a unique inverse iff n is prime. [FRT]
+The idea for this algorithm is due to Vlad Negnevitski.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="frt" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[FRT]</td><td>A. Kingston and I. Svalbe, &#8220;Projective transforms on periodic
+discrete image arrays,&#8221; in P. Hawkes (Ed), Advances in Imaging
+and Electron Physics, 139 (2006)</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Generate a test image:
+Use a prime number for the array dimensions</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">SIZE</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tri</span><span class="p">(</span><span class="n">SIZE</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Apply the Finite Radon Transform:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">frt2</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Angle&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Translation&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="homography">
+<h2>homography<a class="headerlink" href="#homography" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.homography">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">homography</tt><big>(</big><em>image</em>, <em>H</em>, <em>output_shape=None</em>, <em>order=1</em>, <em>mode='constant'</em>, <em>cval=0.0</em><big>)</big><a class="headerlink" href="#scikits.image.transform.homography" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a projective transformation (homography) on an image.</p>
+<p>For each pixel, given its homogeneous coordinate <img class="math" src="../_images/math/1aa9d7913003fccfc89a3c2961147dac616653a4.png" alt="\mathbf{x}
+= [x, y, 1]^T"/>, its target position is calculated by multiplying
+with the given matrix, <img class="math" src="../_images/math/b1902d279ba37d60bdce4e0e987b7cd19d48974e.png" alt="H"/>, to give <img class="math" src="../_images/math/42a03cd1c073037bd9cd9e953d4ab607bb70d4c5.png" alt="H \mathbf{x}"/>.
+E.g., to rotate by theta degrees clockwise, the matrix should be</p>
+<div class="highlight-python"><pre>[[cos(theta) -sin(theta) 0]
+ [sin(theta)  cos(theta) 0]
+ [0            0         1]]</pre>
+</div>
+<p>or, to translate x by 10 and y by 20,</p>
+<div class="highlight-python"><pre>[[1 0 10]
+ [0 1 20]
+ [0 0 1 ]].</pre>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : 2-D array</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>H</strong> : array of shape <tt class="docutils literal"><span class="pre">(3,</span> <span class="pre">3)</span></tt></p>
+<blockquote>
+<div><p>Transformation matrix H that defines the homography.</p>
+</div></blockquote>
+<p><strong>output_shape</strong> : tuple (rows, cols)</p>
+<blockquote>
+<div><p>Shape of the output image generated.</p>
+</div></blockquote>
+<p><strong>order</strong> : int</p>
+<blockquote>
+<div><p>Order of splines used in interpolation.</p>
+</div></blockquote>
+<p><strong>mode</strong> : string</p>
+<blockquote>
+<div><p>How to handle values outside the image borders.  Passed as-is
+to ndimage.</p>
+</div></blockquote>
+<p><strong>cval</strong> : string</p>
+<blockquote class="last">
+<div><p>Used in conjunction with mode &#8216;constant&#8217;, the value outside
+the image boundaries.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="hough">
+<h2>hough<a class="headerlink" href="#hough" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.hough">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">hough</tt><big>(</big><em>img</em>, <em>theta=None</em><big>)</big><a class="headerlink" href="#scikits.image.transform.hough" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a straight line Hough transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>img</strong> : (M, N) ndarray</p>
+<blockquote>
+<div><p>Input image with nonzero values representing edges.</p>
+</div></blockquote>
+<p><strong>theta</strong> : 1D ndarray of double</p>
+<blockquote>
+<div><p>Angles at which to compute the transform, in radians.
+Defaults to -pi/2 .. pi/2</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>H</strong> : 2-D ndarray of uint64</p>
+<blockquote>
+<div><p>Hough transform accumulator.</p>
+</div></blockquote>
+<p><strong>distances</strong> : ndarray</p>
+<blockquote>
+<div><p>Distance values.</p>
+</div></blockquote>
+<p><strong>theta</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Angles at which the transform was computed.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Generate a test image:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[:,</span> <span class="mi">65</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="mi">35</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="mi">35</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.95</span>
+</pre></div>
+</div>
+<p>Apply the Hough transform:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">out</span><span class="p">,</span> <span class="n">angles</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">hough</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Plot the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bone</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Angle (degree)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Distance </span><span class="si">%d</span><span class="s"> (pixel)&#39;</span> <span class="o">%</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">scikits.image.transform</span> <span class="kn">import</span> <span class="n">hough</span>
+
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">img</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">img</span><span class="p">[:,</span> <span class="mi">65</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">img</span><span class="p">[</span><span class="mi">35</span><span class="p">:</span><span class="mi">45</span><span class="p">,</span> <span class="mi">35</span><span class="p">:</span><span class="mi">50</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">90</span><span class="p">):</span>
+    <span class="n">img</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">img</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.95</span>
+
+<span class="n">out</span><span class="p">,</span> <span class="n">angles</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">hough</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Input image&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">bone</span><span class="p">,</span>
+           <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                   <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">angles</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Hough transform&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Angle (degree)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Distance (pixel)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../plots/hough_tf.py">Source code</a>, <a class="reference external" href="../plots/hough_tf.png">png</a>)</p>
+<div class="figure">
+<img alt="../_images/hough_tf.png" src="../_images/hough_tf.png" />
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="ifft">
+<h2>ifft<a class="headerlink" href="#ifft" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.ifft">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">ifft</tt><big>(</big><em>x</em>, <em>n=None</em>, <em>axis=-1</em>, <em>overwrite_x=0</em><big>)</big><a class="headerlink" href="#scikits.image.transform.ifft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return discrete inverse Fourier transform of real or complex sequence.</p>
+<p>The returned complex array contains <tt class="docutils literal"><span class="pre">y(0),</span> <span class="pre">y(1),...,</span> <span class="pre">y(n-1)</span></tt> where</p>
+<p><tt class="docutils literal"><span class="pre">y(j)</span> <span class="pre">=</span> <span class="pre">(x</span> <span class="pre">*</span> <span class="pre">exp(2*pi*sqrt(-1)*j*np.arange(n)/n)).mean()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : array_like</p>
+<blockquote>
+<div><p>Transformed data to invert.</p>
+</div></blockquote>
+<p><strong>n</strong> : int, optional</p>
+<blockquote>
+<div><p>Length of the inverse Fourier transform.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&lt;</span> <span class="pre">x.shape[axis]</span></tt>,
+<cite>x</cite> is truncated.  If <tt class="docutils literal"><span class="pre">n</span> <span class="pre">&gt;</span> <span class="pre">x.shape[axis]</span></tt>, <cite>x</cite> is zero-padded.
+The default results in <tt class="docutils literal"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">x.shape[axis]</span></tt>.</p>
+</div></blockquote>
+<p><strong>axis</strong> : int, optional</p>
+<blockquote>
+<div><p>Axis along which the ifft&#8217;s are computed; the default is over the
+last axis (i.e., <tt class="docutils literal"><span class="pre">axis=-1</span></tt>).</p>
+</div></blockquote>
+<p><strong>overwrite_x</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If True the contents of <cite>x</cite> can be destroyed; the default is False.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="ifrt2">
+<h2>ifrt2<a class="headerlink" href="#ifrt2" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.ifrt2">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">ifrt2</tt><big>(</big><em>a</em><big>)</big><a class="headerlink" href="#scikits.image.transform.ifrt2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the 2-dimensional inverse finite radon transform (iFRT) for
+an (n+1) x n integer array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>A 2-D (n+1) row x n column integer array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>iFRT</strong> : 2-D n x n ndarray</p>
+<blockquote class="last">
+<div><p>Inverse Finite Radon Transform array of n x n integer coefficients.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="#scikits.image.transform.frt2" title="scikits.image.transform.frt2"><tt class="xref py py-obj docutils literal"><span class="pre">frt2</span></tt></a></dt>
+<dd>The two-dimensional FRT</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The FRT has a unique inverse iff n is prime.
+See [FRT] for an overview.
+The idea for this algorithm is due to Vlad Negnevitski.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[FRT]</td><td>A. Kingston and I. Svalbe, &#8220;Projective transforms on periodic
+discrete image arrays,&#8221; in P. Hawkes (Ed), Advances in Imaging
+and Electron Physics, 139 (2006)</td></tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">SIZE</span> <span class="o">=</span> <span class="mi">59</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tri</span><span class="p">(</span><span class="n">SIZE</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Apply the Finite Radon Transform:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">frt2</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Apply the Inverse Finite Radon Transform to recover the input</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fi</span> <span class="o">=</span> <span class="n">ifrt2</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Check that it&#8217;s identical to the original</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">img</span><span class="o">-</span><span class="n">fi</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="integral-image">
+<h2>integral_image<a class="headerlink" href="#integral-image" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.integral_image">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">integral_image</tt><big>(</big><em>x</em><big>)</big><a class="headerlink" href="#scikits.image.transform.integral_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integral image / summed area table.</p>
+<p>The integral image contains the sum of all elements above and to the
+left of it, i.e.:</p>
+<div class="math">
+<p><img src="../_images/math/60eb18acdabe921f0fcbc69cf1dfc9fe4934bb1d.png" alt="S[m, n] = \sum_{i \leq m} \sum_{j \leq n} X[i, j]"/></p>
+</div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>S</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Integral image / summed area table.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r91" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[R91]</a></td><td>F.C. Crow, &#8220;Summed-area tables for texture mapping,&#8221;
+ACM SIGGRAPH Computer Graphics, vol. 18, 1984, pp. 207-212.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="integrate">
+<h2>integrate<a class="headerlink" href="#integrate" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.integrate">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">integrate</tt><big>(</big><em>ii</em>, <em>r0</em>, <em>c0</em>, <em>r1</em>, <em>c1</em><big>)</big><a class="headerlink" href="#scikits.image.transform.integrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use an integral image to integrate over a given window.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>ii</strong> : ndarray</p>
+<blockquote>
+<div><p>Integral image.</p>
+</div></blockquote>
+<p><strong>r0, c0</strong> : int</p>
+<blockquote>
+<div><p>Top-left corner of block to be summed.</p>
+</div></blockquote>
+<p><strong>r1, c1</strong> : int</p>
+<blockquote>
+<div><p>Bottom-right corner of block to be summed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>S</strong> : int</p>
+<blockquote class="last">
+<div><p>Integral (sum) over the given window.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="iradon">
+<h2>iradon<a class="headerlink" href="#iradon" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.iradon">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">iradon</tt><big>(</big><em>radon_image</em>, <em>theta=None</em>, <em>output_size=None</em>, <em>filter='ramp'</em>, <em>interpolation='linear'</em><big>)</big><a class="headerlink" href="#scikits.image.transform.iradon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse radon transform.</p>
+<p>Reconstruct an image from the radon transform, using the filtered
+back projection algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>radon_image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Image containing radon transform (sinogram). Each column of
+the image corresponds to a projection along a different angle.</p>
+</div></blockquote>
+<p><strong>theta</strong> : array_like, dtype=float, optional</p>
+<blockquote>
+<div><p>Reconstruction angles (in degrees). Default: m angles evenly spaced
+between 0 and 180 (if the shape of <cite>radon_image</cite> is nxm)</p>
+</div></blockquote>
+<p><strong>output_size</strong> : int</p>
+<blockquote>
+<div><p>Number of rows and columns in the reconstruction.</p>
+</div></blockquote>
+<p><strong>filter</strong> : str, optional (default ramp)</p>
+<blockquote>
+<div><p>Filter used in frequency domain filtering. Ramp filter used by default.
+Filters available: ramp, shepp-logan, cosine, hamming, hann
+Assign None to use no filter.</p>
+</div></blockquote>
+<p><strong>interpolation</strong> : str, optional (default linear)</p>
+<blockquote>
+<div><p>Interpolation method used in reconstruction.
+Methods available: nearest, linear.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Reconstructed image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It applies the fourier slice theorem to reconstruct an image by
+multiplying the frequency domain of the filter with the FFT of the
+projection data. This algorithm is called filtered back projection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="probabilistic-hough">
+<h2>probabilistic_hough<a class="headerlink" href="#probabilistic-hough" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.probabilistic_hough">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">probabilistic_hough</tt><big>(</big><em>img</em>, <em>threshold=10</em>, <em>line_length=50</em>, <em>line_gap=10</em>, <em>theta=None</em><big>)</big><a class="headerlink" href="#scikits.image.transform.probabilistic_hough" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a progressive probabilistic line Hough transform and returns the detected lines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>img</strong> : (M, N) ndarray</p>
+<blockquote>
+<div><p>Input image with nonzero values representing edges.</p>
+</div></blockquote>
+<p><strong>value_threshold: int</strong> :</p>
+<blockquote>
+<div><p>Threshold</p>
+</div></blockquote>
+<p><strong>line_length: int, optional (default 50)</strong> :</p>
+<blockquote>
+<div><p>Minimum accepted length of detected lines.
+Increase the parameter to extract longer lines.</p>
+</div></blockquote>
+<p><strong>line_gap: int, optional, (default 10)</strong> :</p>
+<blockquote>
+<div><p>Maximum gap between pixels to still form a line. 
+Increase the parameter to merge broken lines more aggresively.</p>
+</div></blockquote>
+<p><strong>theta :1D ndarray, dtype=double, optional, default (-pi/2 .. pi/2)</strong> :</p>
+<blockquote>
+<div><p>Angles at which to compute the transform, in radians.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lines</strong> : list</p>
+<blockquote class="last">
+<div><p>List of lines identified, lines in format ((x0, y0), (x1, y0)), indicating 
+line start and end.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r92" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[R92]</a></td><td>C. Galamhos, J. Matas and J. Kittler,&#8221;Progressive probabilistic Hough 
+transform for line detection&#8221;, in  IEEE Computer Society Conference on 
+Computer Vision and Pattern Recognition, 1999.</td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="radon">
+<h2>radon<a class="headerlink" href="#radon" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="scikits.image.transform.radon">
+<tt class="descclassname">scikits.image.transform.</tt><tt class="descname">radon</tt><big>(</big><em>image</em>, <em>theta=None</em><big>)</big><a class="headerlink" href="#scikits.image.transform.radon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the radon transform of an image given specified
+projection angles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : array_like, dtype=float</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>theta</strong> : array_like, dtype=float, optional (default np.arange(180))</p>
+<blockquote>
+<div><p>Projection angles (in degrees).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Radon transform (sinogram).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1pre.
+    </div>
+    </div>
+
+  </body>
+</html>

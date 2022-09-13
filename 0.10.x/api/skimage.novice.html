@@ -1,0 +1,368 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: novice &mdash; skimage v0.10.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.10.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.novice">
+<span id="module-novice"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">novice</span></tt><a class="headerlink" href="#module-skimage.novice" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="skimage-novice">
+<h2>skimage.novice<a class="headerlink" href="#skimage-novice" title="Permalink to this headline">¶</a></h2>
+<p>A special Python image submodule for beginners.</p>
+<div class="section" id="description">
+<h3>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">skimage.novice</span></tt> provides a simple image manipulation interface for
+beginners.  It allows for easy loading, manipulating, and saving of image
+files.</p>
+<p>This module is primarily intended for teaching and differs significantly from
+the normal, array-oriented image functions used by scikit-image.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This module uses the Cartesian coordinate system, where the origin is at
+the lower-left corner instead of the upper-right and the order is x, y
+instead of row, column.</p>
+</div>
+</div>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>We can create a Picture object open opening an image file
+&gt;&gt;&gt; from skimage import novice
+&gt;&gt;&gt; from skimage import data
+&gt;&gt;&gt; picture = novice.open(data.data_dir + &#8216;/chelsea.png&#8217;)</p>
+<p>Pictures know their format
+&gt;&gt;&gt; picture.format
+&#8216;png&#8217;</p>
+<p>... and where they came from
+&gt;&gt;&gt; picture.path.endswith(&#8216;chelsea.png&#8217;)
+True</p>
+<p>... and their size
+&gt;&gt;&gt; picture.size
+(451, 300)
+&gt;&gt;&gt; picture.width
+451</p>
+<p>Changing <cite>size</cite> resizes the picture.
+&gt;&gt;&gt; picture.size = (45, 30)</p>
+<p>You can iterate over pixels, which have RGB values between 0 and 255,
+and know their location in the picture.
+&gt;&gt;&gt; for pixel in picture:
+...     if (pixel.red &gt; 128) and (pixel.x &lt; picture.width):
+...         pixel.red /= 2</p>
+<p>Pictures know if they&#8217;ve been modified from the original file
+&gt;&gt;&gt; picture.modified
+True
+&gt;&gt;&gt; print(picture.path)
+None</p>
+<p>Pictures can be indexed like arrays
+&gt;&gt;&gt; picture[0:20, 0:20] = (0, 0, 0)</p>
+<p>Saving the picture updates the path attribute, format, and modified state.
+&gt;&gt;&gt; picture.save(&#8216;save-demo.jpg&#8217;)
+&gt;&gt;&gt; picture.path.endswith(&#8216;save-demo.jpg&#8217;)
+True
+&gt;&gt;&gt; picture.format
+&#8216;jpeg&#8217;
+&gt;&gt;&gt; picture.modified
+False</p>
+</div>
+</div>
+<div class="section" id="picture">
+<h2><a class="reference internal" href="#skimage.novice.Picture" title="skimage.novice.Picture"><tt class="xref py py-class docutils literal"><span class="pre">Picture</span></tt></a><a class="headerlink" href="#picture" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skimage.novice.Picture">
+<em class="property">class </em><tt class="descclassname">skimage.novice.</tt><tt class="descname">Picture</tt><big>(</big><em>path=None</em>, <em>array=None</em>, <em>xy_array=None</em><big>)</big><a class="headerlink" href="#skimage.novice.Picture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A 2-D picture made up of pixels.</p>
+<p class="rubric">Examples</p>
+<p>Load an image from a file
+&gt;&gt;&gt; from skimage import novice
+&gt;&gt;&gt; from skimage import data
+&gt;&gt;&gt; picture = novice.open(data.data_dir + &#8216;/chelsea.png&#8217;)</p>
+<p>Load an image from a URL. URL must start with http(s):// or ftp(s)://
+&gt;&gt;&gt; picture = novice.open(&#8216;<a class="reference external" href="http://scikit-image.org/_static/img/logo.png">http://scikit-image.org/_static/img/logo.png</a>&#8216;)</p>
+<p>Create a blank 100 pixel wide, 200 pixel tall white image
+&gt;&gt;&gt; pic = Picture.from_size((100, 200), color=(255, 255, 255))</p>
+<p>Use numpy to make an RGB byte array (shape is height x width x 3)
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; data = np.zeros(shape=(200, 100, 3), dtype=np.uint8)
+&gt;&gt;&gt; data[:, :, 0] = 255  # Set red component to maximum
+&gt;&gt;&gt; pic = Picture(array=data)</p>
+<p>Get the bottom-left pixel
+&gt;&gt;&gt; pic[0, 0]
+Pixel(red=255, green=0, blue=0, alpha=255)</p>
+<p>Get the top row of the picture
+&gt;&gt;&gt; pic[:, pic.height-1]
+Picture(100 x 1)</p>
+<p>Set the bottom-left pixel to black
+&gt;&gt;&gt; pic[0, 0] = (0, 0, 0)</p>
+<p>Set the top row to red
+&gt;&gt;&gt; pic[:, pic.height-1] = (255, 0, 0)</p>
+<p class="rubric">Attributes</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.novice.Picture.path" title="skimage.novice.Picture.path"><tt class="xref py py-obj docutils literal"><span class="pre">path</span></tt></a></td>
+<td>The path to the picture.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.novice.Picture.array" title="skimage.novice.Picture.array"><tt class="xref py py-obj docutils literal"><span class="pre">array</span></tt></a></td>
+<td>Image data stored as numpy array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.novice.Picture.xy_array" title="skimage.novice.Picture.xy_array"><tt class="xref py py-obj docutils literal"><span class="pre">xy_array</span></tt></a></td>
+<td>Image data stored as numpy array with origin at the bottom-left.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="skimage.novice.Picture.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>path=None</em>, <em>array=None</em>, <em>xy_array=None</em><big>)</big><a class="headerlink" href="#skimage.novice.Picture.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.alpha">
+<tt class="descname">alpha</tt><a class="headerlink" href="#skimage.novice.Picture.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>The transparency component of the pixel (0-255).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.array">
+<tt class="descname">array</tt><a class="headerlink" href="#skimage.novice.Picture.array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Image data stored as numpy array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.blue">
+<tt class="descname">blue</tt><a class="headerlink" href="#skimage.novice.Picture.blue" title="Permalink to this definition">¶</a></dt>
+<dd><p>The blue component of the pixel (0-255).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.format">
+<tt class="descname">format</tt><a class="headerlink" href="#skimage.novice.Picture.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>The image format of the picture.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="skimage.novice.Picture.from_size">
+<em class="property">static </em><tt class="descname">from_size</tt><big>(</big><em>size</em>, <em>color='black'</em><big>)</big><a class="headerlink" href="#skimage.novice.Picture.from_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Picture of the specified size and a uniform color.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>size</strong> : tuple</p>
+<blockquote>
+<div><p>Width and height of the picture in pixels.</p>
+</div></blockquote>
+<p><strong>color</strong> : tuple or str</p>
+<blockquote class="last">
+<div><p>RGB or RGBA tuple with the fill color for the picture [0-255] or
+a valid key in <cite>color_dict</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.green">
+<tt class="descname">green</tt><a class="headerlink" href="#skimage.novice.Picture.green" title="Permalink to this definition">¶</a></dt>
+<dd><p>The green component of the pixel (0-255).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.height">
+<tt class="descname">height</tt><a class="headerlink" href="#skimage.novice.Picture.height" title="Permalink to this definition">¶</a></dt>
+<dd><p>The height of the picture.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.modified">
+<tt class="descname">modified</tt><a class="headerlink" href="#skimage.novice.Picture.modified" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the picture has changed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.path">
+<tt class="descname">path</tt><a class="headerlink" href="#skimage.novice.Picture.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path to the picture.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.red">
+<tt class="descname">red</tt><a class="headerlink" href="#skimage.novice.Picture.red" title="Permalink to this definition">¶</a></dt>
+<dd><p>The red component of the pixel (0-255).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.rgb">
+<tt class="descname">rgb</tt><a class="headerlink" href="#skimage.novice.Picture.rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RGB color components of the pixel (3 values 0-255).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.rgba">
+<tt class="descname">rgba</tt><a class="headerlink" href="#skimage.novice.Picture.rgba" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RGBA color components of the pixel (4 values 0-255).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.novice.Picture.save">
+<tt class="descname">save</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#skimage.novice.Picture.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the picture to the given path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>path</strong> : str</p>
+<blockquote class="last">
+<div><p>Path (with file extension) where the picture is saved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="skimage.novice.Picture.show">
+<tt class="descname">show</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.novice.Picture.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the image.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.size">
+<tt class="descname">size</tt><a class="headerlink" href="#skimage.novice.Picture.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size (width, height) of the picture.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.width">
+<tt class="descname">width</tt><a class="headerlink" href="#skimage.novice.Picture.width" title="Permalink to this definition">¶</a></dt>
+<dd><p>The width of the picture.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="skimage.novice.Picture.xy_array">
+<tt class="descname">xy_array</tt><a class="headerlink" href="#skimage.novice.Picture.xy_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Image data stored as numpy array with origin at the bottom-left.</p>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.novice.open" title="skimage.novice.open"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.novice.open</span></tt></a>(path)</td>
+<td>Return Picture object from the given image path.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="open">
+<h2>open<a class="headerlink" href="#open" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.novice.open">
+<tt class="descclassname">skimage.novice.</tt><tt class="descname">open</tt><big>(</big><em>path</em><big>)</big><a class="headerlink" href="#skimage.novice.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Picture object from the given image path.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">novice</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#skimage-novice">skimage.novice</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#description">Description</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#picture"><tt class="docutils literal"><span class="pre">Picture</span></tt></a></li>
+<li><a class="reference internal" href="#open">open</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

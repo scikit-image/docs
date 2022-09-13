@@ -1,0 +1,387 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: util.dtype &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.util.dtype">
+<span id="module-util-dtype"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">util.dtype</span></tt><a class="headerlink" href="#module-skimage.util.dtype" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.dtype.convert" title="skimage.util.dtype.convert"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.convert</span></tt></a>(image,&nbsp;dtype[,&nbsp;...])</td>
+<td>Convert an image to the requested data-type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.dtype.get_log" title="skimage.util.dtype.get_log"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.get_log</span></tt></a>([name])</td>
+<td>Return a console logger.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.dtype.img_as_bool" title="skimage.util.dtype.img_as_bool"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.img_as_bool</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to boolean format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.dtype.img_as_float" title="skimage.util.dtype.img_as_float"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.img_as_float</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to double-precision floating point format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.dtype.img_as_int" title="skimage.util.dtype.img_as_int"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.img_as_int</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to 16-bit signed integer format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#skimage.util.dtype.img_as_ubyte" title="skimage.util.dtype.img_as_ubyte"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.img_as_ubyte</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to 8-bit unsigned integer format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.util.dtype.img_as_uint" title="skimage.util.dtype.img_as_uint"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.util.dtype.img_as_uint</span></tt></a>(image[,&nbsp;...])</td>
+<td>Convert an image to 16-bit unsigned integer format.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="convert">
+<h2>convert<a class="headerlink" href="#convert" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.convert">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">convert</tt><big>(</big><em>image</em>, <em>dtype</em>, <em>force_copy=False</em>, <em>uniform=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to the requested data-type.</p>
+<p>Warnings are issued in case of precision loss, or when negative values
+are clipped during conversion to unsigned integer types (sign loss).</p>
+<p>Floating point values are expected to be normalized and will be clipped
+to the range [0.0, 1.0] or [-1.0, 1.0] when converting to unsigned or
+signed integers respectively.</p>
+<p>Numbers are not shifted to the negative side when converting from
+unsigned to signed integer types. Negative values will be clipped when
+converting to unsigned integers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : dtype</p>
+<blockquote>
+<div><p>Target data-type.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+<p><strong>uniform</strong> : bool</p>
+<blockquote class="last">
+<div><p>Uniformly quantize the floating point range to the integer range.
+By default (uniform=False) floating point values are scaled and
+rounded to the nearest integers, which minimizes back and forth
+conversion errors.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<ol class="arabic simple">
+<li>DirectX data conversion rules.
+<a class="reference external" href="http://msdn.microsoft.com/en-us/library/windows/desktop/dd607323%28v=vs.85%29.aspx">http://msdn.microsoft.com/en-us/library/windows/desktop/dd607323%28v=vs.85%29.aspx</a></li>
+<li>Data Conversions.
+In &#8220;OpenGL ES 2.0 Specification v2.0.25&#8221;, pp 7-8. Khronos Group, 2010.</li>
+<li>Proper treatment of pixels as integers. A.W. Paeth.
+In &#8220;Graphics Gems I&#8221;, pp 249-256. Morgan Kaufmann, 1990.</li>
+<li>Dirty Pixels. J. Blinn.
+In &#8220;Jim Blinn&#8217;s corner: Dirty Pixels&#8221;, pp 47-57. Morgan Kaufmann, 1998.</li>
+</ol>
+</dd></dl>
+
+</div>
+<div class="section" id="get-log">
+<h2>get_log<a class="headerlink" href="#get-log" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.get_log">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">get_log</tt><big>(</big><em>name=None</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.get_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a console logger.</p>
+<p>Output may be sent to the logger using the <cite>debug</cite>, <cite>info</cite>, <cite>warning</cite>,
+<cite>error</cite> and <cite>critical</cite> methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>name</strong> : str</p>
+<blockquote class="last">
+<div><p>Name of the log.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r214" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R214]</a></td><td>Logging facility for Python,
+<a class="reference external" href="http://docs.python.org/library/logging.html">http://docs.python.org/library/logging.html</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-bool">
+<h2>img_as_bool<a class="headerlink" href="#img-as-bool" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.img_as_bool">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">img_as_bool</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.img_as_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to boolean format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of bool (<cite>bool_</cite>)</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The upper half of the input dtype&#8217;s positive range is True, and the lower
+half is False. All negative values (if present) are False.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-float">
+<h2>img_as_float<a class="headerlink" href="#img-as-float" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.img_as_float">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">img_as_float</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.img_as_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to double-precision floating point format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of float64</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The range of a floating point image is [0.0, 1.0] or [-1.0, 1.0] when
+converting from unsigned or signed datatypes, respectively.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-int">
+<h2>img_as_int<a class="headerlink" href="#img-as-int" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.img_as_int">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">img_as_int</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.img_as_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 16-bit signed integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of uint16</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>If the input data-type is positive-only (e.g., uint8), then
+the output image will still only have positive values.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-ubyte">
+<h2>img_as_ubyte<a class="headerlink" href="#img-as-ubyte" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.img_as_ubyte">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">img_as_ubyte</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.img_as_ubyte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 8-bit unsigned integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of ubyte (uint8)</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>If the input data-type is positive-only (e.g., uint16), then
+the output image will still only have positive values.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="img-as-uint">
+<h2>img_as_uint<a class="headerlink" href="#img-as-uint" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.util.dtype.img_as_uint">
+<tt class="descclassname">skimage.util.dtype.</tt><tt class="descname">img_as_uint</tt><big>(</big><em>image</em>, <em>force_copy=False</em><big>)</big><a class="headerlink" href="#skimage.util.dtype.img_as_uint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image to 16-bit unsigned integer format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>image</strong> : ndarray</p>
+<blockquote>
+<div><p>Input image.</p>
+</div></blockquote>
+<p><strong>force_copy</strong> : bool</p>
+<blockquote>
+<div><p>Force a copy of the data, irrespective of its current dtype.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>out</strong> : ndarray of uint16</p>
+<blockquote class="last">
+<div><p>Output image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Negative input values will be shifted to the positive domain.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">util.dtype</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#convert">convert</a></li>
+<li><a class="reference internal" href="#get-log">get_log</a></li>
+<li><a class="reference internal" href="#img-as-bool">img_as_bool</a></li>
+<li><a class="reference internal" href="#img-as-float">img_as_float</a></li>
+<li><a class="reference internal" href="#img-as-int">img_as_int</a></li>
+<li><a class="reference internal" href="#img-as-ubyte">img_as_ubyte</a></li>
+<li><a class="reference internal" href="#img-as-uint">img_as_uint</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

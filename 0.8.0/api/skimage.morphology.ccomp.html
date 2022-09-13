@@ -1,0 +1,195 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: morphology.ccomp &mdash; skimage v0.8.0 docs</title>
+    
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.8.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <link rel="top" title="skimage v0.8.0 docs" href="../index.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/">Home</a></li>
+<li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="https://github.com/scikit-image/scikit-image">Source</a></li>
+            </ul>
+            <form class="navbar-form pull-right" action="../search.html" method="get">
+                <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+                <input type="hidden" name="check_keywords" value="yes" >
+                <input type="hidden" name="area" value="default" >
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span9">
+            
+  <div class="section" id="module-skimage.morphology.ccomp">
+<span id="module-morphology-ccomp"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">morphology.ccomp</span></tt><a class="headerlink" href="#module-skimage.morphology.ccomp" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dtype">
+<h2><a class="reference internal" href="#skimage.morphology.ccomp.DTYPE" title="skimage.morphology.ccomp.DTYPE"><tt class="xref py py-class docutils literal"><span class="pre">DTYPE</span></tt></a><a class="headerlink" href="#dtype" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="skimage.morphology.ccomp.DTYPE">
+<tt class="descclassname">skimage.morphology.ccomp.</tt><tt class="descname">DTYPE</tt><a class="headerlink" href="#skimage.morphology.ccomp.DTYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">int64</span></tt></p>
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skimage.morphology.ccomp.label" title="skimage.morphology.ccomp.label"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.morphology.ccomp.label</span></tt></a></td>
+<td>Label connected regions of an integer array.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="label">
+<h2>label<a class="headerlink" href="#label" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.morphology.ccomp.label">
+<tt class="descclassname">skimage.morphology.ccomp.</tt><tt class="descname">label</tt><big>(</big><big>)</big><a class="headerlink" href="#skimage.morphology.ccomp.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Label connected regions of an integer array.</p>
+<p>Two pixels are connected when they are neighbors and have the same value.
+They can be neighbors either in a 4- or 8-connected sense:</p>
+<div class="highlight-python"><pre>4-connectivity      8-connectivity
+
+     [ ]           [ ]  [ ]  [ ]
+      |               \  |  /
+[ ]--[ ]--[ ]      [ ]--[ ]--[ ]
+      |               /  |             [ ]           [ ]  [ ]  [ ]</pre>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>input</strong> : ndarray of dtype int</p>
+<blockquote>
+<div><p>Image to label.</p>
+</div></blockquote>
+<p><strong>neighbors</strong> : {4, 8}, int</p>
+<blockquote>
+<div><p>Whether to use 4- or 8-connectivity.</p>
+</div></blockquote>
+<p><strong>background</strong> : int</p>
+<blockquote>
+<div><p>Consider all pixels with this value as background pixels, and label
+them as -1.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>labels</strong> : ndarray of dtype int</p>
+<blockquote class="last">
+<div><p>Labeled array, where all connected regions are assigned the
+same integer value.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">x</span>
+<span class="go">[[1 0 0]</span>
+<span class="go"> [0 1 0]</span>
+<span class="go"> [0 0 1]]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">m</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">neighbors</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">[[0 1 1]</span>
+<span class="go"> [2 3 1]</span>
+<span class="go"> [2 2 4]]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">m</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">neighbors</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">[[0 1 1]</span>
+<span class="go"> [1 0 1]</span>
+<span class="go"> [1 1 0]]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+<span class="gp">... </span>              <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">m</span><span class="o">.</span><span class="n">label</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">[[ 0 -1 -1]</span>
+<span class="go"> [ 0  0  1]</span>
+<span class="go"> [-1 -1 -1]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+        </div>
+        <div class="span3"><h4 class="sidebar-box-heading">Navigation</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <li><a href="../index.html">Documentation Home</a></li>
+    </ul>
+</div>
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">morphology.ccomp</span></tt></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#dtype"><tt class="docutils literal"><span class="pre">DTYPE</span></tt></a></li>
+<li><a class="reference internal" href="#label">label</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+<h4 class="sidebar-box-heading">Versions</h4>
+<div class="well sidebar-box">
+    <ul class="nav nav-list">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+</div>
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> and <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

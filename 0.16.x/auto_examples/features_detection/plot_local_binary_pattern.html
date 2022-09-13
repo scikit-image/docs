@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Local Binary Pattern for texture classification &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Region Boundary based RAGs" href="../segmentation/plot_rag_boundary.html" />
+        <link rel="prev" title="Gabor filter banks for texture classification" href="plot_gabor.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-features-detection-plot-local-binary-pattern-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="local-binary-pattern-for-texture-classification">
+<span id="sphx-glr-auto-examples-features-detection-plot-local-binary-pattern-py"></span><h1>Local Binary Pattern for texture classification<a class="headerlink" href="#local-binary-pattern-for-texture-classification" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we will see how to classify textures based on LBP (Local
+Binary Pattern). LBP looks at points surrounding a central point and tests
+whether the surrounding points are greater than or less than the central point
+(i.e. gives a binary result).</p>
+<p>Before trying out LBP on an image, it helps to look at a schematic of LBPs.
+The below code is just used to plot the schematic.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="n">METHOD</span> <span class="o">=</span> <span class="s1">&#39;uniform&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+
+
+<span class="k">def</span> <span class="nf">plot_circle</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+    <span class="n">circle</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">plot_lbp_model</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">binary_values</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Draw the schematic for a local binary pattern.&quot;&quot;&quot;</span>
+    <span class="c1"># Geometry spec</span>
+    <span class="n">theta</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.deg2rad.html#numpy.deg2rad" title="View documentation for numpy.deg2rad"><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span></a><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mf">0.15</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="n">gray</span> <span class="o">=</span> <span class="s1">&#39;0.5&#39;</span>
+
+    <span class="c1"># Draw the central pixel.</span>
+    <span class="n">plot_circle</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">gray</span><span class="p">)</span>
+    <span class="c1"># Draw the surrounding pixels.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">facecolor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">binary_values</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.cos.html#numpy.cos" title="View documentation for numpy.cos"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.sin.html#numpy.sin" title="View documentation for numpy.sin"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">theta</span><span class="p">)</span>
+        <span class="n">plot_circle</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">facecolor</span><span class="p">))</span>
+
+    <span class="c1"># Draw the pixel grid.</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html#numpy.linspace" title="View documentation for numpy.linspace"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">gray</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">gray</span><span class="p">)</span>
+
+    <span class="c1"># Tweak the layout.</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="mf">0.2</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;corner&#39;</span><span class="p">,</span> <span class="s1">&#39;non-uniform&#39;</span><span class="p">]</span>
+
+<span class="n">binary_patterns</span> <span class="o">=</span> <span class="p">[</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+                   <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ones.html#numpy.ones" title="View documentation for numpy.ones"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">8</span><span class="p">),</span>
+                   <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.hstack.html#numpy.hstack" title="View documentation for numpy.hstack"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">([</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ones.html#numpy.ones" title="View documentation for numpy.ones"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="mi">4</span><span class="p">)]),</span>
+                   <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.hstack.html#numpy.hstack" title="View documentation for numpy.hstack"><span class="n">np</span><span class="o">.</span><span class="n">hstack</span></a><span class="p">([</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.zeros.html#numpy.zeros" title="View documentation for numpy.zeros"><span class="n">np</span><span class="o">.</span><span class="n">zeros</span></a><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ones.html#numpy.ones" title="View documentation for numpy.ones"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><span class="mi">5</span><span class="p">)]),</span>
+                   <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">binary_patterns</span><span class="p">,</span> <span class="n">titles</span><span class="p">):</span>
+    <span class="n">plot_lbp_model</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_local_binary_pattern_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_local_binary_pattern_001.png" />
+<p>The figure above shows example results with black (or white) representing
+pixels that are less (or more) intense than the central pixel. When
+surrounding pixels are all black or all white, then that image region is
+flat (i.e. featureless). Groups of continuous black or white pixels are
+considered “uniform” patterns that can be interpreted as corners or edges.
+If pixels switch back-and-forth between black and white pixels, the pattern
+is considered “non-uniform”.</p>
+<p>When using LBP to detect texture, you measure a collection of LBPs over an
+image patch and look at the distribution of these LBPs. Lets apply LBP to a
+brick texture.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="k">import</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="View documentation for skimage.color.label2rgb"><span class="n">label2rgb</span></a>
+
+<span class="c1"># settings for LBP</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">radius</span>
+
+
+<span class="k">def</span> <span class="nf">overlay_labels</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lbp</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="o">.</span><span class="n">reduce</span><span class="p">([</span><span class="n">lbp</span> <span class="o">==</span> <span class="n">each</span> <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">])</span>
+    <span class="k">return</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="View documentation for skimage.color.label2rgb"><span class="n">label2rgb</span></a><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">bg_label</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">highlight_bars</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+        <span class="n">bars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.brick" title="View documentation for skimage.data.brick"><span class="n">data</span><span class="o">.</span><span class="n">brick</span></a><span class="p">()</span>
+<span class="n">lbp</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">METHOD</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">hist</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">lbp</span><span class="p">):</span>
+    <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lbp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lbp</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">),</span>
+                   <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># plot histograms of LBP of textures</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_img</span><span class="p">,</span> <span class="n">ax_hist</span><span class="p">)</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.gray.html#matplotlib.pyplot.gray" title="View documentation for matplotlib.pyplot.gray"><span class="n">plt</span><span class="o">.</span><span class="n">gray</span></a><span class="p">()</span>
+
+<span class="n">titles</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="s1">&#39;corner&#39;</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">width</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">edge_labels</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_points</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">n_points</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">flat_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_points</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">n_points</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">i_14</span> <span class="o">=</span> <span class="n">n_points</span> <span class="o">//</span> <span class="mi">4</span>            <span class="c1"># 1/4th of the histogram</span>
+<span class="n">i_34</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_points</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>      <span class="c1"># 3/4th of the histogram</span>
+<span class="n">corner_labels</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">i_14</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">i_14</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span>
+                 <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">i_34</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">i_34</span> <span class="o">+</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="n">label_sets</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_labels</span><span class="p">,</span> <span class="n">flat_labels</span><span class="p">,</span> <span class="n">corner_labels</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax_img</span><span class="p">,</span> <span class="n">label_sets</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">overlay_labels</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">lbp</span><span class="p">,</span> <span class="n">labels</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax_hist</span><span class="p">,</span> <span class="n">label_sets</span><span class="p">,</span> <span class="n">titles</span><span class="p">):</span>
+    <span class="n">counts</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">bars</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">lbp</span><span class="p">)</span>
+    <span class="n">highlight_bars</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">counts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">right</span><span class="o">=</span><span class="n">n_points</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+<span class="n">ax_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">ax_img</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_local_binary_pattern_002.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_local_binary_pattern_002.png" />
+<p>The above plot highlights flat, edge-like, and corner-like regions of the
+image.</p>
+<p>The histogram of the LBP result is a good measure to classify textures.
+Here, we test the histogram distributions against each other using the
+Kullback-Leibler-Divergence.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings for LBP</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">radius</span>
+
+
+<span class="k">def</span> <span class="nf">kullback_leibler_divergence</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">filt</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.logical_and.html#numpy.logical_and" title="View documentation for numpy.logical_and"><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span></a><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">q</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.sum.html#numpy.sum" title="View documentation for numpy.sum"><span class="n">np</span><span class="o">.</span><span class="n">sum</span></a><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">filt</span><span class="p">]</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.log2.html#numpy.log2" title="View documentation for numpy.log2"><span class="n">np</span><span class="o">.</span><span class="n">log2</span></a><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">filt</span><span class="p">]</span> <span class="o">/</span> <span class="n">q</span><span class="p">[</span><span class="n">filt</span><span class="p">]))</span>
+
+
+<span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+    <span class="n">best_score</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">best_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lbp</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">METHOD</span><span class="p">)</span>
+    <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lbp</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="View documentation for numpy.histogram"><span class="n">np</span><span class="o">.</span><span class="n">histogram</span></a><span class="p">(</span><span class="n">lbp</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">refs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ref_hist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="View documentation for numpy.histogram"><span class="n">np</span><span class="o">.</span><span class="n">histogram</span></a><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
+                                   <span class="nb">range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">kullback_leibler_divergence</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">ref_hist</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="n">best_score</span><span class="p">:</span>
+            <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="n">best_name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">return</span> <span class="n">best_name</span>
+
+
+<span class="n">brick</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.brick" title="View documentation for skimage.data.brick"><span class="n">data</span><span class="o">.</span><span class="n">brick</span></a><span class="p">()</span>
+<span class="n">grass</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.grass" title="View documentation for skimage.data.grass"><span class="n">data</span><span class="o">.</span><span class="n">grass</span></a><span class="p">()</span>
+<span class="n">gravel</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.gravel" title="View documentation for skimage.data.gravel"><span class="n">data</span><span class="o">.</span><span class="n">gravel</span></a><span class="p">()</span>
+
+<span class="n">refs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;brick&#39;</span><span class="p">:</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a><span class="p">(</span><span class="n">brick</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">METHOD</span><span class="p">),</span>
+    <span class="s1">&#39;grass&#39;</span><span class="p">:</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a><span class="p">(</span><span class="n">grass</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">METHOD</span><span class="p">),</span>
+    <span class="s1">&#39;gravel&#39;</span><span class="p">:</span> <a href="../../api/skimage.feature.html#skimage.feature.local_binary_pattern" title="View documentation for skimage.feature.local_binary_pattern"><span class="n">local_binary_pattern</span></a><span class="p">(</span><span class="n">gravel</span><span class="p">,</span> <span class="n">n_points</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">METHOD</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1"># classify rotated textures</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Rotated images matched against references using LBP:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;original: brick, rotated: 30deg, match result: &#39;</span><span class="p">,</span>
+      <span class="n">match</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a><span class="p">(</span><span class="n">brick</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">resize</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;original: brick, rotated: 70deg, match result: &#39;</span><span class="p">,</span>
+      <span class="n">match</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a><span class="p">(</span><span class="n">brick</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">resize</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;original: grass, rotated: 145deg, match result: &#39;</span><span class="p">,</span>
+      <span class="n">match</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <a href="../../api/skimage.transform.html#skimage.transform.rotate" title="View documentation for skimage.transform.rotate"><span class="n">rotate</span></a><span class="p">(</span><span class="n">grass</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">145</span><span class="p">,</span> <span class="n">resize</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+
+<span class="c1"># plot histograms of LBP of textures</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">),</span> <span class="p">(</span><span class="n">ax4</span><span class="p">,</span> <span class="n">ax5</span><span class="p">,</span> <span class="n">ax6</span><span class="p">))</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                                       <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.gray.html#matplotlib.pyplot.gray" title="View documentation for matplotlib.pyplot.gray"><span class="n">plt</span><span class="o">.</span><span class="n">gray</span></a><span class="p">()</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">brick</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">ax4</span><span class="p">,</span> <span class="n">refs</span><span class="p">[</span><span class="s1">&#39;brick&#39;</span><span class="p">])</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Percentage&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grass</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">ax5</span><span class="p">,</span> <span class="n">refs</span><span class="p">[</span><span class="s1">&#39;grass&#39;</span><span class="p">])</span>
+<span class="n">ax5</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Uniform LBP values&#39;</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gravel</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">ax6</span><span class="p">,</span> <span class="n">refs</span><span class="p">[</span><span class="s1">&#39;gravel&#39;</span><span class="p">])</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_local_binary_pattern_003.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_local_binary_pattern_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Rotated images matched against references using LBP:
+original: brick, rotated: 30deg, match result:  brick
+original: brick, rotated: 70deg, match result:  brick
+original: grass, rotated: 145deg, match result:  grass
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.708 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-features-detection-plot-local-binary-pattern-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/9c4e5008a12f08a7f3ef29577f138582/plot_local_binary_pattern.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_local_binary_pattern.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/e9cb77bf1742d2e5569ee3596935828d/plot_local_binary_pattern.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_local_binary_pattern.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

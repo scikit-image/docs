@@ -1,0 +1,224 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Seam Carving &mdash; skimage v0.13.1 docs</title>
+    
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.13.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.13.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Robust line model estimation using RANSAC" href="plot_ransac.html" />
+        <link rel="prev" title="Robust 3D line model estimation using RANSAC" href="plot_ransac3D.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="http://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="/docs/dev/auto_examples">Gallery</a></li>
+<li><a href="/docs/dev">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Seam Carving</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#object-removal">Object Removal</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.13.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9">
+            
+  <div class="section" id="seam-carving">
+<span id="sphx-glr-auto-examples-transform-plot-seam-carving-py"></span><h1>Seam Carving<a class="headerlink" href="#seam-carving" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates how images can be resized using seam carving <a class="footnote-reference" href="#id2" id="id1">[1]</a>.
+Resizing to a new aspect ratio distorts image contents. Seam carving attempts
+to resize <em>without</em> distortion, by removing regions of an image which are less
+important. In this example we are using the Sobel filter to signify the
+importance of each pixel.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Shai Avidan and Ariel Shamir
+“Seam Carving for Content-Aware Image Resizing”
+<a class="reference external" href="http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Avidan07.pdf">http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Avidan07.pdf</a></td></tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">draw</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">transform</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">filters</span><span class="p">,</span> <span class="n">color</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="n">hl_color</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.6.0/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">img</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.rocket" title="View documentation for skimage.data.rocket"><span class="n">data</span><span class="o">.</span><span class="n">rocket</span></a><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_float" title="View documentation for skimage.util.img_as_float"><span class="n">util</span><span class="o">.</span><span class="n">img_as_float</span></a><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">eimg</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.sobel" title="View documentation for skimage.filters.sobel"><span class="n">filters</span><span class="o">.</span><span class="n">sobel</span></a><span class="p">(</span><a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="View documentation for skimage.color.rgb2gray"><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span></a><span class="p">(</span><span class="n">img</span><span class="p">))</span>
+
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Original Image&#39;</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_seam_carving_001.png" class="align-center" src="../../_images/sphx_glr_plot_seam_carving_001.png" />
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">resized</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.resize" title="View documentation for skimage.transform.resize"><span class="n">transform</span><span class="o">.</span><span class="n">resize</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">200</span><span class="p">),</span>
+                           <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.figure.AxesStack.html#matplotlib.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Resized Image&#39;</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">resized</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_seam_carving_002.png" class="align-center" src="../../_images/sphx_glr_plot_seam_carving_002.png" />
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.seam_carve" title="View documentation for skimage.transform.seam_carve"><span class="n">transform</span><span class="o">.</span><span class="n">seam_carve</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">eimg</span><span class="p">,</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.figure.AxesStack.html#matplotlib.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Resized using Seam Carving&#39;</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_seam_carving_003.png" class="align-center" src="../../_images/sphx_glr_plot_seam_carving_003.png" />
+<p>Resizing distorts the rocket and surrounding objects, whereas seam carving
+removes empty spaces and preserves object proportions.</p>
+<div class="section" id="object-removal">
+<h2>Object Removal<a class="headerlink" href="#object-removal" title="Permalink to this headline">¶</a></h2>
+<p>Seam carving can also be used to remove artifacts from images. This
+requires weighting the artifact with low values. Recall lower weights are
+preferentially removed in seam carving. The following code masks the
+rocket’s region with low weights, indicating it should be removed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">masked_img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">poly</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">281</span><span class="p">),</span> <span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">360</span><span class="p">),</span> <span class="p">(</span><span class="mi">359</span><span class="p">,</span> <span class="mi">364</span><span class="p">),</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">337</span><span class="p">),</span> <span class="p">(</span><span class="mi">145</span><span class="p">,</span> <span class="mi">337</span><span class="p">),</span> <span class="p">(</span><span class="mi">120</span><span class="p">,</span> <span class="mi">322</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">145</span><span class="p">,</span> <span class="mi">304</span><span class="p">),</span> <span class="p">(</span><span class="mi">340</span><span class="p">,</span> <span class="mi">306</span><span class="p">),</span> <span class="p">(</span><span class="mi">362</span><span class="p">,</span> <span class="mi">284</span><span class="p">)]</span>
+<span class="n">pr</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.6.0/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">])</span>
+<span class="n">pc</span> <span class="o">=</span> <a href="http://docs.scipy.org/doc/numpy-1.6.0/reference/generated/numpy.array.html#numpy.array" title="View documentation for numpy.array"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">poly</span><span class="p">])</span>
+<span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <a href="../../api/skimage.draw.html#skimage.draw.polygon" title="View documentation for skimage.draw.polygon"><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span></a><span class="p">(</span><span class="n">pr</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span>
+
+<span class="n">masked_img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">masked_img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="p">:]</span><span class="o">*</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">hl_color</span><span class="o">*.</span><span class="mi">5</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.figure.AxesStack.html#matplotlib.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Object Marked&#39;</span><span class="p">)</span>
+
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">masked_img</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_seam_carving_004.png" class="align-center" src="../../_images/sphx_glr_plot_seam_carving_004.png" />
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">eimg</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1000</span>
+
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.figure.AxesStack.html#matplotlib.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="View documentation for matplotlib.pyplot.title"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="s1">&#39;Object Removed&#39;</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.seam_carve" title="View documentation for skimage.transform.seam_carve"><span class="n">transform</span><span class="o">.</span><span class="n">seam_carve</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">eimg</span><span class="p">,</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">resized</span> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.resize" title="View documentation for skimage.transform.resize"><span class="n">transform</span><span class="o">.</span><span class="n">resize</span></a><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="View documentation for matplotlib.pyplot.imshow"><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<a href="http://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_seam_carving_005.png" class="align-center" src="../../_images/sphx_glr_plot_seam_carving_005.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.995 seconds)</p>
+<div class="sphx-glr-footer docutils container">
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/plot_seam_carving.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_seam_carving.py</span></code></a></div>
+<div class="sphx-glr-download docutils container">
+<a class="reference download internal" href="../../_downloads/plot_seam_carving.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_seam_carving.ipynb</span></code></a></div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

@@ -1,0 +1,860 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Module: exposure &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="API Reference for skimage 0.16.1" href="api.html" />
+        <link rel="next" title="Module: external.tifffile" href="skimage.external.tifffile.html" />
+        <link rel="prev" title="Module: draw" href="skimage.draw.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">exposure</span></code></a><ul class="nav nav-list">
+<li><a class="reference internal" href="#histogram">histogram</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-histogram">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.histogram</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#equalize-hist">equalize_hist</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-equalize-hist">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.equalize_hist</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#equalize-adapthist">equalize_adapthist</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-equalize-adapthist">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.equalize_adapthist</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rescale-intensity">rescale_intensity</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-rescale-intensity">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.rescale_intensity</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cumulative-distribution">cumulative_distribution</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-cumulative-distribution">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.cumulative_distribution</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adjust-gamma">adjust_gamma</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-adjust-gamma">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_gamma</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#adjust-sigmoid">adjust_sigmoid</a></li>
+<li><a class="reference internal" href="#adjust-log">adjust_log</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-adjust-log">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_log</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#is-low-contrast">is_low_contrast</a></li>
+<li><a class="reference internal" href="#match-histograms">match_histograms</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#examples-using-skimage-exposure-match-histograms">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.match_histograms</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="module-skimage.exposure">
+<span id="module-exposure"></span><h1>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">exposure</span></code><a class="headerlink" href="#module-skimage.exposure" title="Permalink to this headline">¶</a></h1>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.exposure.histogram" title="skimage.exposure.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.histogram</span></code></a>(image[, nbins, …])</p></td>
+<td><p>Return histogram of image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.exposure.equalize_hist" title="skimage.exposure.equalize_hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.equalize_hist</span></code></a>(image[, …])</p></td>
+<td><p>Return image after histogram equalization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.exposure.equalize_adapthist" title="skimage.exposure.equalize_adapthist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.equalize_adapthist</span></code></a>(image[, …])</p></td>
+<td><p>Contrast Limited Adaptive Histogram Equalization (CLAHE).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.exposure.rescale_intensity" title="skimage.exposure.rescale_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.rescale_intensity</span></code></a>(image[, …])</p></td>
+<td><p>Return image after stretching or shrinking its intensity levels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.exposure.cumulative_distribution" title="skimage.exposure.cumulative_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.cumulative_distribution</span></code></a>(image)</p></td>
+<td><p>Return cumulative distribution function (cdf) for the given image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.exposure.adjust_gamma" title="skimage.exposure.adjust_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.adjust_gamma</span></code></a>(image[, …])</p></td>
+<td><p>Performs Gamma Correction on the input image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.exposure.adjust_sigmoid" title="skimage.exposure.adjust_sigmoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.adjust_sigmoid</span></code></a>(image[, …])</p></td>
+<td><p>Performs Sigmoid Correction on the input image.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.exposure.adjust_log" title="skimage.exposure.adjust_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.adjust_log</span></code></a>(image[, gain, inv])</p></td>
+<td><p>Performs Logarithmic correction on the input image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.exposure.is_low_contrast" title="skimage.exposure.is_low_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.is_low_contrast</span></code></a>(image[, …])</p></td>
+<td><p>Determine if an image is low contrast.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.exposure.match_histograms" title="skimage.exposure.match_histograms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.exposure.match_histograms</span></code></a>(image, …)</p></td>
+<td><p>Adjust an image so that its cumulative histogram matches that of another.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="histogram">
+<h2>histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.histogram">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">histogram</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">nbins=256</em>, <em class="sig-param">source_range='image'</em>, <em class="sig-param">normalize=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L77"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return histogram of image.</p>
+<p>Unlike <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="(in NumPy v1.17)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.histogram</span></code></a>, this function returns the centers of bins and
+does not rebin integer arrays. For integer arrays, each integer value has
+its own bin, which improves speed and intensity-resolution.</p>
+<p>The histogram is computed on the flattened image: for color images, the
+function should be used separately on each channel to obtain a histogram
+for each color channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>nbins</strong><span class="classifier">int, optional</span></dt><dd><p>Number of bins used to calculate histogram. This value is ignored for
+integer arrays.</p>
+</dd>
+<dt><strong>source_range</strong><span class="classifier">string, optional</span></dt><dd><p>‘image’ (default) determines the range from the input image.
+‘dtype’ determines the range from the expected range of the images
+of that data type.</p>
+</dd>
+<dt><strong>normalize</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, normalize the histogram by the sum of its values.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>hist</strong><span class="classifier">array</span></dt><dd><p>The values of the histogram.</p>
+</dd>
+<dt><strong>bin_centers</strong><span class="classifier">array</span></dt><dd><p>The values at the center of the bins.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.cumulative_distribution" title="skimage.exposure.cumulative_distribution"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cumulative_distribution</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">(array([107432, 154712]), array([ 0. ,  0.5,  1. ]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exposure</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">(array([107432, 154712]), array([ 0.25,  0.75]))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-histogram">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.histogram</span></code><a class="headerlink" href="#examples-using-skimage-exposure-histogram" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the feature of histogram matching. It manipulates the pixels of an in..."><div class="figure align-default" id="id13">
+<img alt="../_images/sphx_glr_plot_histogram_matching_thumb.png" src="../_images/sphx_glr_plot_histogram_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_histogram_matching.html#sphx-glr-auto-examples-color-exposure-plot-histogram-matching-py"><span class="std std-ref">Histogram matching</span></a></span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we will see how to segment objects from a background. We use the coins image f..."><div class="figure align-default" id="id14">
+<img alt="../_images/sphx_glr_plot_coins_segmentation_thumb.png" src="../_images/sphx_glr_plot_coins_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/applications/plot_coins_segmentation.html#sphx-glr-auto-examples-applications-plot-coins-segmentation-py"><span class="std std-ref">Comparing edge-based and region-based segmentation</span></a></span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Rank filters are non-linear filters using the local gray-level ordering to compute the filtered..."><div class="figure align-default" id="id15">
+<img alt="../_images/sphx_glr_plot_rank_filters_thumb.png" src="../_images/sphx_glr_plot_rank_filters_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/applications/plot_rank_filters.html#sphx-glr-auto-examples-applications-plot-rank-filters-py"><span class="std std-ref">Rank filters</span></a></span><a class="headerlink" href="#id15" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="equalize-hist">
+<h2>equalize_hist<a class="headerlink" href="#equalize-hist" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.equalize_hist">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">equalize_hist</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">nbins=256</em>, <em class="sig-param">mask=None</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L187"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.equalize_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image after histogram equalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array</span></dt><dd><p>Image array.</p>
+</dd>
+<dt><strong>nbins</strong><span class="classifier">int, optional</span></dt><dd><p>Number of bins for image histogram. Note: this argument is
+ignored for integer images, for which each integer is its own
+bin.</p>
+</dd>
+<dt><strong>mask: ndarray of bools or 0s and 1s, optional</strong></dt><dd><p>Array of same shape as <em class="xref py py-obj">image</em>. Only points at which mask == True
+are used for the equalization, which is applied to the whole image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">float array</span></dt><dd><p>Image array after histogram equalization.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function is adapted from <a class="reference internal" href="#rda90ab4dd09a-1" id="id1">[1]</a> with the author’s permission.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rda90ab4dd09a-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="http://www.janeriksolem.net/histogram-equalization-with-python-and.html">http://www.janeriksolem.net/histogram-equalization-with-python-and.html</a></p>
+</dd>
+<dt class="label" id="rda90ab4dd09a-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Histogram_equalization">https://en.wikipedia.org/wiki/Histogram_equalization</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-equalize-hist">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.equalize_hist</span></code><a class="headerlink" href="#examples-using-skimage-exposure-equalize-hist" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example enhances an image with low contrast, using a method called *local histogram equali..."><div class="figure align-default" id="id16">
+<img alt="../_images/sphx_glr_plot_local_equalize_thumb.png" src="../_images/sphx_glr_plot_local_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_local_equalize.html#sphx-glr-auto-examples-color-exposure-plot-local-equalize-py"><span class="std std-ref">Local Histogram Equalization</span></a></span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This examples enhances an image with low contrast, using a method called *histogram equalizatio..."><div class="figure align-default" id="id17">
+<img alt="../_images/sphx_glr_plot_equalize_thumb.png" src="../_images/sphx_glr_plot_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Image comparison is particularly useful when performing image processing tasks such as exposure..."><div class="figure align-default" id="id18">
+<img alt="../_images/sphx_glr_plot_image_comparison_thumb.png" src="../_images/sphx_glr_plot_image_comparison_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/applications/plot_image_comparison.html#sphx-glr-auto-examples-applications-plot-image-comparison-py"><span class="std std-ref">Visual image comparison</span></a></span><a class="headerlink" href="#id18" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Rank filters are non-linear filters using the local gray-level ordering to compute the filtered..."><div class="figure align-default" id="id19">
+<img alt="../_images/sphx_glr_plot_rank_filters_thumb.png" src="../_images/sphx_glr_plot_rank_filters_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/applications/plot_rank_filters.html#sphx-glr-auto-examples-applications-plot-rank-filters-py"><span class="std std-ref">Rank filters</span></a></span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="equalize-adapthist">
+<h2>equalize_adapthist<a class="headerlink" href="#equalize-adapthist" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.equalize_adapthist">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">equalize_adapthist</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">kernel_size=None</em>, <em class="sig-param">clip_limit=0.01</em>, <em class="sig-param">nbins=256</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/color/adapt_rgb.py#L35"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.equalize_adapthist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contrast Limited Adaptive Histogram Equalization (CLAHE).</p>
+<p>An algorithm for local contrast enhancement, that uses histograms computed
+over different tile regions of the image. Local details can therefore be
+enhanced even in regions that are darker or lighter than most of the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">(M, N[, C]) ndarray</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>kernel_size: integer or list-like, optional</strong></dt><dd><p>Defines the shape of contextual regions used in the algorithm. If
+iterable is passed, it must have the same number of elements as
+<code class="docutils literal notranslate"><span class="pre">image.ndim</span></code> (without color channel). If integer, it is broadcasted
+to each <em class="xref py py-obj">image</em> dimension. By default, <code class="docutils literal notranslate"><span class="pre">kernel_size</span></code> is 1/8 of
+<code class="docutils literal notranslate"><span class="pre">image</span></code> height by 1/8 of its width.</p>
+</dd>
+<dt><strong>clip_limit</strong><span class="classifier">float, optional</span></dt><dd><p>Clipping limit, normalized between 0 and 1 (higher values give more
+contrast).</p>
+</dd>
+<dt><strong>nbins</strong><span class="classifier">int, optional</span></dt><dd><p>Number of gray bins for histogram (“data range”).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">(M, N[, C]) ndarray</span></dt><dd><p>Equalized image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.equalize_hist" title="skimage.exposure.equalize_hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equalize_hist</span></code></a>, <a class="reference internal" href="#skimage.exposure.rescale_intensity" title="skimage.exposure.rescale_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_intensity</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>For color images, the following steps are performed:</dt><dd><ul>
+<li><p>The image is converted to HSV color space</p></li>
+<li><p>The CLAHE algorithm is run on the V (Value) channel</p></li>
+<li><p>The image is converted back to RGB space and returned</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>For RGBA images, the original alpha channel is removed.</p></li>
+</ul>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r131dc506b0a3-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://tog.acm.org/resources/GraphicsGems/">http://tog.acm.org/resources/GraphicsGems/</a></p>
+</dd>
+<dt class="label" id="r131dc506b0a3-2"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/CLAHE#CLAHE">https://en.wikipedia.org/wiki/CLAHE#CLAHE</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-equalize-adapthist">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.equalize_adapthist</span></code><a class="headerlink" href="#examples-using-skimage-exposure-equalize-adapthist" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This examples enhances an image with low contrast, using a method called *histogram equalizatio..."><div class="figure align-default" id="id20">
+<img alt="../_images/sphx_glr_plot_equalize_thumb.png" src="../_images/sphx_glr_plot_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="rescale-intensity">
+<h2>rescale_intensity<a class="headerlink" href="#rescale-intensity" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.rescale_intensity">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">rescale_intensity</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">in_range='image'</em>, <em class="sig-param">out_range='dtype'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L269"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.rescale_intensity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image after stretching or shrinking its intensity levels.</p>
+<p>The desired intensity range of the input and output, <em class="xref py py-obj">in_range</em> and
+<em class="xref py py-obj">out_range</em> respectively, are used to stretch or shrink the intensity range
+of the input image. See examples below.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>image</strong><span class="classifier">array</span></dt><dd><p>Image array.</p>
+</dd>
+<dt><strong>in_range, out_range</strong><span class="classifier">str or 2-tuple, optional</span></dt><dd><p>Min and max intensity values of input and output image.
+The possible values for this parameter are enumerated below.</p>
+<dl class="simple">
+<dt>‘image’</dt><dd><p>Use image min/max as the intensity range.</p>
+</dd>
+<dt>‘dtype’</dt><dd><p>Use min/max of the image’s dtype as the intensity range.</p>
+</dd>
+<dt>dtype-name</dt><dd><p>Use intensity range based on desired <em class="xref py py-obj">dtype</em>. Must be valid key
+in <em class="xref py py-obj">DTYPE_RANGE</em>.</p>
+</dd>
+<dt>2-tuple</dt><dd><p>Use <em class="xref py py-obj">range_values</em> as explicit min/max intensities.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">array</span></dt><dd><p>Image array after rescaling its intensity. This image is the same dtype
+as the input image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.equalize_hist" title="skimage.exposure.equalize_hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">equalize_hist</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Examples</p>
+<p>By default, the min/max intensities of the input image are stretched to
+the limits allowed by the image’s dtype, since <em class="xref py py-obj">in_range</em> defaults to
+‘image’ and <em class="xref py py-obj">out_range</em> defaults to ‘dtype’:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">51</span><span class="p">,</span> <span class="mi">102</span><span class="p">,</span> <span class="mi">153</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">array([  0, 127, 255], dtype=uint8)</span>
+</pre></div>
+</div>
+<p>It’s easy to accidentally convert an image dtype from uint8 to float:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">image</span>
+<span class="go">array([  51.,  102.,  153.])</span>
+</pre></div>
+</div>
+<p>Use <a class="reference internal" href="#skimage.exposure.rescale_intensity" title="skimage.exposure.rescale_intensity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescale_intensity</span></code></a> to rescale to the proper range for float dtypes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_float</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">image_float</span><span class="p">)</span>
+<span class="go">array([ 0. ,  0.5,  1. ])</span>
+</pre></div>
+</div>
+<p>To maintain the low contrast of the original, use the <em class="xref py py-obj">in_range</em> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">image_float</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+<span class="go">array([ 0.2,  0.4,  0.6])</span>
+</pre></div>
+</div>
+<p>If the min/max value of <em class="xref py py-obj">in_range</em> is more/less than the min/max image
+intensity, then the intensity levels are clipped:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">image_float</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">102</span><span class="p">))</span>
+<span class="go">array([ 0.5,  1. ,  1. ])</span>
+</pre></div>
+</div>
+<p>If you have an image with signed integers but want to rescale the image to
+just the positive range, use the <em class="xref py py-obj">out_range</em> parameter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">127</span><span class="p">))</span>
+<span class="go">array([  0,  63, 127], dtype=int8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-rescale-intensity">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.rescale_intensity</span></code><a class="headerlink" href="#examples-using-skimage-exposure-rescale-intensity" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="Color deconvolution consists of the separation of features by their colors."><div class="figure align-default" id="id21">
+<img alt="../_images/sphx_glr_plot_ihc_color_separation_thumb.png" src="../_images/sphx_glr_plot_ihc_color_separation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_ihc_color_separation.html#sphx-glr-auto-examples-color-exposure-plot-ihc-color-separation-py"><span class="std std-ref">Immunohistochemical staining colors separation</span></a></span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="There are many filters that are designed to work with gray-scale images but not with color imag..."><div class="figure align-default" id="id22">
+<img alt="../_images/sphx_glr_plot_adapt_rgb_thumb.png" src="../_images/sphx_glr_plot_adapt_rgb_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_adapt_rgb.html#sphx-glr-auto-examples-color-exposure-plot-adapt-rgb-py"><span class="std std-ref">Adapting gray-scale filters to RGB images</span></a></span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This examples enhances an image with low contrast, using a method called *histogram equalizatio..."><div class="figure align-default" id="id23">
+<img alt="../_images/sphx_glr_plot_equalize_thumb.png" src="../_images/sphx_glr_plot_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this simplified example we first generate two synthetic images as if they were taken from di..."><div class="figure align-default" id="id24">
+<img alt="../_images/sphx_glr_plot_matching_thumb.png" src="../_images/sphx_glr_plot_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/transform/plot_matching.html#sphx-glr-auto-examples-transform-plot-matching-py"><span class="std std-ref">Robust matching using RANSAC</span></a></span><a class="headerlink" href="#id24" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Some signals can only be observed modulo 2*pi, and this can also apply to two- and three dimens..."><div class="figure align-default" id="id25">
+<img alt="../_images/sphx_glr_plot_phase_unwrap_thumb.png" src="../_images/sphx_glr_plot_phase_unwrap_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/filters/plot_phase_unwrap.html#sphx-glr-auto-examples-filters-plot-phase-unwrap-py"><span class="std std-ref">Phase Unwrapping</span></a></span><a class="headerlink" href="#id25" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Histogram of Oriented Gradient (HOG) feature descriptor is popular for object detection [1]..."><div class="figure align-default" id="id26">
+<img alt="../_images/sphx_glr_plot_hog_thumb.png" src="../_images/sphx_glr_plot_hog_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_hog.html#sphx-glr-auto-examples-features-detection-plot-hog-py"><span class="std std-ref">Histogram of Oriented Gradients</span></a></span><a class="headerlink" href="#id26" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We fill holes (i.e. isolated, dark spots) in an image using morphological reconstruction by ero..."><div class="figure align-default" id="id27">
+<img alt="../_images/sphx_glr_plot_holes_and_peaks_thumb.png" src="../_images/sphx_glr_plot_holes_and_peaks_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/features_detection/plot_holes_and_peaks.html#sphx-glr-auto-examples-features-detection-plot-holes-and-peaks-py"><span class="std std-ref">Filling holes and finding peaks</span></a></span><a class="headerlink" href="#id27" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The random walker algorithm [1]_  determines the segmentation of an image from a set of markers..."><div class="figure align-default" id="id28">
+<img alt="../_images/sphx_glr_plot_random_walker_segmentation_thumb.png" src="../_images/sphx_glr_plot_random_walker_segmentation_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_random_walker_segmentation.html#sphx-glr-auto-examples-segmentation-plot-random-walker-segmentation-py"><span class="std std-ref">Random walker segmentation</span></a></span><a class="headerlink" href="#id28" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="We detect local maxima in a galaxy image. The image is corrupted by noise, generating many loca..."><div class="figure align-default" id="id29">
+<img alt="../_images/sphx_glr_plot_extrema_thumb.png" src="../_images/sphx_glr_plot_extrema_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/segmentation/plot_extrema.html#sphx-glr-auto-examples-segmentation-plot-extrema-py"><span class="std std-ref">Extrema</span></a></span><a class="headerlink" href="#id29" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="cumulative-distribution">
+<h2>cumulative_distribution<a class="headerlink" href="#cumulative-distribution" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.cumulative_distribution">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">cumulative_distribution</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">nbins=256</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L147"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.cumulative_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return cumulative distribution function (cdf) for the given image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array</span></dt><dd><p>Image array.</p>
+</dd>
+<dt><strong>nbins</strong><span class="classifier">int, optional</span></dt><dd><p>Number of bins for image histogram.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>img_cdf</strong><span class="classifier">array</span></dt><dd><p>Values of cumulative distribution function.</p>
+</dd>
+<dt><strong>bin_centers</strong><span class="classifier">array</span></dt><dd><p>Centers of bins.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.histogram" title="skimage.exposure.histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">histogram</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r2f636a25e5e6-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Cumulative_distribution_function">https://en.wikipedia.org/wiki/Cumulative_distribution_function</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hi</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cdf</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">cumulative_distribution</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">alltrue</span><span class="p">(</span><span class="n">cdf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">hi</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-cumulative-distribution">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.cumulative_distribution</span></code><a class="headerlink" href="#examples-using-skimage-exposure-cumulative-distribution" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the feature of histogram matching. It manipulates the pixels of an in..."><div class="figure align-default" id="id30">
+<img alt="../_images/sphx_glr_plot_histogram_matching_thumb.png" src="../_images/sphx_glr_plot_histogram_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_histogram_matching.html#sphx-glr-auto-examples-color-exposure-plot-histogram-matching-py"><span class="std std-ref">Histogram matching</span></a></span><a class="headerlink" href="#id30" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example enhances an image with low contrast, using a method called *local histogram equali..."><div class="figure align-default" id="id31">
+<img alt="../_images/sphx_glr_plot_local_equalize_thumb.png" src="../_images/sphx_glr_plot_local_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_local_equalize.html#sphx-glr-auto-examples-color-exposure-plot-local-equalize-py"><span class="std std-ref">Local Histogram Equalization</span></a></span><a class="headerlink" href="#id31" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example adjusts image contrast by performing a Gamma and a Logarithmic correction on the i..."><div class="figure align-default" id="id32">
+<img alt="../_images/sphx_glr_plot_log_gamma_thumb.png" src="../_images/sphx_glr_plot_log_gamma_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_log_gamma.html#sphx-glr-auto-examples-color-exposure-plot-log-gamma-py"><span class="std std-ref">Gamma and log contrast adjustment</span></a></span><a class="headerlink" href="#id32" title="Permalink to this image">¶</a></p>
+</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This examples enhances an image with low contrast, using a method called *histogram equalizatio..."><div class="figure align-default" id="id33">
+<img alt="../_images/sphx_glr_plot_equalize_thumb.png" src="../_images/sphx_glr_plot_equalize_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_equalize.html#sphx-glr-auto-examples-color-exposure-plot-equalize-py"><span class="std std-ref">Histogram Equalization</span></a></span><a class="headerlink" href="#id33" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="adjust-gamma">
+<h2>adjust_gamma<a class="headerlink" href="#adjust-gamma" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.adjust_gamma">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">adjust_gamma</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">gamma=1</em>, <em class="sig-param">gain=1</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L364"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.adjust_gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Gamma Correction on the input image.</p>
+<p>Also known as Power Law Transform.
+This function transforms the input image pixelwise according to the
+equation <code class="docutils literal notranslate"><span class="pre">O</span> <span class="pre">=</span> <span class="pre">I**gamma</span></code> after scaling each pixel to the range 0 to 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>gamma</strong><span class="classifier">float, optional</span></dt><dd><p>Non negative real number. Default value is 1.</p>
+</dd>
+<dt><strong>gain</strong><span class="classifier">float, optional</span></dt><dd><p>The constant multiplier. Default value is 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Gamma corrected output image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.adjust_log" title="skimage.exposure.adjust_log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_log</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>For gamma greater than 1, the histogram will shift towards left and
+the output image will be darker than the input image.</p>
+<p>For gamma less than 1, the histogram will shift towards right and
+the output image will be brighter than the input image.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rae4adc10d876-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Gamma_correction">https://en.wikipedia.org/wiki/Gamma_correction</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">exposure</span><span class="p">,</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">moon</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_corrected</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">adjust_gamma</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Output is darker for gamma &gt; 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">gamma_corrected</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-adjust-gamma">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_gamma</span></code><a class="headerlink" href="#examples-using-skimage-exposure-adjust-gamma" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example adjusts image contrast by performing a Gamma and a Logarithmic correction on the i..."><div class="figure align-default" id="id34">
+<img alt="../_images/sphx_glr_plot_log_gamma_thumb.png" src="../_images/sphx_glr_plot_log_gamma_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_log_gamma.html#sphx-glr-auto-examples-color-exposure-plot-log-gamma-py"><span class="std std-ref">Gamma and log contrast adjustment</span></a></span><a class="headerlink" href="#id34" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="adjust-sigmoid">
+<h2>adjust_sigmoid<a class="headerlink" href="#adjust-sigmoid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.adjust_sigmoid">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">adjust_sigmoid</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">cutoff=0.5</em>, <em class="sig-param">gain=10</em>, <em class="sig-param">inv=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L465"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.adjust_sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Sigmoid Correction on the input image.</p>
+<p>Also known as Contrast Adjustment.
+This function transforms the input image pixelwise according to the
+equation <code class="docutils literal notranslate"><span class="pre">O</span> <span class="pre">=</span> <span class="pre">1/(1</span> <span class="pre">+</span> <span class="pre">exp*(gain*(cutoff</span> <span class="pre">-</span> <span class="pre">I)))</span></code> after scaling each pixel
+to the range 0 to 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>cutoff</strong><span class="classifier">float, optional</span></dt><dd><p>Cutoff of the sigmoid function that shifts the characteristic curve
+in horizontal direction. Default value is 0.5.</p>
+</dd>
+<dt><strong>gain</strong><span class="classifier">float, optional</span></dt><dd><p>The constant multiplier in exponential’s power of sigmoid function.
+Default value is 10.</p>
+</dd>
+<dt><strong>inv</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, returns the negative sigmoid correction. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Sigmoid corrected output image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.adjust_gamma" title="skimage.exposure.adjust_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_gamma</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r540cef5dd04e-1"><span class="brackets">1</span></dt>
+<dd><p>Gustav J. Braun, “Image Lightness Rescaling Using Sigmoidal Contrast
+Enhancement Functions”,
+<a class="reference external" href="http://www.cis.rit.edu/fairchild/PDFs/PAP07.pdf">http://www.cis.rit.edu/fairchild/PDFs/PAP07.pdf</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="adjust-log">
+<h2>adjust_log<a class="headerlink" href="#adjust-log" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.adjust_log">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">adjust_log</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">gain=1</em>, <em class="sig-param">inv=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L422"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.adjust_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Logarithmic correction on the input image.</p>
+<p>This function transforms the input image pixelwise according to the
+equation <code class="docutils literal notranslate"><span class="pre">O</span> <span class="pre">=</span> <span class="pre">gain*log(1</span> <span class="pre">+</span> <span class="pre">I)</span></code> after scaling each pixel to the range 0 to 1.
+For inverse logarithmic correction, the equation is <code class="docutils literal notranslate"><span class="pre">O</span> <span class="pre">=</span> <span class="pre">gain*(2**I</span> <span class="pre">-</span> <span class="pre">1)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image.</p>
+</dd>
+<dt><strong>gain</strong><span class="classifier">float, optional</span></dt><dd><p>The constant multiplier. Default value is 1.</p>
+</dd>
+<dt><strong>inv</strong><span class="classifier">float, optional</span></dt><dd><p>If True, it performs inverse logarithmic correction,
+else correction will be logarithmic. Defaults to False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Logarithm corrected output image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.exposure.adjust_gamma" title="skimage.exposure.adjust_gamma"><code class="xref py py-obj docutils literal notranslate"><span class="pre">adjust_gamma</span></code></a></dt><dd></dd>
+</dl>
+</div>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r6f200b5cbc56-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://www.ece.ucsb.edu/Faculty/Manjunath/courses/ece178W03/EnhancePart1.pdf">http://www.ece.ucsb.edu/Faculty/Manjunath/courses/ece178W03/EnhancePart1.pdf</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-adjust-log">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_log</span></code><a class="headerlink" href="#examples-using-skimage-exposure-adjust-log" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example adjusts image contrast by performing a Gamma and a Logarithmic correction on the i..."><div class="figure align-default" id="id35">
+<img alt="../_images/sphx_glr_plot_log_gamma_thumb.png" src="../_images/sphx_glr_plot_log_gamma_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_log_gamma.html#sphx-glr-auto-examples-color-exposure-plot-log-gamma-py"><span class="std std-ref">Gamma and log contrast adjustment</span></a></span><a class="headerlink" href="#id35" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+<div class="section" id="is-low-contrast">
+<h2>is_low_contrast<a class="headerlink" href="#is-low-contrast" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.is_low_contrast">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">is_low_contrast</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">fraction_threshold=0.05</em>, <em class="sig-param">lower_percentile=1</em>, <em class="sig-param">upper_percentile=99</em>, <em class="sig-param">method='linear'</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/exposure.py#L514"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.is_low_contrast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if an image is low contrast.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">array-like</span></dt><dd><p>The image under test.</p>
+</dd>
+<dt><strong>fraction_threshold</strong><span class="classifier">float, optional</span></dt><dd><p>The low contrast fraction threshold. An image is considered low-
+contrast when its range of brightness spans less than this
+fraction of its data type’s full range. <a class="reference internal" href="#re0c68370bb9d-1" id="id10">[1]</a></p>
+</dd>
+<dt><strong>lower_percentile</strong><span class="classifier">float, optional</span></dt><dd><p>Disregard values below this percentile when computing image contrast.</p>
+</dd>
+<dt><strong>upper_percentile</strong><span class="classifier">float, optional</span></dt><dd><p>Disregard values above this percentile when computing image contrast.</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">str, optional</span></dt><dd><p>The contrast determination method.  Right now the only available
+option is “linear”.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">bool</span></dt><dd><p>True when the image is determined to be low contrast.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="re0c68370bb9d-1"><span class="brackets"><a class="fn-backref" href="#id10">1</a></span></dt>
+<dd><p><a class="reference external" href="https://scikit-image.org/docs/dev/user_guide/data_types.html">https://scikit-image.org/docs/dev/user_guide/data_types.html</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_low_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_low_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_low_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">upper_percentile</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="match-histograms">
+<h2>match_histograms<a class="headerlink" href="#match-histograms" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.exposure.match_histograms">
+<code class="sig-prename descclassname">skimage.exposure.</code><code class="sig-name descname">match_histograms</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">reference</em>, <em class="sig-param">*</em>, <em class="sig-param">multichannel=False</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.16.1/skimage/exposure/histogram_matching.py#L22"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skimage.exposure.match_histograms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust an image so that its cumulative histogram matches that of another.</p>
+<p>The adjustment is applied separately for each channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image. Can be gray-scale or in color.</p>
+</dd>
+<dt><strong>reference</strong><span class="classifier">ndarray</span></dt><dd><p>Image to match histogram of. Must have the same number of channels as
+image.</p>
+</dd>
+<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>Apply the matching separately for each channel.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>matched</strong><span class="classifier">ndarray</span></dt><dd><p>Transformed input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>Thrown when the number of channels in the input image and the reference
+differ.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r7600f247b5d3-1"><span class="brackets">1</span></dt>
+<dd><p><a class="reference external" href="http://paulbourke.net/miscellaneous/equalisation/">http://paulbourke.net/miscellaneous/equalisation/</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="examples-using-skimage-exposure-match-histograms">
+<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.exposure.match_histograms</span></code><a class="headerlink" href="#examples-using-skimage-exposure-match-histograms" title="Permalink to this headline">¶</a></h3>
+<div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates the feature of histogram matching. It manipulates the pixels of an in..."><div class="figure align-default" id="id36">
+<img alt="../_images/sphx_glr_plot_histogram_matching_thumb.png" src="../_images/sphx_glr_plot_histogram_matching_thumb.png" />
+<p class="caption"><span class="caption-text"><a class="reference internal" href="../auto_examples/color_exposure/plot_histogram_matching.html#sphx-glr-auto-examples-color-exposure-plot-histogram-matching-py"><span class="std std-ref">Histogram matching</span></a></span><a class="headerlink" href="#id36" title="Permalink to this image">¶</a></p>
+</div>
+</div></div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

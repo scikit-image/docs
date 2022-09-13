@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module: segmentation &mdash; skimage v0.5 docs</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../dev/_static/docversions.js"></script>
+    <link rel="top" title="skimage v0.5 docs" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <div class="logo"><a href="http://scikits-image.org">
+            <img class="logo" src="../_static/scikits_image_logo_small.png" alt="Logo"/>
+          </a></div>
+       
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+             
+            
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"> 
+
+  
+    <h3>Navigation</h3>
+    <p>
+    <a href="../index.html">Documentation Home</a>
+    </p>
+    <p>&nbsp;</p>
+  
+    <h3>Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">Module: <tt class="docutils literal"><span class="pre">segmentation</span></tt></a><ul>
+<li><a class="reference internal" href="#random-walker">random_walker</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+  <h3>Version</h3>
+
+    <script type="text/javascript">
+      insert_version_links();
+    </script>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+        
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-skimage.segmentation">
+<span id="module-segmentation"></span><h1>Module: <tt class="xref py py-mod docutils literal"><span class="pre">segmentation</span></tt><a class="headerlink" href="#module-skimage.segmentation" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><a class="reference internal" href="#skimage.segmentation.random_walker" title="skimage.segmentation.random_walker"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.segmentation.random_walker</span></tt></a>(data,&nbsp;labels)</td>
+<td>Random walker algorithm for segmentation from markers.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="random-walker">
+<h2>random_walker<a class="headerlink" href="#random-walker" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="skimage.segmentation.random_walker">
+<tt class="descclassname">skimage.segmentation.</tt><tt class="descname">random_walker</tt><big>(</big><em>data</em>, <em>labels</em>, <em>beta=130</em>, <em>mode='bf'</em>, <em>tol=0.001</em>, <em>copy=True</em><big>)</big><a class="headerlink" href="#skimage.segmentation.random_walker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Random walker algorithm for segmentation from markers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : array_like</p>
+<blockquote>
+<div><p>Image to be segmented in phases. <cite>data</cite> can be two- or
+three-dimensional.</p>
+</div></blockquote>
+<p><strong>labels</strong> : array of ints, of same shape as <cite>data</cite></p>
+<blockquote>
+<div><p>Array of seed markers labeled with different positive integers
+for different phases. Zero-labeled pixels are unlabeled pixels.
+Negative labels correspond to inactive pixels that are not taken
+into account (they are removed from the graph).</p>
+</div></blockquote>
+<p><strong>beta</strong> : float</p>
+<blockquote>
+<div><p>Penalization coefficient for the random walker motion
+(the greater <cite>beta</cite>, the more difficult the diffusion).</p>
+</div></blockquote>
+<p><strong>mode</strong> : {&#8216;bf&#8217;, &#8216;cg_mg&#8217;, &#8216;cg&#8217;} (default: &#8216;bf&#8217;)</p>
+<blockquote>
+<div><p>Mode for solving the linear system in the random walker
+algorithm.</p>
+<ul class="simple">
+<li>&#8216;bf&#8217; (brute force, default): an LU factorization of the Laplacian is
+computed. This is fast for small images (&lt;1024x1024), but very slow
+(due to the memory cost) and memory-consuming for big images (in 3-D
+for example).</li>
+<li>&#8216;cg&#8217; (conjugate gradient): the linear system is solved iteratively
+using the Conjugate Gradient method from scipy.sparse.linalg. This is
+less memory-consuming than the brute force method for large images,
+but it is quite slow.</li>
+<li>&#8216;cg_mg&#8217; (conjugate gradient with multigrid preconditioner): a
+preconditioner is computed using a multigrid solver, then the
+solution is computed with the Conjugate Gradient method.  This mode
+requires that the pyamg module (<a class="reference external" href="http://code.google.com/p/pyamg/">http://code.google.com/p/pyamg/</a>) is
+installed. For images of size &gt; 512x512, this is the recommended
+(fastest) mode.</li>
+</ul>
+</div></blockquote>
+<p><strong>tol</strong> : float</p>
+<blockquote>
+<div><p>tolerance to achieve when solving the linear system, in
+cg&#8217; and &#8216;cg_mg&#8217; modes.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool</p>
+<blockquote>
+<div><p>If copy is False, the <cite>labels</cite> array will be overwritten with
+the result of the segmentation. Use copy=False if you want to
+save on memory.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>output</strong> : ndarray of ints</p>
+<blockquote class="last">
+<div><p>Array in which each pixel has been labeled according to the marker
+that reached the pixel first by anisotropic diffusion.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="skimage.morphology.html#skimage.morphology.watershed" title="skimage.morphology.watershed"><tt class="xref py py-obj docutils literal"><span class="pre">skimage.morphology.watershed</span></tt></a></dt>
+<dd>watershed segmentation A segmentation algorithm based on mathematical morphology and &#8220;flooding&#8221; of regions from markers.</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>The algorithm was first proposed in <em>Random walks for image
+segmentation</em>, Leo Grady, IEEE Trans Pattern Anal Mach Intell.
+2006 Nov;28(11):1768-83.</p>
+<p>The algorithm solves the diffusion equation at infinite times for
+sources placed on markers of each phase in turn. A pixel is labeled with
+the phase that has the greatest probability to diffuse first to the pixel.</p>
+<p>The diffusion equation is solved by minimizing x.T L x for each phase,
+where L is the Laplacian of the weighted graph of the image, and x is
+the probability that a marker of the given phase arrives first at a pixel
+by diffusion (x=1 on markers of the phase, x=0 on the other markers, and
+the other coefficients are looked for). Each pixel is attributed the label
+for which it has a maximal value of x. The Laplacian L of the image
+is defined as:</p>
+<blockquote>
+<div><ul class="simple">
+<li>L_ii = d_i, the number of neighbors of pixel i (the degree of i)</li>
+<li>L_ij = -w_ij if i and j are adjacent pixels</li>
+</ul>
+</div></blockquote>
+<p>The weight w_ij is a decreasing function of the norm of the local gradient.
+This ensures that diffusion is easier between pixels of similar values.</p>
+<p>When the Laplacian is decomposed into blocks of marked and unmarked pixels:</p>
+<div class="highlight-python"><pre>L = M B.T
+    B A</pre>
+</div>
+<p>with first indices corresponding to marked pixels, and then to unmarked
+pixels, minimizing x.T L x for one phase amount to solving:</p>
+<div class="highlight-python"><pre>A x = - B x_m</pre>
+</div>
+<p>where x_m=1 on markers of the given phase, and 0 on other markers.
+This linear system is solved in the algorithm using a direct method for
+small images, and an iterative method for larger images.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c">#Marker for first phase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c">#Marker for second phase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_walker</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">array([[ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  2.,  2.,  2.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  2.,  2.,  2.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  2.,  2.,  2.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.],</span>
+<span class="go">        [ 1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.,  1.]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    </div>
+
+    <div class="footer-wrapper">
+      
+    <div class="footer">
+        &copy; Copyright 2011, the scikits-image team.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.8.
+    </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Rank filters &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Li thresholding" href="../developers/plot_threshold_li.html" />
+        <link rel="prev" title="Face classification using Haar-like feature descriptor" href="plot_haar_extraction_selection_classification.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Rank filters</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#noise-removal">Noise removal</a></li>
+<li><a class="reference internal" href="#image-smoothing">Image smoothing</a></li>
+<li><a class="reference internal" href="#contrast-enhancement">Contrast enhancement</a></li>
+<li><a class="reference internal" href="#image-threshold">Image threshold</a></li>
+<li><a class="reference internal" href="#image-morphology">Image morphology</a></li>
+<li><a class="reference internal" href="#feature-extraction">Feature extraction</a></li>
+<li><a class="reference internal" href="#implementation">Implementation</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-applications-plot-rank-filters-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="rank-filters">
+<span id="sphx-glr-auto-examples-applications-plot-rank-filters-py"></span><h1>Rank filters<a class="headerlink" href="#rank-filters" title="Permalink to this headline">¶</a></h1>
+<p>Rank filters are non-linear filters using the local gray-level ordering to
+compute the filtered value <a class="footnote-reference brackets" href="#id3" id="id1">1</a>. This ensemble of filters share a common base:
+the local gray-level histogram is computed on the neighborhood of a pixel
+(defined by a 2-D structuring element). If the filtered value is taken as the
+middle value of the histogram, we get the classical median filter.</p>
+<p>Rank filters can be used for several purposes such as:</p>
+<ul class="simple">
+<li><p>image quality enhancement
+e.g. image smoothing, sharpening</p></li>
+<li><p>image pre-processing
+e.g. noise reduction, contrast enhancement</p></li>
+<li><p>feature extraction
+e.g. border detection, isolated point detection</p></li>
+<li><p>post-processing
+e.g. small object removal, object grouping, contour smoothing</p></li>
+</ul>
+<p>Some well known filters are specific cases of rank filters <a class="footnote-reference brackets" href="#id3" id="id2">1</a> e.g.
+morphological dilation, morphological erosion, median filters.</p>
+<p>In this example, we will see how to filter a gray-level image using some of the
+linear and non-linear filters available in skimage. We use the <code class="docutils literal notranslate"><span class="pre">camera</span></code> image
+from <code class="docutils literal notranslate"><span class="pre">skimage.data</span></code> for all comparisons.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets">1</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>Pierre Soille, On morphological operators based on rank filters, Pattern
+Recognition 35 (2002) 527-535, <a class="reference external" href="https://doi.org/10.1016/S0031-3203(01)00047-4">DOI:10.1016/S0031-3203(01)00047-4</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage.util</span> <span class="k">import</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.exposure</span> <span class="k">import</span> <a href="../../api/skimage.exposure.html#skimage.exposure.histogram" title="View documentation for skimage.exposure.histogram"><span class="n">histogram</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+<span class="n">hist</span><span class="p">,</span> <span class="n">hist_centers</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.histogram" title="View documentation for skimage.exposure.histogram"><span class="n">histogram</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist_centers</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram of grey values&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_001.png" />
+<div class="section" id="noise-removal">
+<h2>Noise removal<a class="headerlink" href="#noise-removal" title="Permalink to this headline">¶</a></h2>
+<p>Some noise is added to the image, 1% of pixels are randomly set to 255, 1%
+are randomly set to 0. The <strong>median</strong> filter is applied to remove the
+noise.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a>
+
+<span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">noisy_image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+<span class="n">noisy_image</span><span class="p">[</span><span class="n">noise</span> <span class="o">&gt;</span> <span class="mf">0.99</span><span class="p">]</span> <span class="o">=</span> <span class="mi">255</span>
+<span class="n">noisy_image</span><span class="p">[</span><span class="n">noise</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Noisy image&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Median $r=1$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">)),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Median $r=5$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">)),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Median $r=20$&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_002.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_002.png" />
+<p>The added noise is efficiently removed, as the image defaults are small (1
+pixel wide), a small filter radius is sufficient. As the radius is
+increasing, objects with bigger sizes are filtered as well, such as the
+camera tripod. The median filter is often used for noise removal because
+borders are preserved and e.g. salt and pepper noise typically does not
+distort the gray-level.</p>
+</div>
+<div class="section" id="image-smoothing">
+<h2>Image smoothing<a class="headerlink" href="#image-smoothing" title="Permalink to this headline">¶</a></h2>
+<p>The example hereunder shows how a local <strong>mean</strong> filter smooths the camera
+man image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.mean" title="View documentation for skimage.filters.rank.mean"><span class="n">mean</span></a>
+
+<span class="n">loc_mean</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.mean" title="View documentation for skimage.filters.rank.mean"><span class="n">mean</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">loc_mean</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local mean $r=10$&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_003.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_003.png" />
+<p>One may be interested in smoothing an image while preserving important
+borders (median filters already achieved this), here we use the
+<strong>bilateral</strong> filter that restricts the local neighborhood to pixel having
+a gray-level similar to the central one.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A different implementation is available for color images in
+<code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.denoise_bilateral()</span></code>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.mean_bilateral" title="View documentation for skimage.filters.rank.mean_bilateral"><span class="n">mean_bilateral</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="n">bilat</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.mean_bilateral" title="View documentation for skimage.filters.rank.mean_bilateral"><span class="n">mean_bilateral</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">),</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">s0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">s1</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">bilat</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Bilateral mean&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">bilat</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_004.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_004.png" />
+<p>One can see that the large continuous part of the image (e.g. sky) is
+smoothed whereas other details are preserved.</p>
+</div>
+<div class="section" id="contrast-enhancement">
+<h2>Contrast enhancement<a class="headerlink" href="#contrast-enhancement" title="Permalink to this headline">¶</a></h2>
+<p>We compare here how the global histogram equalization is applied locally.</p>
+<p>The equalized image <a class="footnote-reference brackets" href="#id6" id="id4">2</a> has a roughly linear cumulative distribution
+function for each pixel neighborhood. The local version <a class="footnote-reference brackets" href="#id7" id="id5">3</a> of the
+histogram equalization emphasizes every local gray-level variations.</p>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id4">2</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Histogram_equalization">https://en.wikipedia.org/wiki/Histogram_equalization</a></p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Adaptive_histogram_equalization">https://en.wikipedia.org/wiki/Adaptive_histogram_equalization</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">exposure</span>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <span class="n">rank</span>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="c1"># equalize globally and locally</span>
+<span class="n">glob</span> <span class="o">=</span> <a href="../../api/skimage.exposure.html#skimage.exposure.equalize_hist" title="View documentation for skimage.exposure.equalize_hist"><span class="n">exposure</span><span class="o">.</span><span class="n">equalize_hist</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="n">loc</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.equalize" title="View documentation for skimage.filters.rank.equalize"><span class="n">rank</span><span class="o">.</span><span class="n">equalize</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+
+<span class="c1"># extract histogram for each image</span>
+<span class="n">hist</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="View documentation for numpy.histogram"><span class="n">np</span><span class="o">.</span><span class="n">histogram</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
+<span class="n">glob_hist</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="View documentation for numpy.histogram"><span class="n">np</span><span class="o">.</span><span class="n">histogram</span></a><span class="p">(</span><span class="n">glob</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
+<span class="n">loc_hist</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html#numpy.histogram" title="View documentation for numpy.histogram"><span class="n">np</span><span class="o">.</span><span class="n">histogram</span></a><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.arange.html#numpy.arange" title="View documentation for numpy.arange"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram of gray values&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">glob</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">glob_hist</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">glob_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram of gray values&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc_hist</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">loc_hist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram of gray values&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_005.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_005.png" />
+<p>Another way to maximize the number of gray-levels used for an image is to
+apply a local auto-leveling, i.e. the gray-value of a pixel is
+proportionally remapped between local minimum and local maximum.</p>
+<p>The following example shows how local auto-level enhances the camara man
+picture.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel" title="View documentation for skimage.filters.rank.autolevel"><span class="n">autolevel</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="n">auto</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel" title="View documentation for skimage.filters.rank.autolevel"><span class="n">autolevel</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">),</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">auto</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local autolevel&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_006.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_006.png" />
+<p>This filter is very sensitive to local outliers, see the little white spot
+in the left part of the sky. This is due to a local maximum which is very
+high comparing to the rest of the neighborhood. One can moderate this using
+the percentile version of the auto-level filter which uses given
+percentiles (one inferior, one superior) in place of local minimum and
+maximum. The example below illustrates how the percentile parameters
+influence the local auto-level result.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel_percentile" title="View documentation for skimage.filters.rank.autolevel_percentile"><span class="n">autolevel_percentile</span></a>
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">()</span>
+
+<span class="n">selem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">loc_autolevel</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel" title="View documentation for skimage.filters.rank.autolevel"><span class="n">autolevel</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">)</span>
+<span class="n">loc_perc_autolevel0</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel_percentile" title="View documentation for skimage.filters.rank.autolevel_percentile"><span class="n">autolevel_percentile</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">,</span> <span class="n">p0</span><span class="o">=.</span><span class="mi">00</span><span class="p">,</span> <span class="n">p1</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">loc_perc_autolevel1</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel_percentile" title="View documentation for skimage.filters.rank.autolevel_percentile"><span class="n">autolevel_percentile</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">,</span> <span class="n">p0</span><span class="o">=.</span><span class="mi">01</span><span class="p">,</span> <span class="n">p1</span><span class="o">=.</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">loc_perc_autolevel2</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel_percentile" title="View documentation for skimage.filters.rank.autolevel_percentile"><span class="n">autolevel_percentile</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">,</span> <span class="n">p0</span><span class="o">=.</span><span class="mi">05</span><span class="p">,</span> <span class="n">p1</span><span class="o">=.</span><span class="mi">95</span><span class="p">)</span>
+<span class="n">loc_perc_autolevel3</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.autolevel_percentile" title="View documentation for skimage.filters.rank.autolevel_percentile"><span class="n">autolevel_percentile</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">,</span> <span class="n">p0</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">p1</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">title_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Original&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;auto_level&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;auto-level 0%&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;auto-level 1%&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;auto-level 5%&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;auto-level 10%&#39;</span><span class="p">]</span>
+<span class="n">image_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">image</span><span class="p">,</span>
+              <span class="n">loc_autolevel</span><span class="p">,</span>
+              <span class="n">loc_perc_autolevel0</span><span class="p">,</span>
+              <span class="n">loc_perc_autolevel1</span><span class="p">,</span>
+              <span class="n">loc_perc_autolevel2</span><span class="p">,</span>
+              <span class="n">loc_perc_autolevel3</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_list</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_007.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_007.png" />
+<p>The morphological contrast enhancement filter replaces the central pixel by
+the local maximum if the original pixel value is closest to local maximum,
+otherwise by the minimum local.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.enhance_contrast" title="View documentation for skimage.filters.rank.enhance_contrast"><span class="n">enhance_contrast</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="n">enh</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.enhance_contrast" title="View documentation for skimage.filters.rank.enhance_contrast"><span class="n">enhance_contrast</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">enh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local morphological contrast enhancement&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">enh</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_008.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_008.png" />
+<p>The percentile version of the local morphological contrast enhancement uses
+percentile <em>p0</em> and <em>p1</em> instead of the local minimum and maximum.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.enhance_contrast_percentile" title="View documentation for skimage.filters.rank.enhance_contrast_percentile"><span class="n">enhance_contrast_percentile</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="n">penh</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.enhance_contrast_percentile" title="View documentation for skimage.filters.rank.enhance_contrast_percentile"><span class="n">enhance_contrast_percentile</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">p0</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">p1</span><span class="o">=.</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">&#39;row&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">penh</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local percentile morphological</span><span class="se">\n</span><span class="s1"> contrast enhancement&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">penh</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">:</span><span class="mi">450</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_009.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_009.png" />
+</div>
+<div class="section" id="image-threshold">
+<h2>Image threshold<a class="headerlink" href="#image-threshold" title="Permalink to this headline">¶</a></h2>
+<p>The Otsu threshold <a class="footnote-reference brackets" href="#id9" id="id8">4</a> method can be applied locally using the local gray-
+level distribution. In the example below, for each pixel, an “optimal”
+threshold is determined by maximizing the variance between two classes of
+pixels of the local neighborhood defined by a structuring element.</p>
+<p>The example compares the local threshold with the global threshold
+<a class="reference internal" href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="skimage.filters.threshold_otsu"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.threshold_otsu()</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Local is much slower than global thresholding. A function for global
+Otsu thresholding can be found in :
+<a class="reference internal" href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="skimage.filters.threshold_otsu"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.threshold_otsu()</span></code></a>.</p>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id8">4</a></span></dt>
+<dd><p><a class="reference external" href="https://en.wikipedia.org/wiki/Otsu's_method">https://en.wikipedia.org/wiki/Otsu’s_method</a></p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.otsu" title="View documentation for skimage.filters.rank.otsu"><span class="n">otsu</span></a>
+<span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="k">import</span> <a href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="View documentation for skimage.filters.threshold_otsu"><span class="n">threshold_otsu</span></a>
+
+<span class="n">p8</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.page" title="View documentation for skimage.data.page"><span class="n">data</span><span class="o">.</span><span class="n">page</span></a><span class="p">()</span>
+
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">selem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+
+<span class="c1"># t_loc_otsu is an image</span>
+<span class="n">t_loc_otsu</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.otsu" title="View documentation for skimage.filters.rank.otsu"><span class="n">otsu</span></a><span class="p">(</span><span class="n">p8</span><span class="p">,</span> <span class="n">selem</span><span class="p">)</span>
+<span class="n">loc_otsu</span> <span class="o">=</span> <span class="n">p8</span> <span class="o">&gt;=</span> <span class="n">t_loc_otsu</span>
+
+<span class="c1"># t_glob_otsu is a scalar</span>
+<span class="n">t_glob_otsu</span> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.threshold_otsu" title="View documentation for skimage.filters.threshold_otsu"><span class="n">threshold_otsu</span></a><span class="p">(</span><span class="n">p8</span><span class="p">)</span>
+<span class="n">glob_otsu</span> <span class="o">=</span> <span class="n">p8</span> <span class="o">&gt;=</span> <span class="n">t_glob_otsu</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">p8</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">t_loc_otsu</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local Otsu ($r=</span><span class="si">%d</span><span class="s1">$)&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">p8</span> <span class="o">&gt;=</span> <span class="n">t_loc_otsu</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original &gt;= local Otsu&#39;</span> <span class="o">%</span> <span class="n">t_glob_otsu</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">glob_otsu</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Global Otsu ($t=</span><span class="si">%d</span><span class="s1">$)&#39;</span> <span class="o">%</span> <span class="n">t_glob_otsu</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_010.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_010.png" />
+<p>The following example shows how local Otsu thresholding handles a global
+level shift applied to a synthetic image.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">theta</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html#numpy.linspace" title="View documentation for numpy.linspace"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/constants.html#numpy.pi" title="View documentation for numpy.pi"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.sin.html#numpy.sin" title="View documentation for numpy.sin"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+<span class="n">m</span> <span class="o">=</span> <span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.tile.html#numpy.tile" title="View documentation for numpy.tile"><span class="n">np</span><span class="o">.</span><span class="n">tile</span></a><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.linspace.html#numpy.linspace" title="View documentation for numpy.linspace"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="mi">128</span> <span class="o">+</span> <span class="mi">128</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+<span class="n">radius</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">t</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.otsu" title="View documentation for skimage.filters.rank.otsu"><span class="n">rank</span><span class="o">.</span><span class="n">otsu</span></a><span class="p">(</span><span class="n">m</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">radius</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+                       <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">m</span> <span class="o">&gt;=</span> <span class="n">t</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Local Otsu ($r=</span><span class="si">%d</span><span class="s1">$)&#39;</span> <span class="o">%</span> <span class="n">radius</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_011.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_011.png" />
+</div>
+<div class="section" id="image-morphology">
+<h2>Image morphology<a class="headerlink" href="#image-morphology" title="Permalink to this headline">¶</a></h2>
+<p>Local maximum and local minimum are the base operators for gray-level
+morphology.</p>
+<p>Here is an example of the classical morphological gray-level filters:
+opening, closing and morphological gradient.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.maximum" title="View documentation for skimage.filters.rank.maximum"><span class="n">maximum</span></a><span class="p">,</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.minimum" title="View documentation for skimage.filters.rank.minimum"><span class="n">minimum</span></a><span class="p">,</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.gradient" title="View documentation for skimage.filters.rank.gradient"><span class="n">gradient</span></a>
+
+<span class="n">noisy_image</span> <span class="o">=</span> <a href="../../api/skimage.html#skimage.img_as_ubyte" title="View documentation for skimage.util.img_as_ubyte"><span class="n">img_as_ubyte</span></a><span class="p">(</span><a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">())</span>
+
+<span class="n">closing</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.maximum" title="View documentation for skimage.filters.rank.maximum"><span class="n">maximum</span></a><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.minimum" title="View documentation for skimage.filters.rank.minimum"><span class="n">minimum</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">)),</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">opening</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.minimum" title="View documentation for skimage.filters.rank.minimum"><span class="n">minimum</span></a><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.maximum" title="View documentation for skimage.filters.rank.maximum"><span class="n">maximum</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">)),</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">grad</span> <span class="o">=</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.gradient" title="View documentation for skimage.filters.rank.gradient"><span class="n">gradient</span></a><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># display results</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">noisy_image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">closing</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gray-level closing&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">opening</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gray-level opening&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Morphological gradient&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_012.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_012.png" />
+</div>
+<div class="section" id="feature-extraction">
+<h2>Feature extraction<a class="headerlink" href="#feature-extraction" title="Permalink to this headline">¶</a></h2>
+<p>Local histograms can be exploited to compute local entropy, which is
+related to the local image complexity. Entropy is computed using base 2
+logarithm i.e. the filter returns the minimum number of bits needed to
+encode local gray-level distribution.</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.rank.entropy()</span></code> returns the local entropy on a given
+structuring element. The following example shows applies this filter
+on 8- and 16-bit images.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>to better use the available image bit, the function returns 10x entropy
+for 8-bit images and 1000x entropy for 16-bit images.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.entropy" title="View documentation for skimage.filters.rank.entropy"><span class="n">entropy</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Image&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="../../api/skimage.filters.rank.html#skimage.filters.rank.entropy" title="View documentation for skimage.filters.rank.entropy"><span class="n">entropy</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="mi">5</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Entropy&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_013.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_013.png" />
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>The central part of the <code class="docutils literal notranslate"><span class="pre">skimage.rank</span></code> filters is build on a sliding window
+that updates the local gray-level histogram. This approach limits the
+algorithm complexity to O(n) where n is the number of image pixels. The
+complexity is also limited with respect to the structuring element size.</p>
+<p>In the following we compare the performance of different implementations
+available in <code class="docutils literal notranslate"><span class="pre">skimage</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+
+<span class="kn">from</span> <span class="nn">scipy.ndimage</span> <span class="k">import</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.percentile_filter.html#scipy.ndimage.percentile_filter" title="View documentation for scipy.ndimage.percentile_filter"><span class="n">percentile_filter</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="k">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.dilation" title="View documentation for skimage.morphology.dilation"><span class="n">dilation</span></a>
+<span class="kn">from</span> <span class="nn">skimage.filters.rank</span> <span class="k">import</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a><span class="p">,</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.maximum" title="View documentation for skimage.filters.rank.maximum"><span class="n">maximum</span></a>
+
+
+<span class="k">def</span> <span class="nf">exec_and_timeit</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator that returns both function results and execution time.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">):</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1000.0</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">ms</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<span class="nd">@exec_and_timeit</span>
+<span class="k">def</span> <span class="nf">cr_med</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="p">):</span>
+    <span class="k">return</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.median" title="View documentation for skimage.filters.rank.median"><span class="n">median</span></a><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">)</span>
+
+
+<span class="nd">@exec_and_timeit</span>
+<span class="k">def</span> <span class="nf">cr_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="p">):</span>
+    <span class="k">return</span> <a href="../../api/skimage.filters.rank.html#skimage.filters.rank.maximum" title="View documentation for skimage.filters.rank.maximum"><span class="n">maximum</span></a><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">)</span>
+
+
+<span class="nd">@exec_and_timeit</span>
+<span class="k">def</span> <span class="nf">cm_dil</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="p">):</span>
+    <span class="k">return</span> <a href="../../api/skimage.morphology.html#skimage.morphology.dilation" title="View documentation for skimage.morphology.dilation"><span class="n">dilation</span></a><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">selem</span><span class="o">=</span><span class="n">selem</span><span class="p">)</span>
+
+
+<span class="nd">@exec_and_timeit</span>
+<span class="k">def</span> <span class="nf">ndi_med</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.percentile_filter.html#scipy.ndimage.percentile_filter" title="View documentation for scipy.ndimage.percentile_filter"><span class="n">percentile_filter</span></a><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Comparison between</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">filters.rank.maximum</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">morphology.dilate</span></code></p></li>
+</ul>
+<p>on increasing structuring element size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">()</span>
+
+<span class="n">rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">e_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">e_range</span><span class="p">:</span>
+    <span class="n">elem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">rc</span><span class="p">,</span> <span class="n">ms_rc</span> <span class="o">=</span> <span class="n">cr_max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="n">rcm</span><span class="p">,</span> <span class="n">ms_rcm</span> <span class="o">=</span> <span class="n">cm_dil</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="n">rec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ms_rc</span><span class="p">,</span> <span class="n">ms_rcm</span><span class="p">))</span>
+
+<span class="n">rec</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Performance with respect to element size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Element radius&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e_range</span><span class="p">,</span> <span class="n">rec</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;filters.rank.maximum&#39;</span><span class="p">,</span> <span class="s1">&#39;morphology.dilate&#39;</span><span class="p">])</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_014.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_014.png" />
+<p>and increasing image size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">elem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">s_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">s_range</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="o">*</span> <span class="mi">256</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="n">ms_rc</span><span class="p">)</span> <span class="o">=</span> <span class="n">cr_max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">rcm</span><span class="p">,</span> <span class="n">ms_rcm</span><span class="p">)</span> <span class="o">=</span> <span class="n">cm_dil</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="n">rec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ms_rc</span><span class="p">,</span> <span class="n">ms_rcm</span><span class="p">))</span>
+
+<span class="n">rec</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Performance with respect to image size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Image size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s_range</span><span class="p">,</span> <span class="n">rec</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;filters.rank.maximum&#39;</span><span class="p">,</span> <span class="s1">&#39;morphology.dilate&#39;</span><span class="p">])</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_015.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_015.png" />
+<p>Comparison between:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">filters.rank.median</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scipy.ndimage.percentile</span></code></p></li>
+</ul>
+<p>on increasing structuring element size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">()</span>
+
+<span class="n">rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">e_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">e_range</span><span class="p">:</span>
+    <span class="n">elem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">rc</span><span class="p">,</span> <span class="n">ms_rc</span> <span class="o">=</span> <span class="n">cr_med</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="n">rndi</span><span class="p">,</span> <span class="n">ms_ndi</span> <span class="o">=</span> <span class="n">ndi_med</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">rec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ms_rc</span><span class="p">,</span> <span class="n">ms_ndi</span><span class="p">))</span>
+
+<span class="n">rec</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Performance with respect to element size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e_range</span><span class="p">,</span> <span class="n">rec</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;filters.rank.median&#39;</span><span class="p">,</span> <span class="s1">&#39;scipy.ndimage.percentile&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Element radius&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_016.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_016.png" />
+<p>Comparison of outcome of the three methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;filters.rank.median&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;scipy.ndimage.percentile&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">rndi</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">ax</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_017.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_017.png" />
+<p>and increasing image size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">elem</span> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="View documentation for skimage.morphology.disk"><span class="n">disk</span></a><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">rec</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">s_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">s_range</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span> <span class="o">*</span> <span class="mi">256</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">rc</span><span class="p">,</span> <span class="n">ms_rc</span><span class="p">)</span> <span class="o">=</span> <span class="n">cr_med</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+    <span class="n">rndi</span><span class="p">,</span> <span class="n">ms_ndi</span> <span class="o">=</span> <span class="n">ndi_med</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">rec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ms_rc</span><span class="p">,</span> <span class="n">ms_ndi</span><span class="p">))</span>
+
+<span class="n">rec</span> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asarray.html#numpy.asarray" title="View documentation for numpy.asarray"><span class="n">np</span><span class="o">.</span><span class="n">asarray</span></a><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Performance with respect to image size&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s_range</span><span class="p">,</span> <span class="n">rec</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;filters.rank.median&#39;</span><span class="p">,</span> <span class="s1">&#39;scipy.ndimage.percentile&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Image size&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.tight_layout.html#matplotlib.pyplot.tight_layout" title="View documentation for matplotlib.pyplot.tight_layout"><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_rank_filters_018.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rank_filters_018.png" />
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  35.543 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-applications-plot-rank-filters-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/134a04f70e8e1a83c358004d30ab959c/plot_rank_filters.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_rank_filters.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/38e3d37bacb0789d069948a2bc254035/plot_rank_filters.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_rank_filters.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

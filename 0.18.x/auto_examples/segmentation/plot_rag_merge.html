@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>RAG Merging &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script src="../../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Hierarchical Merging of Region Boundary RAGs" href="plot_boundary_merge.html" />
+        <link rel="prev" title="Different perimeters" href="plot_perimeters.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-rag-merge-py"><span class="std std-ref">here</span></a>     to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<div class="sphx-glr-example-title section" id="rag-merging">
+<span id="sphx-glr-auto-examples-segmentation-plot-rag-merge-py"></span><h1>RAG Merging<a class="headerlink" href="#rag-merging" title="Permalink to this headline">¶</a></h1>
+<p>This example constructs a Region Adjacency Graph (RAG) and progressively merges
+regions that are similar in color. Merging two adjacent regions produces
+a new region with all the pixels from the merged regions. Regions are merged
+until no highly similar region pairs remain.</p>
+<img alt="plot rag merge" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_rag_merge_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/Users/jni/projects/scikit-image/skimage/io/_plugins/matplotlib_plugin.py:150: UserWarning: Float image out of standard range; displaying image with stretched contrast.
+  lo, hi, cmap = _get_display_range(image)
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">segmentation</span><span class="p">,</span> <span class="n">color</span>
+<span class="kn">from</span> <span class="nn">skimage.future</span> <span class="kn">import</span> <span class="n">graph</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">_weight_mean_color</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Callback to handle merging nodes by recomputing mean color.</span>
+
+<span class="sd">    The method expects that the mean color of `dst` is already computed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : RAG</span>
+<span class="sd">        The graph under consideration.</span>
+<span class="sd">    src, dst : int</span>
+<span class="sd">        The vertices in `graph` to be merged.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        A neighbor of `src` or `dst` or both.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        A dictionary with the `&quot;weight&quot;` attribute set as the absolute</span>
+<span class="sd">        difference of the mean color between node `dst` and `n`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;mean color&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;mean color&#39;</span><span class="p">]</span>
+    <span class="n">diff</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="n">diff</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">merge_mean_color</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Callback called before merging two nodes of a mean color distance graph.</span>
+
+<span class="sd">    This method computes the mean color of `dst`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    graph : RAG</span>
+<span class="sd">        The graph under consideration.</span>
+<span class="sd">    src, dst : int</span>
+<span class="sd">        The vertices in `graph` to be merged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;total color&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="s1">&#39;total color&#39;</span><span class="p">]</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;pixel count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="s1">&#39;pixel count&#39;</span><span class="p">]</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;mean color&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;total color&#39;</span><span class="p">]</span> <span class="o">/</span>
+                                      <span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">dst</span><span class="p">][</span><span class="s1">&#39;pixel count&#39;</span><span class="p">])</span>
+
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.coffee" title="skimage.data.coffee" class="sphx-glr-backref-module-skimage-data sphx-glr-backref-type-py-function"><span class="n">data</span><span class="o">.</span><span class="n">coffee</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.slic" title="skimage.segmentation.slic" class="sphx-glr-backref-module-skimage-segmentation sphx-glr-backref-type-py-function"><span class="n">segmentation</span><span class="o">.</span><span class="n">slic</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <span class="n">compactness</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">start_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.rag_mean_color" title="skimage.future.graph.rag_mean_color" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-function"><span class="n">graph</span><span class="o">.</span><span class="n">rag_mean_color</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels2</span></a> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.merge_hierarchical" title="skimage.future.graph.merge_hierarchical" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-function"><span class="n">graph</span><span class="o">.</span><span class="n">merge_hierarchical</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="p">,</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">rag_copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">in_place_merge</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">merge_func</span><span class="o">=</span><span class="n">merge_mean_color</span><span class="p">,</span>
+                                   <span class="n">weight_func</span><span class="o">=</span><span class="n">_weight_mean_color</span><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">out</span></a> <span class="o">=</span> <a href="../../api/skimage.color.html#skimage.color.label2rgb" title="skimage.color.label2rgb" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">color</span><span class="o">.</span><span class="n">label2rgb</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels2</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span> <span class="n">bg_label</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">out</span></a> <span class="o">=</span> <a href="../../api/skimage.segmentation.html#skimage.segmentation.mark_boundaries" title="skimage.segmentation.mark_boundaries" class="sphx-glr-backref-module-skimage-segmentation sphx-glr-backref-type-py-function"><span class="n">segmentation</span><span class="o">.</span><span class="n">mark_boundaries</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">out</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels2</span></a><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<a href="../../api/skimage.io.html#skimage.io.imshow" title="skimage.io.imshow" class="sphx-glr-backref-module-skimage-io sphx-glr-backref-type-py-function"><span class="n">io</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">out</span></a><span class="p">)</span>
+<a href="../../api/skimage.io.html#skimage.io.show" title="skimage.io.show" class="sphx-glr-backref-module-skimage-io sphx-glr-backref-type-py-function"><span class="n">io</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.721 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-rag-merge-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/master?filepath=notebooks/auto_examples/segmentation/plot_rag_merge.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/bc5ca6ccb2c97211f90c274fc68a619b/plot_rag_merge.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_rag_merge.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/e01709247183cc6d05d46d6a10a5ae92/plot_rag_merge.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_rag_merge.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+		We hope that this example was useful. If you have questions
+		unanswered by our documentation, you can ask them on the 
+		<a href="https://forum.image.sc/tag/scikit-image"> Image.sc
+		    forum</a>, 
+		where scikit-image developers and users are present.</br>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

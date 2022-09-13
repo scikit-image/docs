@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Region Adjacency Graphs &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script src="../../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Hausdorff Distance" href="plot_hausdorff_distance.html" />
+        <link rel="prev" title="Find the intersection of two segmentations" href="plot_join_segmentations.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-segmentation-plot-rag-py"><span class="std std-ref">here</span></a>     to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<div class="sphx-glr-example-title section" id="region-adjacency-graphs">
+<span id="sphx-glr-auto-examples-segmentation-plot-rag-py"></span><h1>Region Adjacency Graphs<a class="headerlink" href="#region-adjacency-graphs" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates the use of the <em class="xref py py-obj">merge_nodes</em> function of a Region
+Adjacency Graph (RAG). The <em class="xref py py-obj">RAG</em> class represents a undirected weighted graph
+which inherits from <code class="xref py py-obj docutils literal notranslate"><span class="pre">networkx.graph</span></code> class. When a new node is formed by
+merging two nodes, the edge weight of all the edges incident on the resulting
+node can be updated by a user defined function <em class="xref py py-obj">weight_func</em>.</p>
+<p>The default behaviour is to use the smaller edge weight in case of a conflict.
+The example below also shows how to use a custom function to select the larger
+weight instead.</p>
+<ul class="sphx-glr-horizontal">
+<li><img alt="Original Graph" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_rag_001.png" />
+</li>
+<li><img alt="Merged with default (min)" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_rag_002.png" />
+</li>
+<li><img alt="Merged with max without in_place" class="sphx-glr-multi-img" src="../../_images/sphx_glr_plot_rag_003.png" />
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.future.graph</span> <span class="kn">import</span> <span class="n">rag</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="k">def</span> <span class="nf">max_edge</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Callback to handle merging nodes by choosing maximum weight.</span>
+
+<span class="sd">    Returns a dictionary with `&quot;weight&quot;` set as either the weight between</span>
+<span class="sd">    (`src`, `n`) or (`dst`, `n`) in `g` or the maximum of the two when</span>
+<span class="sd">    both exist.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    g : RAG</span>
+<span class="sd">        The graph under consideration.</span>
+<span class="sd">    src, dst : int</span>
+<span class="sd">        The vertices in `g` to be merged.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        A neighbor of `src` or `dst` or both.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : dict</span>
+<span class="sd">        A dict with the &quot;weight&quot; attribute set the weight between</span>
+<span class="sd">        (`src`, `n`) or (`dst`, `n`) in `g` or the maximum of the two when</span>
+<span class="sd">        both exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">w1</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">[</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="o">-</span><a href="https://docs.python.org/3.9/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">inf</span></a><span class="p">})[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+    <span class="n">w2</span> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">[</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="o">-</span><a href="https://docs.python.org/3.9/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">inf</span></a><span class="p">})[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">)}</span>
+
+
+<span class="k">def</span> <span class="nf">display</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Displays a graph with the given title.&quot;&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">)</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">()</span>
+    <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.title.html#matplotlib.pyplot.title" title="matplotlib.pyplot.title" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">title</span></a><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class"><span class="n">rag</span><span class="o">.</span><span class="n">RAG</span></a><span class="p">()</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.add_edge" title="skimage.future.graph.RAG.add_edge" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.add_edge" title="skimage.future.graph.RAG.add_edge" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.add_edge" title="skimage.future.graph.RAG.add_edge" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.add_edge" title="skimage.future.graph.RAG.add_edge" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.add_edge" title="skimage.future.graph.RAG.add_edge" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">add_edge</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Assigning dummy labels.</span>
+<span class="k">for</span> <a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a> <span class="ow">in</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">][</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><a href="https://docs.python.org/3.9/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">]</span>
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gc</span></a> <span class="o">=</span> <a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.copy" title="skimage.future.graph.RAG.copy" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">copy</span></a><span class="p">()</span>
+
+<span class="n">display</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="s2">&quot;Original Graph&quot;</span><span class="p">)</span>
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.merge_nodes" title="skimage.future.graph.RAG.merge_nodes" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">g</span><span class="o">.</span><span class="n">merge_nodes</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">g</span></a><span class="p">,</span> <span class="s2">&quot;Merged with default (min)&quot;</span><span class="p">)</span>
+
+<a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG.merge_nodes" title="skimage.future.graph.RAG.merge_nodes" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-method"><span class="n">gc</span><span class="o">.</span><span class="n">merge_nodes</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">weight_func</span><span class="o">=</span><span class="n">max_edge</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><a href="../../api/skimage.future.graph.html#skimage.future.graph.RAG" title="skimage.future.graph.RAG" class="sphx-glr-backref-module-skimage-future-graph sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">gc</span></a><span class="p">,</span> <span class="s2">&quot;Merged with max without in_place&quot;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.234 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-segmentation-plot-rag-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/master?filepath=notebooks/auto_examples/segmentation/plot_rag.ipynb"><img alt="https://mybinder.org/badge_logo.svg" src="https://mybinder.org/badge_logo.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/83e9208fa1246a4e2e28cfaa6a80bf46/plot_rag.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_rag.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6057e866cdee01afef5a3c54578b33ad/plot_rag.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_rag.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+		We hope that this example was useful. If you have questions
+		unanswered by our documentation, you can ask them on the 
+		<a href="https://forum.image.sc/tag/scikit-image"> Image.sc
+		    forum</a>, 
+		where scikit-image developers and users are present.</br>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

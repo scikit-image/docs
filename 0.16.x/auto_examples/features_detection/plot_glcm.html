@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>GLCM Texture Features &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link href="../../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../../genindex.html" />
+        <link rel="search" title="Search" href="../../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../../index.html" />
+        <link rel="up" title="General examples" href="../index.html" />
+        <link rel="next" title="Shape Index" href="plot_shape_index.html" />
+        <link rel="prev" title="Gabors / Primary Visual Cortex “Simple Cells” from an Image" href="plot_gabors_from_astronaut.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../index.html">Gallery</a></li>
+<li><a href="../../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-features-detection-plot-glcm-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="glcm-texture-features">
+<span id="sphx-glr-auto-examples-features-detection-plot-glcm-py"></span><h1>GLCM Texture Features<a class="headerlink" href="#glcm-texture-features" title="Permalink to this headline">¶</a></h1>
+<p>This example illustrates texture classification using grey level
+co-occurrence matrices (GLCMs). A GLCM is a histogram of co-occurring
+greyscale values at a given offset over an image.</p>
+<p>In this example, samples of two different textures are extracted from
+an image: grassy areas and sky areas. For each patch, a GLCM with
+a horizontal offset of 5 is computed. Next, two features of the
+GLCM matrices are computed: dissimilarity and correlation. These are
+plotted to illustrate that the classes form clusters in feature space.</p>
+<p>In a typical classification problem, the final step (not included in
+this example) would be to train a classifier, such as logistic
+regression, to label image patches from new images.</p>
+<img alt="../../_images/sphx_glr_plot_glcm_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_glcm_001.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <a href="../../api/skimage.feature.html#skimage.feature.greycomatrix" title="View documentation for skimage.feature.greycomatrix"><span class="n">greycomatrix</span></a><span class="p">,</span> <a href="../../api/skimage.feature.html#skimage.feature.greycoprops" title="View documentation for skimage.feature.greycoprops"><span class="n">greycoprops</span></a>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="k">import</span> <span class="n">data</span>
+
+
+<span class="n">PATCH_SIZE</span> <span class="o">=</span> <span class="mi">21</span>
+
+<span class="c1"># open the camera image</span>
+<span class="n">image</span> <span class="o">=</span> <a href="../../api/skimage.data.html#skimage.data.camera" title="View documentation for skimage.data.camera"><span class="n">data</span><span class="o">.</span><span class="n">camera</span></a><span class="p">()</span>
+
+<span class="c1"># select some patches from grassy areas of the image</span>
+<span class="n">grass_locations</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">474</span><span class="p">,</span> <span class="mi">291</span><span class="p">),</span> <span class="p">(</span><span class="mi">440</span><span class="p">,</span> <span class="mi">433</span><span class="p">),</span> <span class="p">(</span><span class="mi">466</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="p">(</span><span class="mi">462</span><span class="p">,</span> <span class="mi">236</span><span class="p">)]</span>
+<span class="n">grass_patches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">grass_locations</span><span class="p">:</span>
+    <span class="n">grass_patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span><span class="p">,</span>
+                               <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span><span class="p">])</span>
+
+<span class="c1"># select some patches from sky areas of the image</span>
+<span class="n">sky_locations</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">54</span><span class="p">,</span> <span class="mi">48</span><span class="p">),</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span> <span class="mi">233</span><span class="p">),</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">380</span><span class="p">),</span> <span class="p">(</span><span class="mi">195</span><span class="p">,</span> <span class="mi">330</span><span class="p">)]</span>
+<span class="n">sky_patches</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">sky_locations</span><span class="p">:</span>
+    <span class="n">sky_patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span><span class="p">,</span>
+                             <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span><span class="p">])</span>
+
+<span class="c1"># compute some GLCM properties each patch</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">patch</span> <span class="ow">in</span> <span class="p">(</span><span class="n">grass_patches</span> <span class="o">+</span> <span class="n">sky_patches</span><span class="p">):</span>
+    <span class="n">glcm</span> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.greycomatrix" title="View documentation for skimage.feature.greycomatrix"><span class="n">greycomatrix</span></a><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">256</span><span class="p">,</span> <span class="n">symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.greycoprops" title="View documentation for skimage.feature.greycoprops"><span class="n">greycoprops</span></a><span class="p">(</span><span class="n">glcm</span><span class="p">,</span> <span class="s1">&#39;dissimilarity&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><a href="../../api/skimage.feature.html#skimage.feature.greycoprops" title="View documentation for skimage.feature.greycoprops"><span class="n">greycoprops</span></a><span class="p">(</span><span class="n">glcm</span><span class="p">,</span> <span class="s1">&#39;correlation&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># create the figure</span>
+<span class="n">fig</span> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="View documentation for matplotlib.pyplot.figure"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># display original image with locations of patches</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span>
+          <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">grass_locations</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;gs&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sky_locations</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">PATCH_SIZE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;bs&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Original Image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+
+<span class="c1"># for each patch, plot (dissimilarity, correlation)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">)],</span> <span class="n">ys</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">)],</span> <span class="s1">&#39;go&#39;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Grass&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">):],</span> <span class="n">ys</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">):],</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sky&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;GLCM Dissimilarity&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;GLCM Correlation&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># display the image patches</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">grass_patches</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span>
+              <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Grass </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sky_patches</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sky_patches</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">sky_patches</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span>
+              <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Sky </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+
+<span class="c1"># display the patches and plot</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Grey level co-occurrence matrix features&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.650 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-features-detection-plot-glcm-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/80ed0e00d01d24932b05eef2bf511ced/plot_glcm.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_glcm.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b6c70f13148e32a4746dd2feb40a2c92/plot_glcm.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_glcm.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->

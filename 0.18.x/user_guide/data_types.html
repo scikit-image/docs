@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Image data types and what they mean &mdash; skimage v0.18.0 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script src="../_static/js/togglebutton.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.18.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.18.0 docs" href="../index.html" />
+        <link rel="up" title="User Guide" href="../user_guide.html" />
+        <link rel="next" title="I/O Plugin Infrastructure" href="plugins.html" />
+        <link rel="prev" title="A crash course on NumPy for images" href="numpy_images.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <!-- Plausible analytics -->
+    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Installation</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+        <h4 class="sidebar-box-heading">Contents</h4>
+        <div class="well sidebar-box toc">
+            <ul class="nav nav-list">
+<li><a class="reference internal" href="#">Image data types and what they mean</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#input-types">Input types</a></li>
+<li><a class="reference internal" href="#output-types">Output types</a></li>
+<li><a class="reference internal" href="#working-with-opencv">Working with OpenCV</a><ul class="nav nav-list">
+<li><a class="reference internal" href="#converting-bgr-to-rgb-or-vice-versa">Converting BGR to RGB or vice versa</a></li>
+<li><a class="reference internal" href="#using-an-image-from-opencv-with-skimage">Using an image from OpenCV with <code class="docutils literal notranslate"><span class="pre">skimage</span></code></a></li>
+<li><a class="reference internal" href="#using-an-image-from-skimage-with-opencv">Using an image from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> with OpenCV</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#image-processing-pipeline">Image processing pipeline</a></li>
+<li><a class="reference internal" href="#rescaling-intensity-values">Rescaling intensity values</a></li>
+<li><a class="reference internal" href="#note-about-negative-values">Note about negative values</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+
+ --><div class="well">
+    <strong>Docs for 0.18.0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="image-data-types-and-what-they-mean">
+<span id="data-types"></span><h1>Image data types and what they mean<a class="headerlink" href="#image-data-types-and-what-they-mean" title="Permalink to this headline">¶</a></h1>
+<p>In <code class="docutils literal notranslate"><span class="pre">skimage</span></code>, images are simply <a class="reference external" href="https://docs.scipy.org/doc/numpy/user/">numpy</a> arrays, which support a variety of
+data types <a class="footnote-reference brackets" href="#id2" id="id1">1</a>, <em>i.e.</em> “dtypes”. To avoid distorting image intensities (see
+<a class="reference internal" href="#rescaling-intensity-values">Rescaling intensity values</a>), we assume that images use the following dtype
+ranges:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Data type</p></th>
+<th class="head"><p>Range</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>uint8</p></td>
+<td><p>0 to 255</p></td>
+</tr>
+<tr class="row-odd"><td><p>uint16</p></td>
+<td><p>0 to 65535</p></td>
+</tr>
+<tr class="row-even"><td><p>uint32</p></td>
+<td><p>0 to 2<sup>32</sup> - 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>float</p></td>
+<td><p>-1 to 1 or 0 to 1</p></td>
+</tr>
+<tr class="row-even"><td><p>int8</p></td>
+<td><p>-128 to 127</p></td>
+</tr>
+<tr class="row-odd"><td><p>int16</p></td>
+<td><p>-32768 to 32767</p></td>
+</tr>
+<tr class="row-even"><td><p>int32</p></td>
+<td><p>-2<sup>31</sup> to 2<sup>31</sup> - 1</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that float images should be restricted to the range -1 to 1 even though
+the data type itself can exceed this range; all integer dtypes, on the other
+hand, have pixel intensities that can span the entire data type range. With a
+few exceptions, <em>64-bit (u)int images are not supported</em>.</p>
+<p>Functions in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> are designed so that they accept any of these dtypes,
+but, for efficiency, <em>may return an image of a different dtype</em> (see <a class="reference internal" href="#output-types">Output
+types</a>). If you need a particular dtype, <code class="docutils literal notranslate"><span class="pre">skimage</span></code> provides utility
+functions that convert dtypes and properly rescale image intensities (see
+<a class="reference internal" href="#input-types">Input types</a>). You should <strong>never use</strong> <code class="docutils literal notranslate"><span class="pre">astype</span></code> on an image, because it
+violates these assumptions about the dtype range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span> <span class="c1"># These float values are out of range.</span>
+<span class="go">[  0.  10.  20.  30.  40.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">img_as_float</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+<span class="go">[ 0.          0.03921569  0.07843137  0.11764706  0.15686275]</span>
+</pre></div>
+</div>
+<div class="section" id="input-types">
+<h2>Input types<a class="headerlink" href="#input-types" title="Permalink to this headline">¶</a></h2>
+<p>Although we aim to preserve the data range and type of input images, functions
+may support only a subset of these data-types. In such
+a case, the input will be converted to the required type (if possible), and
+a warning message printed to the log if a memory copy is needed. Type
+requirements should be noted in the docstrings.</p>
+<p>The following utility functions in the main package are available to developers
+and users:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 72%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Function name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>img_as_float</p></td>
+<td><p>Convert to 64-bit floating point.</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_as_ubyte</p></td>
+<td><p>Convert to 8-bit uint.</p></td>
+</tr>
+<tr class="row-even"><td><p>img_as_uint</p></td>
+<td><p>Convert to 16-bit uint.</p></td>
+</tr>
+<tr class="row-odd"><td><p>img_as_int</p></td>
+<td><p>Convert to 16-bit int.</p></td>
+</tr>
+</tbody>
+</table>
+<p>These functions convert images to the desired dtype and <em>properly rescale their
+values</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">array([  0, 128, 255], dtype=uint8)</span>
+</pre></div>
+</div>
+<p>Be careful! These conversions can result in a loss of precision, since 8 bits
+cannot hold the same amount of information as 64 bits:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.503</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_as_ubyte</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">array([  0, 128, 128, 255], dtype=uint8)</span>
+</pre></div>
+</div>
+<p>Additionally, some functions take a <code class="docutils literal notranslate"><span class="pre">preserve_range</span></code> argument where a range
+conversion is convenient but not necessary. For example, interpolation in
+<code class="docutils literal notranslate"><span class="pre">transform.warp</span></code> requires an image of type float, which should have a range
+in [0, 1]. So, by default, input images will be rescaled to this range.
+However, in some cases, the image values represent physical measurements, such
+as temperature or rainfall values, that the user does not want rescaled.
+With <code class="docutils literal notranslate"><span class="pre">preserve_range=True</span></code>, the original range of the data will be
+preserved, even though the output is a float image. Users must then ensure
+this non-standard image is properly processed by downstream functions, which
+may expect an image in [0, 1].</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.transform</span> <span class="kn">import</span> <span class="n">rescale</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">coins</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(dtype(&#39;uint8&#39;), 1, 252, (303, 384))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rescaled</span> <span class="o">=</span> <span class="n">rescale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">4</span><span class="p">),</span>
+<span class="gp">... </span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">4</span><span class="p">),</span> <span class="n">rescaled</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">(dtype(&#39;float64&#39;), 0.0147, 0.9456, (152, 192))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rescaled</span> <span class="o">=</span> <span class="n">rescale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
+<span class="gp">... </span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rescaled</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">rescaled</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(dtype(&#39;float64&#39;), 4.0, 241.0, (152, 192))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="output-types">
+<h2>Output types<a class="headerlink" href="#output-types" title="Permalink to this headline">¶</a></h2>
+<p>The output type of a function is determined by the function author and is
+documented for the benefit of the user.  While this requires the user to
+explicitly convert the output to whichever format is needed, it ensures that no
+unnecessary data copies take place.</p>
+<p>A user that requires a specific type of output (e.g., for display purposes),
+may write:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_uint</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">img_as_uint</span><span class="p">(</span><span class="n">sobel</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-opencv">
+<h2>Working with OpenCV<a class="headerlink" href="#working-with-opencv" title="Permalink to this headline">¶</a></h2>
+<p>It is possible that you may need to use an image created using <code class="docutils literal notranslate"><span class="pre">skimage</span></code> with
+<a class="reference external" href="https://opencv.org/">OpenCV</a> or vice versa. OpenCV image data can be accessed (without copying) in
+NumPy (and, thus, in scikit-image).
+OpenCV uses BGR (instead of scikit-image’s RGB) for color images, and its
+dtype is uint8 by default (See <a class="reference internal" href="#image-data-types-and-what-they-mean">Image data types and what they mean</a>). BGR stands
+for Blue Green Red.</p>
+<div class="section" id="converting-bgr-to-rgb-or-vice-versa">
+<h3>Converting BGR to RGB or vice versa<a class="headerlink" href="#converting-bgr-to-rgb-or-vice-versa" title="Permalink to this headline">¶</a></h3>
+<p>The color images in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> and OpenCV have 3 dimensions: width, height and
+color. RGB and BGR use the same color space, except the order of colors is reversed.</p>
+<p>Note that in <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> we usually refer to <code class="docutils literal notranslate"><span class="pre">rows</span></code> and <code class="docutils literal notranslate"><span class="pre">columns</span></code> instead
+of width and height (see <a class="reference internal" href="numpy_images.html#numpy-images-coordinate-conventions"><span class="std std-ref">Coordinate conventions</span></a>).</p>
+<p>The following instruction effectively reverses the order of the colors, leaving
+the rows and columns unaffected.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-an-image-from-opencv-with-skimage">
+<h3>Using an image from OpenCV with <code class="docutils literal notranslate"><span class="pre">skimage</span></code><a class="headerlink" href="#using-an-image-from-opencv-with-skimage" title="Permalink to this headline">¶</a></h3>
+<p>If cv_image is an array of unsigned bytes, <code class="docutils literal notranslate"><span class="pre">skimage</span></code> will understand it by
+default. If you prefer working with floating point images, <code class="xref py py-func docutils literal notranslate"><span class="pre">img_as_float()</span></code>
+can be used to convert the image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">any_opencv_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-an-image-from-skimage-with-opencv">
+<h3>Using an image from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> with OpenCV<a class="headerlink" href="#using-an-image-from-skimage-with-opencv" title="Permalink to this headline">¶</a></h3>
+<p>The reverse can be achieved with <code class="xref py py-func docutils literal notranslate"><span class="pre">img_as_ubyte()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_ubyte</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cv_image</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">any_skimage_image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="image-processing-pipeline">
+<h2>Image processing pipeline<a class="headerlink" href="#image-processing-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>This dtype behavior allows you to string together any <code class="docutils literal notranslate"><span class="pre">skimage</span></code> function
+without worrying about the image dtype.  On the other hand, if you want to use
+a custom function that requires a particular dtype, you should call one of the
+dtype conversion functions (here, <code class="docutils literal notranslate"><span class="pre">func1</span></code> and <code class="docutils literal notranslate"><span class="pre">func2</span></code> are <code class="docutils literal notranslate"><span class="pre">skimage</span></code>
+functions):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <span class="n">img_as_float</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">func1</span><span class="p">(</span><span class="n">func2</span><span class="p">(</span><span class="n">image</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">processed_image</span> <span class="o">=</span> <span class="n">custom_func</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Better yet, you can convert the image internally and use a simplified
+processing pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">custom_func</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">image</span> <span class="o">=</span> <span class="n">img_as_float</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c1"># do something</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">processed_image</span> <span class="o">=</span> <span class="n">custom_func</span><span class="p">(</span><span class="n">func1</span><span class="p">(</span><span class="n">func2</span><span class="p">(</span><span class="n">image</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rescaling-intensity-values">
+<h2>Rescaling intensity values<a class="headerlink" href="#rescaling-intensity-values" title="Permalink to this headline">¶</a></h2>
+<p>When possible, functions should avoid blindly stretching image intensities
+(e.g. rescaling a float image so that the min and max intensities are
+0 and 1), since this can heavily distort an image. For example, if you’re
+looking for bright markers in dark images, there may be an image where no
+markers are present; stretching its input intensity to span the full range
+would make background noise look like markers.</p>
+<p>Sometimes, however, you have images that should span the entire intensity
+range but do not. For example, some cameras store images with 10-, 12-, or
+14-bit depth per pixel. If these images are stored in an array with dtype
+uint16, then the image won’t extend over the full intensity range, and thus,
+would appear dimmer than it should. To correct for this, you can use the
+<code class="docutils literal notranslate"><span class="pre">rescale_intensity</span></code> function to rescale the image so that it uses the full
+dtype range:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">exposure</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">img10bit</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">10</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Here, the <code class="docutils literal notranslate"><span class="pre">in_range</span></code> argument is set to the maximum range for a 10-bit image.
+By default, <code class="docutils literal notranslate"><span class="pre">rescale_intensity</span></code> stretches the values of <code class="docutils literal notranslate"><span class="pre">in_range</span></code> to match
+the range of the dtype. <code class="docutils literal notranslate"><span class="pre">rescale_intensity</span></code> also accepts strings as inputs
+to <code class="docutils literal notranslate"><span class="pre">in_range</span></code> and <code class="docutils literal notranslate"><span class="pre">out_range</span></code>, so the example above could also be written
+as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">img10bit</span><span class="p">,</span> <span class="n">in_range</span><span class="o">=</span><span class="s1">&#39;uint10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="note-about-negative-values">
+<h2>Note about negative values<a class="headerlink" href="#note-about-negative-values" title="Permalink to this headline">¶</a></h2>
+<p>People very often represent images in signed dtypes, even though they only
+manipulate the positive values of the image (e.g., using only 0-127 in an int8
+image). For this reason, conversion functions <em>only spread the positive values</em>
+of a signed dtype over the entire range of an unsigned dtype. In other words,
+negative values are clipped to 0 when converting from signed to unsigned
+dtypes. (Negative values are preserved when converting between signed dtypes.)
+To prevent this clipping behavior, you should rescale your image beforehand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">rescale_intensity</span><span class="p">(</span><span class="n">img_int32</span><span class="p">,</span> <span class="n">out_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img_uint8</span> <span class="o">=</span> <span class="n">img_as_ubyte</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This behavior is symmetric: The values in an unsigned dtype are spread over
+just the positive range of a signed dtype.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/user/basics.types.html">https://docs.scipy.org/doc/numpy/user/basics.types.html</a></p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="forum link" role="contentinfo">
+	 
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>

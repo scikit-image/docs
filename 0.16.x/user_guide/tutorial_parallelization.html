@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>How to parallelize loops &mdash; skimage v0.16.1 docs</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+        <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="../_static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.16.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <link rel="index" title="Index" href="../genindex.html" />
+        <link rel="search" title="Search" href="../search.html" />
+        <link rel="top" title="skimage v0.16.1 docs" href="../index.html" />
+        <link rel="up" title="Tutorials" href="tutorials.html" />
+        <link rel="next" title="Getting help on using skimage" href="getting_help.html" />
+        <link rel="prev" title="Image Segmentation" href="tutorial_segmentation.html" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+</head>
+<body class="container">
+    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="/docs/stable/install.html">Download</a></li>
+<li><a href="../auto_examples/index.html">Gallery</a></li>
+<li><a href="../index.html">Documentation</a></li>
+<li><a href="/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="../_static/GitHub-Mark-32px.png"
+        style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="../search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes" >
+    <input type="hidden" name="area" value="default" >
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.16.1<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="../../dev/_static/docversions.js"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script>
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" class="body" role="main">
+            
+  <div class="section" id="how-to-parallelize-loops">
+<h1>How to parallelize loops<a class="headerlink" href="#how-to-parallelize-loops" title="Permalink to this headline">¶</a></h1>
+<p>In image processing, we frequently apply the same algorithm
+on a large batch of images. In this paragraph, we propose to
+use <a class="reference external" href="https://joblib.readthedocs.io">joblib</a> to parallelize
+loops. Here is an example of such repetitive tasks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">skimage.restoration</span> <span class="kn">import</span> <span class="n">denoise_tv_chambolle</span>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="n">hog</span>
+
+<span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply some functions and return an image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">denoise_tv_chambolle</span><span class="p">(</span><span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">multichannel</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fd</span><span class="p">,</span> <span class="n">hog_image</span> <span class="o">=</span> <span class="n">hog</span><span class="p">(</span><span class="n">color</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">),</span> <span class="n">orientations</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                        <span class="n">pixels_per_cell</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">cells_per_block</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                        <span class="n">visualize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hog_image</span>
+
+
+<span class="c1"># Prepare images</span>
+<span class="n">hubble</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">hubble_deep_field</span><span class="p">()</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">pics</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">view_as_windows</span><span class="p">(</span><span class="n">hubble</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">hubble</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hubble</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">step</span><span class="o">=</span><span class="n">width</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To call the function <code class="docutils literal notranslate"><span class="pre">task</span></code> on each element of the list <code class="docutils literal notranslate"><span class="pre">pics</span></code>, it is
+usual to write a for loop. To measure the execution time of this loop, you can
+use ipython and measure the execution time with <code class="docutils literal notranslate"><span class="pre">%timeit</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">classic_loop</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">pics</span><span class="p">:</span>
+        <span class="n">task</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+
+<span class="o">%</span><span class="n">timeit</span> <span class="n">classic_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Another equivalent way to code this loop is to use a comprehension list which has the same efficiency.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">comprehension_loop</span><span class="p">():</span>
+    <span class="p">[</span><span class="n">task</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">pics</span><span class="p">]</span>
+
+<span class="o">%</span><span class="n">timeit</span> <span class="n">comprehension_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">joblib</span></code> is a library providing an easy way to parallelize for loops once we have a comprehension list.
+The number of jobs can be specified.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+<span class="k">def</span> <span class="nf">joblib_loop</span><span class="p">():</span>
+    <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">task</span><span class="p">)(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pics</span><span class="p">)</span>
+
+<span class="o">%</span><span class="n">timeit</span> <span class="n">joblib_loop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            &copy; Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+</body>
+</html>
+
+
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//piwik.sciunto.org/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//piwik.sciunto.org/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
