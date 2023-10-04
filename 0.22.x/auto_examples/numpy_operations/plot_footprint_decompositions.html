@@ -1,0 +1,915 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Decompose flat footprints (structuring elements) &#8212; skimage 0.22.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../_static/documentation_options.js?v=25b4b00c"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/numpy_operations/plot_footprint_decompositions';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.22.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Manipulating exposure and color channels" href="../color_exposure/index.html" />
+    <link rel="prev" title="Block views on images/arrays" href="plot_view_as_blocks.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../data/index.html">Data</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_3d.html">Datasets with 3 or more spatial dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_scientific.html">Scientific images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_general.html">General-purpose images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_specific.html">Specific images</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Operations on NumPy arrays</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_camera_numpy.html">Using simple NumPy operations for manipulating images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_structuring_elements.html">Generate footprints (structuring elements)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_view_as_blocks.html">Block views on images/arrays</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Decompose flat footprints (structuring elements)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../color_exposure/index.html">Manipulating exposure and color channels</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_rgb_to_gray.html">RGB to grayscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_rgb_to_hsv.html">RGB to HSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_histogram_matching.html">Histogram matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_adapt_rgb.html">Adapting gray-scale filters to RGB images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_ihc_color_separation.html">Separate colors in immunohistochemical staining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_regional_maxima.html">Filtering regional maxima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_log_gamma.html">Gamma and log contrast adjustment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_equalize.html">Histogram Equalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_tinting_grayscale_images.html">Tinting gray-scale images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_local_equalize.html">Local Histogram Equalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_adapt_hist_eq_3d.html">3D adaptive histogram equalization</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../edges/index.html">Edges and lines</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_contours.html">Contour finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_convex_hull.html">Convex Hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_canny.html">Canny edge detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_marching_cubes.html">Marching Cubes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_ridge_filter.html">Ridge operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_active_contours.html">Active Contour Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_shapes.html">Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_random_shapes.html">Random Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_polygon.html">Approximate and subdivide polygons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_line_hough_transform.html">Straight line Hough transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_circular_elliptical_hough_transform.html">Circular and Elliptical Hough Transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_skeleton.html">Skeletonize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_edge_filter.html">Edge operators</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../transform/index.html">Geometrical transformations and registration</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_swirl.html">Swirl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_edge_modes.html">Interpolation: Edge Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_rescale.html">Rescale, resize, and downscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_pyramid.html">Build image pyramids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_piecewise_affine.html">Piecewise Affine Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_geometric.html">Using geometric transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_ssim.html">Structural similarity index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_transform_types.html">Types of homographies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_fundamental_matrix.html">Fundamental matrix estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_ransac.html">Robust line model estimation using RANSAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_radon_transform.html">Radon transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_matching.html">Robust matching using RANSAC</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../registration/index.html">Image registration</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_register_translation.html">Image Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_masked_register_translation.html">Masked Normalized Cross-Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_opticalflow.html">Registration using optical flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_stitching.html">Assemble images with simple image stitching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_register_rotation.html">Using Polar and Log-Polar Transformations for Registration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../filters/index.html">Filtering and restoration</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_tophat.html">Removing small objects in grayscale images with a top hat filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_hysteresis.html">Hysteresis thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_restoration.html">Image Deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_window.html">Using window functions with images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_unsharp_mask.html">Unsharp masking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_rank_mean.html">Mean filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_deconvolution.html">Image Deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_blur_effect.html">Estimate strength of blur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_entropy.html">Entropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_j_invariant.html">Calibrating Denoisers Using J-Invariance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_inpaint.html">Fill in defects with inpainting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_dog.html">Band-pass filtering by Difference of Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_denoise.html">Denoising a picture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_cycle_spinning.html">Shift-invariant wavelet denoising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_phase_unwrap.html">Phase Unwrapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_nonlocal_means.html">Non-local means denoising for preserving textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_attribute_operators.html">Attribute operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_denoise_wavelet.html">Wavelet denoising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_butterworth.html">Butterworth Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_j_invariant_tutorial.html">Full tutorial on calibrating Denoisers Using J-Invariance</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../features_detection/index.html">Detection of features and objects</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_daisy.html">Dense DAISY feature description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_hog.html">Histogram of Oriented Gradients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_template.html">Template Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_holes_and_peaks.html">Filling holes and finding peaks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_censure.html">CENSURE feature detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_corner.html">Corner detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_multiblock_local_binary_pattern.html">Multi-Block Local Binary Pattern for texture classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_haar.html">Haar-like feature descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_blob.html">Blob Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_orb.html">ORB feature detector and binary descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_gabors_from_astronaut.html">Gabors / Primary Visual Cortex “Simple Cells” from an Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_fisher_vector.html">Fisher vector feature encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_brief.html">BRIEF binary descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_sift.html">SIFT feature detector and descriptor extractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_glcm.html">GLCM Texture Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_shape_index.html">Shape Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_windowed_histogram.html">Sliding window histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_gabor.html">Gabor filter banks for texture classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_local_binary_pattern.html">Local Binary Pattern for texture classification</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../segmentation/index.html">Segmentation of objects</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_boundary.html">Region Boundary based RAGs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_mean_color.html">RAG Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_ncut.html">Normalized Cut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_compact_watershed.html">Find Regular Segments Using Compact Watershed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_thresholding.html">Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_draw.html">Drawing Region Adjacency Graphs (RAGs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_chan_vese.html">Chan-Vese Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_peak_local_max.html">Finding local maxima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_niblack_sauvola.html">Niblack and Sauvola Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_multiotsu.html">Multi-Otsu Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_mask_slic.html">Apply maskSLIC vs SLIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_random_walker_segmentation.html">Random walker segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_expand_labels.html">Expand segmentation labels without overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_watershed.html">Watershed segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_label.html">Label image regions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_marked_watershed.html">Markers for watershed transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_segmentations.html">Comparison of segmentation and superpixel algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_join_segmentations.html">Find the intersection of two segmentations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag.html">Region Adjacency Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_perimeters.html">Measure perimeters with different estimators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_merge.html">RAG Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_boundary_merge.html">Hierarchical Merging of Region Boundary RAGs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_extrema.html">Extrema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_regionprops_table.html">Explore and visualize region properties with pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_hausdorff_distance.html">Hausdorff Distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_regionprops.html">Measure region properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_trainable_segmentation.html">Trainable segmentation using local features and random forests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_morphsnakes.html">Morphological Snakes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_floodfill.html">Flood Fill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_euler_number.html">Euler number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_metrics.html">Evaluating segmentation metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rolling_ball.html">Use rolling-ball algorithm for estimating background intensity</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../applications/index.html">Longer examples and demonstrations</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_text.html">Render text onto an image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_face_detection.html">Face detection using a cascade classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_interaction.html">Interact with 3D images (of kidney tissue)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_pixel_graphs.html">Use pixel graphs to find an object’s geodesic center</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_image_comparison.html">Visual image comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_morphology.html">Morphological Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_structure_tensor.html">Estimate anisotropy in a 3D microscopy image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_coins_segmentation.html">Comparing edge-based and region-based segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_colocalization_metrics.html">Colocalization metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_human_mitosis.html">Segment human cells (in mitosis)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_thresholding_guide.html">Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_cornea_spot_inpainting.html">Restore spotted cornea image with inpainting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_solidification_tracking.html">Track solidification of a metallic alloy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_fluorescence_nuclear_envelope.html">Measure fluorescence intensity at the nuclear envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_haar_extraction_selection_classification.html">Face classification using Haar-like feature descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_image_processing.html">Explore 3D images (of cells)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_rank_filters.html">Rank filters</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../developers/index.html">Examples for developers</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../developers/plot_threshold_li.html">Li thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../developers/plot_max_tree.html">Max-tree</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Operations on NumPy arrays</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Decompose...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-numpy-operations-plot-footprint-decompositions-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="decompose-flat-footprints-structuring-elements">
+<span id="sphx-glr-auto-examples-numpy-operations-plot-footprint-decompositions-py"></span><h1>Decompose flat footprints (structuring elements)<a class="headerlink" href="#decompose-flat-footprints-structuring-elements" title="Link to this heading">#</a></h1>
+<p>Many footprints (structuring elements) can be decomposed into an equivalent
+series of smaller structuring elements. The term “flat” refers to footprints
+that only contain values of 0 or 1 (i.e., all methods in
+<code class="docutils literal notranslate"><span class="pre">skimage.morphology.footprints</span></code>). Binary dilation operations have an
+associative and distributive property that often allows decomposition into
+an equivalent series of smaller footprints. Most often this is done to provide
+a performance benefit.</p>
+<p>As a concrete example, dilation with a square footprint of shape (15, 15) is
+equivalent to dilation with a rectangle of shape (15, 1) followed by another
+dilation with a rectangle of shape (1, 15). It is also equivalent to 7
+consecutive dilations with a square footprint of shape (3, 3).</p>
+<p>There are many possible decompositions and which one performs best may be
+architecture-dependent.</p>
+<p>scikit-image currently provides two forms of automated decomposition. For the
+cases of <code class="docutils literal notranslate"><span class="pre">square</span></code>, <code class="docutils literal notranslate"><span class="pre">rectangle</span></code> and <code class="docutils literal notranslate"><span class="pre">cube</span></code> footprints, there is an option
+for a “separable” decomposition (size &gt; 1 along only one axis at a time).</p>
+<p>There is no separable decomposition into 1D operations for some other symmetric
+convex shapes, e.g., <code class="docutils literal notranslate"><span class="pre">diamond</span></code>, <code class="docutils literal notranslate"><span class="pre">octahedron</span></code> and <code class="docutils literal notranslate"><span class="pre">octagon</span></code>. However, it
+is possible to provide a “sequence” decomposition based on a series of small
+footprints of shape <code class="docutils literal notranslate"><span class="pre">(3,)</span> <span class="pre">*</span> <span class="pre">ndim</span></code>.</p>
+<p>For simplicity of implementation, all decompositions shown below use only
+odd-sized footprints with their origin located at the center of the footprint.</p>
+<ul class="sphx-glr-horizontal">
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_001.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_001.png" alt="square(11) (composite), element 1 of 2 (1 iteration), element 2 of 2 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_002.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_002.png" alt="square(11) (composite), element 1 of 1 (5 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_003.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_003.png" alt="rectangle(7, 11) (composite), element 1 of 2 (1 iteration), element 2 of 2 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_004.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_004.png" alt="rectangle(7, 11) (composite), element 1 of 2 (3 iterations), element 2 of 2 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_005.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_005.png" alt="diamond(5) (composite), element 1 of 1 (5 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_006.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_006.png" alt="disk(7, strict_radius=False) (decomposition=None), disk(7, strict_radius=False) (composite), element 1 of 6 (1 iteration), element 2 of 6 (1 iteration), element 3 of 6 (1 iteration), element 4 of 6 (1 iteration), element 5 of 6 (2 iterations), element 6 of 6 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_007.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_007.png" alt="disk(7, strict_radius=True) (decomposition=None), disk(7, strict_radius=True) (composite), element 1 of 3 (1 iteration), element 2 of 3 (3 iterations), element 3 of 3 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_008.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_008.png" alt="ellipse(4, 9) (decomposition=None), ellipse(4, 9) (composite), element 1 of 3 (1 iteration), element 2 of 3 (2 iterations), element 3 of 3 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_009.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_009.png" alt="disk(20) (decomposition=None), disk(20) (composite), element 1 of 6 (3 iterations), element 2 of 6 (3 iterations), element 3 of 6 (3 iterations), element 4 of 6 (3 iterations), element 5 of 6 (6 iterations), element 6 of 6 (2 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_010.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_010.png" alt="octagon(7, 4) (composite), element 1 of 2 (3 iterations), element 2 of 2 (4 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_011.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_011.png" alt="cube(11) (composite), element 1 of 3 (1 iteration), element 2 of 3 (1 iteration), element 3 of 3 (1 iteration)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_012.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_012.png" alt="cube(11) (composite), element 1 of 1 (5 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_013.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_013.png" alt="octahedron(7) (composite), element 1 of 1 (7 iterations)" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_footprint_decompositions_014.png" srcset="../../_images/sphx_glr_plot_footprint_decompositions_014.png" alt="ball(9) (decomposition=None), ball(9) (composite), element 1 of 7 (1 iteration), element 2 of 7 (1 iteration), element 3 of 7 (1 iteration), element 4 of 7 (1 iteration), element 5 of 7 (1 iteration), element 6 of 7 (1 iteration), element 7 of 7 (3 iterations)" class = "sphx-glr-multi-img"/></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.ball" title="skimage.morphology.ball" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ball</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.cube" title="skimage.morphology.cube" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">cube</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.diamond" title="skimage.morphology.diamond" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">diamond</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.ellipse" title="skimage.morphology.ellipse" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ellipse</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.octagon" title="skimage.morphology.octagon" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octagon</span></a><span class="p">,</span>
+                                <a href="../../api/skimage.morphology.html#skimage.morphology.octahedron" title="skimage.morphology.octahedron" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octahedron</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.rectangle" title="skimage.morphology.rectangle" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">rectangle</span></a><span class="p">,</span> <a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">skimage.morphology.footprints</span> <span class="kn">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.footprint_from_sequence" title="skimage.morphology.footprint_from_sequence" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">footprint_from_sequence</span></a>
+
+
+<span class="c1"># Generate 2D and 3D structuring elements.</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_dict</span></a> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;square(11) (separable)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                               <a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;separable&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;square(11) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                              <a href="../../api/skimage.morphology.html#skimage.morphology.square" title="skimage.morphology.square" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">square</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;rectangle(7, 11) (separable)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.rectangle" title="skimage.morphology.rectangle" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">rectangle</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                                     <a href="../../api/skimage.morphology.html#skimage.morphology.rectangle" title="skimage.morphology.rectangle" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">rectangle</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span>
+                                               <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;separable&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;rectangle(7, 11) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.rectangle" title="skimage.morphology.rectangle" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">rectangle</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                                    <a href="../../api/skimage.morphology.html#skimage.morphology.rectangle" title="skimage.morphology.rectangle" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">rectangle</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span>
+                                              <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;diamond(5) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.diamond" title="skimage.morphology.diamond" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">diamond</span></a><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                              <a href="../../api/skimage.morphology.html#skimage.morphology.diamond" title="skimage.morphology.diamond" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">diamond</span></a><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;disk(7, strict_radius=False) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;disk(7, strict_radius=True) (crosses)&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;crosses&quot;</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;ellipse(4, 9) (crosses)&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.ellipse" title="skimage.morphology.ellipse" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ellipse</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <a href="../../api/skimage.morphology.html#skimage.morphology.ellipse" title="skimage.morphology.ellipse" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ellipse</span></a><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;crosses&quot;</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;disk(20) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                            <a href="../../api/skimage.morphology.html#skimage.morphology.disk" title="skimage.morphology.disk" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">disk</span></a><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                 <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;octagon(7, 4) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.octagon" title="skimage.morphology.octagon" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octagon</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                                 <a href="../../api/skimage.morphology.html#skimage.morphology.octagon" title="skimage.morphology.octagon" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octagon</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;cube(11) (separable)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.cube" title="skimage.morphology.cube" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">cube</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                             <a href="../../api/skimage.morphology.html#skimage.morphology.cube" title="skimage.morphology.cube" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">cube</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;separable&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;cube(11) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.cube" title="skimage.morphology.cube" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">cube</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                            <a href="../../api/skimage.morphology.html#skimage.morphology.cube" title="skimage.morphology.cube" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">cube</span></a><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;octahedron(7) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.octahedron" title="skimage.morphology.octahedron" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octahedron</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                                 <a href="../../api/skimage.morphology.html#skimage.morphology.octahedron" title="skimage.morphology.octahedron" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">octahedron</span></a><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;ball(9) (sequence)&quot;</span><span class="p">:</span> <span class="p">(</span><a href="../../api/skimage.morphology.html#skimage.morphology.ball" title="skimage.morphology.ball" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ball</span></a><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decomposition</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+                           <a href="../../api/skimage.morphology.html#skimage.morphology.ball" title="skimage.morphology.ball" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">ball</span></a><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">strict_radius</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">decomposition</span><span class="o">=</span><span class="s2">&quot;sequence&quot;</span><span class="p">)),</span>
+<span class="p">}</span>
+
+<span class="c1"># Visualize the elements</span>
+
+<span class="c1"># binary white / blue colormap</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class"><span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span></a><span class="p">([</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.1216</span><span class="p">,</span> <span class="mf">0.4706</span><span class="p">,</span> <span class="mf">0.70588</span><span class="p">)])</span>
+
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a><span class="p">,</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_sequence</span></a><span class="p">)</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_dict</span></a><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ndim</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint</span><span class="o">.</span><span class="n">ndim</span></a>
+    <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_seq</span></a> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_sequence</span></a><span class="p">)</span>
+    <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">&#39;ball&#39;</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="ow">or</span> <span class="s1">&#39;disk&#39;</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="ow">or</span> <span class="s1">&#39;ellipse&#39;</span> <span class="ow">in</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a>
+    <span class="p">)</span>
+    <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a><span class="p">:</span>
+        <span class="c1"># Two extra plot in approximate cases to show both:</span>
+        <span class="c1"># 1.) decomposition=None idea footprint</span>
+        <span class="c1"># 2.) actual composite footprint corresponding to the sequence</span>
+        <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_seq</span></a> <span class="o">+</span> <span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># composite and decomposition=None are identical so only 1 extra plot</span>
+        <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_seq</span></a> <span class="o">+</span> <span class="mi">1</span>
+    <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.figure.html#matplotlib.pyplot.figure" title="matplotlib.pyplot.figure" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">figure</span></a><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ndim</span></a> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">)</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html#matplotlib.axes.Axes.imshow" title="matplotlib.axes.Axes.imshow" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a><span class="p">:</span>
+            <span class="n">ax2</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_composite</span></a> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.footprint_from_sequence" title="skimage.morphology.footprint_from_sequence" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">footprint_from_sequence</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_sequence</span></a><span class="p">)</span>
+            <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html#matplotlib.axes.Axes.imshow" title="matplotlib.axes.Axes.imshow" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_composite</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span>
+                             <span class="n">projection</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Axes3D</span><span class="o">.</span><span class="n">name</span></a><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">voxels</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">)</span>
+        <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a><span class="p">:</span>
+            <span class="n">ax2</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                  <span class="n">projection</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Axes3D</span><span class="o">.</span><span class="n">name</span></a><span class="p">)</span>
+            <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_composite</span></a> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.footprint_from_sequence" title="skimage.morphology.footprint_from_sequence" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">footprint_from_sequence</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_sequence</span></a><span class="p">)</span>
+            <span class="n">ax2</span><span class="o">.</span><span class="n">voxels</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_composite</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">)</span>
+
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title1</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; (&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a><span class="p">:</span>
+        <span class="c1"># plot decomposition=None on a separate axis from the composite</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title1</span></a> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">(decomposition=None)&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># for exact cases composite and decomposition=None are identical</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title1</span></a> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">(composite)&#39;</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="p">)</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_axis_off.html#matplotlib.axes.Axes.set_axis_off" title="matplotlib.axes.Axes.set_axis_off" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span></a><span class="p">()</span>
+    <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#bool" title="builtins.bool" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">approximate_decomposition</span></a><span class="p">:</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title1</span></a> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">(composite)&#39;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="p">)</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_axis_off.html#matplotlib.axes.Axes.set_axis_off" title="matplotlib.axes.Axes.set_axis_off" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax2</span><span class="o">.</span><span class="n">set_axis_off</span></a><span class="p">()</span>
+
+    <span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="p">,</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">num_reps</span></a><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint_sequence</span></a><span class="p">):</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">npad</span></a> <span class="o">=</span> <span class="p">[((</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">footprint</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">-</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="n">d</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ndim</span></a><span class="p">)]</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.pad.html#numpy.pad" title="numpy.pad" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">pad</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#list" title="builtins.list" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">npad</span></a><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ndim</span></a> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.imshow.html#matplotlib.axes.Axes.imshow" title="matplotlib.axes.Axes.imshow" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_subplot" title="matplotlib.figure.Figure.add_subplot" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                 <span class="n">projection</span><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">Axes3D</span><span class="o">.</span><span class="n">name</span></a><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">voxels</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fp</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="o">=</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="matplotlib.colors.ListedColormap" class="sphx-glr-backref-module-matplotlib-colors sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">cmap</span></a><span class="p">)</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;element </span><span class="si">{</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">n</span></a><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_seq</span></a><span class="si">}</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">num_reps</span></a><span class="si">}</span><span class="s2"> iteration&quot;</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a> <span class="o">+=</span> <span class="s2">&quot;s)&quot;</span> <span class="k">if</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">num_reps</span></a> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;)&quot;</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_title.html#matplotlib.axes.Axes.set_title" title="matplotlib.axes.Axes.set_title" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">title</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fontdict</span></a><span class="p">)</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_axis_off.html#matplotlib.axes.Axes.set_axis_off" title="matplotlib.axes.Axes.set_axis_off" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span></a><span class="p">()</span>
+        <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.set_xlabel.html#matplotlib.axes.Axes.set_xlabel" title="matplotlib.axes.Axes.set_xlabel" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-method"><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span></a><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;num_reps = </span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">num_reps</span></a><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.tight_layout" title="matplotlib.figure.Figure.tight_layout" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+
+    <span class="c1"># draw a line separating the sequence elements from the composite</span>
+    <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_pos</span></a> <span class="o">=</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_seq</span></a> <span class="o">/</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">num_subplots</span></a>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class"><span class="n">plt</span><span class="o">.</span><span class="n">Line2D</span></a><span class="p">([</span><a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_pos</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line_pos</span></a><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <a href="https://matplotlib.org/stable/api/figure_api.html#matplotlib.figure.Figure.add_artist" title="matplotlib.figure.Figure.add_artist" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">add_artist</span></a><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">line</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 13.566 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-numpy-operations-plot-footprint-decompositions-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/v0.22.x?filepath=notebooks/auto_examples/numpy_operations/plot_footprint_decompositions.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo7.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b62cc96f05a3dbc0b50e9af42bba7f4c/plot_footprint_decompositions.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_footprint_decompositions.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/4fc6322d43a4b93d2c80da475c86ba03/plot_footprint_decompositions.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_footprint_decompositions.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/auto_examples/numpy_operations/plot_footprint_decompositions.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2013-2023, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

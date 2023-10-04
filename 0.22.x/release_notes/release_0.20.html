@@ -1,0 +1,1371 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scikit-image 0.20.0 release notes &#8212; skimage 0.22.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=25b4b00c"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'release_notes/release_0.20';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.22.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="scikit-image 0.19.3 release notes" href="release_0.19.html" />
+    <link rel="prev" title="scikit-image 0.21.0 release notes" href="release_0.21.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="release_dev.html">scikit-image 0.X.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.22.html">scikit-image 0.22.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.21.html">scikit-image 0.21.0 release notes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">scikit-image 0.20.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.19.html">scikit-image 0.19.3 release notes</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.18.html">scikit-image 0.18.3 release notes</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.17.html">scikit-image 0.17.2 release notes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.16.html">scikit-image 0.16.2 release notes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.15.html">scikit-image 0.15.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.14.html">scikit-image 0.14.4 release notes</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.13.html">scikit-image 0.13.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.12.html">scikit-image 0.12 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.11.html">scikit-image 0.11.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.10.html">scikit-image 0.10.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.9.html">scikit-image 0.9.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.8.html">scikits-image 0.8.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.7.html">scikits-image 0.7.0 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.6.html">scikits-image 0.6 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.5.html">scikits-image 0.5 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.4.html">scikits-image 0.4 release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.3.html">scikits.image 0.3 release notes</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">scikit-image...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="scikit-image-0-20-0-release-notes">
+<h1>scikit-image 0.20.0 release notes<a class="headerlink" href="#scikit-image-0-20-0-release-notes" title="Link to this heading">#</a></h1>
+<p>scikit-image is an image processing toolbox built on SciPy that
+includes algorithms for segmentation, geometric transformations, color
+space manipulation, analysis, filtering, morphology, feature
+detection, and more.</p>
+<p>For more information, examples, and documentation, please visit our website:
+<a class="reference external" href="https://scikit-image.org">https://scikit-image.org</a></p>
+<p>With this release, many of the functions in <code class="docutils literal notranslate"><span class="pre">skimage.measure</span></code> now support
+anisotropic images with different voxel spacings.</p>
+<p>Many performance improvements were made, such as support for footprint
+decomposition in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code></p>
+<p>Four new gallery examples were added to the documentation, including
+the new interactive example “Track solidification of a metallic
+alloy”.</p>
+<p>This release completes the transition to a more flexible
+<code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> parameter for indicating multi-channel images, and
+includes several other deprecations that make the API more consistent and
+expressive.</p>
+<p>Finally, in preparation for the removal of <a class="reference external" href="https://docs.python.org/3/library/distutils.html#module-distutils" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distutils</span></code></a> in the upcoming
+Python 3.12 release, we replaced our build system with <em class="xref py py-obj">meson</em> and a
+static <em class="xref py py-obj">pyproject.toml</em> specification.</p>
+<p>This release supports Python 3.8–3.11.</p>
+<section id="new-features-and-improvements">
+<h2>New features and improvements<a class="headerlink" href="#new-features-and-improvements" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Support footprint decomposition to several footprint generating and consuming functions in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code>.
+By decomposing a footprint into several smaller ones, morphological operations can potentially be sped up.
+The decomposed footprint can be generated with the new <code class="docutils literal notranslate"><span class="pre">decomposition</span></code> parameter of the functions <code class="docutils literal notranslate"><span class="pre">rectangle</span></code>, <code class="docutils literal notranslate"><span class="pre">diamond</span></code>, <code class="docutils literal notranslate"><span class="pre">disk</span></code>, <code class="docutils literal notranslate"><span class="pre">cube</span></code>, <code class="docutils literal notranslate"><span class="pre">octahedron</span></code>, <code class="docutils literal notranslate"><span class="pre">ball</span></code>, and <code class="docutils literal notranslate"><span class="pre">octagon</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">footprint</span></code> parameter of the functions <code class="docutils literal notranslate"><span class="pre">binary_erosion</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_opening</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_closing</span></code>, <code class="docutils literal notranslate"><span class="pre">erosion</span></code>, <code class="docutils literal notranslate"><span class="pre">dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">opening</span></code>, <code class="docutils literal notranslate"><span class="pre">closing</span></code>, <code class="docutils literal notranslate"><span class="pre">white_tophat</span></code>, and <code class="docutils literal notranslate"><span class="pre">black_tophat</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code> now accepts a sequence of 2-element tuples <code class="docutils literal notranslate"><span class="pre">(footprint_i,</span> <span class="pre">num_iter_i)</span></code> where each entry, <code class="docutils literal notranslate"><span class="pre">i</span></code>, of the sequence contains a footprint and the number of times it should be iteratively applied. This is the form produced by the footprint decompositions mentioned above
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/5482">#5482</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6151">#6151</a>).</p></li>
+<li><p>Support anisotropic images with different voxel spacings.
+Spacings can be defined with the new parameter <code class="docutils literal notranslate"><span class="pre">spacing</span></code> of the following functions in <code class="docutils literal notranslate"><span class="pre">skimage.measure</span></code>: <code class="docutils literal notranslate"><span class="pre">regionprops</span></code>, <code class="docutils literal notranslate"><span class="pre">regionprops_table</span></code>, <code class="docutils literal notranslate"><span class="pre">moments</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_central</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_normalized</span></code>, <code class="docutils literal notranslate"><span class="pre">centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">inertia_tensor</span></code>, and <code class="docutils literal notranslate"><span class="pre">inertia_tensor_eigvals</span></code>.
+Voxel spacing is taken into account for the following existing properties in <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code>: <code class="docutils literal notranslate"><span class="pre">area</span></code>, <code class="docutils literal notranslate"><span class="pre">area_bbox</span></code>, <code class="docutils literal notranslate"><span class="pre">centroid</span></code>, <code class="docutils literal notranslate"><span class="pre">area_convex</span></code>, <code class="docutils literal notranslate"><span class="pre">extent</span></code>, <code class="docutils literal notranslate"><span class="pre">feret_diameter_max</span></code>, <code class="docutils literal notranslate"><span class="pre">area_filled</span></code>, <code class="docutils literal notranslate"><span class="pre">inertia_tensor</span></code>, <code class="docutils literal notranslate"><span class="pre">moments</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_central</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_hu</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_normalized</span></code>, <code class="docutils literal notranslate"><span class="pre">perimeter</span></code>, <code class="docutils literal notranslate"><span class="pre">perimeter_crofton</span></code>, <code class="docutils literal notranslate"><span class="pre">solidity</span></code>, <code class="docutils literal notranslate"><span class="pre">moments_weighted_central</span></code>, and <code class="docutils literal notranslate"><span class="pre">moments_weighted_hu</span></code>.
+The new properties <code class="docutils literal notranslate"><span class="pre">num_pixels</span></code> and <code class="docutils literal notranslate"><span class="pre">coords_scaled</span></code> are available as well.
+See the respective docstrings for more details
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6296">#6296</a>).</p></li>
+<li><p>Add isotropic binary morphological operators <code class="docutils literal notranslate"><span class="pre">isotropic_closing</span></code>, <code class="docutils literal notranslate"><span class="pre">isotropic_dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">isotropic_erosion</span></code>, and <code class="docutils literal notranslate"><span class="pre">isotropic_opening</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code>.
+These functions return the same results as their non-isotropic counterparts but perform faster for large circular structuring elements
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6492">#6492</a>).</p></li>
+<li><p>Add new colocalization metrics <code class="docutils literal notranslate"><span class="pre">pearson_corr_coeff</span></code>, <code class="docutils literal notranslate"><span class="pre">manders_coloc_coeff</span></code>, <code class="docutils literal notranslate"><span class="pre">manders_overlap_coeff</span></code> and <code class="docutils literal notranslate"><span class="pre">intersection_coeff</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.measure</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6189">#6189</a>).</p></li>
+<li><p>Support the Modified Hausdorff Distance (MHD) metric in <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code> via the new parameter <code class="docutils literal notranslate"><span class="pre">method</span></code>.
+The MHD can be more robust against outliers than the directed Hausdorff Distance (HD)
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/5581">#5581</a>).</p></li>
+<li><p>Add two datasets <code class="docutils literal notranslate"><span class="pre">skimage.data.protein_transport</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.data.nickel_solidification</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6087">#6087</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">use_gaussian_derivatives</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.feature.hessian_matrix</span></code> which allows the computation of the Hessian matrix by convolving with Gaussian derivatives
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6149">#6149</a>).</p></li>
+<li><p>Add new parameters <code class="docutils literal notranslate"><span class="pre">squared_butterworth</span></code> and <code class="docutils literal notranslate"><span class="pre">npad</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.filters.butterworth</span></code>, which support traditional or squared filtering and edge padding, respectively
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6251">#6251</a>).</p></li>
+<li><p>Support construction of a <code class="docutils literal notranslate"><span class="pre">skimage.io.ImageCollection</span></code> from a <code class="docutils literal notranslate"><span class="pre">load_pattern</span></code> with an arbitrary sequence as long as a matching <code class="docutils literal notranslate"><span class="pre">load_func</span></code> is provided
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6276">#6276</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">alpha</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.metrics.adapted_rand_error</span></code> allowing control over the weight given to precision and recall
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6472">#6472</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">binarize</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.measure.grid_points_in_poly</span></code> to optionally return labels that tell whether a pixel is inside, outside, or on the border of the polygon
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6515">#6515</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">include_borders</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.measure.convex_hull_image</span></code> to optionally exclude vertices or edges from the final hull mask
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6515">#6515</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">offsets</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> that optionally allows specifying the coordinates of the origin and affects the properties <code class="docutils literal notranslate"><span class="pre">coords_scaled</span></code> and <code class="docutils literal notranslate"><span class="pre">coords</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/3706">#3706</a>).</p></li>
+<li><p>Add new parameter <code class="docutils literal notranslate"><span class="pre">disambiguate</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> to optionally disambiguate periodic shifts
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6617">#6617</a>).</p></li>
+<li><p>Support n-dimensional images in <code class="docutils literal notranslate"><span class="pre">skimage.filters.farid</span></code> (Farid &amp; Simoncelli filter)
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6257">#6257</a>).</p></li>
+<li><p>Support n-dimensional images in <code class="docutils literal notranslate"><span class="pre">skimage.restoration.wiener</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6454">#6454</a>).</p></li>
+<li><p>Support three dimensions for the properties <code class="docutils literal notranslate"><span class="pre">rotation</span></code> and <code class="docutils literal notranslate"><span class="pre">translation</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.transform.EuclideanTransform</span></code> as well as for <code class="docutils literal notranslate"><span class="pre">skimage.transform.SimilarityTransform.scale</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6367">#6367</a>).</p></li>
+<li><p>Allow footprints with non-adjacent pixels as neighbors in <code class="docutils literal notranslate"><span class="pre">skimage.morphology.flood_fill</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6236">#6236</a>).</p></li>
+<li><p>Support array-likes consistently in <code class="docutils literal notranslate"><span class="pre">AffineTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">EssentialMatrixTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">EuclideanTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">FundamentalMatrixTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">GeometricTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">PiecewiseAffineTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">PolynomialTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">ProjectiveTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">SimilarityTransform</span></code>, <code class="docutils literal notranslate"><span class="pre">estimate_transform</span></code>, and <code class="docutils literal notranslate"><span class="pre">matrix_transform</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6270">#6270</a>).</p></li>
+</ul>
+<section id="performance">
+<h3>Performance<a class="headerlink" href="#performance" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Improve performance (~2x speedup) of <code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code> by porting a part of its implementation to Cython
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6387">#6387</a>).</p></li>
+<li><p>Improve performance (~2x speedup) of <code class="docutils literal notranslate"><span class="pre">skimage.feature.hessian_matrix_eigvals</span></code> and 2D <code class="docutils literal notranslate"><span class="pre">skimage.feature.structure_tensor_eigenvalues</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6441">#6441</a>).</p></li>
+<li><p>Improve performance of <code class="docutils literal notranslate"><span class="pre">skimage.measure.moments_central</span></code> by avoiding redundant computations
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6188">#6188</a>).</p></li>
+<li><p>Reduce import time of <code class="docutils literal notranslate"><span class="pre">skimage.io</span></code> by loading the matplotlib plugin only when required
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6550">#6550</a>).</p></li>
+<li><p>Incorporate RANSAC improvements from scikit-learn into <code class="docutils literal notranslate"><span class="pre">skimage.measure.ransac</span></code> which decrease the number of iterations
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6046">#6046</a>).</p></li>
+<li><p>Improve histogram matching performance on unsigned integer data with <code class="docutils literal notranslate"><span class="pre">skimage.exposure.match_histograms</span></code>.
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6209">#6209</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6354">#6354</a>).</p></li>
+<li><p>Reduce memory consumption of the ridge filters <code class="docutils literal notranslate"><span class="pre">meijering</span></code>, <code class="docutils literal notranslate"><span class="pre">sato</span></code>, <code class="docutils literal notranslate"><span class="pre">frangi</span></code>, and <code class="docutils literal notranslate"><span class="pre">hessian</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.filters</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6509">#6509</a>).</p></li>
+<li><p>Reduce memory consumption of <code class="docutils literal notranslate"><span class="pre">blob_dog</span></code>, <code class="docutils literal notranslate"><span class="pre">blob_log</span></code>, and <code class="docutils literal notranslate"><span class="pre">blob_doh</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.feature</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6597">#6597</a>).</p></li>
+<li><p>Use minimal required unsigned integer size internally in <code class="docutils literal notranslate"><span class="pre">skimage.morphology.reconstruction</span></code> which allows to operate the function with higher precision or on larger arrays.
+Previously, int32 was used.
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6342">#6342</a>).</p></li>
+<li><p>Use minimal required unsigned integer size in <code class="docutils literal notranslate"><span class="pre">skimage.filters.rank_order</span></code> which allows to operate the function with higher precision or on larger arrays.
+Previously, the returned <code class="docutils literal notranslate"><span class="pre">labels</span></code> and <code class="docutils literal notranslate"><span class="pre">original_values</span></code> were always of type uint32.
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6342">#6342</a>).</p></li>
+</ul>
+</section>
+</section>
+<section id="changes-and-new-deprecations">
+<h2>Changes and new deprecations<a class="headerlink" href="#changes-and-new-deprecations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Set Python 3.8 as the minimal supported version
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6679">#6679</a>).</p></li>
+<li><p>Rewrite <code class="docutils literal notranslate"><span class="pre">skimage.filters.meijering</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.filters.sato</span></code>,
+<code class="docutils literal notranslate"><span class="pre">skimage.filters.frangi</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage.filters.hessian</span></code> to match the published algorithms more closely.
+This change is backward incompatible and will lead to different output values compared to the previous implementation.
+The Hessian matrix calculation is now done more accurately.
+The filters will now be correctly set to zero whenever one of the Hessian eigenvalues has a sign which is incompatible with a ridge of the desired polarity.
+The gamma constant of the Frangi filter is now set adaptively based on the maximum Hessian norm
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6446">#6446</a>).</p></li>
+<li><p>Move functions in <code class="docutils literal notranslate"><span class="pre">skimage.future.graph</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.graph</span></code>. This affects <code class="docutils literal notranslate"><span class="pre">cut_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">cut_normalized</span></code>, <code class="docutils literal notranslate"><span class="pre">merge_hierarchical</span></code>, <code class="docutils literal notranslate"><span class="pre">rag_mean_color</span></code>, <code class="docutils literal notranslate"><span class="pre">RAG</span></code>, <code class="docutils literal notranslate"><span class="pre">show_rag</span></code>, and <code class="docutils literal notranslate"><span class="pre">rag_boundary</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6674">#6674</a>).</p></li>
+<li><p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.measure.LineModelND.estimate</span></code> instead of raising an error if the model is under-determined
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6453">#6453</a>).</p></li>
+<li><p>Return <code class="docutils literal notranslate"><span class="pre">False</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.measure.CircleModel.estimate</span></code> instead of warning if the model is under-determined
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6453">#6453</a>).</p></li>
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">skimage.filters.inverse</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.filters.inverse_filter</span></code>.
+<code class="docutils literal notranslate"><span class="pre">skimage.filters.inverse</span></code> is deprecated and will be removed in the next release
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6418">#6418</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6701">#6701</a>).</p></li>
+<li><p>Update minimal supported dependencies to <code class="docutils literal notranslate"><span class="pre">numpy&gt;=1.20</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6565">#6565</a>).</p></li>
+<li><p>Update minimal supported dependencies to <code class="docutils literal notranslate"><span class="pre">scipy&gt;=1.8</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6564">#6564</a>).</p></li>
+<li><p>Update minimal supported dependencies to <code class="docutils literal notranslate"><span class="pre">networkx&gt;=2.8</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6564">#6564</a>).</p></li>
+<li><p>Update minimal supported dependency to <code class="docutils literal notranslate"><span class="pre">pillow&gt;=9.0.1</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6402">#6402</a>).</p></li>
+<li><p>Update minimal supported dependency to <code class="docutils literal notranslate"><span class="pre">setuptools</span> <span class="pre">67</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6754">#6754</a>).</p></li>
+<li><p>Update optional, minimal supported dependency to <code class="docutils literal notranslate"><span class="pre">matplotlib&gt;=3.3</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6383">#6383</a>).</p></li>
+<li><p>Warn for non-integer image inputs to <code class="docutils literal notranslate"><span class="pre">skimage.feature.local_binary_pattern</span></code>.
+Applying the function to floating-point images may give unexpected results when small numerical differences between adjacent pixels are present
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6272">#6272</a>).</p></li>
+<li><p>Warn if <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> returns only the shift vector.
+Starting with the next release this function will always return a tuple of three (shift vector, error, phase difference).
+Use <code class="docutils literal notranslate"><span class="pre">return_error=&quot;always&quot;</span></code> to silence this warning and switch to this new behavior
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6543">#6543</a>).</p></li>
+<li><p>Warn in <code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code>, if <code class="docutils literal notranslate"><span class="pre">data_range</span></code> is not specified in case of floating point data
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6612">#6612</a>).</p></li>
+<li><p>Automatic detection of the color channel is deprecated in <code class="docutils literal notranslate"><span class="pre">skimage.filters.gaussian</span></code> and a warning is emitted if the parameter <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> is not set explicitly
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+</ul>
+</section>
+<section id="completed-deprecations">
+<h2>Completed deprecations<a class="headerlink" href="#completed-deprecations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">skimage.viewer</span></code> which was scheduled for removal in the postponed version 1.0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6160">#6160</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">indices</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6161">#6161</a>).</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">skimage.feature.structure_tensor_eigvals</span></code> (it was replaced by <code class="docutils literal notranslate"><span class="pre">skimage.feature.structure_tensor_eigenvalues</span></code>) and change the default parameter value in <code class="docutils literal notranslate"><span class="pre">skimage.feature.structure_tensor</span></code> to <code class="docutils literal notranslate"><span class="pre">order=&quot;rc&quot;</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6162">#6162</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">array</span></code> in favor of <code class="docutils literal notranslate"><span class="pre">image</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.measure.find_contours</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6163">#6163</a>).</p></li>
+<li><p>Remove deprecated Qt IO plugin and the <code class="docutils literal notranslate"><span class="pre">skivi</span></code> console script
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6164">#6164</a>).</p></li>
+<li><p>Remove deprecated parameter value <code class="docutils literal notranslate"><span class="pre">method='_lorensen'</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6230">#6230</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">multichannel</span></code>; use <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> instead.
+This affects <code class="docutils literal notranslate"><span class="pre">skimage.draw.random_shapes</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.exposure.match_histograms</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.feature.multiscale_basic_features</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.feature.hog</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.feature.difference_of_gaussians</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.filters.unsharp_mask</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">skimage.restoration</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">cycle_spin</span></code>, <code class="docutils literal notranslate"><span class="pre">denoise_bilateral</span></code>, <code class="docutils literal notranslate"><span class="pre">denoise_tv_bregman</span></code>, <code class="docutils literal notranslate"><span class="pre">denoise_tv_chambolle</span></code>, <code class="docutils literal notranslate"><span class="pre">denoise_wavelet</span></code>, <code class="docutils literal notranslate"><span class="pre">estimate_sigma</span></code>, <code class="docutils literal notranslate"><span class="pre">inpaint_biharmonic</span></code>, and <code class="docutils literal notranslate"><span class="pre">denoise_nl_means</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">skimage.segmentation</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">felzenszwalb</span></code>, <code class="docutils literal notranslate"><span class="pre">random_walker</span></code>, and <code class="docutils literal notranslate"><span class="pre">slic</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">rescale</span></code>, <code class="docutils literal notranslate"><span class="pre">warp_polar</span></code>, <code class="docutils literal notranslate"><span class="pre">pyramid_reduce</span></code>, <code class="docutils literal notranslate"><span class="pre">pyramid_expand</span></code>, <code class="docutils literal notranslate"><span class="pre">pyramid_gaussian</span></code>, and <code class="docutils literal notranslate"><span class="pre">pyramid_laplacian</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">skimage.util</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">montage</span></code> and <code class="docutils literal notranslate"><span class="pre">apply_parallel</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">selem</span></code>; use <code class="docutils literal notranslate"><span class="pre">footprint</span></code> instead.
+In <code class="docutils literal notranslate"><span class="pre">skimage.filters</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">median</span></code>, <code class="docutils literal notranslate"><span class="pre">autolevel_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">gradient_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">subtract_mean_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">enhance_contrast_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">pop_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">sum_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">threshold_percentile</span></code>, <code class="docutils literal notranslate"><span class="pre">mean_bilateral</span></code>, <code class="docutils literal notranslate"><span class="pre">pop_bilateral</span></code>, <code class="docutils literal notranslate"><span class="pre">sum_bilateral</span></code>, <code class="docutils literal notranslate"><span class="pre">autolevel</span></code>, <code class="docutils literal notranslate"><span class="pre">equalize</span></code>, <code class="docutils literal notranslate"><span class="pre">gradient</span></code>, <code class="docutils literal notranslate"><span class="pre">maximum</span></code>, <code class="docutils literal notranslate"><span class="pre">mean</span></code>, <code class="docutils literal notranslate"><span class="pre">geometric_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">subtract_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">median</span></code>, <code class="docutils literal notranslate"><span class="pre">minimum</span></code>, <code class="docutils literal notranslate"><span class="pre">modal</span></code>, <code class="docutils literal notranslate"><span class="pre">enhance_contrast</span></code>, <code class="docutils literal notranslate"><span class="pre">pop</span></code>, <code class="docutils literal notranslate"><span class="pre">sum</span></code>, <code class="docutils literal notranslate"><span class="pre">threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">noise_filter</span></code>, <code class="docutils literal notranslate"><span class="pre">entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">otsu</span></code>, <code class="docutils literal notranslate"><span class="pre">windowed_histogram</span></code>, and <code class="docutils literal notranslate"><span class="pre">majority</span></code>.
+In <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code>, this affects <code class="docutils literal notranslate"><span class="pre">flood_fill</span></code>, <code class="docutils literal notranslate"><span class="pre">flood</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_erosion</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_opening</span></code>, <code class="docutils literal notranslate"><span class="pre">binary_closing</span></code>, <code class="docutils literal notranslate"><span class="pre">h_maxima</span></code>, <code class="docutils literal notranslate"><span class="pre">h_minima</span></code>, <code class="docutils literal notranslate"><span class="pre">local_maxima</span></code>, <code class="docutils literal notranslate"><span class="pre">local_minima</span></code>, <code class="docutils literal notranslate"><span class="pre">erosion</span></code>, <code class="docutils literal notranslate"><span class="pre">dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">opening</span></code>, <code class="docutils literal notranslate"><span class="pre">closing</span></code>, <code class="docutils literal notranslate"><span class="pre">white_tophat</span></code>, <code class="docutils literal notranslate"><span class="pre">black_tophat</span></code>, and <code class="docutils literal notranslate"><span class="pre">reconstruction</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">max_iter</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_minimum</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.morphology.thin</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.chan_vese</span></code>;
+use <code class="docutils literal notranslate"><span class="pre">max_num_iter</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">max_iterations</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.active_contour</span></code>;
+use <code class="docutils literal notranslate"><span class="pre">max_num_iter</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">input</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.measure.label</span></code>;
+use <code class="docutils literal notranslate"><span class="pre">label_image</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">coordinates</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.active_contour</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">neighbourhood</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.measure.perimeter</span></code>;
+use <code class="docutils literal notranslate"><span class="pre">neighborhood</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameters <code class="docutils literal notranslate"><span class="pre">height</span></code> and <code class="docutils literal notranslate"><span class="pre">width</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.morphology.rectangle</span></code>;
+use <code class="docutils literal notranslate"><span class="pre">ncols</span></code> and <code class="docutils literal notranslate"><span class="pre">nrows</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">in_place</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.morphology.remove_small_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.morphology.remove_small_holes</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.clear_border</span></code>; use <code class="docutils literal notranslate"><span class="pre">out</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated parameter <code class="docutils literal notranslate"><span class="pre">iterations</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.restoration.richardson_lucy</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.morphological_chan_vese</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.morphological_geodesic_active_contour</span></code>; use <code class="docutils literal notranslate"><span class="pre">num_iter</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove support for deprecated keys <code class="docutils literal notranslate"><span class="pre">&quot;min_iter&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;max_iter&quot;</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.restoration.unsupervised_wiener</span></code>’s parameter <code class="docutils literal notranslate"><span class="pre">user_params</span></code>; use <code class="docutils literal notranslate"><span class="pre">&quot;min_num_iter&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;max_num_iter&quot;</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated functions <code class="docutils literal notranslate"><span class="pre">greycomatrix</span></code> and <code class="docutils literal notranslate"><span class="pre">greycoprops</span></code> from <code class="docutils literal notranslate"><span class="pre">skimage.feature</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated submodules <code class="docutils literal notranslate"><span class="pre">skimage.morphology.grey</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.morphology.greyreconstruct</span></code>; use <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated submodule <code class="docutils literal notranslate"><span class="pre">skimage.morphology.selem</span></code>; use <code class="docutils literal notranslate"><span class="pre">skimage.morphology.footprints</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Remove deprecated <code class="docutils literal notranslate"><span class="pre">skimage.future.graph.ncut</span></code> (it was replaced by <code class="docutils literal notranslate"><span class="pre">skimage.graph.cut_normalized</span></code>)
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6685">#6685</a>).</p></li>
+</ul>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Fix round-off error in <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_gamma</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6285">#6285</a>).</p></li>
+<li><p>Round and convert output coordinates of <code class="docutils literal notranslate"><span class="pre">skimage.draw.rectangle</span></code> to <code class="docutils literal notranslate"><span class="pre">int</span></code> even if the input coordinates use <code class="docutils literal notranslate"><span class="pre">float</span></code>.
+This fix ensures that the output can be used for indexing similar to other draw functions
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6501">#6501</a>).</p></li>
+<li><p>Avoid unexpected exclusion of peaks near the image border in <code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code> if the peak value is smaller 0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6502">#6502</a>).</p></li>
+<li><p>Avoid anti-aliasing in <code class="docutils literal notranslate"><span class="pre">skimage.transform.resize</span></code> by default when using nearest neighbor interpolation (<code class="docutils literal notranslate"><span class="pre">order</span> <span class="pre">==</span> <span class="pre">0</span></code>) with an integer input data type
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6503">#6503</a>).</p></li>
+<li><p>Use mask during rescaling in <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.slic</span></code>.
+Previously, the mask was ignored when rescaling the image to make choice of compactness insensitive to the image values.
+The new behavior makes it possible to mask values such as <a class="reference external" href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="(in NumPy v1.26)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.nan</span></code></a> or <em class="xref py py-obj">numpy.infinity</em>.
+Additionally, raise an error if the input <code class="docutils literal notranslate"><span class="pre">image</span></code> has two dimensions and a <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> is specified - indicating that the image is multi-channel
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6525">#6525</a>).</p></li>
+<li><p>Fix unexpected error when passing a tuple to the parameter <code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.feature.blog_dog</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.feature.blob_log</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6533">#6533</a>).</p></li>
+<li><p>Raise a specific error message in <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.random_walker</span></code> if no seeds are provided as positive values in the parameter <code class="docutils literal notranslate"><span class="pre">labels</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6562">#6562</a>).</p></li>
+<li><p>Raise a specific error message when accessing region properties from <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> when the required  <code class="docutils literal notranslate"><span class="pre">intensity_image</span></code> is unavailable
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6584">#6584</a>).</p></li>
+<li><p>Avoid errors in <code class="docutils literal notranslate"><span class="pre">skimage.feature.ORB.detect_and_extract</span></code> by breaking early if the octave image is too small
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6590">#6590</a>).</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">skimage.restoration.inpaint_biharmonic</span></code> for images with Fortran-ordered memory layout
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6263">#6263</a>).</p></li>
+<li><p>Fix automatic detection of the color channel in <code class="docutils literal notranslate"><span class="pre">skimage.filters.gaussian</span></code> (this behavior is deprecated, see new deprecations)
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6583">#6583</a>).</p></li>
+<li><p>Fix stacklevel of warning in <code class="docutils literal notranslate"><span class="pre">skimage.color.lab2rgb</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6616">#6616</a>).</p></li>
+<li><p>Fix the order of return values for <code class="docutils literal notranslate"><span class="pre">skimage.feature.hessian_matrix</span></code> and raise an error if <code class="docutils literal notranslate"><span class="pre">order='xy'</span></code> is requested for images with more than 2 dimensions
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6624">#6624</a>).</p></li>
+<li><p>Fix misleading exception in functions in <code class="docutils literal notranslate"><span class="pre">skimage.filters.rank</span></code> that did
+not mention that 2D images are also supported
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6666">#6666</a>).</p></li>
+<li><p>Fix in-place merging of wheights in <code class="docutils literal notranslate"><span class="pre">skimage.graph.RAG.merge_nodes</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6692">#6692</a>).</p></li>
+<li><p>Fix growing memory error and silence compiler warning in internal <code class="docutils literal notranslate"><span class="pre">heappush</span></code> function
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6727">#6727</a>).</p></li>
+<li><p>Fix compiliation warning about struct initialization in <em class="xref py py-obj">Cascade.detect_multi_scale</em>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6728">#6728</a>).</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<section id="new">
+<h3>New<a class="headerlink" href="#new" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add gallery example “Decompose flat footprints (structuring elements)”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6151">#6151</a>).</p></li>
+<li><p>Add gallery example “Butterworth Filters” and improve docstring of <code class="docutils literal notranslate"><span class="pre">skimage.filters.butterworth</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6251">#6251</a>).</p></li>
+<li><p>Add gallery example “Render text onto an image”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6431">#6431</a>).</p></li>
+<li><p>Add gallery example “Track solidification of a metallic alloy”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6469">#6469</a>).</p></li>
+<li><p>Add gallery example “Colocalization metrics”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6189">#6189</a>).</p></li>
+<li><p>Add support page (<code class="docutils literal notranslate"><span class="pre">.github/SUPPORT.md</span></code>) to help users from GitHub find appropriate support resources
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6171">#6171</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6575">#6575</a>).</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">CITATION.bib</span></code> to repository to help with citing scikit-image
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6195">#6195</a>).</p></li>
+<li><p>Add usage instructions for new Meson-based build system with <code class="docutils literal notranslate"><span class="pre">dev.py</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6600">#6600</a>).</p></li>
+</ul>
+</section>
+<section id="improved-updated">
+<h3>Improved &amp; updated<a class="headerlink" href="#improved-updated" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Improve gallery example “Measure perimeters with different estimators”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6200">#6200</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6121">#6121</a>).</p></li>
+<li><p>Adapt gallery example “Build image pyramids” to more diversified shaped images and downsample factors
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6293">#6293</a>).</p></li>
+<li><p>Adapt gallery example “Explore 3D images (of cells)” with interactive slice explorer using plotly
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/4953">#4953</a>).</p></li>
+<li><p>Clarify meaning of the <code class="docutils literal notranslate"><span class="pre">weights</span></code> term and rewrite docstrings of <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_bregman</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_chambolle</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6544">#6544</a>).</p></li>
+<li><p>Describe the behavior of <code class="docutils literal notranslate"><span class="pre">skimage.io.MultiImage</span></code> more precisely in its docstring
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6290">#6290</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6292">#6292</a>).</p></li>
+<li><p>Clarify that the enabled <code class="docutils literal notranslate"><span class="pre">watershed_line</span></code> parameter will not catch borders between adjacent marker regions in <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.watershed</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6280">#6280</a>).</p></li>
+<li><p>Clarify that <code class="docutils literal notranslate"><span class="pre">skimage.morphology.skeletonize</span></code> accepts an <code class="docutils literal notranslate"><span class="pre">image</span></code> of any input type
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6322">#6322</a>).</p></li>
+<li><p>Use gridded thumbnails in our gallery to demonstrate the different images and datasets available in <code class="docutils literal notranslate"><span class="pre">skimage.data</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6298">#6298</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6300">#6300</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6301">#6301</a>).</p></li>
+<li><p>Tweak <code class="docutils literal notranslate"><span class="pre">balance</span></code> in the docstring example of <code class="docutils literal notranslate"><span class="pre">skimage.restoration.wiener</span></code> for a less blurry result
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6265">#6265</a>).</p></li>
+<li><p>Document support for Path objects in <code class="docutils literal notranslate"><span class="pre">skimage.io.imread</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.io.imsave</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6361">#6361</a>).</p></li>
+<li><p>Improve error message in <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_multiotsu</span></code> if the discretized image cannot be thresholded
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6375">#6375</a>).</p></li>
+<li><p>Show original unlabeled image as well in the gallery example “Expand segmentation labels without overlap”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6396">#6396</a>).</p></li>
+<li><p>Document refactoring of <code class="docutils literal notranslate"><span class="pre">grey*</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage.feature.graymatrix</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.feature.graycoprops</span></code> in the release 0.19
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6420">#6420</a>).</p></li>
+<li><p>Document inclusion criteria for new functionality in core developer guide
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6488">#6488</a>).</p></li>
+<li><p>Print the number of segments after applying the Watershed in the gallery example “Comparison of segmentation and superpixel algorithms”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6535">#6535</a>).</p></li>
+<li><p>Replace issue templates with issue forms
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6554">#6554</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6576">#6576</a>).</p></li>
+<li><p>Expand reviewer guidelines in pull request template
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6208">#6208</a>).</p></li>
+<li><p>Provide pre-commit PR instructions in pull request template
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6578">#6578</a>).</p></li>
+<li><p>Warn about and explain the handling of floating-point data in the docstring of <code class="docutils literal notranslate"><span class="pre">skimage.metricts.structural_similarity</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6595">#6595</a>).</p></li>
+<li><p>Fix intensity autoscaling in animated <code class="docutils literal notranslate"><span class="pre">imshow</span></code> in gallery example “Measure fluorescence intensity at the nuclear envelope”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6599">#6599</a>).</p></li>
+<li><p>Clarify dependency on <code class="docutils literal notranslate"><span class="pre">scikit-image[data]</span></code> and pooch in <code class="docutils literal notranslate"><span class="pre">INSTALL.rst</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6619">#6619</a>).</p></li>
+<li><p>Don’t use confusing loop in installation instructions for conda
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6672">#6672</a>).</p></li>
+<li><p>Document value ranges of L*a*b* and L*Ch in <code class="docutils literal notranslate"><span class="pre">lab2xyz</span></code>, <code class="docutils literal notranslate"><span class="pre">rgb2lab</span></code>, <code class="docutils literal notranslate"><span class="pre">lab2lch</span></code>, and <code class="docutils literal notranslate"><span class="pre">lch2lab</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.color</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6688">#6688</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6697">#6697</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6719">#6719</a>).</p></li>
+<li><p>Use more consistent style in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.feature.local_binary_pattern</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6736">#6736</a>).</p></li>
+</ul>
+</section>
+<section id="fixes-spelling-minor-tweaks">
+<h3>Fixes, spelling &amp; minor tweaks<a class="headerlink" href="#fixes-spelling-minor-tweaks" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove deprecated reference and use <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes</span></code> in gallery example “Marching Cubes”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6377">#6377</a>).</p></li>
+<li><p>List only the two primary OS-independent methods of installing scikit-image
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6557">#6557</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6560">#6560</a>).</p></li>
+<li><p>Fix description of <code class="docutils literal notranslate"><span class="pre">connectivity</span></code> parameter in the docstring of <code class="docutils literal notranslate"><span class="pre">skimage.morphology.flood</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6534">#6534</a>).</p></li>
+<li><p>Fix formatting in the docstring of <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6203">#6203</a>).</p></li>
+<li><p>Fix typo in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.measure.moments_hu</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6016">#6016</a>).</p></li>
+<li><p>Fix formatting of mode parameter in <code class="docutils literal notranslate"><span class="pre">skimage.util.random_noise</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6532">#6532</a>).</p></li>
+<li><p>Fix broken links in SKIP 3
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6445">#6445</a>).</p></li>
+<li><p>Fix broken link in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.filters.sobel</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6474">#6474</a>).</p></li>
+<li><p>Change “neighbour” to EN-US spelling “neighbor”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6204">#6204</a>).</p></li>
+<li><p>Add missing copyrights to LICENSE.txt and use formatting according to SPDX identifiers
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6419">#6419</a>).</p></li>
+<li><p>Include <code class="docutils literal notranslate"><span class="pre">skimage.morphology.footprint_from_sequence</span></code> in the public API documentation
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6555">#6555</a>).</p></li>
+<li><p>Correct note about return type in the docstring of <code class="docutils literal notranslate"><span class="pre">skimage.exposure.rescale_intensity</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6582">#6582</a>).</p></li>
+<li><p>Stop using the <code class="docutils literal notranslate"><span class="pre">git://</span></code> connection protocol and remove references to it
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6201">#6201</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6283">#6283</a>).</p></li>
+<li><p>Update scikit-image’s mailing addresses to the new domain discuss.scientific-python.org
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6255">#6255</a>).</p></li>
+<li><p>Remove references to deprecated mailing list in <code class="docutils literal notranslate"><span class="pre">doc/source/user_guide/getting_help.rst</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6575">#6575</a>).</p></li>
+<li><p>Use “center” in favor of “centre”, and “color” in favor of “colour” gallery examples
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6421">#6421</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6422">#6422</a>).</p></li>
+<li><p>Replace reference to <code class="docutils literal notranslate"><span class="pre">api_changes.rst</span></code> with <code class="docutils literal notranslate"><span class="pre">release_dev.rst</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6495">#6495</a>).</p></li>
+<li><p>Clarify header pointing to notes for latest version released
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6508">#6508</a>).</p></li>
+<li><p>Add missing spaces to error message in <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6545">#6545</a>).</p></li>
+<li><p>Apply codespell to fix common spelling mistakes
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6537">#6537</a>).</p></li>
+<li><p>Add missing space in math directive in normalized_mutual_information’s docstring
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6549">#6549</a>).</p></li>
+<li><p>Fix lengths of docstring heading underline in <code class="docutils literal notranslate"><span class="pre">skimage.morphology.isotropic_</span></code> functions
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6628">#6628</a>).</p></li>
+<li><p>Fix plot order due to duplicate examples with the file name <code class="docutils literal notranslate"><span class="pre">plot_thresholding.py</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6644">#6644</a>).</p></li>
+<li><p>Get rid of numpy deprecation warning in gallery example <code class="docutils literal notranslate"><span class="pre">plot_equalize</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6650">#6650</a>).</p></li>
+<li><p>Fix swapping of opening and closing in gallery example <code class="docutils literal notranslate"><span class="pre">plot_rank_filters</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6652">#6652</a>).</p></li>
+<li><p>Get rid of numpy deprecation warning in gallery example <code class="docutils literal notranslate"><span class="pre">in</span> <span class="pre">plot_log_gamma.py</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6655">#6655</a>).</p></li>
+<li><p>Remove warnings and unnecessary messages in gallery example “Tinting gray-scale images”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6656">#6656</a>).</p></li>
+<li><p>Update the contribution guide to recommend creating the virtualenv outside the source tree
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6675">#6675</a>).</p></li>
+<li><p>Fix typo in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.data.coffee</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6740">#6740</a>).</p></li>
+<li><p>Add missing backtick in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.graph.merge_nodes</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6741">#6741</a>).</p></li>
+<li><p>Fix typo in <code class="docutils literal notranslate"><span class="pre">skimage.metrics.variation_of_information</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6768">#6768</a>).</p></li>
+</ul>
+</section>
+</section>
+<section id="other-and-development-related-updates">
+<h2>Other and development related updates<a class="headerlink" href="#other-and-development-related-updates" title="Link to this heading">#</a></h2>
+<section id="governance-planning">
+<h3>Governance &amp; planning<a class="headerlink" href="#governance-planning" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add draft of SKIP 4 “Transitioning to scikit-image 2.0”
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6339">#6339</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6353">#6353</a>).</p></li>
+</ul>
+</section>
+<section id="maintenance">
+<h3>Maintenance<a class="headerlink" href="#maintenance" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Prepare release notes for v0.20.0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6556">#6556</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6766">#6766</a>).</p></li>
+<li><p>Add and test alternative build system based on Meson as an alternative to the deprecated distutils system
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6536">#6536</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">cnp.float32_t</span></code> and <code class="docutils literal notranslate"><span class="pre">cnp.float64_t</span></code> over <code class="docutils literal notranslate"><span class="pre">float</span></code> and <code class="docutils literal notranslate"><span class="pre">double</span></code> in Cython code
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6303">#6303</a>).</p></li>
+<li><p>Move <code class="docutils literal notranslate"><span class="pre">skimage/measure/mc_meta</span></code> folder into <code class="docutils literal notranslate"><span class="pre">tools/precompute/</span></code> folder to avoid its unnecessary distribution to users
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6294">#6294</a>).</p></li>
+<li><p>Remove unused function <code class="docutils literal notranslate"><span class="pre">getLutNames</span></code> in <code class="docutils literal notranslate"><span class="pre">tools/precompute/mc_meta/createluts.py</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6294">#6294</a>).</p></li>
+<li><p>Point urls for data files to a specific commit
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6297">#6297</a>).</p></li>
+<li><p>Drop Codecov badge from project README
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6302">#6302</a>).</p></li>
+<li><p>Remove undefined reference to <code class="docutils literal notranslate"><span class="pre">'python_to_notebook'</span></code> in <code class="docutils literal notranslate"><span class="pre">doc/ext/notebook_doc.py</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6307">#6307</a>).</p></li>
+<li><p>Parameterize tests in <code class="docutils literal notranslate"><span class="pre">skimage.measure.tests.test_moments</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6323">#6323</a>).</p></li>
+<li><p>Avoid unnecessary copying in <code class="docutils literal notranslate"><span class="pre">skimage.morphology.skeletonize</span></code> and update code style and tests
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6327">#6327</a>).</p></li>
+<li><p>Fix typo in <code class="docutils literal notranslate"><span class="pre">_probabilistic_hough_line</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6373">#6373</a>).</p></li>
+<li><p>Derive OBJECT_COLUMNS from COL_DTYPES in <code class="docutils literal notranslate"><span class="pre">skimage.measure._regionprops</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6389">#6389</a>).</p></li>
+<li><p>Support <code class="docutils literal notranslate"><span class="pre">loadtxt</span></code> of NumPy 1.23 with <code class="docutils literal notranslate"><span class="pre">skimage/feature/orb_descriptor_positions.txt</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6400">#6400</a>).</p></li>
+<li><p>Exclude pillow 9.1.1 from supported requirements
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6384">#6384</a>).</p></li>
+<li><p>Use the same numpy version dependencies for building as used by default
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6409">#6409</a>).</p></li>
+<li><p>Forward-port v0.19.1 and v0.19.2 release notes
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6253">#6253</a>).</p></li>
+<li><p>Forward-port v0.19.3 release notes
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6416">#6416</a>).</p></li>
+<li><p>Exclude submodules of <code class="docutils literal notranslate"><span class="pre">doc.*</span></code> from package install
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6428">#6428</a>).</p></li>
+<li><p>Substitute deprecated <code class="docutils literal notranslate"><span class="pre">vertices</span></code> with <code class="docutils literal notranslate"><span class="pre">simplices</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.transform._geometric</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6430">#6430</a>).</p></li>
+<li><p>Fix minor typo in <code class="docutils literal notranslate"><span class="pre">skimage.filters.sato</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6434">#6434</a>).</p></li>
+<li><p>Simplify sort-by-absolute-value in ridge filters
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6440">#6440</a>).</p></li>
+<li><p>Removed completed items in <code class="docutils literal notranslate"><span class="pre">TODO.txt</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6442">#6442</a>).</p></li>
+<li><p>Remove duplicate import in <code class="docutils literal notranslate"><span class="pre">skimage.feature._canny</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6457">#6457</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">open(...)</span> <span class="pre">as</span> <span class="pre">f</span></code> instead of <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">open(...)</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6458">#6458</a>).</p></li>
+<li><p>Use context manager when possible
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6484">#6484</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">broadcast_to</span></code> instead of <code class="docutils literal notranslate"><span class="pre">as_strided</span></code> to generate broadcasted arrays
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6476">#6476</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">moving_image</span></code> in docstring of <code class="docutils literal notranslate"><span class="pre">skimage.registration._optical_flow._tvl1</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6480">#6480</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">pyplot.get_cmap</span></code> instead of deprecated <code class="docutils literal notranslate"><span class="pre">cm.get_cmap</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.future.graph.show_rag</span></code> for compatibility with matplotlib 3.3 to 3.6
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6483">#6483</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6490">#6490</a>).</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">plot_euler_number.py</span></code> for maplotlib 3.6 compatibility
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6522">#6522</a>).</p></li>
+<li><p>Make non-functional change to build.txt to fix cache issue on CircleCI
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6528">#6528</a>).</p></li>
+<li><p>Update deprecated field <code class="docutils literal notranslate"><span class="pre">license_file</span></code> to <code class="docutils literal notranslate"><span class="pre">license_files</span></code> in <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6529">#6529</a>).</p></li>
+<li><p>Ignore codespell fixes with git blame
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6539">#6539</a>).</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">FUNDING.yml</span></code> in preference of org version
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6553">#6553</a>).</p></li>
+<li><p>Handle pending changes to <code class="docutils literal notranslate"><span class="pre">tifffile.imwrite</span></code> defaults and avoid test warnings
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6460">#6460</a>).</p></li>
+<li><p>Handle deprecation by updating to <code class="docutils literal notranslate"><span class="pre">networkx.to_scipy_sparse_array</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6564">#6564</a>).</p></li>
+<li><p>Update minimum supported numpy, scipy, and networkx
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6385">#6385</a>).</p></li>
+<li><p>Apply linting results after enabling pre-commit in CI
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6568">#6568</a>).</p></li>
+<li><p>Refactor lazy loading to use stubs &amp; lazy_loader package
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6577">#6577</a>).</p></li>
+<li><p>Update sphinx configuration
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6579">#6579</a>).</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to support Python 3.11 and to fix 32-bit pinned packages on Windows
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6519">#6519</a>).</p></li>
+<li><p>Update primary email address in mailmap entry for grlee77
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6639">#6639</a>).</p></li>
+<li><p>Handle new warnings introduced in NumPy 1.24
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6637">#6637</a>).</p></li>
+<li><p>Remove unnecessary dependency on ninja in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6634">#6634</a>).</p></li>
+<li><p>Pin to latest meson-python <code class="docutils literal notranslate"><span class="pre">&gt;=0.11.0</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6627">#6627</a>).</p></li>
+<li><p>Increase warning stacklevel by 1 in <code class="docutils literal notranslate"><span class="pre">skimage.color.lab2xyz</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6613">#6613</a>).</p></li>
+<li><p>Update OpenBLAS to v0.3.17
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6607">#6607</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6610">#6610</a>).</p></li>
+<li><p>Fix Meson build on windows in sync with SciPy
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6609">#6609</a>).</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">check:</span> <span class="pre">true</span></code> for <code class="docutils literal notranslate"><span class="pre">run_command</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage/meson.build</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6606">#6606</a>).</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">dev.py</span></code> and setup commands
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6600">#6600</a>).</p></li>
+<li><p>Organize <code class="docutils literal notranslate"><span class="pre">dev.py</span></code> commands into sections
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6629">#6629</a>).</p></li>
+<li><p>Remove thumbnail_size in config since sphinx-gallery&gt;=0.9.0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6647">#6647</a>).</p></li>
+<li><p>Add new test cases for <code class="docutils literal notranslate"><span class="pre">skimage.transform.resize</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6669">#6669</a>).</p></li>
+<li><p>Use meson-python main branch
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6671">#6671</a>).</p></li>
+<li><p>Simplify QhullError import
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6677">#6677</a>).</p></li>
+<li><p>Remove old SciPy cruft
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6678">#6678</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6681">#6681</a>).</p></li>
+<li><p>Remove old references to imread package
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6680">#6680</a>).</p></li>
+<li><p>Remove pillow cruft (and a few other cleanups)
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6683">#6683</a>).</p></li>
+<li><p>Remove leftover <code class="docutils literal notranslate"><span class="pre">gtk_plugin.ini</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6686">#6686</a>).</p></li>
+<li><p>Prepare v0.20.0rc0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6706">#6706</a>).</p></li>
+<li><p>Remove pre-release suffix for for Python 3.11
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6709">#6709</a>).</p></li>
+<li><p>Loosen tests for SciPy 1.10
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6715">#6715</a>).</p></li>
+<li><p>Specify C flag only if supported by compiler
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6716">#6716</a>).</p></li>
+<li><p>Extract version info from <code class="docutils literal notranslate"><span class="pre">skimage/__init__.py</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage/meson.build</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6723">#6723</a>).</p></li>
+<li><p>Fix Cython errors/warnings
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6725">#6725</a>).</p></li>
+<li><p>Generate pyproject deps from requirements
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6726">#6726</a>).</p></li>
+<li><p>MAINT: Use <code class="docutils literal notranslate"><span class="pre">uintptr_t</span></code> to calculate new heap ptr positions
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6734">#6734</a>).</p></li>
+<li><p>Bite the bullet: remove distutils and setup.py
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6738">#6738</a>).</p></li>
+<li><p>Use meson-python developer version
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6753">#6753</a>).</p></li>
+<li><p>Require <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> 65.6+
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6751">#6751</a>).</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, use <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> instead
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6758">#6758</a>).</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> to use <code class="docutils literal notranslate"><span class="pre">meson-python&gt;=0.13.0rc0</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6759">#6759</a>).</p></li>
+</ul>
+</section>
+<section id="benchmarks">
+<h3>Benchmarks<a class="headerlink" href="#benchmarks" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add benchmarks for <code class="docutils literal notranslate"><span class="pre">morphology.local_maxima</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/3255">#3255</a>).</p></li>
+<li><p>Add benchmarks for <code class="docutils literal notranslate"><span class="pre">skimage.morphology.reconstruction</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6342">#6342</a>).</p></li>
+<li><p>Update benchmark environment to Python 3.10 and NumPy 1.23
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6511">#6511</a>).</p></li>
+</ul>
+</section>
+<section id="ci-automation">
+<h3>CI &amp; automation<a class="headerlink" href="#ci-automation" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add Github <code class="docutils literal notranslate"><span class="pre">actions/stale</span></code> to label “dormant” issues and PRs
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6506">#6506</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6546">#6546</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6552">#6552</a>).</p></li>
+<li><p>Fix the autogeneration of API docs for lazy loaded subpackages
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6075">#6075</a>).</p></li>
+<li><p>Checkout gh-pages with a shallow clone
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6085">#6085</a>).</p></li>
+<li><p>Fix dev doc build
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6091">#6091</a>).</p></li>
+<li><p>Fix CI by excluding Pillow 9.1.0
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6315">#6315</a>).</p></li>
+<li><p>Pin pip pip to &lt;22.1 in <code class="docutils literal notranslate"><span class="pre">tools/github/before_install.sh</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6379">#6379</a>).</p></li>
+<li><p>Update GH actions from v2 to v3
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6382">#6382</a>).</p></li>
+<li><p>Update to supported CircleCI images
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6401">#6401</a>).</p></li>
+<li><p>Use artifact-redirector
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6407">#6407</a>).</p></li>
+<li><p>Forward-port gh-6369: Fix windows wheels: use vsdevcmd.bat to make sure rc.exe is on the path
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6417">#6417</a>).</p></li>
+<li><p>Restrict GitHub Actions permissions to required ones
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6426">#6426</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6504">#6504</a>).</p></li>
+<li><p>Update to Ubuntu LTS version on Actions workflows
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6478">#6478</a>).</p></li>
+<li><p>Relax label name comparison in <code class="docutils literal notranslate"><span class="pre">benchmarks.yaml</span></code> workflow
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6520">#6520</a>).</p></li>
+<li><p>Add linting via pre-commit
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6563">#6563</a>).</p></li>
+<li><p>Add CI tests for Python 3.11
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6566">#6566</a>).</p></li>
+<li><p>Fix CI for Scipy 1.9.2
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6567">#6567</a>).</p></li>
+<li><p>Test optional Py 3.10  dependencies on MacOS
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6580">#6580</a>).</p></li>
+<li><p>Pin setuptools in GHA MacOS workflow and <code class="docutils literal notranslate"><span class="pre">azure-pipelines.yml</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6626">#6626</a>).</p></li>
+<li><p>Build Python 3.11 wheels
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6581">#6581</a>).</p></li>
+<li><p>Fix doc build on CircleCI and add ccache
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6646">#6646</a>).</p></li>
+<li><p>Build wheels on CI via branch rather than tag
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6668">#6668</a>).</p></li>
+<li><p>Do not build wheels on pushes to main
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6673">#6673</a>).</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">tools/github/before_install.sh</span></code> wheels workflow
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6718">#6718</a>).</p></li>
+<li><p>Use Ruff for linting
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6729">#6729</a>).</p></li>
+<li><p>Use test that can fail for sdist
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6731">#6731</a>).</p></li>
+<li><p>Fix fstring in <code class="docutils literal notranslate"><span class="pre">skimage._shared._warnings.expected_warnings</span></code>
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6733">#6733</a>).</p></li>
+<li><p>Build macosx/py38 wheel natively
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6743">#6743</a>).</p></li>
+<li><p>Remove CircleCI URL check
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6749">#6749</a>).</p></li>
+<li><p>CI Set MACOSX_DEPLOYMENT_TARGET=10.9 for Wheels
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6750">#6750</a>).</p></li>
+<li><p>Add temporary workaround until new meson-python release
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6757">#6757</a>).</p></li>
+<li><p>Update action to use new environment file
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6762">#6762</a>).</p></li>
+<li><p>Autogenerate pyproject.toml
+(<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6763">#6763</a>).</p></li>
+</ul>
+</section>
+</section>
+<section id="authors-contributed-to-this-release-alphabetical-by-first-name-or-login">
+<h2>71 authors contributed to this release [alphabetical by first name or login]<a class="headerlink" href="#authors-contributed-to-this-release-alphabetical-by-first-name-or-login" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Adeel Hassan</p></li>
+<li><p>Albert Y. Shih</p></li>
+<li><p>AleixBP (AleixBP)</p></li>
+<li><p>Alex (sashashura)</p></li>
+<li><p>Alexandr Kalinin</p></li>
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Amin (MOAMSA)</p></li>
+<li><p>Antony Lee</p></li>
+<li><p>Balint Varga</p></li>
+<li><p>Ben Greiner</p></li>
+<li><p>bsmietanka (bsmietanka)</p></li>
+<li><p>Chris Roat</p></li>
+<li><p>Chris Wood</p></li>
+<li><p>Daria</p></li>
+<li><p>Dave Mellert</p></li>
+<li><p>Dudu Lasry</p></li>
+<li><p>Elena Pascal</p></li>
+<li><p>Eli Schwartz</p></li>
+<li><p>Fabian Schneider</p></li>
+<li><p>forgeRW (forgeRW)</p></li>
+<li><p>Frank A. Krueger</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Gus Becker</p></li>
+<li><p>Hande Gözükan</p></li>
+<li><p>Jacob Rosenthal</p></li>
+<li><p>James Gao</p></li>
+<li><p>Jan Kadlec</p></li>
+<li><p>Jan-Hendrik Müller</p></li>
+<li><p>Jan-Lukas Wynen</p></li>
+<li><p>Jarrod Millman</p></li>
+<li><p>Jeremy Muhlich</p></li>
+<li><p>johnthagen (johnthagen)</p></li>
+<li><p>Joshua Newton</p></li>
+<li><p>Juan DF</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Judd Storrs</p></li>
+<li><p>Larry Bradley</p></li>
+<li><p>Lars Grüter</p></li>
+<li><p>lihaitao (li1127217ye)</p></li>
+<li><p>Lucas Johnson</p></li>
+<li><p>Malinda (maldil)</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Martijn Courteaux</p></li>
+<li><p>Marvin Albert</p></li>
+<li><p>Matthew Brett</p></li>
+<li><p>Matthias Bussonnier</p></li>
+<li><p>Miles Lucas</p></li>
+<li><p>Nathan Chan</p></li>
+<li><p>Naveen</p></li>
+<li><p>OBgoneSouth (OBgoneSouth)</p></li>
+<li><p>Oren Amsalem</p></li>
+<li><p>Preston Buscay</p></li>
+<li><p>Peter Sobolewski</p></li>
+<li><p>Peter Bell</p></li>
+<li><p>Ray Bell</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Robin Thibaut</p></li>
+<li><p>Ross Barnowski</p></li>
+<li><p>samtygier (samtygier)</p></li>
+<li><p>Sandeep N Menon</p></li>
+<li><p>Sanghyeok Hyun</p></li>
+<li><p>Sebastian Berg</p></li>
+<li><p>Sebastian Wallkötter</p></li>
+<li><p>Simon-Martin Schröder</p></li>
+<li><p>Stefan van der Walt</p></li>
+<li><p>Teemu Kumpumäki</p></li>
+<li><p>Thanushi Peiris</p></li>
+<li><p>Thomas Voigtmann</p></li>
+<li><p>Tim-Oliver Buchholz</p></li>
+<li><p>Tyler Reddy</p></li>
+</ul>
+</section>
+<section id="reviewers-contributed-to-this-release-alphabetical-by-first-name-or-login">
+<h2>42 reviewers contributed to this release [alphabetical by first name or login]<a class="headerlink" href="#reviewers-contributed-to-this-release-alphabetical-by-first-name-or-login" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Abhijeet Parida</p></li>
+<li><p>Albert Y. Shih</p></li>
+<li><p>Alex (sashashura)</p></li>
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Antony Lee</p></li>
+<li><p>Ben Greiner</p></li>
+<li><p>Carlo Dri</p></li>
+<li><p>Chris Roat</p></li>
+<li><p>Daniele Nicolodi</p></li>
+<li><p>Daria</p></li>
+<li><p>Dudu Lasry</p></li>
+<li><p>Eli Schwartz</p></li>
+<li><p>François Boulogne</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Gus Becker</p></li>
+<li><p>Jacob Rosenthal</p></li>
+<li><p>James Gao</p></li>
+<li><p>Jan-Hendrik Müller</p></li>
+<li><p>Jarrod Millman</p></li>
+<li><p>Juan DF</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Lars Grüter</p></li>
+<li><p>Malinda (maldil)</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Martijn Courteaux</p></li>
+<li><p>Marvin Albert</p></li>
+<li><p>Matthias Bussonnier</p></li>
+<li><p>Oren Amsalem</p></li>
+<li><p>Ralf Gommers</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Robert Haase</p></li>
+<li><p>Robin Thibaut</p></li>
+<li><p>Sandeep N Menon</p></li>
+<li><p>Sanghyeok Hyun</p></li>
+<li><p>Sebastian Berg</p></li>
+<li><p>Sebastian Wallkötter</p></li>
+<li><p>Simon-Martin Schröder</p></li>
+<li><p>Stefan van der Walt</p></li>
+<li><p>Thanushi Peiris</p></li>
+<li><p>Thomas Voigtmann</p></li>
+<li><p>Tim-Oliver Buchholz</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features-and-improvements">New features and improvements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-and-new-deprecations">Changes and new deprecations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#completed-deprecations">Completed deprecations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new">New</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-updated">Improved &amp; updated</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixes-spelling-minor-tweaks">Fixes, spelling &amp; minor tweaks</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-and-development-related-updates">Other and development related updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#governance-planning">Governance &amp; planning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance">Maintenance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmarks">Benchmarks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ci-automation">CI &amp; automation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-contributed-to-this-release-alphabetical-by-first-name-or-login">71 authors contributed to this release [alphabetical by first name or login]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reviewers-contributed-to-this-release-alphabetical-by-first-name-or-login">42 reviewers contributed to this release [alphabetical by first name or login]</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/release_notes/release_0.20.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2013-2023, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

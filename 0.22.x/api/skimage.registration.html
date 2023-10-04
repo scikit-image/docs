@@ -1,0 +1,911 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>skimage.registration &#8212; skimage 0.22.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=25b4b00c"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/skimage.registration';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.22.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="skimage.restoration" href="skimage.restoration.html" />
+    <link rel="prev" title="skimage.morphology" href="skimage.morphology.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="skimage.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.color.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.color</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.data.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.data</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.draw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.draw</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.exposure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.exposure</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.feature.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.feature</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.rank.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters.rank</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.future.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.future</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.graph.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.graph</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.io.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.io</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.measure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.measure</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.metrics.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.metrics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.morphology.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.registration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.restoration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.restoration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.segmentation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.segmentation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.transform</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.util.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.util</span></code></a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-skimage.registration">
+<span id="skimage-registration"></span><h1><a class="reference internal" href="#module-skimage.registration" title="skimage.registration"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.registration</span></code></a><a class="headerlink" href="#module-skimage.registration" title="Link to this heading">#</a></h1>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.registration.optical_flow_ilk" title="skimage.registration.optical_flow_ilk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.registration.optical_flow_ilk</span></code></a></p></td>
+<td><p>Coarse to fine optical flow estimator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.registration.optical_flow_tvl1" title="skimage.registration.optical_flow_tvl1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.registration.optical_flow_tvl1</span></code></a></p></td>
+<td><p>Coarse to fine optical flow estimator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.registration.phase_cross_correlation" title="skimage.registration.phase_cross_correlation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code></a></p></td>
+<td><p>Efficient subpixel image translation registration by cross-correlation.</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.registration.optical_flow_ilk">
+<span class="sig-prename descclassname"><span class="pre">skimage.registration.</span></span><span class="sig-name descname"><span class="pre">optical_flow_ilk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius=7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_warp=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefilter=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.22.0/skimage/registration/_optical_flow.py#L310-L384"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.registration.optical_flow_ilk" title="Link to this definition">#</a></dt>
+<dd><p>Coarse to fine optical flow estimator.</p>
+<p>The iterative Lucas-Kanade (iLK) solver is applied at each level
+of the image pyramid. iLK <a class="reference internal" href="#r8ab46b4fab1c-1" id="id1">[1]</a> is a fast and robust alternative to
+TVL1 algorithm although less accurate for rendering flat surfaces
+and object boundaries (see <a class="reference internal" href="#r8ab46b4fab1c-2" id="id2">[2]</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>reference_image</strong><span class="classifier">ndarray, shape (M, N[, P[, …]])</span></dt><dd><p>The first gray scale image of the sequence.</p>
+</dd>
+<dt><strong>moving_image</strong><span class="classifier">ndarray, shape (M, N[, P[, …]])</span></dt><dd><p>The second gray scale image of the sequence.</p>
+</dd>
+<dt><strong>radius</strong><span class="classifier">int, optional</span></dt><dd><p>Radius of the window considered around each pixel.</p>
+</dd>
+<dt><strong>num_warp</strong><span class="classifier">int, optional</span></dt><dd><p>Number of times moving_image is warped.</p>
+</dd>
+<dt><strong>gaussian</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, a Gaussian kernel is used for the local
+integration. Otherwise, a uniform kernel is used.</p>
+</dd>
+<dt><strong>prefilter</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to prefilter the estimated optical flow before each
+image warp. When True, a median filter with window size 3
+along each axis is applied. This helps to remove potential
+outliers.</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">dtype, optional</span></dt><dd><p>Output data type: must be floating point. Single precision
+provides good results and saves memory usage and computation
+time compared to double precision.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>flow</strong><span class="classifier">ndarray, shape ((reference_image.ndim, M, N[, P[, …]])</span></dt><dd><p>The estimated optical flow components for each axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The implemented algorithm is described in <strong>Table2</strong> of <a class="reference internal" href="#r8ab46b4fab1c-1" id="id3">[1]</a>.</p></li>
+<li><p>Color images are not supported.</p></li>
+</ul>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r8ab46b4fab1c-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
+<p>Le Besnerais, G., &amp; Champagnat, F. (2005, September). Dense
+optical flow by iterative local window registration. In IEEE
+International Conference on Image Processing 2005 (Vol. 1,
+pp. I-137). IEEE. <a class="reference external" href="https://doi.org/10.1109/ICIP.2005.1529706">DOI:10.1109/ICIP.2005.1529706</a></p>
+</div>
+<div class="citation" id="r8ab46b4fab1c-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Plyer, A., Le Besnerais, G., &amp; Champagnat,
+F. (2016). Massively parallel Lucas Kanade optical flow for
+real-time video processing applications. Journal of Real-Time
+Image Processing, 11(4), 713-730. <a class="reference external" href="https://doi.org/10.1007/s11554-014-0423-0">DOI:10.1007/s11554-014-0423-0</a></p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="kn">import</span> <span class="n">stereo_motorcycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.registration</span> <span class="kn">import</span> <span class="n">optical_flow_ilk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_image</span><span class="p">,</span> <span class="n">moving_image</span><span class="p">,</span> <span class="n">disp</span> <span class="o">=</span> <span class="n">stereo_motorcycle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># --- Convert the images to gray level: color is not supported.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reference_image</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">reference_image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">moving_image</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">moving_image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">flow</span> <span class="o">=</span> <span class="n">optical_flow_ilk</span><span class="p">(</span><span class="n">moving_image</span><span class="p">,</span> <span class="n">reference_image</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Demonstration of image registration using optical flow."><img alt="" src="../_images/sphx_glr_plot_opticalflow_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_opticalflow.html#sphx-glr-auto-examples-registration-plot-opticalflow-py"><span class="std std-ref">Registration using optical flow</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Registration using optical flow</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.registration.optical_flow_tvl1">
+<span class="sig-prename descclassname"><span class="pre">skimage.registration.</span></span><span class="sig-name descname"><span class="pre">optical_flow_tvl1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attachment=15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tightness=0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_warp=5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_iter=10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol=0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefilter=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.22.0/skimage/registration/_optical_flow.py#L143-L228"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.registration.optical_flow_tvl1" title="Link to this definition">#</a></dt>
+<dd><p>Coarse to fine optical flow estimator.</p>
+<p>The TV-L1 solver is applied at each level of the image
+pyramid. TV-L1 is a popular algorithm for optical flow estimation
+introduced by Zack et al. <a class="reference internal" href="#rda1bf5cbeff5-1" id="id6">[1]</a>, improved in <a class="reference internal" href="#rda1bf5cbeff5-2" id="id7">[2]</a> and detailed in <a class="reference internal" href="#rda1bf5cbeff5-3" id="id8">[3]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>reference_image</strong><span class="classifier">ndarray, shape (M, N[, P[, …]])</span></dt><dd><p>The first gray scale image of the sequence.</p>
+</dd>
+<dt><strong>moving_image</strong><span class="classifier">ndarray, shape (M, N[, P[, …]])</span></dt><dd><p>The second gray scale image of the sequence.</p>
+</dd>
+<dt><strong>attachment</strong><span class="classifier">float, optional</span></dt><dd><p>Attachment parameter (<span class="math notranslate nohighlight">\(\lambda\)</span> in <a class="reference internal" href="#rda1bf5cbeff5-1" id="id9">[1]</a>). The smaller
+this parameter is, the smoother the returned result will be.</p>
+</dd>
+<dt><strong>tightness</strong><span class="classifier">float, optional</span></dt><dd><p>Tightness parameter (<span class="math notranslate nohighlight">\(\tau\)</span> in <a class="reference internal" href="#rda1bf5cbeff5-1" id="id10">[1]</a>). It should have
+a small value in order to maintain attachment and
+regularization parts in correspondence.</p>
+</dd>
+<dt><strong>num_warp</strong><span class="classifier">int, optional</span></dt><dd><p>Number of times moving_image is warped.</p>
+</dd>
+<dt><strong>num_iter</strong><span class="classifier">int, optional</span></dt><dd><p>Number of fixed point iteration.</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, optional</span></dt><dd><p>Tolerance used as stopping criterion based on the L² distance
+between two consecutive values of (u, v).</p>
+</dd>
+<dt><strong>prefilter</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to prefilter the estimated optical flow before each
+image warp. When True, a median filter with window size 3
+along each axis is applied. This helps to remove potential
+outliers.</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">dtype, optional</span></dt><dd><p>Output data type: must be floating point. Single precision
+provides good results and saves memory usage and computation
+time compared to double precision.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>flow</strong><span class="classifier">ndarray, shape ((image0.ndim, M, N[, P[, …]])</span></dt><dd><p>The estimated optical flow components for each axis.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Color images are not supported.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rda1bf5cbeff5-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id6">1</a>,<a role="doc-backlink" href="#id9">2</a>,<a role="doc-backlink" href="#id10">3</a>)</span>
+<p>Zach, C., Pock, T., &amp; Bischof, H. (2007, September). A
+duality based approach for realtime TV-L 1 optical flow. In Joint
+pattern recognition symposium (pp. 214-223). Springer, Berlin,
+Heidelberg. <a class="reference external" href="https://doi.org/10.1007/978-3-540-74936-3_22">DOI:10.1007/978-3-540-74936-3_22</a></p>
+</div>
+<div class="citation" id="rda1bf5cbeff5-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">2</a><span class="fn-bracket">]</span></span>
+<p>Wedel, A., Pock, T., Zach, C., Bischof, H., &amp; Cremers,
+D. (2009). An improved algorithm for TV-L 1 optical flow. In
+Statistical and geometrical approaches to visual motion analysis
+(pp. 23-45). Springer, Berlin, Heidelberg.
+<a class="reference external" href="https://doi.org/10.1007/978-3-642-03061-1_2">DOI:10.1007/978-3-642-03061-1_2</a></p>
+</div>
+<div class="citation" id="rda1bf5cbeff5-3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">3</a><span class="fn-bracket">]</span></span>
+<p>Pérez, J. S., Meinhardt-Llopis, E., &amp; Facciolo,
+G. (2013). TV-L1 optical flow estimation. Image Processing On
+Line, 2013, 137-150. <a class="reference external" href="https://doi.org/10.5201/ipol.2013.26">DOI:10.5201/ipol.2013.26</a></p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="kn">import</span> <span class="n">stereo_motorcycle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.registration</span> <span class="kn">import</span> <span class="n">optical_flow_tvl1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image0</span><span class="p">,</span> <span class="n">image1</span><span class="p">,</span> <span class="n">disp</span> <span class="o">=</span> <span class="n">stereo_motorcycle</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># --- Convert the images to gray level: color is not supported.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image0</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">image0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image1</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">image1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">flow</span> <span class="o">=</span> <span class="n">optical_flow_tvl1</span><span class="p">(</span><span class="n">image1</span><span class="p">,</span> <span class="n">image0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Demonstration of image registration using optical flow."><img alt="" src="../_images/sphx_glr_plot_opticalflow_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_opticalflow.html#sphx-glr-auto-examples-registration-plot-opticalflow-py"><span class="std std-ref">Registration using optical flow</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Registration using optical flow</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.registration.phase_cross_correlation">
+<span class="sig-prename descclassname"><span class="pre">skimage.registration.</span></span><span class="sig-name descname"><span class="pre">phase_cross_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upsample_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'real'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disambiguate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'phase'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.22.0/skimage/registration/_phase_cross_correlation.py#L184-L396"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.registration.phase_cross_correlation" title="Link to this definition">#</a></dt>
+<dd><p>Efficient subpixel image translation registration by cross-correlation.</p>
+<p>This code gives the same precision as the FFT upsampled cross-correlation
+in a fraction of the computation time and with reduced memory requirements.
+It obtains an initial estimate of the cross-correlation peak by an FFT and
+then refines the shift estimation by upsampling the DFT only in a small
+neighborhood of that estimate by means of a matrix-multiply DFT <a class="reference internal" href="#r065f4156fcfd-1" id="id14">[1]</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>reference_image</strong><span class="classifier">array</span></dt><dd><p>Reference image.</p>
+</dd>
+<dt><strong>moving_image</strong><span class="classifier">array</span></dt><dd><p>Image to register. Must be same dimensionality as
+<code class="docutils literal notranslate"><span class="pre">reference_image</span></code>.</p>
+</dd>
+<dt><strong>upsample_factor</strong><span class="classifier">int, optional</span></dt><dd><p>Upsampling factor. Images will be registered to within
+<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">/</span> <span class="pre">upsample_factor</span></code> of a pixel. For example
+<code class="docutils literal notranslate"><span class="pre">upsample_factor</span> <span class="pre">==</span> <span class="pre">20</span></code> means the images will be registered
+within 1/20th of a pixel. Default is 1 (no upsampling).
+Not used if any of <code class="docutils literal notranslate"><span class="pre">reference_mask</span></code> or <code class="docutils literal notranslate"><span class="pre">moving_mask</span></code> is not None.</p>
+</dd>
+<dt><strong>space</strong><span class="classifier">string, one of “real” or “fourier”, optional</span></dt><dd><p>Defines how the algorithm interprets input data. “real” means
+data will be FFT’d to compute the correlation, while “fourier”
+data will bypass FFT of input data. Case insensitive. Not
+used if any of <code class="docutils literal notranslate"><span class="pre">reference_mask</span></code> or <code class="docutils literal notranslate"><span class="pre">moving_mask</span></code> is not
+None.</p>
+</dd>
+<dt><strong>disambiguate</strong><span class="classifier">bool</span></dt><dd><p>The shift returned by this function is only accurate <em>modulo</em> the
+image shape, due to the periodic nature of the Fourier transform. If
+this parameter is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the <em>real</em> space cross-correlation
+is computed for each possible shift, and the shift with the highest
+cross-correlation within the overlapping area is returned.</p>
+</dd>
+<dt><strong>reference_mask</strong><span class="classifier">ndarray</span></dt><dd><p>Boolean mask for <code class="docutils literal notranslate"><span class="pre">reference_image</span></code>. The mask should evaluate
+to <code class="docutils literal notranslate"><span class="pre">True</span></code> (or 1) on valid pixels. <code class="docutils literal notranslate"><span class="pre">reference_mask</span></code> should
+have the same shape as <code class="docutils literal notranslate"><span class="pre">reference_image</span></code>.</p>
+</dd>
+<dt><strong>moving_mask</strong><span class="classifier">ndarray or None, optional</span></dt><dd><p>Boolean mask for <code class="docutils literal notranslate"><span class="pre">moving_image</span></code>. The mask should evaluate to <code class="docutils literal notranslate"><span class="pre">True</span></code>
+(or 1) on valid pixels. <code class="docutils literal notranslate"><span class="pre">moving_mask</span></code> should have the same shape
+as <code class="docutils literal notranslate"><span class="pre">moving_image</span></code>. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">reference_mask</span></code> will be used.</p>
+</dd>
+<dt><strong>overlap_ratio</strong><span class="classifier">float, optional</span></dt><dd><p>Minimum allowed overlap ratio between images. The correlation for
+translations corresponding with an overlap ratio lower than this
+threshold will be ignored. A lower <em class="xref py py-obj">overlap_ratio</em> leads to smaller
+maximum translation, while a higher <em class="xref py py-obj">overlap_ratio</em> leads to greater
+robustness against spurious matches due to small overlap between
+masked images. Used only if one of <code class="docutils literal notranslate"><span class="pre">reference_mask</span></code> or
+<code class="docutils literal notranslate"><span class="pre">moving_mask</span></code> is not None.</p>
+</dd>
+<dt><strong>normalization</strong><span class="classifier">{“phase”, None}</span></dt><dd><p>The type of normalization to apply to the cross-correlation. This
+parameter is unused when masks (<em class="xref py py-obj">reference_mask</em> and <em class="xref py py-obj">moving_mask</em>) are
+supplied.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>shift</strong><span class="classifier">ndarray</span></dt><dd><p>Shift vector (in pixels) required to register <code class="docutils literal notranslate"><span class="pre">moving_image</span></code>
+with <code class="docutils literal notranslate"><span class="pre">reference_image</span></code>. Axis ordering is consistent with
+the axis order of the input array.</p>
+</dd>
+<dt><strong>error</strong><span class="classifier">float</span></dt><dd><p>Translation invariant normalized RMS error between
+<code class="docutils literal notranslate"><span class="pre">reference_image</span></code> and <code class="docutils literal notranslate"><span class="pre">moving_image</span></code>. For masked cross-correlation
+this error is not available and NaN is returned.</p>
+</dd>
+<dt><strong>phasediff</strong><span class="classifier">float</span></dt><dd><p>Global phase difference between the two images (should be
+zero if images are non-negative). For masked cross-correlation
+this phase difference is not available and NaN is returned.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The use of cross-correlation to estimate image translation has a long
+history dating back to at least <a class="reference internal" href="#r065f4156fcfd-2" id="id15">[2]</a>. The “phase correlation”
+method (selected by <code class="docutils literal notranslate"><span class="pre">normalization=&quot;phase&quot;</span></code>) was first proposed in <a class="reference internal" href="#r065f4156fcfd-3" id="id16">[3]</a>.
+Publications <a class="reference internal" href="#r065f4156fcfd-1" id="id17">[1]</a> and <a class="reference internal" href="#r065f4156fcfd-2" id="id18">[2]</a> use an unnormalized cross-correlation
+(<code class="docutils literal notranslate"><span class="pre">normalization=None</span></code>). Which form of normalization is better is
+application-dependent. For example, the phase correlation method works
+well in registering images under different illumination, but is not very
+robust to noise. In a high noise scenario, the unnormalized method may be
+preferable.</p>
+<p>When masks are provided, a masked normalized cross-correlation algorithm is
+used <a class="reference internal" href="#r065f4156fcfd-5" id="id19">[5]</a>, <a class="reference internal" href="#r065f4156fcfd-6" id="id20">[6]</a>.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r065f4156fcfd-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id14">1</a>,<a role="doc-backlink" href="#id17">2</a>)</span>
+<p>Manuel Guizar-Sicairos, Samuel T. Thurman, and James R. Fienup,
+“Efficient subpixel image registration algorithms,”
+Optics Letters 33, 156-158 (2008). <a class="reference external" href="https://doi.org/10.1364/OL.33.000156">DOI:10.1364/OL.33.000156</a></p>
+</div>
+<div class="citation" id="r065f4156fcfd-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id15">1</a>,<a role="doc-backlink" href="#id18">2</a>)</span>
+<p>P. Anuta, Spatial registration of multispectral and multitemporal
+digital imagery using fast Fourier transform techniques, IEEE Trans.
+Geosci. Electron., vol. 8, no. 4, pp. 353–368, Oct. 1970.
+<a class="reference external" href="https://doi.org/10.1109/TGE.1970.271435">DOI:10.1109/TGE.1970.271435</a>.</p>
+</div>
+<div class="citation" id="r065f4156fcfd-3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">3</a><span class="fn-bracket">]</span></span>
+<p>C. D. Kuglin D. C. Hines. The phase correlation image alignment
+method, Proceeding of IEEE International Conference on Cybernetics
+and Society, pp. 163-165, New York, NY, USA, 1975, pp. 163–165.</p>
+</div>
+<div class="citation" id="r065f4156fcfd-4" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<p>James R. Fienup, “Invariant error metrics for image reconstruction”
+Optics Letters 36, 8352-8357 (1997). <a class="reference external" href="https://doi.org/10.1364/AO.36.008352">DOI:10.1364/AO.36.008352</a></p>
+</div>
+<div class="citation" id="r065f4156fcfd-5" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">5</a><span class="fn-bracket">]</span></span>
+<p>Dirk Padfield. Masked Object Registration in the Fourier Domain.
+IEEE Transactions on Image Processing, vol. 21(5),
+pp. 2706-2718 (2012). <a class="reference external" href="https://doi.org/10.1109/TIP.2011.2181402">DOI:10.1109/TIP.2011.2181402</a></p>
+</div>
+<div class="citation" id="r065f4156fcfd-6" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id20">6</a><span class="fn-bracket">]</span></span>
+<p>D. Padfield. “Masked FFT registration”. In Proc. Computer Vision and
+Pattern Recognition, pp. 2918-2925 (2010).
+<a class="reference external" href="https://doi.org/10.1109/CVPR.2010.5540032">DOI:10.1109/CVPR.2010.5540032</a></p>
+</div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="In this example, we use phase cross-correlation to identify the relative shift between two simi..."><img alt="" src="../_images/sphx_glr_plot_register_translation_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_register_translation.html#sphx-glr-auto-examples-registration-plot-register-translation-py"><span class="std std-ref">Image Registration</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Image Registration</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we use the masked normalized cross-correlation to identify the relative shift ..."><img alt="" src="../_images/sphx_glr_plot_masked_register_translation_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_masked_register_translation.html#sphx-glr-auto-examples-registration-plot-masked-register-translation-py"><span class="std std-ref">Masked Normalized Cross-Correlation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Masked Normalized Cross-Correlation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Phase correlation (``registration.phase_cross_correlation``) is an efficient method for determi..."><img alt="" src="../_images/sphx_glr_plot_register_rotation_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_register_rotation.html#sphx-glr-auto-examples-registration-plot-register-rotation-py"><span class="std std-ref">Using Polar and Log-Polar Transformations for Registration</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Using Polar and Log-Polar Transformations for Registration</div>
+</div></div></dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.registration.optical_flow_ilk"><code class="docutils literal notranslate"><span class="pre">optical_flow_ilk()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.registration.optical_flow_tvl1"><code class="docutils literal notranslate"><span class="pre">optical_flow_tvl1()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.registration.phase_cross_correlation"><code class="docutils literal notranslate"><span class="pre">phase_cross_correlation()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/skimage.registration.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2013-2023, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
