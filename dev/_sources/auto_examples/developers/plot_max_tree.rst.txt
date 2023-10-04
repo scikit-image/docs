@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_developers_plot_max_tree.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_developers_plot_max_tree.py>`
         to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
@@ -81,7 +81,7 @@ References
 
 Before we start : a few helper functions
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-174
+.. GENERATED FROM PYTHON SOURCE LINES 52-173
 
 .. code-block:: default
 
@@ -117,7 +117,7 @@ Before we start : a few helper functions
         preds = [p for p in G.predecessors(node)]
         for p in preds:
             if (G.nodes[p]['value'] == value):
-                res[node] += ', %i' % p
+                res[node] += f", {p}"
                 G.remove_node(p)
             else:
                 prune(G, p, res)
@@ -197,10 +197,9 @@ Before we start : a few helper functions
         nx.draw_networkx(graph, pos=positions, ax=ax,
                          node_size=40, node_shape='s', node_color='white',
                          font_size=font_size, labels=labels)
-        xlimit = ax.get_xlim()
         for v in range(image_rav.min(), image_rav.max() + 1):
             ax.hlines(v - 0.5, -3, 10, linestyles='dotted')
-            ax.text(-3, v - 0.15, "val: %i" % v, fontsize=text_size)
+            ax.text(-3, v - 0.15, f"val: {v}", fontsize=text_size)
         ax.hlines(v + 0.5, -3, 10, linestyles='dotted')
         ax.set_xlim(-3, 10)
         ax.set_title(title)
@@ -214,7 +213,7 @@ Before we start : a few helper functions
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 175-180
+.. GENERATED FROM PYTHON SOURCE LINES 174-179
 
 Image Definition
 ================
@@ -222,7 +221,7 @@ We define a small test image.
 For clarity, we choose an example image, where image values cannot be
 confounded with indices (different range).
 
-.. GENERATED FROM PYTHON SOURCE LINES 180-187
+.. GENERATED FROM PYTHON SOURCE LINES 179-186
 
 .. code-block:: default
 
@@ -240,14 +239,14 @@ confounded with indices (different range).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 188-192
+.. GENERATED FROM PYTHON SOURCE LINES 187-191
 
 Max-tree
 ========
 Next, we calculate the max-tree of this image.
 max-tree of the image
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-197
+.. GENERATED FROM PYTHON SOURCE LINES 191-196
 
 .. code-block:: default
 
@@ -263,7 +262,7 @@ max-tree of the image
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 198-205
+.. GENERATED FROM PYTHON SOURCE LINES 197-204
 
 Image plots
 ===========
@@ -273,7 +272,7 @@ Concretely, we plot the image with the following overlays:
 - the raveled indices (serve as pixel identifiers)
 - the output of the max_tree function
 
-.. GENERATED FROM PYTHON SOURCE LINES 205-222
+.. GENERATED FROM PYTHON SOURCE LINES 204-221
 
 .. code-block:: default
 
@@ -306,7 +305,7 @@ Concretely, we plot the image with the following overlays:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 223-229
+.. GENERATED FROM PYTHON SOURCE LINES 222-228
 
 Visualizing threshold operations
 ================================
@@ -315,7 +314,7 @@ The component tree (and max-tree) provide representations of the
 inclusion relationships between connected components at different
 levels.
 
-.. GENERATED FROM PYTHON SOURCE LINES 229-237
+.. GENERATED FROM PYTHON SOURCE LINES 228-236
 
 .. code-block:: default
 
@@ -323,7 +322,7 @@ levels.
     thresholds = np.unique(image)
     for k, threshold in enumerate(thresholds):
         bin_img = image >= threshold
-        plot_img(axes[(k // 3), (k % 3)], bin_img, 'Threshold : %i' % threshold,
+        plot_img(axes[(k // 3), (k % 3)], bin_img, f"Threshold : {threshold}",
                  plot_text=True, image_values=raveled_indices)
 
 
@@ -339,7 +338,7 @@ levels.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 238-257
+.. GENERATED FROM PYTHON SOURCE LINES 237-256
 
 Max-tree plots
 ==============
@@ -361,7 +360,7 @@ a different encoding of the pixel sets.
    {6} -> {0,1,5} by {6} -> {5}, {1} -> {5}, {0} -> {5}
    This allows us to represent the graph by an image (top row, third column).
 
-.. GENERATED FROM PYTHON SOURCE LINES 257-294
+.. GENERATED FROM PYTHON SOURCE LINES 256-293
 
 .. code-block:: default
 
@@ -417,7 +416,7 @@ a different encoding of the pixel sets.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.039 seconds)
+   **Total running time of the script:** (0 minutes 1.718 seconds)
 
 
 .. _sphx_glr_download_auto_examples_developers_plot_max_tree.py:
@@ -433,6 +432,8 @@ a different encoding of the pixel sets.
         :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/developers/plot_max_tree.ipynb
         :alt: Launch binder
         :width: 150 px
+
+
 
     .. container:: sphx-glr-download sphx-glr-download-python
 

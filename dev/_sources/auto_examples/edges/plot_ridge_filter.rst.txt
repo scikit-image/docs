@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_edges_plot_ridge_filter.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_edges_plot_ridge_filter.py>`
         to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
@@ -31,9 +31,6 @@ e.g., depending on contrast or noise level.
 The present class of ridge filters relies on the eigenvalues of
 the Hessian matrix of image intensities to detect ridge structures where the
 intensity changes perpendicular but not along the structure.
-
-Note that, due to edge effects, results for Meijering and Frangi filters
-are cropped by 4 pixels on each edge to get a proper rendering.
 
 References
 ----------
@@ -61,12 +58,12 @@ References
        Computer Vision (pp. 609-622). Springer International Publishing.
        :DOI:`10.1007/978-3-319-16811-1_40`
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-79
+.. GENERATED FROM PYTHON SOURCE LINES 42-85
 
 
 
 .. image-sg:: /auto_examples/edges/images/sphx_glr_plot_ridge_filter_001.png
-   :alt: Original image, Meijering neuriteness, Sato tubeness, Frangi vesselness, Hessian vesselness
+   :alt: original, meijering σ = [1], meijering σ = [1, 2, 3, 4], sato σ = [1], sato σ = [1, 2, 3, 4], frangi σ = [1], frangi σ = [1, 2, 3, 4], hessian σ = [1], hessian σ = [1, 2, 3, 4]
    :srcset: /auto_examples/edges/images/sphx_glr_plot_ridge_filter_001.png
    :class: sphx-glr-single-img
 
@@ -83,7 +80,7 @@ References
     import matplotlib.pyplot as plt
 
 
-    def identity(image, **kwargs):
+    def original(image, **kwargs):
         """Return the original image, ignoring any kwargs."""
         return image
 
@@ -91,20 +88,29 @@ References
     image = color.rgb2gray(data.retina())[300:700, 700:900]
     cmap = plt.cm.gray
 
-    kwargs = {'sigmas': [1], 'mode': 'reflect'}
-
-    fig, axes = plt.subplots(2, 5)
-    for i, black_ridges in enumerate([1, 0]):
-        for j, func in enumerate([identity, meijering, sato, frangi, hessian]):
-            kwargs['black_ridges'] = black_ridges
-            result = func(image, **kwargs)
-            axes[i, j].imshow(result, cmap=cmap, aspect='auto')
+    plt.rcParams["axes.titlesize"] = "medium"
+    axes = plt.figure(figsize=(10, 4)).subplots(2, 9)
+    for i, black_ridges in enumerate([True, False]):
+        for j, (func, sigmas) in enumerate([
+                (original, None),
+                (meijering, [1]),
+                (meijering, range(1, 5)),
+                (sato, [1]),
+                (sato, range(1, 5)),
+                (frangi, [1]),
+                (frangi, range(1, 5)),
+                (hessian, [1]),
+                (hessian, range(1, 5)),
+        ]):
+            result = func(image, black_ridges=black_ridges, sigmas=sigmas)
+            axes[i, j].imshow(result, cmap=cmap)
             if i == 0:
-                axes[i, j].set_title(['Original\nimage', 'Meijering\nneuriteness',
-                                      'Sato\ntubeness', 'Frangi\nvesselness',
-                                      'Hessian\nvesselness'][j])
+                title = func.__name__
+                if sigmas:
+                    title += f"\n\N{GREEK SMALL LETTER SIGMA} = {list(sigmas)}"
+                axes[i, j].set_title(title)
             if j == 0:
-                axes[i, j].set_ylabel('black_ridges = ' + str(bool(black_ridges)))
+                axes[i, j].set_ylabel(f'{black_ridges = }')
             axes[i, j].set_xticks([])
             axes[i, j].set_yticks([])
 
@@ -114,7 +120,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.024 seconds)
+   **Total running time of the script:** (0 minutes 3.174 seconds)
 
 
 .. _sphx_glr_download_auto_examples_edges_plot_ridge_filter.py:
@@ -130,6 +136,8 @@ References
         :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/edges/plot_ridge_filter.ipynb
         :alt: Launch binder
         :width: 150 px
+
+
 
     .. container:: sphx-glr-download sphx-glr-download-python
 

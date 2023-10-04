@@ -24,7 +24,6 @@ Inner porosities are represented in red.
 
 .. [1] https://en.wikipedia.org/wiki/Euler_characteristic
 """
-from mpl_toolkits.mplot3d import Axes3D
 from skimage.measure import euler_number, label
 import matplotlib.pyplot as plt
 import numpy as np
@@ -70,8 +69,7 @@ plt.show()
 
 
 def make_ax(grid=False):
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    ax = plt.figure().add_subplot(projection='3d')
     ax.grid(grid)
     ax.set_axis_off()
     return ax

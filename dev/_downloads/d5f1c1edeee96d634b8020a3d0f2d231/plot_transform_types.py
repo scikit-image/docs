@@ -22,7 +22,6 @@ transformations, tutorial
 such transformations for various tasks such as image warping or parameter
 estimation.
 """
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -61,7 +60,7 @@ ax.imshow(tf_img)
 _ = ax.set_title('Euclidean transformation')
 
 ######################################################################
-# For a rotation around the center of the image, one can 
+# For a rotation around the center of the image, one can
 # compose a translation to change the origin, a rotation, and finally
 # the inverse of the first translation.
 

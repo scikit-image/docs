@@ -1,189 +1,541 @@
 
 <!DOCTYPE html>
-<html lang="en">
-<head>
-        <title>Module: metrics &mdash; skimage v0.20.0.dev0 docs</title><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link href="../_static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="../_static/css/custom.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/none" type="text/css" />
-        <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
-        <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
-    
-    <script src="https://code.jquery.com/jquery-latest.js"></script>
-    <script src="../_static/js/bootstrap.min.js"></script>
-    <script src="../_static/js/togglebutton.js"></script>
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.20.0.dev0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        LINK_SUFFIX: '.html',
-        SOURCELINK_SUFFIX: '.txt',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>skimage.metrics &#8212; skimage 0.23.0rc0.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../_static/documentation_options.js?v=2f174b2d"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <link rel="index" title="Index" href="../genindex.html" />
-        <link rel="search" title="Search" href="../search.html" />
-        <link rel="top" title="skimage v0.20.0.dev0 docs" href="../index.html" />
-        <link rel="up" title="API Reference for skimage 0.20.0.dev0" href="api.html" />
-        <link rel="next" title="Module: morphology" href="skimage.morphology.html" />
-        <link rel="prev" title="Module: measure" href="skimage.measure.html" />
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <link rel="shortcut icon" href="../_static/favicon.ico">
-    <!-- Plausible analytics -->
-    <script async defer data-domain="scikit-image.org" src="https://plausible.io/js/plausible.outbound-links.js"></script>
-</head>
-<body class="container">
-    <a href="https://scikit-image.org" class="logo"><img src="../_static/img/logo.png" alt=""></a>
-    <div class="clearfix"></div>
-    <div class="navbar">
-        <div class="navbar-inner">
-            <ul class="nav">
-                <li><a href="/docs/stable/install.html">Installation</a></li>
-<li><a href="../auto_examples/index.html">Gallery</a></li>
-<li><a href="../index.html">Documentation</a></li>
-<li><a href="/community_guidelines.html">Community</a></li>
-
-<li><a href="https://github.com/scikit-image/scikit-image">
-    <img src="../_static/GitHub-Mark-32px.png"
-        style="height: 15px; width: 15px;
-               display: inline; float: none;
-               padding-bottom: 3px;">
-    Source</a>
-</li>
-            </ul>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span3"><div style="padding-bottom: 3em">
-  <form class="navbar-form pull-right" action="../search.html" method="get">
-    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
-    <input type="hidden" name="check_keywords" value="yes" >
-    <input type="hidden" name="area" value="default" >
-  </form>
-</div><!-- 
-        <h4 class="sidebar-box-heading">Contents</h4>
-        <div class="well sidebar-box toc">
-            <ul class="nav nav-list">
-<li><a class="reference internal" href="#">Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">metrics</span></code></a><ul class="nav nav-list">
-<li><a class="reference internal" href="#adapted-rand-error">adapted_rand_error</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-adapted-rand-error">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.adapted_rand_error</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#contingency-table">contingency_table</a></li>
-<li><a class="reference internal" href="#hausdorff-distance">hausdorff_distance</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-hausdorff-distance">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#hausdorff-pair">hausdorff_pair</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-hausdorff-pair">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_pair</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#mean-squared-error">mean_squared_error</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-mean-squared-error">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.mean_squared_error</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#normalized-mutual-information">normalized_mutual_information</a></li>
-<li><a class="reference internal" href="#normalized-root-mse">normalized_root_mse</a></li>
-<li><a class="reference internal" href="#peak-signal-noise-ratio">peak_signal_noise_ratio</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-peak-signal-noise-ratio">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.peak_signal_noise_ratio</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#structural-similarity">structural_similarity</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-structural-similarity">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#variation-of-information">variation_of_information</a><ul class="nav nav-list">
-<li><a class="reference internal" href="#examples-using-skimage-metrics-variation-of-information">Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.variation_of_information</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-        </div>
-
-
- --><div class="well">
-    <strong>Docs for 0.20.0.dev0<br></strong>
-
-    <a id="other">All versions</a>
-
-    <ul id="versionList" style="display: none;">
-        <script src="../../dev/_static/docversions.js"></script>
-        <script type="text/javascript">
-            insert_version_links();
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/skimage.metrics';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.14.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
         </script>
-    </ul>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="skimage.morphology" href="skimage.morphology.html" />
+    <link rel="prev" title="skimage.measure" href="skimage.measure.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
- </div>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
 
-<script type="text/javascript">
-	$("#other").click(function() {
-		$("#versionList").toggle();
-	});
-</script>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
         </div>
-        <div class="span9" class="body" role="main">
-            
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../release_notes/index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="versionswitcherbutton" type="button" role="button" class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="listbox" aria-controls="versionswitcherlist" aria-label="Version switcher list">
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="versionswitcherlist" class="version-switcher__menu dropdown-menu list-group-flush py-0" role="listbox" aria-labelledby="versionswitcherbutton">
+    <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="skimage.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.color.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.color</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.data.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.data</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.draw.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.draw</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.exposure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.exposure</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.feature.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.feature</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.rank.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters.rank</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.future.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.future</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.graph.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.graph</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.io.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.io</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.measure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.measure</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.metrics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.morphology.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.registration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.registration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.restoration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.restoration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.segmentation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.segmentation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.transform</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.util.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.util</span></code></a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section id="module-skimage.metrics">
-<span id="module-metrics"></span><h1>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">metrics</span></code><a class="headerlink" href="#module-skimage.metrics" title="Permalink to this heading">¶</a></h1>
-<table class="autosummary longtable docutils align-default">
+<span id="skimage-metrics"></span><h1><a class="reference internal" href="#module-skimage.metrics" title="skimage.metrics"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.metrics</span></code></a><a class="headerlink" href="#module-skimage.metrics" title="Link to this heading">#</a></h1>
+<table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.adapted_rand_error" title="skimage.metrics.adapted_rand_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.adapted_rand_error</span></code></a>([...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.adapted_rand_error" title="skimage.metrics.adapted_rand_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.adapted_rand_error</span></code></a></p></td>
 <td><p>Compute Adapted Rand error as defined by the SNEMI3D contest.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.contingency_table" title="skimage.metrics.contingency_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.contingency_table</span></code></a>(im_true, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.contingency_table" title="skimage.metrics.contingency_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.contingency_table</span></code></a></p></td>
 <td><p>Return the contingency table for all regions in matched segmentations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.hausdorff_distance" title="skimage.metrics.hausdorff_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code></a>(image0, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.hausdorff_distance" title="skimage.metrics.hausdorff_distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code></a></p></td>
 <td><p>Calculate the Hausdorff distance between nonzero elements of given images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.hausdorff_pair" title="skimage.metrics.hausdorff_pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_pair</span></code></a>(image0, image1)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.hausdorff_pair" title="skimage.metrics.hausdorff_pair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_pair</span></code></a></p></td>
 <td><p>Returns pair of points that are Hausdorff distance apart between nonzero elements of given images.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.mean_squared_error" title="skimage.metrics.mean_squared_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.mean_squared_error</span></code></a>(image0, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.mean_squared_error" title="skimage.metrics.mean_squared_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.mean_squared_error</span></code></a></p></td>
 <td><p>Compute the mean-squared error between two images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.normalized_mutual_information" title="skimage.metrics.normalized_mutual_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.normalized_mutual_information</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.normalized_mutual_information" title="skimage.metrics.normalized_mutual_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.normalized_mutual_information</span></code></a></p></td>
 <td><p>Compute the normalized mutual information (NMI).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.normalized_root_mse" title="skimage.metrics.normalized_root_mse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.normalized_root_mse</span></code></a>(...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.normalized_root_mse" title="skimage.metrics.normalized_root_mse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.normalized_root_mse</span></code></a></p></td>
 <td><p>Compute the normalized root mean-squared error (NRMSE) between two images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.peak_signal_noise_ratio" title="skimage.metrics.peak_signal_noise_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.peak_signal_noise_ratio</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.peak_signal_noise_ratio" title="skimage.metrics.peak_signal_noise_ratio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.peak_signal_noise_ratio</span></code></a></p></td>
 <td><p>Compute the peak signal to noise ratio (PSNR) for an image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.structural_similarity" title="skimage.metrics.structural_similarity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code></a>(im1, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.metrics.structural_similarity" title="skimage.metrics.structural_similarity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code></a></p></td>
 <td><p>Compute the mean structural similarity index between two images.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.variation_of_information" title="skimage.metrics.variation_of_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.variation_of_information</span></code></a>([...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.metrics.variation_of_information" title="skimage.metrics.variation_of_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.metrics.variation_of_information</span></code></a></p></td>
 <td><p>Return symmetric conditional entropies associated with the VI.</p></td>
 </tr>
 </tbody>
 </table>
-<section id="adapted-rand-error">
-<h2>adapted_rand_error<a class="headerlink" href="#adapted-rand-error" title="Permalink to this heading">¶</a></h2>
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.adapted_rand_error">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">adapted_rand_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_adapted_rand_error.py#L7-L97"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.adapted_rand_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">adapted_rand_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_adapted_rand_error.py#L7-L97"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.adapted_rand_error" title="Link to this definition">#</a></dt>
 <dd><p>Compute Adapted Rand error as defined by the SNEMI3D contest. <a class="reference internal" href="#rc4bf0a102856-1" id="id1">[1]</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -242,20 +594,15 @@ for connectomics. Front. Neuroanat. 9:142.
 <a class="reference external" href="https://doi.org/10.3389/fnana.2015.00142">DOI:10.3389/fnana.2015.00142</a></p>
 </div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-adapted-rand-error">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.adapted_rand_error</span></code><a class="headerlink" href="#examples-using-skimage-metrics-adapted-rand-error" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When trying out different segmentation methods, how do you know which one is best? If you have ..."><img alt="Evaluating segmentation metrics" src="../_images/sphx_glr_plot_metrics_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When trying out different segmentation methods, how do you know which one is best? If you have ..."><img alt="" src="../_images/sphx_glr_plot_metrics_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_metrics.html#sphx-glr-auto-examples-segmentation-plot-metrics-py"><span class="std std-ref">Evaluating segmentation metrics</span></a></p>
   <div class="sphx-glr-thumbnail-title">Evaluating segmentation metrics</div>
-</div></div></section>
-</section>
-<section id="contingency-table">
-<h2>contingency_table<a class="headerlink" href="#contingency-table" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.contingency_table">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">contingency_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_contingency_table.py#L7-L39"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.contingency_table" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">contingency_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_contingency_table.py#L7-L39"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.contingency_table" title="Link to this definition">#</a></dt>
 <dd><p>Return the contingency table for all regions in matched segmentations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -281,12 +628,10 @@ labeled <em class="xref py py-obj">i</em> in <em class="xref py py-obj">im_true<
 </dl>
 </dd></dl>
 
-</section>
-<section id="hausdorff-distance">
-<h2>hausdorff_distance<a class="headerlink" href="#hausdorff-distance" title="Permalink to this heading">¶</a></h2>
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.hausdorff_distance">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">hausdorff_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'standard'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/set_metrics.py#L7-L79"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.hausdorff_distance" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">hausdorff_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'standard'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/set_metrics.py#L7-L79"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.hausdorff_distance" title="Link to this definition">#</a></dt>
 <dd><p>Calculate the Hausdorff distance between nonzero elements of given images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -303,7 +648,7 @@ is the modified Hausdorff distance.</p>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
 <dt><strong>distance</strong><span class="classifier">float</span></dt><dd><p>The Hausdorff distance between coordinates of nonzero pixels in
-<code class="docutils literal notranslate"><span class="pre">image0</span></code> and <code class="docutils literal notranslate"><span class="pre">image1</span></code>, using the Euclidian distance.</p>
+<code class="docutils literal notranslate"><span class="pre">image0</span></code> and <code class="docutils literal notranslate"><span class="pre">image1</span></code>, using the Euclidean distance.</p>
 </dd>
 </dl>
 </dd>
@@ -341,20 +686,15 @@ matching. In ICPR94, pages A:566-568, Jerusalem, Israel, 1994.
 <span class="go">3.0</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-hausdorff-distance">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_distance</span></code><a class="headerlink" href="#examples-using-skimage-metrics-hausdorff-distance" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to calculate the Hausdorff distance between two sets of points. The `Hau..."><img alt="Hausdorff Distance" src="../_images/sphx_glr_plot_hausdorff_distance_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to calculate the Hausdorff distance between two sets of points. The Haus..."><img alt="" src="../_images/sphx_glr_plot_hausdorff_distance_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_hausdorff_distance.html#sphx-glr-auto-examples-segmentation-plot-hausdorff-distance-py"><span class="std std-ref">Hausdorff Distance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Hausdorff Distance</div>
-</div></div></section>
-</section>
-<section id="hausdorff-pair">
-<h2>hausdorff_pair<a class="headerlink" href="#hausdorff-pair" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.hausdorff_pair">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">hausdorff_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/set_metrics.py#L82-L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.hausdorff_pair" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">hausdorff_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/set_metrics.py#L82-L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.hausdorff_pair" title="Link to this definition">#</a></dt>
 <dd><p>Returns pair of points that are Hausdorff distance apart between nonzero
 elements of given images.</p>
 <p>The Hausdorff distance <a class="reference internal" href="#r2cceaca5e9c9-1" id="id7">[1]</a> is the maximum distance between any point on
@@ -393,20 +733,15 @@ set of points. Both arrays must have the same shape.</p>
 <span class="go">(array([3, 0]), array([6, 0]))</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-hausdorff-pair">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_pair</span></code><a class="headerlink" href="#examples-using-skimage-metrics-hausdorff-pair" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to calculate the Hausdorff distance between two sets of points. The `Hau..."><img alt="Hausdorff Distance" src="../_images/sphx_glr_plot_hausdorff_distance_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to calculate the Hausdorff distance between two sets of points. The Haus..."><img alt="" src="../_images/sphx_glr_plot_hausdorff_distance_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_hausdorff_distance.html#sphx-glr-auto-examples-segmentation-plot-hausdorff-distance-py"><span class="std std-ref">Hausdorff Distance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Hausdorff Distance</div>
-</div></div></section>
-</section>
-<section id="mean-squared-error">
-<h2>mean_squared_error<a class="headerlink" href="#mean-squared-error" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.mean_squared_error">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L24-L47"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.mean_squared_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">mean_squared_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L24-L47"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.mean_squared_error" title="Link to this definition">#</a></dt>
 <dd><p>Compute the mean-squared error between two images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -427,26 +762,21 @@ set of points. Both arrays must have the same shape.</p>
 <p><span class="versionmodified changed">Changed in version 0.16: </span>This function was renamed from <code class="docutils literal notranslate"><span class="pre">skimage.measure.compare_mse</span></code> to
 <code class="docutils literal notranslate"><span class="pre">skimage.metrics.mean_squared_error</span></code>.</p>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-mean-squared-error">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.mean_squared_error</span></code><a class="headerlink" href="#examples-using-skimage-metrics-mean-squared-error" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When comparing images, the mean squared error (MSE)--while simple to implement--is not highly i..."><img alt="Structural similarity index" src="../_images/sphx_glr_plot_ssim_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When comparing images, the mean squared error (MSE)--while simple to implement--is not highly i..."><img alt="" src="../_images/sphx_glr_plot_ssim_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/transform/plot_ssim.html#sphx-glr-auto-examples-transform-plot-ssim-py"><span class="std std-ref">Structural similarity index</span></a></p>
   <div class="sphx-glr-thumbnail-title">Structural similarity index</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><img alt="Full tutorial on calibrating Denoisers Using J-Invariance" src="../_images/sphx_glr_plot_j_invariant_tutorial_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><img alt="" src="../_images/sphx_glr_plot_j_invariant_tutorial_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_j_invariant_tutorial.html#sphx-glr-auto-examples-filters-plot-j-invariant-tutorial-py"><span class="std std-ref">Full tutorial on calibrating Denoisers Using J-Invariance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Full tutorial on calibrating Denoisers Using J-Invariance</div>
-</div></div></section>
-</section>
-<section id="normalized-mutual-information">
-<h2>normalized_mutual_information<a class="headerlink" href="#normalized-mutual-information" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.normalized_mutual_information">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">normalized_mutual_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L193-L261"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.normalized_mutual_information" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">normalized_mutual_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L193-L261"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.normalized_mutual_information" title="Link to this definition">#</a></dt>
 <dd><p>Compute the normalized mutual information (NMI).</p>
 <p>The normalized mutual information of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> is given by:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span><span class="n">math</span><span class="p">::</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">math</span><span class="p">::</span>
 </pre></div>
 </div>
 <blockquote>
@@ -496,12 +826,10 @@ Pattern Recognition 32(1):71-86
 </div>
 </dd></dl>
 
-</section>
-<section id="normalized-root-mse">
-<h2>normalized_root_mse<a class="headerlink" href="#normalized-root-mse" title="Permalink to this heading">¶</a></h2>
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.normalized_root_mse">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">normalized_root_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L50-L108"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.normalized_root_mse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">normalized_root_mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L50-L108"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.normalized_root_mse" title="Link to this definition">#</a></dt>
 <dd><p>Compute the normalized root mean-squared error (NRMSE) between two
 images.</p>
 <dl class="field-list">
@@ -553,12 +881,10 @@ This result is equivalent to:</p>
 </div>
 </dd></dl>
 
-</section>
-<section id="peak-signal-noise-ratio">
-<h2>peak_signal_noise_ratio<a class="headerlink" href="#peak-signal-noise-ratio" title="Permalink to this heading">¶</a></h2>
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.peak_signal_noise_ratio">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">peak_signal_noise_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L111-L163"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.peak_signal_noise_ratio" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">peak_signal_noise_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_test</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/simple_metrics.py#L111-L163"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.peak_signal_noise_ratio" title="Link to this definition">#</a></dt>
 <dd><p>Compute the peak signal to noise ratio (PSNR) for an image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -592,33 +918,29 @@ data-type.</p>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio</a></p>
 </div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-peak-signal-noise-ratio">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.peak_signal_noise_ratio</span></code><a class="headerlink" href="#examples-using-skimage-metrics-peak-signal-noise-ratio" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how a set of images can be assembled under the hypothesis of rigid bo..."><img alt="Assemble images with simple image stitching" src="../_images/sphx_glr_plot_stitching_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how a set of images can be assembled under the hypothesis of rigid bo..."><img alt="" src="../_images/sphx_glr_plot_stitching_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/registration/plot_stitching.html#sphx-glr-auto-examples-registration-plot-stitching-py"><span class="std std-ref">Assemble images with simple image stitching</span></a></p>
   <div class="sphx-glr-thumbnail-title">Assemble images with simple image stitching</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="The discrete wavelet transform is not `shift-invariant`_.  Shift invariance can be achieved thr..."><img alt="Shift-invariant wavelet denoising" src="../_images/sphx_glr_plot_cycle_spinning_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="The discrete wavelet transform is not `shift-invariant`_.  Shift invariance can be achieved thr..."><img alt="" src="../_images/sphx_glr_plot_cycle_spinning_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_cycle_spinning.html#sphx-glr-auto-examples-filters-plot-cycle-spinning-py"><span class="std std-ref">Shift-invariant wavelet denoising</span></a></p>
   <div class="sphx-glr-thumbnail-title">Shift-invariant wavelet denoising</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a detail of the astronaut image using the non-local means filter. T..."><img alt="Non-local means denoising for preserving textures" src="../_images/sphx_glr_plot_nonlocal_means_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we denoise a detail of the astronaut image using the non-local means filter. T..."><img alt="" src="../_images/sphx_glr_plot_nonlocal_means_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_nonlocal_means.html#sphx-glr-auto-examples-filters-plot-nonlocal-means-py"><span class="std std-ref">Non-local means denoising for preserving textures</span></a></p>
   <div class="sphx-glr-thumbnail-title">Non-local means denoising for preserving textures</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="Wavelet denoising relies on the wavelet representation of the image. Gaussian noise tends to be..."><img alt="Wavelet denoising" src="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="Wavelet denoising relies on the wavelet representation of the image. Gaussian noise tends to be..."><img alt="" src="../_images/sphx_glr_plot_denoise_wavelet_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_denoise_wavelet.html#sphx-glr-auto-examples-filters-plot-denoise-wavelet-py"><span class="std std-ref">Wavelet denoising</span></a></p>
   <div class="sphx-glr-thumbnail-title">Wavelet denoising</div>
-</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><img alt="Full tutorial on calibrating Denoisers Using J-Invariance" src="../_images/sphx_glr_plot_j_invariant_tutorial_thumb.png" />
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we show how to find an optimally calibrated version of any denoising algorithm..."><img alt="" src="../_images/sphx_glr_plot_j_invariant_tutorial_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_j_invariant_tutorial.html#sphx-glr-auto-examples-filters-plot-j-invariant-tutorial-py"><span class="std std-ref">Full tutorial on calibrating Denoisers Using J-Invariance</span></a></p>
   <div class="sphx-glr-thumbnail-title">Full tutorial on calibrating Denoisers Using J-Invariance</div>
-</div></div></section>
-</section>
-<section id="structural-similarity">
-<h2>structural_similarity<a class="headerlink" href="#structural-similarity" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.structural_similarity">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">structural_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multichannel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_structural_similarity.py#L15-L254"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.structural_similarity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the mean structural similarity index between two images.</p>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">structural_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">im2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gradient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_structural_similarity.py#L15-L275"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.structural_similarity" title="Link to this definition">#</a></dt>
+<dd><p>Compute the mean structural similarity index between two images.
+Please pay attention to the <em class="xref py py-obj">data_range</em> parameter with floating-point images.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
@@ -632,7 +954,9 @@ window size will depend on <em class="xref py py-obj">sigma</em>.</p>
 </dd>
 <dt><strong>data_range</strong><span class="classifier">float, optional</span></dt><dd><p>The data range of the input image (distance between minimum and
 maximum possible values). By default, this is estimated from the image
-data-type.</p>
+data type. This estimate may be wrong for floating-point image data.
+Therefore it is recommended to always pass this value explicitly
+(see note below).</p>
 </dd>
 <dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
 Otherwise, this parameter indicates which axis of the array corresponds
@@ -640,10 +964,6 @@ to channels.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
 </div>
-</dd>
-<dt><strong>multichannel</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, treat the last dimension of the array as channels. Similarity
-calculations are done independently for each channel then averaged.
-This argument is deprecated: specify <em class="xref py py-obj">channel_axis</em> instead.</p>
 </dd>
 <dt><strong>gaussian_weights</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, each patch has its mean and variance spatially weighted by a
 normalized Gaussian kernel of width sigma=1.5.</p>
@@ -664,7 +984,7 @@ This is only returned if <em class="xref py py-obj">gradient</em> is set to True
 </dl>
 </dd>
 <dt class="field-odd">Other Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>use_sample_covariance</strong><span class="classifier">bool</span></dt><dd><p>If True, normalize covariances by N-1 rather than, N where N is the
 number of pixels within the sliding window.</p>
 </dd>
@@ -674,17 +994,23 @@ number of pixels within the sliding window.</p>
 </dd>
 <dt><strong>sigma</strong><span class="classifier">float</span></dt><dd><p>Standard deviation for the Gaussian when <em class="xref py py-obj">gaussian_weights</em> is True.</p>
 </dd>
-<dt><strong>multichannel</strong><span class="classifier">DEPRECATED</span></dt><dd><p>Deprecated in favor of <em class="xref py py-obj">channel_axis</em>.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 0.19.</span></p>
-</div>
-</dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>To match the implementation of Wang et. al. <a class="reference internal" href="#re0d1cfbcf329-1" id="id17">[1]</a>, set <em class="xref py py-obj">gaussian_weights</em>
-to True, <em class="xref py py-obj">sigma</em> to 1.5, and <em class="xref py py-obj">use_sample_covariance</em> to False.</p>
+<p>If <em class="xref py py-obj">data_range</em> is not specified, the range is automatically guessed
+based on the image data type. However for floating-point image data, this
+estimate yields a result double the value of the desired range, as the
+<em class="xref py py-obj">dtype_range</em> in <em class="xref py py-obj">skimage.util.dtype.py</em> has defined intervals from -1 to
++1. This yields an estimate of 2, instead of 1, which is most often
+required when working with image data (as negative light intentsities are
+nonsensical). In case of working with YCbCr-like color data, note that
+these ranges are different per channel (Cb and Cr have double the range
+of Y), so one cannot calculate a channel-averaged SSIM with a single call
+to this function, as identical ranges are assumed for each channel.</p>
+<p>To match the implementation of Wang et al. <a class="reference internal" href="#re0d1cfbcf329-1" id="id17">[1]</a>, set <em class="xref py py-obj">gaussian_weights</em>
+to True, <em class="xref py py-obj">sigma</em> to 1.5, <em class="xref py py-obj">use_sample_covariance</em> to False, and
+specify the <em class="xref py py-obj">data_range</em> argument.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.16: </span>This function was renamed from <code class="docutils literal notranslate"><span class="pre">skimage.measure.compare_ssim</span></code> to
 <code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code>.</p>
@@ -709,24 +1035,19 @@ optimized for structural similarity. Optical Review, 16, 613-621.
 <a class="reference external" href="https://doi.org/10.1007/s10043-009-0119-z">DOI:10.1007/s10043-009-0119-z</a></p>
 </div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-structural-similarity">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code><a class="headerlink" href="#examples-using-skimage-metrics-structural-similarity" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When comparing images, the mean squared error (MSE)--while simple to implement--is not highly i..."><img alt="Structural similarity index" src="../_images/sphx_glr_plot_ssim_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When comparing images, the mean squared error (MSE)--while simple to implement--is not highly i..."><img alt="" src="../_images/sphx_glr_plot_ssim_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/transform/plot_ssim.html#sphx-glr-auto-examples-transform-plot-ssim-py"><span class="std std-ref">Structural similarity index</span></a></p>
   <div class="sphx-glr-thumbnail-title">Structural similarity index</div>
-</div></div></section>
-</section>
-<section id="variation-of-information">
-<h2>variation_of_information<a class="headerlink" href="#variation-of-information" title="Permalink to this heading">¶</a></h2>
+</div></div></dd></dl>
+
+<hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.metrics.variation_of_information">
-<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">variation_of_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_variation_of_information.py#L9-L46"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.variation_of_information" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.metrics.</span></span><span class="sig-name descname"><span class="pre">variation_of_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/metrics/_variation_of_information.py#L9-L46"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.metrics.variation_of_information" title="Link to this definition">#</a></dt>
 <dd><p>Return symmetric conditional entropies associated with the VI. <a class="reference internal" href="#rb3845a1c7d1d-1" id="id20">[1]</a></p>
 <p>The variation of information is defined as VI(X,Y) = H(X|Y) + H(Y|X).
 If X is the ground-truth segmentation, then H(X|Y) can be interpreted
-as the amount of under-segmentation and H(X|Y) as the amount
+as the amount of under-segmentation and H(Y|X) as the amount
 of over-segmentation. In other words, a perfect over-segmentation
 will have H(X|Y)=0 and a perfect under-segmentation will have H(Y|X)=0.</p>
 <dl class="field-list simple">
@@ -760,28 +1081,104 @@ distance, Journal of Multivariate Analysis, Volume 98, Issue 5,
 Pages 873-895, ISSN 0047-259X, <a class="reference external" href="https://doi.org/10.1016/j.jmva.2006.11.013">DOI:10.1016/j.jmva.2006.11.013</a>.</p>
 </div>
 </div>
-</dd></dl>
-
-<section id="examples-using-skimage-metrics-variation-of-information">
-<h3>Examples using <code class="docutils literal notranslate"><span class="pre">skimage.metrics.variation_of_information</span></code><a class="headerlink" href="#examples-using-skimage-metrics-variation-of-information" title="Permalink to this heading">¶</a></h3>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When trying out different segmentation methods, how do you know which one is best? If you have ..."><img alt="Evaluating segmentation metrics" src="../_images/sphx_glr_plot_metrics_thumb.png" />
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="When trying out different segmentation methods, how do you know which one is best? If you have ..."><img alt="" src="../_images/sphx_glr_plot_metrics_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_metrics.html#sphx-glr-auto-examples-segmentation-plot-metrics-py"><span class="std std-ref">Evaluating segmentation metrics</span></a></p>
   <div class="sphx-glr-thumbnail-title">Evaluating segmentation metrics</div>
-</div></div></section>
-</section>
+</div></div></dd></dl>
+
 </section>
 
 
-        </div>
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.adapted_rand_error"><code class="docutils literal notranslate"><span class="pre">adapted_rand_error()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.contingency_table"><code class="docutils literal notranslate"><span class="pre">contingency_table()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">hausdorff_distance()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.hausdorff_pair"><code class="docutils literal notranslate"><span class="pre">hausdorff_pair()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.mean_squared_error"><code class="docutils literal notranslate"><span class="pre">mean_squared_error()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.normalized_mutual_information"><code class="docutils literal notranslate"><span class="pre">normalized_mutual_information()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.normalized_root_mse"><code class="docutils literal notranslate"><span class="pre">normalized_root_mse()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.peak_signal_noise_ratio"><code class="docutils literal notranslate"><span class="pre">peak_signal_noise_ratio()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.structural_similarity"><code class="docutils literal notranslate"><span class="pre">structural_similarity()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.metrics.variation_of_information"><code class="docutils literal notranslate"><span class="pre">variation_of_information()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/skimage.metrics.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
     </div>
-    <div class="forum link" role="contentinfo">
-	 
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2013-2023, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
     </div>
-    <div class="well footer" role="contentinfo">
-        <small>
-            &copy; Copyright the scikit-image development team.
-            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
-        </small>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
     </div>
-</body>
+  
+</div>
+
+  </footer>
+  </body>
 </html>

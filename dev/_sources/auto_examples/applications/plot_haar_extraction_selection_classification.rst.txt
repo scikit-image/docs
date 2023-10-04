@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_applications_plot_haar_extraction_selection_classification.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_applications_plot_haar_extraction_selection_classification.py>`
         to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
@@ -42,17 +42,14 @@ References
        https://www.merl.com/publications/docs/TR2004-043.pdf
        :DOI:`10.1109/CVPR.2001.990517`
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-46
+.. GENERATED FROM PYTHON SOURCE LINES 27-43
 
 .. code-block:: default
 
-    import sys
     from time import time
 
     import numpy as np
     import matplotlib.pyplot as plt
-
-    from dask import delayed
 
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.model_selection import train_test_split
@@ -72,19 +69,18 @@ References
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-51
+.. GENERATED FROM PYTHON SOURCE LINES 44-48
 
 The procedure to extract the Haar-like features from an image is relatively
 simple. Firstly, a region of interest (ROI) is defined. Secondly, the
 integral image within this ROI is computed. Finally, the integral image is
 used to extract the features.
 
-.. GENERATED FROM PYTHON SOURCE LINES 51-60
+.. GENERATED FROM PYTHON SOURCE LINES 48-56
 
 .. code-block:: default
 
 
-    @delayed
     def extract_feature_image(img, feature_type, feature_coord=None):
         """Extract the haar feature for the current image"""
         ii = integral_image(img)
@@ -99,7 +95,7 @@ used to extract the features.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-66
+.. GENERATED FROM PYTHON SOURCE LINES 57-62
 
 We use a subset of CBCL dataset which is composed of 100 face images and
 100 non-face images. Each image has been resized to a ROI of 19 by 19
@@ -107,7 +103,7 @@ pixels. We select 75 images from each group to train a classifier and
 determine the most salient features. The remaining 25 images from each
 class are used to assess the performance of the classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-91
+.. GENERATED FROM PYTHON SOURCE LINES 62-85
 
 .. code-block:: default
 
@@ -116,12 +112,10 @@ class are used to assess the performance of the classifier.
     # To speed up the example, extract the two types of features only
     feature_types = ['type-2-x', 'type-2-y']
 
-    # Build a computation graph using Dask. This allows the use of multiple
-    # CPU cores later during the actual computation
-    X = delayed(extract_feature_image(img, feature_types) for img in images)
     # Compute the result
     t_start = time()
-    X = np.array(X.compute(scheduler='single-threaded'))
+    X = [extract_feature_image(img, feature_types) for img in images]
+    X = np.stack(X)
     time_full_feature_comp = time() - t_start
 
     # Label images (100 faces and 100 non-faces)
@@ -143,7 +137,7 @@ class are used to assess the performance of the classifier.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 92-97
+.. GENERATED FROM PYTHON SOURCE LINES 86-91
 
 A random forest classifier can be trained in order to select the most
 salient features, specifically for face classification. The idea is to
@@ -151,7 +145,7 @@ determine which features are most often used by the ensemble of trees.
 By using only the most salient features in subsequent steps, we can
 drastically speed up the computation while retaining accuracy.
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-122
+.. GENERATED FROM PYTHON SOURCE LINES 91-116
 
 .. code-block:: default
 
@@ -192,14 +186,14 @@ drastically speed up the computation while retaining accuracy.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 123-127
+.. GENERATED FROM PYTHON SOURCE LINES 117-121
 
 We can select the most important features by checking the cumulative sum
 of the feature importance. In this example, we keep the features
 representing 70% of the cumulative value (which corresponds to using only 3%
 of the total number of features).
 
-.. GENERATED FROM PYTHON SOURCE LINES 127-156
+.. GENERATED FROM PYTHON SOURCE LINES 121-151
 
 .. code-block:: default
 
@@ -209,8 +203,8 @@ of the total number of features).
     sig_feature_count = np.count_nonzero(cdf_feature_importances < 0.7)
     sig_feature_percent = round(sig_feature_count /
                                 len(cdf_feature_importances) * 100, 1)
-    print((f'{sig_feature_count} features, or {sig_feature_percent}%, '
-           f'account for 70% of branch points in the random forest.'))
+    print(f'{sig_feature_count} features, or {sig_feature_percent}%, '
+           f'account for 70% of branch points in the random forest.')
 
     # Select the determined number of most informative features
     feature_coord_sel = feature_coord[idx_sorted[:sig_feature_count]]
@@ -219,12 +213,13 @@ of the total number of features).
     # but we would like to emphasize the usage of `feature_coord` and `feature_type`
     # to recompute a subset of desired features.
 
-    # Build the computational graph using Dask
-    X = delayed(extract_feature_image(img, feature_type_sel, feature_coord_sel)
-                for img in images)
     # Compute the result
     t_start = time()
-    X = np.array(X.compute(scheduler='single-threaded'))
+    X = [
+        extract_feature_image(img, feature_type_sel, feature_coord_sel)
+        for img in images
+    ]
+    X = np.stack(X)
     time_subs_feature_comp = time() - t_start
 
     y = np.array([1] * 100 + [0] * 100)
@@ -245,11 +240,11 @@ of the total number of features).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 157-158
+.. GENERATED FROM PYTHON SOURCE LINES 152-153
 
 Once the features are extracted, we can train and test a new classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-175
+.. GENERATED FROM PYTHON SOURCE LINES 153-170
 
 .. code-block:: default
 
@@ -260,13 +255,13 @@ Once the features are extracted, we can train and test a new classifier.
 
     auc_subs_features = roc_auc_score(y_test, clf.predict_proba(X_test)[:, 1])
 
-    summary = ((f'Computing the full feature set took '
+    summary = (f'Computing the full feature set took '
                 f'{time_full_feature_comp:.3f}s, '
                 f'plus {time_full_train:.3f}s training, '
                 f'for an AUC of {auc_full_features:.2f}. '
                 f'Computing the restricted feature set took '
                 f'{time_subs_feature_comp:.3f}s, plus {time_subs_train:.3f}s '
-                f'training, for an AUC of {auc_subs_features:.2f}.'))
+                f'training, for an AUC of {auc_subs_features:.2f}.')
 
     print(summary)
     plt.show()
@@ -278,7 +273,7 @@ Once the features are extracted, we can train and test a new classifier.
 
  .. code-block:: none
 
-    Computing the full feature set took 42.846s, plus 2.690s training, for an AUC of 1.00. Computing the restricted feature set took 0.185s, plus 2.219s training, for an AUC of 1.00.
+    Computing the full feature set took 41.090s, plus 2.662s training, for an AUC of 1.00. Computing the restricted feature set took 0.175s, plus 2.089s training, for an AUC of 1.00.
 
 
 
@@ -286,7 +281,7 @@ Once the features are extracted, we can train and test a new classifier.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  53.617 seconds)
+   **Total running time of the script:** (0 minutes 50.070 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_haar_extraction_selection_classification.py:
@@ -302,6 +297,8 @@ Once the features are extracted, we can train and test a new classifier.
         :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/applications/plot_haar_extraction_selection_classification.ipynb
         :alt: Launch binder
         :width: 150 px
+
+
 
     .. container:: sphx-glr-download sphx-glr-download-python
 

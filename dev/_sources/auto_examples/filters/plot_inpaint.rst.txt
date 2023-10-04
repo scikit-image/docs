@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_filters_plot_inpaint.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_filters_plot_inpaint.py>`
         to download the full example code or to run this example in your browser via Binder
 
 .. rst-class:: sphx-glr-example-title
@@ -18,17 +18,18 @@
 .. _sphx_glr_auto_examples_filters_plot_inpaint.py:
 
 
-===========
-Inpainting
-===========
+===============================
+Fill in defects with inpainting
+===============================
+
 Inpainting [1]_ is the process of reconstructing lost or deteriorated
 parts of images and videos.
 
-The reconstruction is supposed to be performed in fully automatic way by
-exploiting the information presented in non-damaged regions.
+The reconstruction (restoration) is performed in an automatic way by
+exploiting the information present in non-damaged regions.
 
-In this example, we show how the masked pixels get inpainted by
-inpainting algorithm based on 'biharmonic equation'-assumption [2]_ [3]_ [4]_.
+In this example, we show how the masked pixels get inpainted using an
+inpainting algorithm based on the biharmonic equation [2]_ [3]_ [4]_.
 
 .. [1]  Wikipedia. Inpainting
         https://en.wikipedia.org/wiki/Inpainting
@@ -44,7 +45,7 @@ inpainting algorithm based on 'biharmonic equation'-assumption [2]_ [3]_ [4]_.
         28 (2010), 104-113,
         :DOI:`10.1016/j.acha.2009.04.004`
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-87
+.. GENERATED FROM PYTHON SOURCE LINES 29-88
 
 
 
@@ -78,16 +79,16 @@ inpainting algorithm based on 'biharmonic equation'-assumption [2]_ [3]_ [4]_.
     mask[-180:-160, 70:155] = 1
     mask[-60:-20, 0:20] = 1
 
-    # add a few long, narrow defects
+    # Add a few long, narrow defects
     mask[200:205, -200:] = 1
     mask[150:255, 20:23] = 1
     mask[365:368, 60:130] = 1
 
-    # add randomly positioned small point-like defects
+    # Add randomly positioned small point-like defects
     rstate = np.random.default_rng(0)
     for radius in [0, 2, 4]:
         # larger defects are less common
-        thresh = 3 + 0.25 * radius  # make larger defects less commmon
+        thresh = 3 + 0.25 * radius  # make larger defects less common
         tmp_mask = rstate.standard_normal(image_orig.shape[:-1]) > thresh
         if radius > 0:
             tmp_mask = binary_dilation(tmp_mask, disk(radius, dtype=bool))
@@ -122,7 +123,7 @@ inpainting algorithm based on 'biharmonic equation'-assumption [2]_ [3]_ [4]_.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.605 seconds)
+   **Total running time of the script:** (0 minutes 0.621 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_inpaint.py:
@@ -138,6 +139,8 @@ inpainting algorithm based on 'biharmonic equation'-assumption [2]_ [3]_ [4]_.
         :target: https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/filters/plot_inpaint.ipynb
         :alt: Launch binder
         :width: 150 px
+
+
 
     .. container:: sphx-glr-download sphx-glr-download-python
 

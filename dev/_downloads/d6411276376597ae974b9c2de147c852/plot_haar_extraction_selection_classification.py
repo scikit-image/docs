@@ -24,13 +24,10 @@ References
        :DOI:`10.1109/CVPR.2001.990517`
 
 """
-import sys
 from time import time
 
 import numpy as np
 import matplotlib.pyplot as plt
-
-from dask import delayed
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -49,7 +46,6 @@ from skimage.feature import draw_haar_like_feature
 # integral image within this ROI is computed. Finally, the integral image is
 # used to extract the features.
 
-@delayed
 def extract_feature_image(img, feature_type, feature_coord=None):
     """Extract the haar feature for the current image"""
     ii = integral_image(img)
@@ -68,12 +64,10 @@ images = lfw_subset()
 # To speed up the example, extract the two types of features only
 feature_types = ['type-2-x', 'type-2-y']
 
-# Build a computation graph using Dask. This allows the use of multiple
-# CPU cores later during the actual computation
-X = delayed(extract_feature_image(img, feature_types) for img in images)
 # Compute the result
 t_start = time()
-X = np.array(X.compute(scheduler='single-threaded'))
+X = [extract_feature_image(img, feature_types) for img in images]
+X = np.stack(X)
 time_full_feature_comp = time() - t_start
 
 # Label images (100 faces and 100 non-faces)
@@ -130,8 +124,8 @@ cdf_feature_importances /= cdf_feature_importances[-1]  # divide by max value
 sig_feature_count = np.count_nonzero(cdf_feature_importances < 0.7)
 sig_feature_percent = round(sig_feature_count /
                             len(cdf_feature_importances) * 100, 1)
-print((f'{sig_feature_count} features, or {sig_feature_percent}%, '
-       f'account for 70% of branch points in the random forest.'))
+print(f'{sig_feature_count} features, or {sig_feature_percent}%, '
+       f'account for 70% of branch points in the random forest.')
 
 # Select the determined number of most informative features
 feature_coord_sel = feature_coord[idx_sorted[:sig_feature_count]]
@@ -140,12 +134,13 @@ feature_type_sel = feature_type[idx_sorted[:sig_feature_count]]
 # but we would like to emphasize the usage of `feature_coord` and `feature_type`
 # to recompute a subset of desired features.
 
-# Build the computational graph using Dask
-X = delayed(extract_feature_image(img, feature_type_sel, feature_coord_sel)
-            for img in images)
 # Compute the result
 t_start = time()
-X = np.array(X.compute(scheduler='single-threaded'))
+X = [
+    extract_feature_image(img, feature_type_sel, feature_coord_sel)
+    for img in images
+]
+X = np.stack(X)
 time_subs_feature_comp = time() - t_start
 
 y = np.array([1] * 100 + [0] * 100)
@@ -162,13 +157,13 @@ time_subs_train = time() - t_start
 
 auc_subs_features = roc_auc_score(y_test, clf.predict_proba(X_test)[:, 1])
 
-summary = ((f'Computing the full feature set took '
+summary = (f'Computing the full feature set took '
             f'{time_full_feature_comp:.3f}s, '
             f'plus {time_full_train:.3f}s training, '
             f'for an AUC of {auc_full_features:.2f}. '
             f'Computing the restricted feature set took '
             f'{time_subs_feature_comp:.3f}s, plus {time_subs_train:.3f}s '
-            f'training, for an AUC of {auc_subs_features:.2f}.'))
+            f'training, for an AUC of {auc_subs_features:.2f}.')
 
 print(summary)
 plt.show()

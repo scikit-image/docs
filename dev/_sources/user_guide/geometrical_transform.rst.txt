@@ -11,10 +11,10 @@ Images being NumPy arrays (as described in the :ref:`numpy` section), cropping
 an image can be done with simple slicing operations. Below we crop a 100x100
 square corresponding to the top-left corner of the astronaut image. Note that
 this operation is done for all color channels (the color dimension is the last,
-third dimension):: 
+third dimension)::
 
-   >>> from skimage import data
-   >>> img = data.astronaut()
+   >>> import skimage as ski
+   >>> img = ski.data.astronaut()
    >>> top_left = img[:100, :100]
 
 In order to change the shape of the image, :mod:`skimage.color` provides several
@@ -46,25 +46,20 @@ of homographies available in scikit-image are presented in
 Projective transformations can either be created using the explicit
 parameters (e.g. scale, shear, rotation and translation)::
 
-   from skimage import data
-   from skimage import transform
-   from skimage import img_as_float
-   
-   tform = transform.EuclideanTransform(
+   import numpy as np
+   import skimage as ski
+
+   tform = ski.transform.EuclideanTransform(
       rotation=np.pi / 12.,
       translation = (100, -20)
       )
 
 or the full transformation matrix::
 
-   from skimage import data
-   from skimage import transform
-   from skimage import img_as_float
-   
    matrix = np.array([[np.cos(np.pi/12), -np.sin(np.pi/12), 100],
                       [np.sin(np.pi/12), np.cos(np.pi/12), -20],
                       [0, 0, 1]])
-   tform = transform.EuclideanTransform(matrix)
+   tform = ski.transform.EuclideanTransform(matrix)
 
 The transformation matrix of a transform is available as its ``tform.params``
 attribute. Transformations can be composed by multiplying matrices with the
@@ -78,8 +73,8 @@ represented with finite coordinates.
 
 Transformations can be applied to images using :func:`skimage.transform.warp`::
 
-   img = img_as_float(data.chelsea())
-   tf_img = transform.warp(img, tform.inverse)
+   img = ski.util.img_as_float(ski.data.chelsea())
+   tf_img = ski.util.transform.warp(img, tform.inverse)
 
 .. image:: ../auto_examples/transform/images/sphx_glr_plot_transform_types_001.png
    :target: ../auto_examples/transform/plot_transform_types.html
@@ -91,14 +86,14 @@ method in order to estimate the parameters of the transformation from two sets
 of points (the source and the destination), as explained in the
 :ref:`sphx_glr_auto_examples_transform_plot_geometric.py` tutorial::
 
-   text = data.text()
+   text = ski.data.text()
 
    src = np.array([[0, 0], [0, 50], [300, 50], [300, 0]])
    dst = np.array([[155, 15], [65, 40], [260, 130], [360, 95]])
 
-   tform3 = transform.ProjectiveTransform()
+   tform3 = ski.transform.ProjectiveTransform()
    tform3.estimate(src, dst)
-   warped = transform.warp(text, tform3, output_shape=(50, 300))
+   warped = ski.transform.warp(text, tform3, output_shape=(50, 300))
 
 
 .. image:: ../auto_examples/transform/images/sphx_glr_plot_geometric_002.png
@@ -110,10 +105,10 @@ of points (the source and the destination), as explained in the
 The ``estimate`` method uses least-squares optimization to minimize the distance
 between source and optimization.
 Source and destination points can be determined manually, or using the
-different methods for feature detection available in :mod:`skimage.feature`, 
+different methods for feature detection available in :mod:`skimage.feature`,
 such as
 
- * :ref:`sphx_glr_auto_examples_features_detection_plot_corner.py`,  
+ * :ref:`sphx_glr_auto_examples_features_detection_plot_corner.py`,
  * :ref:`sphx_glr_auto_examples_features_detection_plot_orb.py`,
  * :ref:`sphx_glr_auto_examples_features_detection_plot_brief.py`,
  * etc.
@@ -133,7 +128,7 @@ Examples showing applications of transformation estimation are
 
  * stereo matching
    :ref:`sphx_glr_auto_examples_transform_plot_fundamental_matrix.py` and
- * image rectification :ref:`sphx_glr_auto_examples_transform_plot_geometric.py`  
+ * image rectification :ref:`sphx_glr_auto_examples_transform_plot_geometric.py`
 
 The ``estimate`` method is point-based, that is, it uses only a set of points
 from the source and destination images. For estimating translations (shifts),
