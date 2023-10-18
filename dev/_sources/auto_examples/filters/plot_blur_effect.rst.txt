@@ -34,7 +34,7 @@ re-blurring filter. This no-reference perceptual blur metric is described in
    https://hal.archives-ouvertes.fr/hal-00232709
    :DOI:`10.1117/12.702790`
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-32
+.. GENERATED FROM PYTHON SOURCE LINES 19-30
 
 .. code-block:: default
 
@@ -46,9 +46,7 @@ re-blurring filter. This no-reference perceptual blur metric is described in
 
     import plotly
     import plotly.express as px
-    from skimage import (
-        color, data, measure
-    )
+    from skimage import color, data, measure
 
 
 
@@ -58,14 +56,14 @@ re-blurring filter. This no-reference perceptual blur metric is described in
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 33-37
+.. GENERATED FROM PYTHON SOURCE LINES 31-35
 
 Generate series of increasingly blurred images
 ==============================================
 Let us load an image available through scikit-image’s data registry. The
 blur metric applies to single-channel images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-41
+.. GENERATED FROM PYTHON SOURCE LINES 35-39
 
 .. code-block:: default
 
@@ -80,11 +78,11 @@ blur metric applies to single-channel images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-43
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Let us blur this image with a series of uniform filters of increasing size.
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-55
+.. GENERATED FROM PYTHON SOURCE LINES 41-53
 
 .. code-block:: default
 
@@ -96,7 +94,7 @@ Let us blur this image with a series of uniform filters of increasing size.
         img_stack,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'blur strength ~'}
+        labels={'animation_frame': 'blur strength ~'},
     )
     plotly.io.show(fig)
 
@@ -110,7 +108,7 @@ Let us blur this image with a series of uniform filters of increasing size.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-61
+.. GENERATED FROM PYTHON SOURCE LINES 54-59
 
 Plot blur metric
 ================
@@ -118,22 +116,23 @@ Let us compute the blur metric for all blurred images: We expect it to
 increase towards 1 with increasing blur strength. We compute it for three
 different values of re-blurring filter: 3, 11 (default), and 30.
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-76
+.. GENERATED FROM PYTHON SOURCE LINES 59-75
 
 .. code-block:: default
 
 
     B = pd.DataFrame(
         data=np.zeros((len(blurred_images), 3)),
-        columns=['h_size = 3', 'h_size = 11', 'h_size = 30']
+        columns=['h_size = 3', 'h_size = 11', 'h_size = 30'],
     )
     for ind, im in enumerate(blurred_images):
         B.loc[ind, 'h_size = 3'] = measure.blur_effect(im, h_size=3)
         B.loc[ind, 'h_size = 11'] = measure.blur_effect(im, h_size=11)
         B.loc[ind, 'h_size = 30'] = measure.blur_effect(im, h_size=30)
 
-    B.plot().set(xlabel='blur strength (half the size of uniform filter)',
-                 ylabel='blur metric')
+    B.plot().set(
+        xlabel='blur strength (half the size of uniform filter)', ylabel='blur metric'
+    )
 
     plt.show()
 
@@ -149,7 +148,7 @@ different values of re-blurring filter: 3, 11 (default), and 30.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-83
+.. GENERATED FROM PYTHON SOURCE LINES 76-82
 
 We can see that as soon as the blur is stronger than (reaches the scale of)
 the size of the uniform filter, the metric gets close to 1 and, hence, tends
@@ -161,7 +160,7 @@ perceptual blur metric ``measure.blur_effect``.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.310 seconds)
+   **Total running time of the script:** (0 minutes 2.230 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_blur_effect.py:

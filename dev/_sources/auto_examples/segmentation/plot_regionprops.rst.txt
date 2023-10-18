@@ -119,10 +119,10 @@ whereas ``skimage.measure.regionprops`` computes them when they come in use
 .. code-block:: default
 
 
-    props = regionprops_table(label_img, properties=('centroid',
-                                                     'orientation',
-                                                     'axis_major_length',
-                                                     'axis_minor_length'))
+    props = regionprops_table(
+        label_img,
+        properties=('centroid', 'orientation', 'axis_major_length', 'axis_minor_length'),
+    )
 
 
 
@@ -208,7 +208,7 @@ objects by visualizing them in the hover information of the labels.
 This example uses plotly in order to display properties when
 hovering over the objects.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-120
+.. GENERATED FROM PYTHON SOURCE LINES 85-128
 
 .. code-block:: default
 
@@ -227,7 +227,7 @@ hovering over the objects.
     labels = measure.label(mask)
 
     fig = px.imshow(img, binary_string=True)
-    fig.update_traces(hoverinfo='skip') # hover is only for label info
+    fig.update_traces(hoverinfo='skip')  # hover is only for label info
 
     props = measure.regionprops(labels, img)
     properties = ['area', 'eccentricity', 'perimeter', 'intensity_mean']
@@ -241,10 +241,18 @@ hovering over the objects.
         hoverinfo = ''
         for prop_name in properties:
             hoverinfo += f'<b>{prop_name}: {getattr(props[index], prop_name):.2f}</b><br>'
-        fig.add_trace(go.Scatter(
-            x=x, y=y, name=label_i,
-            mode='lines', fill='toself', showlegend=False,
-            hovertemplate=hoverinfo, hoveron='points+fills'))
+        fig.add_trace(
+            go.Scatter(
+                x=x,
+                y=y,
+                name=label_i,
+                mode='lines',
+                fill='toself',
+                showlegend=False,
+                hovertemplate=hoverinfo,
+                hoveron='points+fills',
+            )
+        )
 
     plotly.io.show(fig)
 
@@ -260,7 +268,7 @@ hovering over the objects.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.092 seconds)
+   **Total running time of the script:** (0 minutes 1.051 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_regionprops.py:

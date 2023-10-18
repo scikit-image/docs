@@ -44,7 +44,7 @@ We begin by segmenting the nucleus of a sample image as described in another
 and assume that whatever is not in the nucleus is in the cytoplasm.
 The protein, "protein A", will be simulated as blobs and segmented.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-84
+.. GENERATED FROM PYTHON SOURCE LINES 28-83
 
 .. code-block:: default
 
@@ -70,10 +70,9 @@ The protein, "protein A", will be simulated as blobs and segmented.
     proteinA_seg = np.zeros_like(nucleus, dtype="float64")
 
     for blob_seed in range(10):
-        blobs = data.binary_blobs(180,
-                                  blob_size_fraction=0.5,
-                                  volume_fraction=(50/(180**2)),
-                                  rng=blob_seed)
+        blobs = data.binary_blobs(
+            180, blob_size_fraction=0.5, volume_fraction=(50 / (180**2)), rng=blob_seed
+        )
         blobs_image = filters.gaussian(blobs, sigma=1.5) * rng.integers(50, 256)
         proteinA += blobs_image
         proteinA_seg += blobs
@@ -116,7 +115,7 @@ The protein, "protein A", will be simulated as blobs and segmented.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-91
+.. GENERATED FROM PYTHON SOURCE LINES 84-90
 
 Intersection coefficient
 ========================
@@ -125,7 +124,7 @@ After segmenting both the nucleus and the protein of interest, we can
 determine what fraction of the protein A segmentation overlaps with the
 nucleus segmentation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-94
+.. GENERATED FROM PYTHON SOURCE LINES 90-93
 
 .. code-block:: default
 
@@ -145,7 +144,7 @@ nucleus segmentation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-110
+.. GENERATED FROM PYTHON SOURCE LINES 94-109
 
 Manders' Colocalization Coefficient (MCC)
 =========================================
@@ -163,7 +162,7 @@ In this image, while there are a lot of protein A spots within the nucleus
 they are dim compared to some of the spots outside the nucleus, so the MCC is
 much lower than the overlap coefficient.
 
-.. GENERATED FROM PYTHON SOURCE LINES 110-113
+.. GENERATED FROM PYTHON SOURCE LINES 109-112
 
 .. code-block:: default
 
@@ -179,11 +178,11 @@ much lower than the overlap coefficient.
  .. code-block:: none
 
 
-    0.24448405451097974
+    0.20399818125729638
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-122
+.. GENERATED FROM PYTHON SOURCE LINES 113-121
 
 After choosing a co-occurence metric, we can apply the same process to
 control images. If no control images are available, the Costes method could
@@ -194,7 +193,7 @@ randomly scrambled image. Information about this method is given in [1]_.
        co-occurrence versus correlation. J Cell Sci 1 February 2018
        131 (3): jcs211847. doi: https://doi.org/10.1242/jcs.211847
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-131
+.. GENERATED FROM PYTHON SOURCE LINES 123-130
 
 Correlation: association of two proteins
 ========================================
@@ -204,7 +203,7 @@ Now, imagine that we want to know how closely related two proteins are.
 First, we will generate protein B and plot intensities of the two proteins in
 every pixel to see the relationship between them.
 
-.. GENERATED FROM PYTHON SOURCE LINES 131-155
+.. GENERATED FROM PYTHON SOURCE LINES 130-154
 
 .. code-block:: default
 
@@ -262,12 +261,12 @@ every pixel to see the relationship between them.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 156-158
+.. GENERATED FROM PYTHON SOURCE LINES 155-157
 
 The intensities look linearly correlated so Pearson's Correlation Coefficient
 would give us a good measure of how strong the association is.
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-162
+.. GENERATED FROM PYTHON SOURCE LINES 157-161
 
 .. code-block:: default
 
@@ -283,12 +282,12 @@ would give us a good measure of how strong the association is.
 
  .. code-block:: none
 
-    PCC: 0.814, p-val: 0
+    PCC: 0.845, p-val: 0
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 163-168
+.. GENERATED FROM PYTHON SOURCE LINES 162-167
 
 Sometimes the intensities are correlated but not in a linear way. A rank-based
 correlation coefficient like `Spearman's
@@ -296,7 +295,7 @@ correlation coefficient like `Spearman's
 might give a more accurate measure of the non-linear relationship in that
 case.
 
-.. GENERATED FROM PYTHON SOURCE LINES 168-169
+.. GENERATED FROM PYTHON SOURCE LINES 167-168
 
 .. code-block:: default
 
@@ -311,7 +310,7 @@ case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.581 seconds)
+   **Total running time of the script:** (0 minutes 1.705 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_colocalization_metrics.py:

@@ -57,7 +57,7 @@ as they do not posses the desired shape.
        Image and Vision Computing, 1992, 10, 557-564.
        :DOI:`10.1016/0262-8856(92)90076-F`
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-162
+.. GENERATED FROM PYTHON SOURCE LINES 41-145
 
 
 
@@ -80,39 +80,30 @@ as they do not posses the desired shape.
     from skimage.draw import disk
 
 
-    def create_test_image(
-            image_size=256, spot_count=30, spot_radius=5, cloud_noise_size=4):
+    def create_test_image(image_size=256, spot_count=30, spot_radius=5, cloud_noise_size=4):
         """
         Generate a test image with random noise, uneven illumination and spots.
         """
         rng = np.random.default_rng()
-        image = rng.normal(
-            loc=0.25,
-            scale=0.25,
-            size=(image_size, image_size)
-        )
+        image = rng.normal(loc=0.25, scale=0.25, size=(image_size, image_size))
 
         for _ in range(spot_count):
             rr, cc = disk(
-                (rng.integers(image.shape[0]),
-                 rng.integers(image.shape[1])),
+                (rng.integers(image.shape[0]), rng.integers(image.shape[1])),
                 spot_radius,
-                shape=image.shape
+                shape=image.shape,
             )
             image[rr, cc] = 1
 
         image *= rng.normal(loc=1.0, scale=0.1, size=image.shape)
 
         image *= ndi.zoom(
-            rng.normal(
-                loc=1.0,
-                scale=0.5,
-                size=(cloud_noise_size, cloud_noise_size)
-            ),
-            image_size / cloud_noise_size
+            rng.normal(loc=1.0, scale=0.5, size=(cloud_noise_size, cloud_noise_size)),
+            image_size / cloud_noise_size,
         )
 
         return ndi.gaussian_filter(image, sigma=2.0)
+
 
     # First create the test image and its shape index
 
@@ -154,20 +145,12 @@ as they do not posses the desired shape.
 
     ax2 = fig.add_subplot(1, 3, 2, projection='3d', sharex=ax1, sharey=ax1)
 
-    x, y = np.meshgrid(
-        np.arange(0, image.shape[0], 1),
-        np.arange(0, image.shape[1], 1)
-    )
+    x, y = np.meshgrid(np.arange(0, image.shape[0], 1), np.arange(0, image.shape[1], 1))
 
     ax2.plot_surface(x, y, image, linewidth=0, alpha=0.5)
 
     ax2.scatter(
-        point_x,
-        point_y,
-        point_z,
-        color='blue',
-        label='$|s - 1|<0.05$',
-        **scatter_settings
+        point_x, point_y, point_z, color='blue', label='$|s - 1|<0.05$', **scatter_settings
     )
 
     ax2.scatter(
@@ -176,7 +159,7 @@ as they do not posses the desired shape.
         point_z_s,
         color='green',
         label='$|s\' - 1|<0.05$',
-        **scatter_settings
+        **scatter_settings,
     )
 
     ax2.legend(loc='lower left')
@@ -197,7 +180,7 @@ as they do not posses the desired shape.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.135 seconds)
+   **Total running time of the script:** (0 minutes 1.109 seconds)
 
 
 .. _sphx_glr_download_auto_examples_features_detection_plot_shape_index.py:

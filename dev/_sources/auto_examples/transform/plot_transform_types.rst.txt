@@ -69,15 +69,12 @@ also called rigid transformation, preserves the Euclidean distance between
 pairs of points. It can be described as a rotation about the origin
 followed by a translation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-47
+.. GENERATED FROM PYTHON SOURCE LINES 40-44
 
 .. code-block:: default
 
 
-    tform = transform.EuclideanTransform(
-        rotation=np.pi / 12.,
-        translation = (100, -20)
-        )
+    tform = transform.EuclideanTransform(rotation=np.pi / 12.0, translation=(100, -20))
     print(tform.params)
 
 
@@ -95,7 +92,7 @@ followed by a translation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-55
+.. GENERATED FROM PYTHON SOURCE LINES 45-52
 
 Now let's apply this transformation to an image. Because we are trying
 to reconstruct the *image* after transformation, it is not useful to see
@@ -105,7 +102,7 @@ output image, we want to figure out where in the input image it comes from.
 Therefore, we need to use the inverse of ``tform``, rather than ``tform``
 directly.
 
-.. GENERATED FROM PYTHON SOURCE LINES 55-62
+.. GENERATED FROM PYTHON SOURCE LINES 52-59
 
 .. code-block:: default
 
@@ -128,18 +125,18 @@ directly.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-66
+.. GENERATED FROM PYTHON SOURCE LINES 60-63
 
 For a rotation around the center of the image, one can
 compose a translation to change the origin, a rotation, and finally
 the inverse of the first translation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-76
+.. GENERATED FROM PYTHON SOURCE LINES 63-73
 
 .. code-block:: default
 
 
-    rotation = transform.EuclideanTransform(rotation=np.pi/3)
+    rotation = transform.EuclideanTransform(rotation=np.pi / 3)
     shift = transform.EuclideanTransform(translation=-np.array(img.shape[:2]) / 2)
     # Compose transforms by multiplying their matrices
     matrix = np.linalg.inv(shift.params) @ rotation.params @ shift.params
@@ -160,7 +157,7 @@ the inverse of the first translation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-82
+.. GENERATED FROM PYTHON SOURCE LINES 74-79
 
 Similarity transformation
 =================================
@@ -168,15 +165,14 @@ Similarity transformation
 A `similarity transformation <https://en.wikipedia.org/wiki/Similarity_(geometry)>`_
 preserves the shape of objects. It combines scaling, translation and rotation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-93
+.. GENERATED FROM PYTHON SOURCE LINES 79-89
 
 .. code-block:: default
 
 
     tform = transform.SimilarityTransform(
-        scale=0.5,
-        rotation=np.pi/12,
-        translation=(100, 50))
+        scale=0.5, rotation=np.pi / 12, translation=(100, 50)
+    )
     print(tform.params)
     tf_img = transform.warp(img, tform.inverse)
     fig, ax = plt.subplots()
@@ -203,7 +199,7 @@ preserves the shape of objects. It combines scaling, translation and rotation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-101
+.. GENERATED FROM PYTHON SOURCE LINES 90-97
 
 Affine transformation
 =================================
@@ -213,14 +209,14 @@ preserves lines (hence the alignment of objects), as well as parallelism
 between lines. It can be decomposed into a similarity transform and a
 `shear transformation <https://en.wikipedia.org/wiki/Shear_mapping>`_.
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-112
+.. GENERATED FROM PYTHON SOURCE LINES 97-108
 
 .. code-block:: default
 
 
     tform = transform.AffineTransform(
-            shear=np.pi/6,
-            )
+        shear=np.pi / 6,
+    )
     print(tform.params)
     tf_img = transform.warp(img, tform.inverse)
     fig, ax = plt.subplots()
@@ -248,7 +244,7 @@ between lines. It can be decomposed into a similarity transform and a
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-119
+.. GENERATED FROM PYTHON SOURCE LINES 109-115
 
 Projective transformation (homographies)
 ========================================
@@ -257,14 +253,12 @@ A `homography <https://en.wikipedia.org/wiki/Homography>`_, also called
 projective transformation, preserves lines but not necessarily
 parallelism.
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-130
+.. GENERATED FROM PYTHON SOURCE LINES 115-124
 
 .. code-block:: default
 
 
-    matrix = np.array([[1, -0.5, 100],
-                       [0.1, 0.9, 50],
-                       [0.0015, 0.0015, 1]])
+    matrix = np.array([[1, -0.5, 100], [0.1, 0.9, 50], [0.0015, 0.0015, 1]])
     tform = transform.ProjectiveTransform(matrix=matrix)
     tf_img = transform.warp(img, tform.inverse)
     fig, ax = plt.subplots()
@@ -284,7 +278,7 @@ parallelism.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-141
+.. GENERATED FROM PYTHON SOURCE LINES 126-135
 
 See also
 ========================================
@@ -299,7 +293,7 @@ See also
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.696 seconds)
+   **Total running time of the script:** (0 minutes 1.650 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_transform_types.py:

@@ -33,7 +33,7 @@ target image to the green and blue channels. A perfect registration
 results in a gray level image while misregistred pixels appear colored
 in the constructed RGB image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 18-81
+.. GENERATED FROM PYTHON SOURCE LINES 18-79
 
 .. code-block:: default
 
@@ -58,11 +58,9 @@ in the constructed RGB image.
 
     nr, nc = image0.shape
 
-    row_coords, col_coords = np.meshgrid(np.arange(nr), np.arange(nc),
-                                         indexing='ij')
+    row_coords, col_coords = np.meshgrid(np.arange(nr), np.arange(nc), indexing='ij')
 
-    image1_warp = warp(image1, np.array([row_coords + v, col_coords + u]),
-                       mode='edge')
+    image1_warp = warp(image1, np.array([row_coords + v, col_coords + u]), mode='edge')
 
     # build an RGB image with the unregistered sequence
     seq_im = np.zeros((nr, nc, 3))
@@ -112,7 +110,7 @@ in the constructed RGB image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 82-89
+.. GENERATED FROM PYTHON SOURCE LINES 80-87
 
 The estimated vector field *(u, v)* can also be displayed with a
 quiver plot.
@@ -122,7 +120,7 @@ applied to images of particles in the context of particle image
 velocimetry (PIV). The sequence is the Case B from the
 `PIV challenge 2001 <http://www.pivchallenge.org/>`_
 
-.. GENERATED FROM PYTHON SOURCE LINES 89-125
+.. GENERATED FROM PYTHON SOURCE LINES 87-122
 
 .. code-block:: default
 
@@ -133,7 +131,7 @@ velocimetry (PIV). The sequence is the Case B from the
     v, u = optical_flow_ilk(image0, image1, radius=15)
 
     # --- Compute flow magnitude
-    norm = np.sqrt(u ** 2 + v ** 2)
+    norm = np.sqrt(u**2 + v**2)
 
     # --- Display
     fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 4))
@@ -148,15 +146,14 @@ velocimetry (PIV). The sequence is the Case B from the
 
     nvec = 20  # Number of vectors to be displayed along each image dimension
     nl, nc = image0.shape
-    step = max(nl//nvec, nc//nvec)
+    step = max(nl // nvec, nc // nvec)
 
     y, x = np.mgrid[:nl:step, :nc:step]
     u_ = u[::step, ::step]
     v_ = v[::step, ::step]
 
     ax1.imshow(norm)
-    ax1.quiver(x, y, u_, v_, color='r', units='dots',
-               angles='xy', scale_units='xy', lw=3)
+    ax1.quiver(x, y, u_, v_, color='r', units='dots', angles='xy', scale_units='xy', lw=3)
     ax1.set_title("Optical flow magnitude and vector field")
     ax1.set_axis_off()
     fig.tight_layout()
@@ -177,7 +174,7 @@ velocimetry (PIV). The sequence is the Case B from the
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.174 seconds)
+   **Total running time of the script:** (0 minutes 7.972 seconds)
 
 
 .. _sphx_glr_download_auto_examples_registration_plot_opticalflow.py:

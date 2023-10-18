@@ -25,7 +25,7 @@ Assemble images with simple image stitching
 This example demonstrates how a set of images can be assembled under
 the hypothesis of rigid body motions.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-59
+.. GENERATED FROM PYTHON SOURCE LINES 10-61
 
 .. code-block:: default
 
@@ -62,15 +62,17 @@ the hypothesis of rigid body motions.
             those in `coords0` as determined by the (Gaussian weighted) sum of
             squared differences between patches surrounding each point.
         """
-        y, x = np.mgrid[-radius:radius + 1, -radius:radius + 1]
-        weights = np.exp(-0.5 * (x ** 2 + y ** 2) / sigma ** 2)
+        y, x = np.mgrid[-radius : radius + 1, -radius : radius + 1]
+        weights = np.exp(-0.5 * (x**2 + y**2) / sigma**2)
         weights /= 2 * np.pi * sigma * sigma
 
         match_list = []
         for r0, c0 in coords0:
-            roi0 = img0[r0 - radius:r0 + radius + 1, c0 - radius:c0 + radius + 1]
-            roi1_list = [img1[r1 - radius:r1 + radius + 1,
-                              c1 - radius:c1 + radius + 1] for r1, c1 in coords1]
+            roi0 = img0[r0 - radius : r0 + radius + 1, c0 - radius : c0 + radius + 1]
+            roi1_list = [
+                img1[r1 - radius : r1 + radius + 1, c1 - radius : c1 + radius + 1]
+                for r1, c1 in coords1
+            ]
             # sum of squared differences
             ssd_list = [np.sum(weights * (roi0 - roi1) ** 2) for roi1 in roi1_list]
             match_list.append(coords1[np.argmin(ssd_list)])
@@ -85,14 +87,14 @@ the hypothesis of rigid body motions.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-64
+.. GENERATED FROM PYTHON SOURCE LINES 62-66
 
 Data generation
 ---------------
 
 For this example, we generate a list of slightly tilted noisy images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-79
+.. GENERATED FROM PYTHON SOURCE LINES 66-85
 
 .. code-block:: default
 
@@ -102,12 +104,16 @@ For this example, we generate a list of slightly tilted noisy images.
     angle_list = [0, 5, 6, -2, 3, -4]
     center_list = [(0, 0), (10, 10), (5, 12), (11, 21), (21, 17), (43, 15)]
 
-    img_list = [transform.rotate(img, angle=a, center=c)[40:240, 50:350]
-                for a, c in zip(angle_list, center_list)]
+    img_list = [
+        transform.rotate(img, angle=a, center=c)[40:240, 50:350]
+        for a, c in zip(angle_list, center_list)
+    ]
     ref_img = img_list[0].copy()
 
-    img_list = [util.random_noise(filters.gaussian(im, 1.1), var=5e-4, rng=seed)
-                for seed, im in enumerate(img_list)]
+    img_list = [
+        util.random_noise(filters.gaussian(im, 1.1), var=5e-4, rng=seed)
+        for seed, im in enumerate(img_list)
+    ]
 
     psnr_ref = metrics.peak_signal_noise_ratio(ref_img, img_list[0])
 
@@ -118,7 +124,7 @@ For this example, we generate a list of slightly tilted noisy images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 80-90
+.. GENERATED FROM PYTHON SOURCE LINES 86-96
 
 Image registration
 ------------------
@@ -131,15 +137,18 @@ Image registration
 
 Reference points are detected over all images in the list.
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-96
+.. GENERATED FROM PYTHON SOURCE LINES 96-105
 
 .. code-block:: default
 
 
     min_dist = 5
-    corner_list = [feature.corner_peaks(
-        feature.corner_harris(img), threshold_rel=0.001, min_distance=min_dist)
-                   for img in img_list]
+    corner_list = [
+        feature.corner_peaks(
+            feature.corner_harris(img), threshold_rel=0.001, min_distance=min_dist
+        )
+        for img in img_list
+    ]
 
 
 
@@ -148,21 +157,23 @@ Reference points are detected over all images in the list.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 97-100
+.. GENERATED FROM PYTHON SOURCE LINES 106-109
 
 The Harris corners detected in the first image are chosen as
 references. Then the detected points on the other images are
 matched to the reference points.
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-106
+.. GENERATED FROM PYTHON SOURCE LINES 109-117
 
 .. code-block:: default
 
 
     img0 = img_list[0]
     coords0 = corner_list[0]
-    matching_corners = [match_locations(img0, img1, coords0, coords1, min_dist)
-                        for img1, coords1 in zip(img_list, corner_list)]
+    matching_corners = [
+        match_locations(img0, img1, coords0, coords1, min_dist)
+        for img1, coords1 in zip(img_list, corner_list)
+    ]
 
 
 
@@ -171,24 +182,29 @@ matched to the reference points.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 107-109
+.. GENERATED FROM PYTHON SOURCE LINES 118-120
 
 Once all the points are registered to the reference points, robust
 relative affine transformations can be estimated using the RANSAC method.
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-131
+.. GENERATED FROM PYTHON SOURCE LINES 120-147
 
 .. code-block:: default
 
     src = np.array(coords0)
-    trfm_list = [measure.ransac((dst, src),
-                                transform.EuclideanTransform, min_samples=3,
-                                residual_threshold=2, max_trials=100)[0].params
-                 for dst in matching_corners]
+    trfm_list = [
+        measure.ransac(
+            (dst, src),
+            transform.EuclideanTransform,
+            min_samples=3,
+            residual_threshold=2,
+            max_trials=100,
+        )[0].params
+        for dst in matching_corners
+    ]
 
     fig, ax_list = plt.subplots(6, 2, figsize=(6, 9), sharex=True, sharey=True)
-    for idx, (im, trfm, (ax0, ax1)) in enumerate(zip(img_list, trfm_list,
-                                                     ax_list)):
+    for idx, (im, trfm, (ax0, ax1)) in enumerate(zip(img_list, trfm_list, ax_list)):
         ax0.imshow(im, cmap="gray", vmin=0, vmax=1)
         ax1.imshow(transform.warp(im, trfm), cmap="gray", vmin=0, vmax=1)
 
@@ -214,7 +230,7 @@ relative affine transformations can be estimated using the RANSAC method.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-142
+.. GENERATED FROM PYTHON SOURCE LINES 148-158
 
 Image assembling
 ----------------
@@ -227,7 +243,7 @@ images in this domain.
 A global transformation is defined to move the reference image in the
 global domain image via a simple translation:
 
-.. GENERATED FROM PYTHON SOURCE LINES 142-148
+.. GENERATED FROM PYTHON SOURCE LINES 158-164
 
 .. code-block:: default
 
@@ -244,29 +260,30 @@ global domain image via a simple translation:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 149-152
+.. GENERATED FROM PYTHON SOURCE LINES 165-168
 
 Finally, the relative position of the other images in the global
 domain are obtained by composing the global transformation with the
 relative transformations:
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-174
+.. GENERATED FROM PYTHON SOURCE LINES 168-191
 
 .. code-block:: default
 
-    global_img_list = [transform.warp(img, trfm.dot(glob_trfm),
-                                      output_shape=out_shape,
-                                      mode="constant", cval=np.nan)
-                       for img, trfm in zip(img_list, trfm_list)]
+    global_img_list = [
+        transform.warp(
+            img, trfm.dot(glob_trfm), output_shape=out_shape, mode="constant", cval=np.nan
+        )
+        for img, trfm in zip(img_list, trfm_list)
+    ]
 
     all_nan_mask = np.all([np.isnan(img) for img in global_img_list], axis=0)
-    global_img_list[0][all_nan_mask] = 1.
+    global_img_list[0][all_nan_mask] = 1.0
 
     composite_img = np.nanmean(global_img_list, 0)
     psnr_composite = metrics.peak_signal_noise_ratio(
-        ref_img,
-        composite_img[margin:margin + height,
-                      margin:margin + width])
+        ref_img, composite_img[margin : margin + height, margin : margin + width]
+    )
 
     fig, ax = plt.subplots(1, 1)
 
@@ -280,7 +297,7 @@ relative transformations:
 
 
 .. image-sg:: /auto_examples/registration/images/sphx_glr_plot_stitching_002.png
-   :alt: Reconstructed image (PSNR=36.87)
+   :alt: Reconstructed image (PSNR=36.16)
    :srcset: /auto_examples/registration/images/sphx_glr_plot_stitching_002.png
    :class: sphx-glr-single-img
 
@@ -291,7 +308,7 @@ relative transformations:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.341 seconds)
+   **Total running time of the script:** (0 minutes 1.322 seconds)
 
 
 .. _sphx_glr_download_auto_examples_registration_plot_stitching.py:

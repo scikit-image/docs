@@ -76,17 +76,24 @@ simple. Firstly, a region of interest (ROI) is defined. Secondly, the
 integral image within this ROI is computed. Finally, the integral image is
 used to extract the features.
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-56
+.. GENERATED FROM PYTHON SOURCE LINES 48-64
 
 .. code-block:: default
+
 
 
     def extract_feature_image(img, feature_type, feature_coord=None):
         """Extract the haar feature for the current image"""
         ii = integral_image(img)
-        return haar_like_feature(ii, 0, 0, ii.shape[0], ii.shape[1],
-                                 feature_type=feature_type,
-                                 feature_coord=feature_coord)
+        return haar_like_feature(
+            ii,
+            0,
+            0,
+            ii.shape[0],
+            ii.shape[1],
+            feature_type=feature_type,
+            feature_coord=feature_coord,
+        )
 
 
 
@@ -95,7 +102,8 @@ used to extract the features.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-62
+
+.. GENERATED FROM PYTHON SOURCE LINES 65-70
 
 We use a subset of CBCL dataset which is composed of 100 face images and
 100 non-face images. Each image has been resized to a ROI of 19 by 19
@@ -103,7 +111,7 @@ pixels. We select 75 images from each group to train a classifier and
 determine the most salient features. The remaining 25 images from each
 class are used to assess the performance of the classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 62-85
+.. GENERATED FROM PYTHON SOURCE LINES 70-93
 
 .. code-block:: default
 
@@ -121,14 +129,14 @@ class are used to assess the performance of the classifier.
     # Label images (100 faces and 100 non-faces)
     y = np.array([1] * 100 + [0] * 100)
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=150,
-                                                        random_state=0,
-                                                        stratify=y)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=150, random_state=0, stratify=y
+    )
 
     # Extract all possible features
-    feature_coord, feature_type = \
-        haar_like_feature_coord(width=images.shape[2], height=images.shape[1],
-                                feature_type=feature_types)
+    feature_coord, feature_type = haar_like_feature_coord(
+        width=images.shape[2], height=images.shape[1], feature_type=feature_types
+    )
 
 
 
@@ -137,7 +145,7 @@ class are used to assess the performance of the classifier.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 86-91
+.. GENERATED FROM PYTHON SOURCE LINES 94-99
 
 A random forest classifier can be trained in order to select the most
 salient features, specifically for face classification. The idea is to
@@ -145,14 +153,15 @@ determine which features are most often used by the ensemble of trees.
 By using only the most salient features in subsequent steps, we can
 drastically speed up the computation while retaining accuracy.
 
-.. GENERATED FROM PYTHON SOURCE LINES 91-116
+.. GENERATED FROM PYTHON SOURCE LINES 99-124
 
 .. code-block:: default
 
 
     # Train a random forest classifier and assess its performance
-    clf = RandomForestClassifier(n_estimators=1000, max_depth=None,
-                                 max_features=100, n_jobs=-1, random_state=0)
+    clf = RandomForestClassifier(
+        n_estimators=1000, max_depth=None, max_features=100, n_jobs=-1, random_state=0
+    )
     t_start = time()
     clf.fit(X_train, y_train)
     time_full_train = time() - t_start
@@ -164,10 +173,9 @@ drastically speed up the computation while retaining accuracy.
     fig, axes = plt.subplots(3, 2)
     for idx, ax in enumerate(axes.ravel()):
         image = images[0]
-        image = draw_haar_like_feature(image, 0, 0,
-                                       images.shape[2],
-                                       images.shape[1],
-                                       [feature_coord[idx_sorted[idx]]])
+        image = draw_haar_like_feature(
+            image, 0, 0, images.shape[2], images.shape[1], [feature_coord[idx_sorted[idx]]]
+        )
         ax.imshow(image)
         ax.set_xticks([])
         ax.set_yticks([])
@@ -186,14 +194,14 @@ drastically speed up the computation while retaining accuracy.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-121
+.. GENERATED FROM PYTHON SOURCE LINES 125-129
 
 We can select the most important features by checking the cumulative sum
 of the feature importance. In this example, we keep the features
 representing 70% of the cumulative value (which corresponds to using only 3%
 of the total number of features).
 
-.. GENERATED FROM PYTHON SOURCE LINES 121-151
+.. GENERATED FROM PYTHON SOURCE LINES 129-157
 
 .. code-block:: default
 
@@ -201,10 +209,11 @@ of the total number of features).
     cdf_feature_importances = np.cumsum(clf.feature_importances_[idx_sorted])
     cdf_feature_importances /= cdf_feature_importances[-1]  # divide by max value
     sig_feature_count = np.count_nonzero(cdf_feature_importances < 0.7)
-    sig_feature_percent = round(sig_feature_count /
-                                len(cdf_feature_importances) * 100, 1)
-    print(f'{sig_feature_count} features, or {sig_feature_percent}%, '
-           f'account for 70% of branch points in the random forest.')
+    sig_feature_percent = round(sig_feature_count / len(cdf_feature_importances) * 100, 1)
+    print(
+        f'{sig_feature_count} features, or {sig_feature_percent}%, '
+        f'account for 70% of branch points in the random forest.'
+    )
 
     # Select the determined number of most informative features
     feature_coord_sel = feature_coord[idx_sorted[:sig_feature_count]]
@@ -215,17 +224,14 @@ of the total number of features).
 
     # Compute the result
     t_start = time()
-    X = [
-        extract_feature_image(img, feature_type_sel, feature_coord_sel)
-        for img in images
-    ]
+    X = [extract_feature_image(img, feature_type_sel, feature_coord_sel) for img in images]
     X = np.stack(X)
     time_subs_feature_comp = time() - t_start
 
     y = np.array([1] * 100 + [0] * 100)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=150,
-                                                        random_state=0,
-                                                        stratify=y)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=150, random_state=0, stratify=y
+    )
 
 
 
@@ -240,11 +246,11 @@ of the total number of features).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-153
+.. GENERATED FROM PYTHON SOURCE LINES 158-159
 
 Once the features are extracted, we can train and test a new classifier.
 
-.. GENERATED FROM PYTHON SOURCE LINES 153-170
+.. GENERATED FROM PYTHON SOURCE LINES 159-178
 
 .. code-block:: default
 
@@ -255,13 +261,15 @@ Once the features are extracted, we can train and test a new classifier.
 
     auc_subs_features = roc_auc_score(y_test, clf.predict_proba(X_test)[:, 1])
 
-    summary = (f'Computing the full feature set took '
-                f'{time_full_feature_comp:.3f}s, '
-                f'plus {time_full_train:.3f}s training, '
-                f'for an AUC of {auc_full_features:.2f}. '
-                f'Computing the restricted feature set took '
-                f'{time_subs_feature_comp:.3f}s, plus {time_subs_train:.3f}s '
-                f'training, for an AUC of {auc_subs_features:.2f}.')
+    summary = (
+        f'Computing the full feature set took '
+        f'{time_full_feature_comp:.3f}s, '
+        f'plus {time_full_train:.3f}s training, '
+        f'for an AUC of {auc_full_features:.2f}. '
+        f'Computing the restricted feature set took '
+        f'{time_subs_feature_comp:.3f}s, plus {time_subs_train:.3f}s '
+        f'training, for an AUC of {auc_subs_features:.2f}.'
+    )
 
     print(summary)
     plt.show()
@@ -273,7 +281,7 @@ Once the features are extracted, we can train and test a new classifier.
 
  .. code-block:: none
 
-    Computing the full feature set took 43.682s, plus 2.718s training, for an AUC of 1.00. Computing the restricted feature set took 0.172s, plus 2.073s training, for an AUC of 1.00.
+    Computing the full feature set took 42.828s, plus 2.631s training, for an AUC of 1.00. Computing the restricted feature set took 0.175s, plus 2.061s training, for an AUC of 1.00.
 
 
 
@@ -281,7 +289,7 @@ Once the features are extracted, we can train and test a new classifier.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 53.528 seconds)
+   **Total running time of the script:** (0 minutes 52.836 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_haar_extraction_selection_classification.py:

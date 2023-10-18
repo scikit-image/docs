@@ -38,7 +38,7 @@ enables projective 3D reconstruction of the captured scene. If the calibration
 is known, estimating the essential matrix enables metric 3D reconstruction of
 the captured scene.
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-88
+.. GENERATED FROM PYTHON SOURCE LINES 22-97
 
 
 
@@ -53,7 +53,7 @@ the captured scene.
  .. code-block:: none
 
     Number of matches: 223
-    /home/runner/work/scikit-image/scikit-image/doc/examples/transform/plot_fundamental_matrix.py:54: FutureWarning:
+    /home/runner/work/scikit-image/scikit-image/doc/examples/transform/plot_fundamental_matrix.py:53: FutureWarning:
 
     `random_state` is a deprecated argument name for `ransac`. It will be removed in version 0.23. Please use `rng` instead.
 
@@ -91,8 +91,7 @@ the captured scene.
     keypoints_right = descriptor_extractor.keypoints
     descriptors_right = descriptor_extractor.descriptors
 
-    matches = match_descriptors(descriptors_left, descriptors_right,
-                                cross_check=True)
+    matches = match_descriptors(descriptors_left, descriptors_right, cross_check=True)
 
     print(f'Number of matches: {matches.shape[0]}')
 
@@ -100,11 +99,14 @@ the captured scene.
     random_seed = 9
     rng = np.random.default_rng(random_seed)
 
-    model, inliers = ransac((keypoints_left[matches[:, 0]],
-                             keypoints_right[matches[:, 1]]),
-                            FundamentalMatrixTransform, min_samples=8,
-                            residual_threshold=1, max_trials=5000,
-                            random_state=rng)
+    model, inliers = ransac(
+        (keypoints_left[matches[:, 0]], keypoints_right[matches[:, 1]]),
+        FundamentalMatrixTransform,
+        min_samples=8,
+        residual_threshold=1,
+        max_trials=5000,
+        random_state=rng,
+    )
 
     inlier_keypoints_left = keypoints_left[matches[inliers, 0]]
     inlier_keypoints_right = keypoints_right[matches[inliers, 1]]
@@ -125,8 +127,15 @@ the captured scene.
 
     plt.gray()
 
-    plot_matches(ax[0], img_left, img_right, keypoints_left, keypoints_right,
-                 matches[inliers], only_matches=True)
+    plot_matches(
+        ax[0],
+        img_left,
+        img_right,
+        keypoints_left,
+        keypoints_right,
+        matches[inliers],
+        only_matches=True,
+    )
     ax[0].axis("off")
     ax[0].set_title("Inlier correspondences")
 
@@ -138,7 +147,7 @@ the captured scene.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.058 seconds)
+   **Total running time of the script:** (0 minutes 3.026 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_fundamental_matrix.py:

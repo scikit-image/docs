@@ -76,7 +76,7 @@ reconstruction process and compare this to the number of measurements
 provided by the projections), and we follow that rule here. Below is the
 original image and its Radon transform, often known as its *sinogram*:
 
-.. GENERATED FROM PYTHON SOURCE LINES 60-89
+.. GENERATED FROM PYTHON SOURCE LINES 60-92
 
 .. code-block:: default
 
@@ -96,15 +96,18 @@ original image and its Radon transform, often known as its *sinogram*:
     ax1.set_title("Original")
     ax1.imshow(image, cmap=plt.cm.Greys_r)
 
-    theta = np.linspace(0., 180., max(image.shape), endpoint=False)
+    theta = np.linspace(0.0, 180.0, max(image.shape), endpoint=False)
     sinogram = radon(image, theta=theta)
     dx, dy = 0.5 * 180.0 / max(image.shape), 0.5 / sinogram.shape[0]
     ax2.set_title("Radon transform\n(Sinogram)")
     ax2.set_xlabel("Projection angle (deg)")
     ax2.set_ylabel("Projection position (pixels)")
-    ax2.imshow(sinogram, cmap=plt.cm.Greys_r,
-               extent=(-dx, 180.0 + dx, -dy, sinogram.shape[0] + dy),
-               aspect='auto')
+    ax2.imshow(
+        sinogram,
+        cmap=plt.cm.Greys_r,
+        extent=(-dx, 180.0 + dx, -dy, sinogram.shape[0] + dy),
+        aspect='auto',
+    )
 
     fig.tight_layout()
     plt.show()
@@ -121,7 +124,7 @@ original image and its Radon transform, often known as its *sinogram*:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-102
+.. GENERATED FROM PYTHON SOURCE LINES 93-105
 
 Reconstruction with the Filtered Back Projection (FBP)
 ======================================================
@@ -136,7 +139,7 @@ which is applied to the Fourier transformed projections. It may be used to
 suppress high frequency noise in the reconstruction. ``skimage`` provides
 the filters 'ramp', 'shepp-logan', 'cosine', 'hamming', and 'hann':
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-118
+.. GENERATED FROM PYTHON SOURCE LINES 106-121
 
 .. code-block:: default
 
@@ -167,11 +170,11 @@ the filters 'ramp', 'shepp-logan', 'cosine', 'hamming', and 'hann':
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-120
+.. GENERATED FROM PYTHON SOURCE LINES 122-123
 
 Applying the inverse radon transformation with the 'ramp' filter, we get:
 
-.. GENERATED FROM PYTHON SOURCE LINES 120-136
+.. GENERATED FROM PYTHON SOURCE LINES 123-138
 
 .. code-block:: default
 
@@ -183,8 +186,7 @@ Applying the inverse radon transformation with the 'ramp' filter, we get:
     print(f'FBP rms reconstruction error: {np.sqrt(np.mean(error**2)):.3g}')
 
     imkwargs = dict(vmin=-0.2, vmax=0.2)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4.5),
-                                   sharex=True, sharey=True)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4.5), sharex=True, sharey=True)
     ax1.set_title("Reconstruction\nFiltered back projection")
     ax1.imshow(reconstruction_fbp, cmap=plt.cm.Greys_r)
     ax2.set_title("Reconstruction error\nFiltered back projection")
@@ -209,7 +211,7 @@ Applying the inverse radon transformation with the 'ramp' filter, we get:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-168
+.. GENERATED FROM PYTHON SOURCE LINES 139-170
 
 Reconstruction with the Simultaneous Algebraic Reconstruction Technique
 =======================================================================
@@ -243,7 +245,7 @@ of iterations is best suited to the problem at hand. The implementation in
 ``skimage`` allows prior information of the form of a lower and upper
 threshold on the reconstructed values to be supplied to the reconstruction.
 
-.. GENERATED FROM PYTHON SOURCE LINES 169-200
+.. GENERATED FROM PYTHON SOURCE LINES 171-204
 
 .. code-block:: default
 
@@ -252,8 +254,9 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
     reconstruction_sart = iradon_sart(sinogram, theta=theta)
     error = reconstruction_sart - image
-    print(f'SART (1 iteration) rms reconstruction error: '
-          f'{np.sqrt(np.mean(error**2)):.3g}')
+    print(
+        f'SART (1 iteration) rms reconstruction error: ' f'{np.sqrt(np.mean(error**2)):.3g}'
+    )
 
     fig, axes = plt.subplots(2, 2, figsize=(8, 8.5), sharex=True, sharey=True)
     ax = axes.ravel()
@@ -266,11 +269,12 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
     # Run a second iteration of SART by supplying the reconstruction
     # from the first iteration as an initial estimate
-    reconstruction_sart2 = iradon_sart(sinogram, theta=theta,
-                                       image=reconstruction_sart)
+    reconstruction_sart2 = iradon_sart(sinogram, theta=theta, image=reconstruction_sart)
     error = reconstruction_sart2 - image
-    print(f'SART (2 iterations) rms reconstruction error: '
-          f'{np.sqrt(np.mean(error**2)):.3g}')
+    print(
+        f'SART (2 iterations) rms reconstruction error: '
+        f'{np.sqrt(np.mean(error**2)):.3g}'
+    )
 
     ax[2].set_title("Reconstruction\nSART, 2 iterations")
     ax[2].imshow(reconstruction_sart2, cmap=plt.cm.Greys_r)
@@ -300,7 +304,7 @@ threshold on the reconstructed values to be supplied to the reconstruction.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.601 seconds)
+   **Total running time of the script:** (0 minutes 2.590 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_radon_transform.py:

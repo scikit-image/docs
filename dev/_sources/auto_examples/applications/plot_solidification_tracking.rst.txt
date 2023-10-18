@@ -92,7 +92,7 @@ exist in roughly the same position from one frame to the next.
         image_sequence,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -129,7 +129,7 @@ at the second frame.
         image_deltas,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -167,7 +167,7 @@ the intensity values to [0, 1].
         clipped,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -202,7 +202,7 @@ noise beyond the interface.
         denoised,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -243,7 +243,7 @@ methods that may work better for different applications).
         binarized,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -275,14 +275,13 @@ properties which can be read into a Pandas ``DataFrame``.
 To begin with, let us consider the first image delta at this stage of the
 workflow, ``binarized[0, :, :]``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 160-169
+.. GENERATED FROM PYTHON SOURCE LINES 160-168
 
 .. code-block:: default
 
 
     labeled_0 = measure.label(binarized[0, :, :])
-    props_0 = measure.regionprops_table(
-            labeled_0, properties=('label', 'area', 'bbox'))
+    props_0 = measure.regionprops_table(labeled_0, properties=('label', 'area', 'bbox'))
     props_0_df = pd.DataFrame(props_0)
     props_0_df = props_0_df.sort_values('area', ascending=False)
     # Show top five rows
@@ -375,13 +374,13 @@ workflow, ``binarized[0, :, :]``.
     <br />
     <br />
 
-.. GENERATED FROM PYTHON SOURCE LINES 170-173
+.. GENERATED FROM PYTHON SOURCE LINES 169-172
 
 We can thus select the largest region by matching its label with the one
 found in the first row of the above (sorted) table. Let us visualize it,
 along with its bounding box (bbox) in red.
 
-.. GENERATED FROM PYTHON SOURCE LINES 173-181
+.. GENERATED FROM PYTHON SOURCE LINES 172-179
 
 .. code-block:: default
 
@@ -389,8 +388,7 @@ along with its bounding box (bbox) in red.
     largest_region_0 = labeled_0 == props_0_df.iloc[0]['label']
     minr, minc, maxr, maxc = (props_0_df.iloc[0][f'bbox-{i}'] for i in range(4))
     fig = px.imshow(largest_region_0, binary_string=True)
-    fig.add_shape(
-            type='rect', x0=minc, y0=minr, x1=maxc, y1=maxr, line=dict(color='Red'))
+    fig.add_shape(type='rect', x0=minc, y0=minr, x1=maxc, y1=maxr, line=dict(color='Red'))
     plotly.io.show(fig)
 
 
@@ -403,7 +401,7 @@ along with its bounding box (bbox) in red.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 182-188
+.. GENERATED FROM PYTHON SOURCE LINES 180-186
 
 We can see how the lower bounds of the box align with the bottom of the
 S-L interface by overlaying the same bounding box onto the 0th raw image.
@@ -412,14 +410,13 @@ the 0th and 1st images, but the bottom-most region of the box
 corresponds to the location of the interface earlier
 in time (0th image) because the interface is moving upward.
 
-.. GENERATED FROM PYTHON SOURCE LINES 188-194
+.. GENERATED FROM PYTHON SOURCE LINES 186-191
 
 .. code-block:: default
 
 
     fig = px.imshow(image_sequence[0, :, :], binary_string=True)
-    fig.add_shape(
-            type='rect', x0=minc, y0=minr, x1=maxc, y1=maxr, line=dict(color='Red'))
+    fig.add_shape(type='rect', x0=minc, y0=minr, x1=maxc, y1=maxr, line=dict(color='Red'))
     plotly.io.show(fig)
 
 
@@ -432,14 +429,14 @@ in time (0th image) because the interface is moving upward.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 195-199
+.. GENERATED FROM PYTHON SOURCE LINES 192-196
 
 We are now ready to perform this selection for all image deltas in the
 sequence. We shall also store
 the bbox information, which will be used to track the
 position of the S-L interface.
 
-.. GENERATED FROM PYTHON SOURCE LINES 199-219
+.. GENERATED FROM PYTHON SOURCE LINES 196-215
 
 .. code-block:: default
 
@@ -449,17 +446,16 @@ position of the S-L interface.
 
     for i in range(binarized.shape[0]):
         labeled = measure.label(binarized[i, :, :])
-        props = measure.regionprops_table(
-                labeled, properties=('label', 'area', 'bbox'))
+        props = measure.regionprops_table(labeled, properties=('label', 'area', 'bbox'))
         props_df = pd.DataFrame(props)
         props_df = props_df.sort_values('area', ascending=False)
-        largest_region[i, :, :] = (labeled == props_df.iloc[0]['label'])
+        largest_region[i, :, :] = labeled == props_df.iloc[0]['label']
         bboxes.append([props_df.iloc[0][f'bbox-{i}'] for i in range(4)])
     fig = px.imshow(
         largest_region,
         animation_frame=0,
         binary_string=True,
-        labels={'animation_frame': 'time point'}
+        labels={'animation_frame': 'time point'},
     )
     plotly.io.show(fig)
 
@@ -473,7 +469,7 @@ position of the S-L interface.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 220-231
+.. GENERATED FROM PYTHON SOURCE LINES 216-227
 
 Plot interface location over time
 =================================
@@ -487,7 +483,7 @@ are used to convert pixels and image number to physical units.
 We calculate the average solidfication velocity by fitting a linear
 polynomial to the scatter plot. The velocity is the first-order coefficient.
 
-.. GENERATED FROM PYTHON SOURCE LINES 231-244
+.. GENERATED FROM PYTHON SOURCE LINES 227-240
 
 .. code-block:: default
 
@@ -519,7 +515,7 @@ polynomial to the scatter plot. The velocity is the first-order coefficient.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.819 seconds)
+   **Total running time of the script:** (0 minutes 3.670 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_solidification_tracking.py:

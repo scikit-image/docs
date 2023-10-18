@@ -46,7 +46,7 @@ scikit-image.
 .. [4] Vorkel D and Haase R (2020) "GPU-accelerating ImageJ Macro image
        processing workflows using CLIJ" https://arxiv.org/abs/2008.11799
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-44
+.. GENERATED FROM PYTHON SOURCE LINES 31-42
 
 .. code-block:: default
 
@@ -57,9 +57,7 @@ scikit-image.
     import plotly.express as px
     from scipy import ndimage as ndi
 
-    from skimage import (
-        filters, measure, morphology, segmentation
-    )
+    from skimage import filters, measure, morphology, segmentation
     from skimage.data import protein_transport
 
 
@@ -70,11 +68,11 @@ scikit-image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-46
+.. GENERATED FROM PYTHON SOURCE LINES 43-44
 
 We start with a single cell/nucleus to construct the workflow.
 
-.. GENERATED FROM PYTHON SOURCE LINES 46-51
+.. GENERATED FROM PYTHON SOURCE LINES 44-49
 
 .. code-block:: default
 
@@ -96,11 +94,11 @@ We start with a single cell/nucleus to construct the workflow.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 52-53
+.. GENERATED FROM PYTHON SOURCE LINES 50-51
 
 The dataset is a 2D image stack with 15 frames (time points) and 2 channels.
 
-.. GENERATED FROM PYTHON SOURCE LINES 53-67
+.. GENERATED FROM PYTHON SOURCE LINES 51-65
 
 .. code-block:: default
 
@@ -114,7 +112,7 @@ The dataset is a 2D image stack with 15 frames (time points) and 2 channels.
         zmin=vmin,
         zmax=vmax,
         binary_string=True,
-        labels={'animation_frame': 'time point', 'facet_col': 'channel'}
+        labels={'animation_frame': 'time point', 'facet_col': 'channel'},
     )
     plotly.io.show(fig)
 
@@ -128,12 +126,12 @@ The dataset is a 2D image stack with 15 frames (time points) and 2 channels.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-70
+.. GENERATED FROM PYTHON SOURCE LINES 66-68
 
 To begin with, let us consider the first channel of the first image (step
 ``a)`` in the figure below).
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-73
+.. GENERATED FROM PYTHON SOURCE LINES 68-71
 
 .. code-block:: default
 
@@ -147,7 +145,7 @@ To begin with, let us consider the first channel of the first image (step
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-81
+.. GENERATED FROM PYTHON SOURCE LINES 72-79
 
 Segment the nucleus rim
 =======================
@@ -157,7 +155,7 @@ Next, we segment the nuclei, finding the threshold between the background
 and foreground with Otsu's method: We get a binary image (step ``c)``). We
 then fill the holes in the objects (step ``c-1)``).
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-89
+.. GENERATED FROM PYTHON SOURCE LINES 79-87
 
 .. code-block:: default
 
@@ -176,13 +174,13 @@ then fill the holes in the objects (step ``c-1)``).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-93
+.. GENERATED FROM PYTHON SOURCE LINES 88-91
 
 Following the original workflow, let us remove objects which touch the image
 border (step ``c-2)``). Here, we can see that part of another nucleus was
 touching the bottom right-hand corner.
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-97
+.. GENERATED FROM PYTHON SOURCE LINES 91-95
 
 .. code-block:: default
 
@@ -203,12 +201,12 @@ touching the bottom right-hand corner.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 98-100
+.. GENERATED FROM PYTHON SOURCE LINES 96-98
 
 We compute both the morphological dilation of this binary image
 (step ``d)``) and its morphological erosion (step ``e)``).
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-105
+.. GENERATED FROM PYTHON SOURCE LINES 98-103
 
 .. code-block:: default
 
@@ -224,13 +222,13 @@ We compute both the morphological dilation of this binary image
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-109
+.. GENERATED FROM PYTHON SOURCE LINES 104-107
 
 Finally, we subtract the eroded from the dilated to get the nucleus rim
 (step ``f)``). This is equivalent to selecting the pixels which are in
 ``dilate``, but not in ``erode``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 109-112
+.. GENERATED FROM PYTHON SOURCE LINES 107-110
 
 .. code-block:: default
 
@@ -244,11 +242,11 @@ Finally, we subtract the eroded from the dilated to get the nucleus rim
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-114
+.. GENERATED FROM PYTHON SOURCE LINES 111-112
 
 Let us visualize these processing steps in a sequence of subplots.
 
-.. GENERATED FROM PYTHON SOURCE LINES 114-146
+.. GENERATED FROM PYTHON SOURCE LINES 112-144
 
 .. code-block:: default
 
@@ -296,14 +294,14 @@ Let us visualize these processing steps in a sequence of subplots.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 147-151
+.. GENERATED FROM PYTHON SOURCE LINES 145-149
 
 Apply the segmented rim as a mask
 =================================
 Now that we have segmented the nuclear membrane in the first channel, we use
 it as a mask to measure the intensity in the second channel.
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-167
+.. GENERATED FROM PYTHON SOURCE LINES 149-165
 
 .. code-block:: default
 
@@ -335,14 +333,14 @@ it as a mask to measure the intensity in the second channel.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 168-172
+.. GENERATED FROM PYTHON SOURCE LINES 166-170
 
 Measure the total intensity
 ===========================
 The mean intensity is readily available as a region property in a labeled
 image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 172-179
+.. GENERATED FROM PYTHON SOURCE LINES 170-177
 
 .. code-block:: default
 
@@ -350,7 +348,7 @@ image.
     props = measure.regionprops_table(
         mask.astype(np.uint8),
         intensity_image=image_t_0_channel_1,
-        properties=('label', 'area', 'intensity_mean')
+        properties=('label', 'area', 'intensity_mean'),
     )
 
 
@@ -360,11 +358,11 @@ image.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 180-181
+.. GENERATED FROM PYTHON SOURCE LINES 178-179
 
 We may want to check that the value for the total intensity
 
-.. GENERATED FROM PYTHON SOURCE LINES 181-184
+.. GENERATED FROM PYTHON SOURCE LINES 179-182
 
 .. code-block:: default
 
@@ -384,11 +382,11 @@ We may want to check that the value for the total intensity
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 185-186
+.. GENERATED FROM PYTHON SOURCE LINES 183-184
 
 can be recovered from:
 
-.. GENERATED FROM PYTHON SOURCE LINES 186-189
+.. GENERATED FROM PYTHON SOURCE LINES 184-187
 
 .. code-block:: default
 
@@ -408,7 +406,7 @@ can be recovered from:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 190-195
+.. GENERATED FROM PYTHON SOURCE LINES 188-193
 
 Process the entire image sequence
 =================================
@@ -416,7 +414,7 @@ Instead of iterating the workflow for each time point, we process the
 multidimensional dataset directly (except for the thresholding step).
 Indeed, most scikit-image functions support nD images.
 
-.. GENERATED FROM PYTHON SOURCE LINES 195-202
+.. GENERATED FROM PYTHON SOURCE LINES 193-200
 
 .. code-block:: default
 
@@ -434,7 +432,7 @@ Indeed, most scikit-image functions support nD images.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 203-217
+.. GENERATED FROM PYTHON SOURCE LINES 201-215
 
 Alternatively, we could compute ``thresh_values`` without using a list
 comprehension, by reshaping ``smooth_seq`` to make it 2D (where the first
@@ -451,7 +449,7 @@ function on the image sequence along its second axis:
 We use the following flat structuring element for morphological
 computations (``np.newaxis`` is used to prepend an axis of size 1 for time):
 
-.. GENERATED FROM PYTHON SOURCE LINES 217-221
+.. GENERATED FROM PYTHON SOURCE LINES 215-219
 
 .. code-block:: default
 
@@ -474,12 +472,12 @@ computations (``np.newaxis`` is used to prepend an axis of size 1 for time):
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 222-224
+.. GENERATED FROM PYTHON SOURCE LINES 220-222
 
 This way, each frame is processed independently (pixels from consecutive
 frames are never spatial neighbors).
 
-.. GENERATED FROM PYTHON SOURCE LINES 224-227
+.. GENERATED FROM PYTHON SOURCE LINES 222-225
 
 .. code-block:: default
 
@@ -493,7 +491,7 @@ frames are never spatial neighbors).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 228-252
+.. GENERATED FROM PYTHON SOURCE LINES 226-250
 
 When clearing objects which touch the image border, we want to make sure
 that the bottom (first) and top (last) frames are not considered as borders.
@@ -520,7 +518,7 @@ values. This can be seen in 3D by running the following code:
     )
     fig.show()
 
-.. GENERATED FROM PYTHON SOURCE LINES 252-261
+.. GENERATED FROM PYTHON SOURCE LINES 250-259
 
 .. code-block:: default
 
@@ -540,13 +538,13 @@ values. This can be seen in 3D by running the following code:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 262-265
+.. GENERATED FROM PYTHON SOURCE LINES 260-263
 
 Let us give each mask (corresponding to each time point) a different label,
 running from 1 to 15. We use ``np.min_scalar_type`` to determine the
 minimum-size integer dtype needed to represent the number of time points:
 
-.. GENERATED FROM PYTHON SOURCE LINES 265-271
+.. GENERATED FROM PYTHON SOURCE LINES 263-269
 
 .. code-block:: default
 
@@ -563,12 +561,12 @@ minimum-size integer dtype needed to represent the number of time points:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 272-274
+.. GENERATED FROM PYTHON SOURCE LINES 270-272
 
 Let us compute the region properties of interest for all these labeled
 regions.
 
-.. GENERATED FROM PYTHON SOURCE LINES 274-297
+.. GENERATED FROM PYTHON SOURCE LINES 272-296
 
 .. code-block:: default
 
@@ -576,12 +574,13 @@ regions.
     props = measure.regionprops_table(
         mask_sequence,
         intensity_image=image_sequence[:, 1, :, :],
-        properties=('label', 'area', 'intensity_mean')
+        properties=('label', 'area', 'intensity_mean'),
     )
     np.testing.assert_array_equal(props['label'], np.arange(n_z) + 1)
 
-    fluorescence_change = [props['area'][i] * props['intensity_mean'][i]
-                           for i in range(n_z)]
+    fluorescence_change = [
+        props['area'][i] * props['intensity_mean'][i] for i in range(n_z)
+    ]
 
     fluorescence_change /= fluorescence_change[0]  # normalization
 
@@ -607,7 +606,7 @@ regions.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 298-301
+.. GENERATED FROM PYTHON SOURCE LINES 297-300
 
 Reassuringly, we find the expected result: The total fluorescence
 intensity at the nuclear envelope increases 1.3-fold in the initial five
@@ -616,7 +615,7 @@ time points, and then becomes roughly constant.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.334 seconds)
+   **Total running time of the script:** (0 minutes 2.338 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_fluorescence_nuclear_envelope.py:

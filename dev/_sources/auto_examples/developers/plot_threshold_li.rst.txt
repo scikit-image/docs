@@ -71,7 +71,7 @@ should not be used in production code, as it could change.
 First, we let's plot the cross entropy for the :func:`skimage.data.camera`
 image at all possible thresholds.
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-73
+.. GENERATED FROM PYTHON SOURCE LINES 42-75
 
 .. code-block:: default
 
@@ -94,9 +94,11 @@ image at all possible thresholds.
     ax[2].plot(thresholds, entropies)
     ax[2].set_xlabel('thresholds')
     ax[2].set_ylabel('cross-entropy')
-    ax[2].vlines(optimal_camera_threshold,
-                 ymin=np.min(entropies) - 0.05 * np.ptp(entropies),
-                 ymax=np.max(entropies) - 0.05 * np.ptp(entropies))
+    ax[2].vlines(
+        optimal_camera_threshold,
+        ymin=np.min(entropies) - 0.05 * np.ptp(entropies),
+        ymax=np.max(entropies) - 0.05 * np.ptp(entropies),
+    )
     ax[2].set_title('optimal threshold')
 
     fig.tight_layout()
@@ -125,20 +127,19 @@ image at all possible thresholds.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
+.. GENERATED FROM PYTHON SOURCE LINES 76-78
 
 Next, let's use the ``iter_callback`` feature of ``threshold_li`` to examine
 the optimization process as it happens.
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-94
+.. GENERATED FROM PYTHON SOURCE LINES 78-95
 
 .. code-block:: default
 
 
     iter_thresholds = []
 
-    optimal_threshold = filters.threshold_li(camera,
-                                             iter_callback=iter_thresholds.append)
+    optimal_threshold = filters.threshold_li(camera, iter_callback=iter_thresholds.append)
     iter_entropies = [_cross_entropy(camera, t) for t in iter_thresholds]
 
     print('Only', len(iter_thresholds), 'thresholds examined.')
@@ -170,7 +171,7 @@ the optimization process as it happens.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 95-100
+.. GENERATED FROM PYTHON SOURCE LINES 96-101
 
 This is clearly much more efficient than the brute force approach. However,
 in some images, the cross-entropy is not *convex*, meaning having a single
@@ -178,15 +179,16 @@ optimum. In this case, gradient descent could yield a threshold that is not
 optimal. In this example, we see how a bad initial guess for the optimization
 results in a poor threshold selection.
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-127
+.. GENERATED FROM PYTHON SOURCE LINES 101-129
 
 .. code-block:: default
 
 
     iter_thresholds2 = []
 
-    opt_threshold2 = filters.threshold_li(cell, initial_guess=64,
-                                          iter_callback=iter_thresholds2.append)
+    opt_threshold2 = filters.threshold_li(
+        cell, initial_guess=64, iter_callback=iter_thresholds2.append
+    )
 
     thresholds2 = np.arange(np.min(cell) + 1.5, np.max(cell) - 1.5)
     entropies2 = [_cross_entropy(cell, t) for t in thresholds]
@@ -221,22 +223,21 @@ results in a poor threshold selection.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-132
+.. GENERATED FROM PYTHON SOURCE LINES 130-134
 
 In this image, amazingly, the *default* initial guess, the mean image value,
 actually lies *right* on top of the peak between the two "valleys" of the
 objective function. Without supplying an initial guess, Li's thresholding
 method does nothing at all!
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-157
+.. GENERATED FROM PYTHON SOURCE LINES 134-158
 
 .. code-block:: default
 
 
     iter_thresholds3 = []
 
-    opt_threshold3 = filters.threshold_li(cell,
-                                          iter_callback=iter_thresholds3.append)
+    opt_threshold3 = filters.threshold_li(cell, iter_callback=iter_thresholds3.append)
 
     iter_entropies3 = [_cross_entropy(cell, t) for t in iter_thresholds3]
 
@@ -269,7 +270,7 @@ method does nothing at all!
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 158-169
+.. GENERATED FROM PYTHON SOURCE LINES 159-170
 
 To see what is going on, let's define a function, ``li_gradient``, that
 replicates the inner loop of the Li method and returns the *change* from the
@@ -283,9 +284,10 @@ initial guess is on the *right* side of that entropy peak. We overlay the
 threshold update gradient, marking the 0 gradient line and the default
 initial guess by ``threshold_li``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 169-210
+.. GENERATED FROM PYTHON SOURCE LINES 170-218
 
 .. code-block:: default
+
 
 
     def li_gradient(image, t):
@@ -293,15 +295,15 @@ initial guess by ``threshold_li``.
         foreground = image > t
         mean_fore = np.mean(image[foreground])
         mean_back = np.mean(image[~foreground])
-        t_next = ((mean_back - mean_fore) /
-                  (np.log(mean_back) - np.log(mean_fore)))
+        t_next = (mean_back - mean_fore) / (np.log(mean_back) - np.log(mean_fore))
         dt = t_next - t
         return dt
 
 
     iter_thresholds4 = []
-    opt_threshold4 = filters.threshold_li(cell, initial_guess=68,
-                                          iter_callback=iter_thresholds4.append)
+    opt_threshold4 = filters.threshold_li(
+        cell, initial_guess=68, iter_callback=iter_thresholds4.append
+    )
     iter_entropies4 = [_cross_entropy(cell, t) for t in iter_thresholds4]
     print(len(iter_thresholds4), 'examined, optimum:', opt_threshold4)
 
@@ -317,10 +319,16 @@ initial guess by ``threshold_li``.
 
     ax2 = ax1.twinx()
     ax2.plot(thresholds2, gradients, c='C3')
-    ax2.hlines([0], xmin=thresholds2[0], xmax=thresholds2[-1],
-               colors='gray', linestyles='dashed')
-    ax2.vlines(np.mean(cell), ymin=np.min(gradients), ymax=np.max(gradients),
-               colors='gray', linestyles='dashed')
+    ax2.hlines(
+        [0], xmin=thresholds2[0], xmax=thresholds2[-1], colors='gray', linestyles='dashed'
+    )
+    ax2.vlines(
+        np.mean(cell),
+        ymin=np.min(gradients),
+        ymax=np.max(gradients),
+        colors='gray',
+        linestyles='dashed',
+    )
     ax2.set_ylabel(r'$\Delta$(threshold)', color='C3')
     ax2.tick_params(axis='y', labelcolor='C3')
 
@@ -346,7 +354,7 @@ initial guess by ``threshold_li``.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 211-216
+.. GENERATED FROM PYTHON SOURCE LINES 219-224
 
 In addition to allowing users to provide a number as an initial guess,
 :func:`skimage.filters.threshold_li` can receive a function that makes a
@@ -354,18 +362,21 @@ guess from the image intensities, just like :func:`numpy.mean` does by
 default. This might be a good option when many images with different ranges
 need to be processed.
 
-.. GENERATED FROM PYTHON SOURCE LINES 216-236
+.. GENERATED FROM PYTHON SOURCE LINES 224-247
 
 .. code-block:: default
+
 
 
     def quantile_95(image):
         # you can use np.quantile(image, 0.95) if you have NumPy>=1.15
         return np.percentile(image, 95)
 
+
     iter_thresholds5 = []
-    opt_threshold5 = filters.threshold_li(cell, initial_guess=quantile_95,
-                                          iter_callback=iter_thresholds5.append)
+    opt_threshold5 = filters.threshold_li(
+        cell, initial_guess=quantile_95, iter_callback=iter_thresholds5.append
+    )
     iter_entropies5 = [_cross_entropy(cell, t) for t in iter_thresholds5]
     print(len(iter_thresholds5), 'examined, optimum:', opt_threshold5)
 
@@ -399,7 +410,7 @@ need to be processed.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.330 seconds)
+   **Total running time of the script:** (0 minutes 6.215 seconds)
 
 
 .. _sphx_glr_download_auto_examples_developers_plot_threshold_li.py:

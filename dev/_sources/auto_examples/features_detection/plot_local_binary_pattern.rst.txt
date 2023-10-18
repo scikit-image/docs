@@ -30,7 +30,7 @@ whether the surrounding points are greater than or less than the central point
 Before trying out LBP on an image, it helps to look at a schematic of LBPs.
 The below code is just used to plot the schematic.
 
-.. GENERATED FROM PYTHON SOURCE LINES 14-71
+.. GENERATED FROM PYTHON SOURCE LINES 14-73
 
 .. code-block:: default
 
@@ -81,11 +81,13 @@ The below code is just used to plot the schematic.
 
     titles = ['flat', 'flat', 'edge', 'corner', 'non-uniform']
 
-    binary_patterns = [np.zeros(8),
-                       np.ones(8),
-                       np.hstack([np.ones(4), np.zeros(4)]),
-                       np.hstack([np.zeros(3), np.ones(5)]),
-                       [1, 0, 0, 1, 1, 1, 0, 0]]
+    binary_patterns = [
+        np.zeros(8),
+        np.ones(8),
+        np.hstack([np.ones(4), np.zeros(4)]),
+        np.hstack([np.zeros(3), np.ones(5)]),
+        [1, 0, 0, 1, 1, 1, 0, 0],
+    ]
 
     for ax, values, name in zip(axes, binary_patterns, titles):
         plot_lbp_model(ax, values)
@@ -103,7 +105,7 @@ The below code is just used to plot the schematic.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-83
+.. GENERATED FROM PYTHON SOURCE LINES 74-85
 
 The figure above shows example results with black (or white) representing
 pixels that are less (or more) intense than the central pixel. When
@@ -117,7 +119,7 @@ When using LBP to detect texture, you measure a collection of LBPs over an
 image patch and look at the distribution of these LBPs. Lets apply LBP to a
 brick texture.
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-144
+.. GENERATED FROM PYTHON SOURCE LINES 85-148
 
 .. code-block:: default
 
@@ -148,8 +150,9 @@ brick texture.
 
     def hist(ax, lbp):
         n_bins = int(lbp.max() + 1)
-        return ax.hist(lbp.ravel(), density=True, bins=n_bins, range=(0, n_bins),
-                       facecolor='0.5')
+        return ax.hist(
+            lbp.ravel(), density=True, bins=n_bins, range=(0, n_bins), facecolor='0.5'
+        )
 
 
     # plot histograms of LBP of textures
@@ -160,10 +163,11 @@ brick texture.
     w = width = radius - 1
     edge_labels = range(n_points // 2 - w, n_points // 2 + w + 1)
     flat_labels = list(range(0, w + 1)) + list(range(n_points - w, n_points + 2))
-    i_14 = n_points // 4            # 1/4th of the histogram
-    i_34 = 3 * (n_points // 4)      # 3/4th of the histogram
-    corner_labels = (list(range(i_14 - w, i_14 + w + 1)) +
-                     list(range(i_34 - w, i_34 + w + 1)))
+    i_14 = n_points // 4  # 1/4th of the histogram
+    i_34 = 3 * (n_points // 4)  # 3/4th of the histogram
+    corner_labels = list(range(i_14 - w, i_14 + w + 1)) + list(
+        range(i_34 - w, i_34 + w + 1)
+    )
 
     label_sets = (edge_labels, flat_labels, corner_labels)
 
@@ -194,7 +198,7 @@ brick texture.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 145-151
+.. GENERATED FROM PYTHON SOURCE LINES 149-155
 
 The above plot highlights flat, edge-like, and corner-like regions of the
 image.
@@ -203,7 +207,7 @@ The histogram of the LBP result is a good measure to classify textures.
 Here, we test the histogram distributions against each other using the
 Kullback-Leibler-Divergence.
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-219
+.. GENERATED FROM PYTHON SOURCE LINES 155-227
 
 .. code-block:: default
 
@@ -227,8 +231,7 @@ Kullback-Leibler-Divergence.
         n_bins = int(lbp.max() + 1)
         hist, _ = np.histogram(lbp, density=True, bins=n_bins, range=(0, n_bins))
         for name, ref in refs.items():
-            ref_hist, _ = np.histogram(ref, density=True, bins=n_bins,
-                                       range=(0, n_bins))
+            ref_hist, _ = np.histogram(ref, density=True, bins=n_bins, range=(0, n_bins))
             score = kullback_leibler_divergence(hist, ref_hist)
             if score < best_score:
                 best_score = score
@@ -243,21 +246,26 @@ Kullback-Leibler-Divergence.
     refs = {
         'brick': local_binary_pattern(brick, n_points, radius, METHOD),
         'grass': local_binary_pattern(grass, n_points, radius, METHOD),
-        'gravel': local_binary_pattern(gravel, n_points, radius, METHOD)
+        'gravel': local_binary_pattern(gravel, n_points, radius, METHOD),
     }
 
     # classify rotated textures
     print('Rotated images matched against references using LBP:')
-    print('original: brick, rotated: 30deg, match result: ',
-          match(refs, rotate(brick, angle=30, resize=False)))
-    print('original: brick, rotated: 70deg, match result: ',
-          match(refs, rotate(brick, angle=70, resize=False)))
-    print('original: grass, rotated: 145deg, match result: ',
-          match(refs, rotate(grass, angle=145, resize=False)))
+    print(
+        'original: brick, rotated: 30deg, match result: ',
+        match(refs, rotate(brick, angle=30, resize=False)),
+    )
+    print(
+        'original: brick, rotated: 70deg, match result: ',
+        match(refs, rotate(brick, angle=70, resize=False)),
+    )
+    print(
+        'original: grass, rotated: 145deg, match result: ',
+        match(refs, rotate(grass, angle=145, resize=False)),
+    )
 
     # plot histograms of LBP of textures
-    fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(nrows=2, ncols=3,
-                                                           figsize=(9, 6))
+    fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(nrows=2, ncols=3, figsize=(9, 6))
     plt.gray()
 
     ax1.imshow(brick)
@@ -289,7 +297,7 @@ Kullback-Leibler-Divergence.
  .. code-block:: none
 
     Rotated images matched against references using LBP:
-    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/skimage/feature/texture.py:353: UserWarning:
+    /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages/skimage/feature/texture.py:359: UserWarning:
 
     Applying `local_binary_pattern` to floating-point images may give unexpected results when small numerical differences between adjacent pixels are present. It is recommended to use this function with images of integer dtype.
 
@@ -303,7 +311,7 @@ Kullback-Leibler-Divergence.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.377 seconds)
+   **Total running time of the script:** (0 minutes 2.337 seconds)
 
 
 .. _sphx_glr_download_auto_examples_features_detection_plot_local_binary_pattern.py:

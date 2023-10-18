@@ -41,12 +41,12 @@ achieved simply by averaging shifts of only n=0 and n=1 on each axis.
 
 .. _`shift-invariant`: https://en.wikipedia.org/wiki/Shift-invariant_system
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-91
+.. GENERATED FROM PYTHON SOURCE LINES 25-99
 
 
 
 .. image-sg:: /auto_examples/filters/images/sphx_glr_plot_cycle_spinning_001.png
-   :alt: Noisy PSNR=16.47, Denoised: no cycle shifts PSNR=26.35, Denoised: 2x2 shifts PSNR=27.18, Denoised: 4x4 shifts PSNR=27.54, Denoised: 6x6 shifts PSNR=27.61
+   :alt: Noisy PSNR=16.49, Denoised: no cycle shifts PSNR=26.36, Denoised: 2x2 shifts PSNR=27.16, Denoised: 4x4 shifts PSNR=27.54, Denoised: 6x6 shifts PSNR=27.6
    :srcset: /auto_examples/filters/images/sphx_glr_plot_cycle_spinning_001.png
    :class: sphx-glr-single-img
 
@@ -55,6 +55,7 @@ achieved simply by averaging shifts of only n=0 and n=1 on each axis.
 
  .. code-block:: none
 
+    Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
     Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
 
 
@@ -79,8 +80,7 @@ achieved simply by averaging shifts of only n=0 and n=1 on each axis.
     sigma = 0.155
     noisy = random_noise(original, var=sigma**2)
 
-    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(10, 4),
-                           sharex=False, sharey=False)
+    fig, ax = plt.subplots(nrows=2, ncols=3, figsize=(10, 4), sharex=False, sharey=False)
     ax = ax.ravel()
 
     psnr_noisy = peak_signal_noise_ratio(original, noisy)
@@ -95,23 +95,27 @@ achieved simply by averaging shifts of only n=0 and n=1 on each axis.
     # max_shift = 3 -> shifts of (0, 1, 2, 3) along each axis
     # etc...
 
-    denoise_kwargs = dict(channel_axis=-1, convert2ycbcr=True, wavelet='db1',
-                          rescale_sigma=True)
+    denoise_kwargs = dict(
+        channel_axis=-1, convert2ycbcr=True, wavelet='db1', rescale_sigma=True
+    )
 
     all_psnr = []
     max_shifts = [0, 1, 3, 5]
     for n, s in enumerate(max_shifts):
-        im_bayescs = cycle_spin(noisy, func=denoise_wavelet, max_shifts=s,
-                                func_kw=denoise_kwargs, channel_axis=-1)
-        ax[n+1].imshow(im_bayescs)
-        ax[n+1].axis('off')
+        im_bayescs = cycle_spin(
+            noisy,
+            func=denoise_wavelet,
+            max_shifts=s,
+            func_kw=denoise_kwargs,
+            channel_axis=-1,
+        )
+        ax[n + 1].imshow(im_bayescs)
+        ax[n + 1].axis('off')
         psnr = peak_signal_noise_ratio(original, im_bayescs)
         if s == 0:
-            ax[n+1].set_title(
-                f'Denoised: no cycle shifts\nPSNR={psnr:0.4g}')
+            ax[n + 1].set_title(f'Denoised: no cycle shifts\nPSNR={psnr:0.4g}')
         else:
-            ax[n+1].set_title(
-                f'Denoised: {s+1}x{s+1} shifts\nPSNR={psnr:0.4g}')
+            ax[n + 1].set_title(f'Denoised: {s+1}x{s+1} shifts\nPSNR={psnr:0.4g}')
         all_psnr.append(psnr)
 
     # plot PSNR as a function of the degree of cycle shifting
@@ -123,20 +127,25 @@ achieved simply by averaging shifts of only n=0 and n=1 on each axis.
 
     # Annotate with a cyan arrow on the 6x6 case vs. no cycle shift case to
     # illustrate a region with reduced block-like artifact with cycle shifting
-    arrowprops = dict(arrowstyle="simple,tail_width=0.1,head_width=0.5",
-                      connectionstyle="arc3",
-                      color='c')
+    arrowprops = dict(
+        arrowstyle="simple,tail_width=0.1,head_width=0.5", connectionstyle="arc3", color='c'
+    )
     for i in [1, 4]:
-        ax[i].annotate("", xy=(101, 39), xycoords='data',
-                       xytext=(70, 70), textcoords='data',
-                       arrowprops=arrowprops)
+        ax[i].annotate(
+            "",
+            xy=(101, 39),
+            xycoords='data',
+            xytext=(70, 70),
+            textcoords='data',
+            arrowprops=arrowprops,
+        )
 
     plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.118 seconds)
+   **Total running time of the script:** (0 minutes 1.145 seconds)
 
 
 .. _sphx_glr_download_auto_examples_filters_plot_cycle_spinning.py:

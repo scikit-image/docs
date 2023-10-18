@@ -58,7 +58,7 @@ Besides area, many other region properties are available.
 2D images
 =========
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-63
+.. GENERATED FROM PYTHON SOURCE LINES 30-64
 
 .. code-block:: default
 
@@ -69,8 +69,9 @@ Besides area, many other region properties are available.
 
     properties = ['label', 'area']
 
-    tables = [measure.regionprops_table(image, properties=properties)
-              for image in labeled_images]
+    tables = [
+        measure.regionprops_table(image, properties=properties) for image in labeled_images
+    ]
     tables = [pd.DataFrame(table) for table in tables]
 
     for fraction, table in zip(fractions, tables):
@@ -107,7 +108,7 @@ Besides area, many other region properties are available.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-69
+.. GENERATED FROM PYTHON SOURCE LINES 65-70
 
 In the scatterplot, many points seem to be overlapping at low area values.
 To get a better sense of the distribution, we may want to add some 'jitter'
@@ -115,14 +116,13 @@ to the visualization. To this end, we use `stripplot` (from `seaborn`, the
 Python library dedicated to statistical data visualization) with argument
 `jitter=True`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-77
+.. GENERATED FROM PYTHON SOURCE LINES 70-77
 
 .. code-block:: default
 
 
     fig, ax = plt.subplots()
-    sns.stripplot(x='volume fraction', y='area', data=areas, jitter=True,
-                  ax=ax)
+    sns.stripplot(x='volume fraction', y='area', data=areas, jitter=True, ax=ax)
     # Fix floating point rendering
     ax.set_xticklabels([f'{frac:.2f}' for frac in fractions])
     plt.show()
@@ -158,20 +158,20 @@ This corresponds to the `percolation threshold
 <https://en.wikipedia.org/wiki/Percolation_threshold>`_ in statistical
 physics and graph theory.
 
-.. GENERATED FROM PYTHON SOURCE LINES 85-109
+.. GENERATED FROM PYTHON SOURCE LINES 85-108
 
 .. code-block:: default
 
 
-    images = [data.binary_blobs(length=128, n_dim=3, volume_fraction=f)
-              for f in fractions]
+    images = [data.binary_blobs(length=128, n_dim=3, volume_fraction=f) for f in fractions]
 
     labeled_images = [measure.label(image) for image in images]
 
     properties = ['label', 'area']
 
-    tables = [measure.regionprops_table(image, properties=properties)
-              for image in labeled_images]
+    tables = [
+        measure.regionprops_table(image, properties=properties) for image in labeled_images
+    ]
     tables = [pd.DataFrame(table) for table in tables]
 
     for fraction, table in zip(fractions, tables):
@@ -180,8 +180,7 @@ physics and graph theory.
     blob_volumes = pd.concat(tables, axis=0)
 
     fig, ax = plt.subplots()
-    sns.stripplot(x='volume fraction', y='area', data=blob_volumes, jitter=True,
-                  ax=ax)
+    sns.stripplot(x='volume fraction', y='area', data=blob_volumes, jitter=True, ax=ax)
     ax.set_ylabel('blob size (3D)')
     # Fix floating point rendering
     ax.set_xticklabels([f'{frac:.2f}' for frac in fractions])
@@ -199,7 +198,7 @@ physics and graph theory.
 
  .. code-block:: none
 
-    /home/runner/work/scikit-image/scikit-image/doc/examples/segmentation/plot_regionprops_table.py:107: UserWarning:
+    /home/runner/work/scikit-image/scikit-image/doc/examples/segmentation/plot_regionprops_table.py:106: UserWarning:
 
     set_ticklabels() should only be used with a fixed number of ticks, i.e. after set_ticks() or using a FixedLocator.
 
@@ -210,7 +209,7 @@ physics and graph theory.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.279 seconds)
+   **Total running time of the script:** (0 minutes 3.186 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_regionprops_table.py:

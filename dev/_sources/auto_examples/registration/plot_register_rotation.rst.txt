@@ -51,7 +51,7 @@ differ with respect to rotation around a common center point. By remapping
 these images into polar space, the rotation difference becomes a simple
 translation difference that can be recovered by phase correlation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 34-71
+.. GENERATED FROM PYTHON SOURCE LINES 34-69
 
 .. code-block:: default
 
@@ -84,13 +84,11 @@ translation difference that can be recovered by phase correlation.
     ax[3].imshow(rotated_polar)
     plt.show()
 
-    shifts, error, phasediff = phase_cross_correlation(image_polar,
-                                                       rotated_polar,
-                                                       normalization=None)
-    print(f'Expected value for counterclockwise rotation in degrees: '
-          f'{angle}')
-    print(f'Recovered value for counterclockwise rotation: '
-          f'{shifts[0]}')
+    shifts, error, phasediff = phase_cross_correlation(
+        image_polar, rotated_polar, normalization=None
+    )
+    print(f'Expected value for counterclockwise rotation in degrees: ' f'{angle}')
+    print(f'Recovered value for counterclockwise rotation: ' f'{shifts[0]}')
 
 
 
@@ -111,7 +109,7 @@ translation difference that can be recovered by phase correlation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-79
+.. GENERATED FROM PYTHON SOURCE LINES 70-77
 
 Recover rotation and scaling differences with log-polar transform
 =================================================================
@@ -121,7 +119,7 @@ the axis tick values). By remapping these images into log-polar space,
 we can recover rotation as before, and now also scaling, by phase
 correlation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-121
+.. GENERATED FROM PYTHON SOURCE LINES 77-117
 
 .. code-block:: default
 
@@ -134,10 +132,8 @@ correlation.
     image = img_as_float(image)
     rotated = rotate(image, angle)
     rescaled = rescale(rotated, scale, channel_axis=-1)
-    image_polar = warp_polar(image, radius=radius,
-                             scaling='log', channel_axis=-1)
-    rescaled_polar = warp_polar(rescaled, radius=radius,
-                                scaling='log', channel_axis=-1)
+    image_polar = warp_polar(image, radius=radius, scaling='log', channel_axis=-1)
+    rescaled_polar = warp_polar(rescaled, radius=radius, scaling='log', channel_axis=-1)
 
     fig, axes = plt.subplots(2, 2, figsize=(8, 8))
     ax = axes.ravel()
@@ -152,9 +148,9 @@ correlation.
     plt.show()
 
     # setting `upsample_factor` can increase precision
-    shifts, error, phasediff = phase_cross_correlation(image_polar, rescaled_polar,
-                                                       upsample_factor=20,
-                                                       normalization=None)
+    shifts, error, phasediff = phase_cross_correlation(
+        image_polar, rescaled_polar, upsample_factor=20, normalization=None
+    )
     shiftr, shiftc = shifts[:2]
 
     # Calculate scale factor from translation
@@ -189,7 +185,7 @@ correlation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 122-135
+.. GENERATED FROM PYTHON SOURCE LINES 118-131
 
 Register rotation and scaling on a translated image - Part 1
 =================================================================
@@ -205,7 +201,7 @@ the magnitude spectra of the Fourier-transformed images.
 In this next example, we first show how the above approaches fail when two
 images differ by rotation, scaling, and translation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 135-182
+.. GENERATED FROM PYTHON SOURCE LINES 131-178
 
 .. code-block:: default
 
@@ -230,9 +226,9 @@ images differ by rotation, scaling, and translation.
     radius = 705
     warped_image = warp_polar(image, radius=radius, scaling="log")
     warped_rts = warp_polar(rts_image, radius=radius, scaling="log")
-    shifts, error, phasediff = phase_cross_correlation(warped_image, warped_rts,
-                                                       upsample_factor=20,
-                                                       normalization=None)
+    shifts, error, phasediff = phase_cross_correlation(
+        warped_image, warped_rts, upsample_factor=20, normalization=None
+    )
     shiftr, shiftc = shifts[:2]
     klog = radius / np.log(radius)
     shift_scale = 1 / (np.exp(shiftc / klog))
@@ -278,7 +274,7 @@ images differ by rotation, scaling, and translation.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 183-191
+.. GENERATED FROM PYTHON SOURCE LINES 179-187
 
 Register rotation and scaling on a translated image - Part 2
 =================================================================
@@ -289,7 +285,7 @@ These differences can be recovered by treating the magnitude spectra as
 images themselves, and applying the same log-polar + phase correlation
 approach taken above.
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-249
+.. GENERATED FROM PYTHON SOURCE LINES 187-252
 
 .. code-block:: default
 
@@ -309,17 +305,18 @@ approach taken above.
     # Create log-polar transformed FFT mag images and register
     shape = image_fs.shape
     radius = shape[0] // 8  # only take lower frequencies
-    warped_image_fs = warp_polar(image_fs, radius=radius, output_shape=shape,
-                                 scaling='log', order=0)
-    warped_rts_fs = warp_polar(rts_fs, radius=radius, output_shape=shape,
-                               scaling='log', order=0)
+    warped_image_fs = warp_polar(
+        image_fs, radius=radius, output_shape=shape, scaling='log', order=0
+    )
+    warped_rts_fs = warp_polar(
+        rts_fs, radius=radius, output_shape=shape, scaling='log', order=0
+    )
 
-    warped_image_fs = warped_image_fs[:shape[0] // 2, :]  # only use half of FFT
-    warped_rts_fs = warped_rts_fs[:shape[0] // 2, :]
-    shifts, error, phasediff = phase_cross_correlation(warped_image_fs,
-                                                       warped_rts_fs,
-                                                       upsample_factor=10,
-                                                       normalization=None)
+    warped_image_fs = warped_image_fs[: shape[0] // 2, :]  # only use half of FFT
+    warped_rts_fs = warped_rts_fs[: shape[0] // 2, :]
+    shifts, error, phasediff = phase_cross_correlation(
+        warped_image_fs, warped_rts_fs, upsample_factor=10, normalization=None
+    )
 
     # Use translation parameters to calculate rotation and scaling parameters
     shiftr, shiftc = shifts[:2]
@@ -331,13 +328,19 @@ approach taken above.
     ax = axes.ravel()
     ax[0].set_title("Original Image FFT\n(magnitude; zoomed)")
     center = np.array(shape) // 2
-    ax[0].imshow(image_fs[center[0] - radius:center[0] + radius,
-                          center[1] - radius:center[1] + radius],
-                 cmap='magma')
+    ax[0].imshow(
+        image_fs[
+            center[0] - radius : center[0] + radius, center[1] - radius : center[1] + radius
+        ],
+        cmap='magma',
+    )
     ax[1].set_title("Modified Image FFT\n(magnitude; zoomed)")
-    ax[1].imshow(rts_fs[center[0] - radius:center[0] + radius,
-                        center[1] - radius:center[1] + radius],
-                 cmap='magma')
+    ax[1].imshow(
+        rts_fs[
+            center[0] - radius : center[0] + radius, center[1] - radius : center[1] + radius
+        ],
+        cmap='magma',
+    )
     ax[2].set_title("Log-Polar-Transformed\nOriginal FFT")
     ax[2].imshow(warped_image_fs, cmap='magma')
     ax[3].set_title("Log-Polar-Transformed\nModified FFT")
@@ -373,7 +376,7 @@ approach taken above.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 250-287
+.. GENERATED FROM PYTHON SOURCE LINES 253-290
 
 Some notes on this approach
 =================================================================
@@ -416,7 +419,7 @@ References
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 11.546 seconds)
+   **Total running time of the script:** (0 minutes 11.042 seconds)
 
 
 .. _sphx_glr_download_auto_examples_registration_plot_register_rotation.py:

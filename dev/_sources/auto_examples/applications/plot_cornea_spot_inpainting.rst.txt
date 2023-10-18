@@ -108,7 +108,7 @@ Plotly's ``imshow`` function. As a side note, when the
 ``binary_string`` parameter is set to ``True``, the image is
 represented as grayscale.
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-72
+.. GENERATED FROM PYTHON SOURCE LINES 57-68
 
 .. code-block:: default
 
@@ -118,13 +118,9 @@ represented as grayscale.
         animation_frame=0,
         binary_string=True,
         labels={'animation_frame': '6-step time point'},
-        title='Sample of in-vivo human cornea'
+        title='Sample of in-vivo human cornea',
     )
-    fig.update_layout(
-        autosize=False,
-        minreducedwidth=250,
-        minreducedheight=250
-    )
+    fig.update_layout(autosize=False, minreducedwidth=250, minreducedheight=250)
     plotly.io.show(fig)
 
 
@@ -137,7 +133,7 @@ represented as grayscale.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-84
+.. GENERATED FROM PYTHON SOURCE LINES 69-80
 
 Aggregate over time
 ===================
@@ -151,7 +147,7 @@ with respect to the background (blurred signal).
 Complementarily, to get a feel for the (moving) data, let us compute the
 variance.
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-101
+.. GENERATED FROM PYTHON SOURCE LINES 80-97
 
 .. code-block:: default
 
@@ -190,7 +186,7 @@ variance.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 102-118
+.. GENERATED FROM PYTHON SOURCE LINES 98-114
 
 Use local thresholding
 ======================
@@ -209,7 +205,7 @@ typical size (number of pixels) over which illumination varies,
 as well as the ``offset`` (shifting the neighborhood's weighted mean).
 Let us try two different values for ``block_size``:
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-125
+.. GENERATED FROM PYTHON SOURCE LINES 114-121
 
 .. code-block:: default
 
@@ -227,27 +223,24 @@ Let us try two different values for ``block_size``:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-128
+.. GENERATED FROM PYTHON SOURCE LINES 122-124
 
 Let us define a convenience function to display two plots side by side, so
 it is easier for us to compare them:
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-143
+.. GENERATED FROM PYTHON SOURCE LINES 124-136
 
 .. code-block:: default
 
 
+
     def plot_comparison(plot1, plot2, title1, title2):
-        fig, (ax1, ax2) = plt.subplots(
-            ncols=2,
-            figsize=(12, 6),
-            sharex=True,
-            sharey=True
-        )
+        fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(12, 6), sharex=True, sharey=True)
         ax1.imshow(plot1, cmap='gray')
         ax1.set_title(title1)
         ax2.imshow(plot2, cmap='gray')
         ax2.set_title(title2)
+
 
     plot_comparison(mask_1, mask_2, "block_size = 21", "block_size = 43")
 
@@ -263,7 +256,7 @@ it is easier for us to compare them:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 144-152
+.. GENERATED FROM PYTHON SOURCE LINES 137-145
 
 The "dirt spots" appear to be more distinct in the second mask, i.e., the
 one resulting from using the larger ``block_size`` value.
@@ -274,7 +267,7 @@ toggling parameter values can give us a deeper
 understanding of the method being used, which can typically move us
 closer to the desired results.
 
-.. GENERATED FROM PYTHON SOURCE LINES 152-159
+.. GENERATED FROM PYTHON SOURCE LINES 145-152
 
 .. code-block:: default
 
@@ -297,7 +290,7 @@ closer to the desired results.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 160-173
+.. GENERATED FROM PYTHON SOURCE LINES 153-166
 
 Remove fine-grained features
 ============================
@@ -313,7 +306,7 @@ An erosion followed by a dilation is called an *opening*.
 First, we apply an opening filter, in order to remove small objects and thin
 lines, while preserving the shape and size of larger objects.
 
-.. GENERATED FROM PYTHON SOURCE LINES 173-178
+.. GENERATED FROM PYTHON SOURCE LINES 166-171
 
 .. code-block:: default
 
@@ -334,7 +327,7 @@ lines, while preserving the shape and size of larger objects.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 179-189
+.. GENERATED FROM PYTHON SOURCE LINES 172-182
 
 Since "opening" an image starts with an erosion operation, bright regions
 which are smaller than the structuring element have been removed.
@@ -347,11 +340,11 @@ i.e., ``footprint = ski.morphology.disk(3)``, more of the fine-grained
 features would be filtered out, since the disk's area is larger than the
 diamond's.
 
-.. GENERATED FROM PYTHON SOURCE LINES 191-192
+.. GENERATED FROM PYTHON SOURCE LINES 184-185
 
 Next, we can make the detected areas wider by applying a dilation filter:
 
-.. GENERATED FROM PYTHON SOURCE LINES 192-196
+.. GENERATED FROM PYTHON SOURCE LINES 185-189
 
 .. code-block:: default
 
@@ -371,12 +364,12 @@ Next, we can make the detected areas wider by applying a dilation filter:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 197-199
+.. GENERATED FROM PYTHON SOURCE LINES 190-192
 
 Dilation enlarges bright regions and shrinks dark regions.
 Notice how, indeed, the white spots have thickened.
 
-.. GENERATED FROM PYTHON SOURCE LINES 201-209
+.. GENERATED FROM PYTHON SOURCE LINES 194-202
 
 Inpaint each frame separately
 =============================
@@ -387,7 +380,7 @@ This function takes two arrays as inputs:
 The image to restore and a mask (with same shape) corresponding to the
 regions we want to inpaint.
 
-.. GENERATED FROM PYTHON SOURCE LINES 209-218
+.. GENERATED FROM PYTHON SOURCE LINES 202-210
 
 .. code-block:: default
 
@@ -396,8 +389,7 @@ regions we want to inpaint.
 
     for i in range(image_seq.shape[0]):
         image_seq_inpainted[i] = ski.restoration.inpaint_biharmonic(
-            image_seq[i],
-            mask_dilate
+            image_seq[i], mask_dilate
         )
 
 
@@ -407,13 +399,13 @@ regions we want to inpaint.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 219-222
+.. GENERATED FROM PYTHON SOURCE LINES 211-214
 
 Let us visualize one restored image, where the dirt spots have been
 inpainted. First, we find the contours of the dirt spots (well, of the mask)
 so we can draw them on top of the restored image:
 
-.. GENERATED FROM PYTHON SOURCE LINES 222-245
+.. GENERATED FROM PYTHON SOURCE LINES 214-237
 
 .. code-block:: default
 
@@ -447,22 +439,19 @@ so we can draw them on top of the restored image:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 246-249
+.. GENERATED FROM PYTHON SOURCE LINES 238-241
 
 We use function ``label2rgb`` from the ``color`` module to overlay the
 restored image with the segmented spots, using transparency (alpha
 parameter).
 
-.. GENERATED FROM PYTHON SOURCE LINES 249-264
+.. GENERATED FROM PYTHON SOURCE LINES 241-253
 
 .. code-block:: default
 
 
     color_contours = ski.color.label2rgb(
-        contour_mask,
-        image=sample_result,
-        alpha=0.4,
-        bg_color=(1, 1, 1)
+        contour_mask, image=sample_result, alpha=0.4, bg_color=(1, 1, 1)
     )
 
     fig, ax = plt.subplots(figsize=(6, 6))
@@ -484,13 +473,13 @@ parameter).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 265-268
+.. GENERATED FROM PYTHON SOURCE LINES 254-257
 
 Note that the dirt spot located at (x, y) ~ (719, 1237) stands out; ideally,
 it should have been segmented and inpainted. We can see that we 'lost' it to
 the opening processing step, when removing fine-grained features.
 
-.. GENERATED FROM PYTHON SOURCE LINES 268-270
+.. GENERATED FROM PYTHON SOURCE LINES 257-259
 
 .. code-block:: default
 
@@ -506,7 +495,7 @@ the opening processing step, when removing fine-grained features.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 26.335 seconds)
+   **Total running time of the script:** (0 minutes 25.852 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_cornea_spot_inpainting.py:

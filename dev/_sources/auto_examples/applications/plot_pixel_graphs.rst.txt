@@ -98,7 +98,7 @@ main vessels in the image.
 
     retina = color.rgb2gray(retina_source)
     t0, t1 = filters.threshold_multiotsu(retina, classes=3)
-    mask = (retina > t0)
+    mask = retina > t0
     vessels = filters.sato(retina, sigmas=range(1, 10)) * mask
 
     _, axes = plt.subplots(nrows=1, ncols=2)
@@ -169,8 +169,8 @@ to the position of the centroid!
     skeleton = morphology.skeletonize(binary)
     g, nodes = graph.pixel_graph(skeleton, connectivity=2)
     px, distances = graph.central_pixel(
-            g, nodes=nodes, shape=skeleton.shape, partition_size=100
-            )
+        g, nodes=nodes, shape=skeleton.shape, partition_size=100
+    )
 
     centroid = measure.centroid(labeled > 0)
 
@@ -198,7 +198,7 @@ to the position of the centroid!
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (1 minutes 12.856 seconds)
+   **Total running time of the script:** (1 minutes 10.348 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_pixel_graphs.py:

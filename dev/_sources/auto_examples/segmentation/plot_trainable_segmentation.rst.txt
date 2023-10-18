@@ -35,7 +35,7 @@ segmentation").
 .. [2] https://www.ilastik.org/documentation/pixelclassification/pixelclassification
 .. [3] https://imagej.net/Trainable_Weka_Segmentation#Training_features_.282D.29
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-60
+.. GENERATED FROM PYTHON SOURCE LINES 19-64
 
 .. code-block:: default
 
@@ -62,13 +62,17 @@ segmentation").
 
     sigma_min = 1
     sigma_max = 16
-    features_func = partial(feature.multiscale_basic_features,
-                            intensity=True, edges=False, texture=True,
-                            sigma_min=sigma_min, sigma_max=sigma_max,
-                            channel_axis=-1)
+    features_func = partial(
+        feature.multiscale_basic_features,
+        intensity=True,
+        edges=False,
+        texture=True,
+        sigma_min=sigma_min,
+        sigma_max=sigma_max,
+        channel_axis=-1,
+    )
     features = features_func(img)
-    clf = RandomForestClassifier(n_estimators=50, n_jobs=-1,
-                                 max_depth=10, max_samples=0.05)
+    clf = RandomForestClassifier(n_estimators=50, n_jobs=-1, max_depth=10, max_samples=0.05)
     clf = future.fit_segmenter(training_labels, features, clf)
     result = future.predict_segmenter(features, clf)
 
@@ -92,7 +96,7 @@ segmentation").
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 61-70
+.. GENERATED FROM PYTHON SOURCE LINES 65-74
 
 Feature importance
 ------------------
@@ -104,7 +108,7 @@ features given to the classifier, in order to reduce the computing time.
 However, this can lead to overfitting and a degraded result at the boundary
 between regions.
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-93
+.. GENERATED FROM PYTHON SOURCE LINES 74-101
 
 .. code-block:: default
 
@@ -112,13 +116,17 @@ between regions.
     fig, ax = plt.subplots(1, 2, figsize=(9, 4))
     l = len(clf.feature_importances_)
     feature_importance = (
-            clf.feature_importances_[:l//3],
-            clf.feature_importances_[l//3:2*l//3],
-            clf.feature_importances_[2*l//3:])
+        clf.feature_importances_[: l // 3],
+        clf.feature_importances_[l // 3 : 2 * l // 3],
+        clf.feature_importances_[2 * l // 3 :],
+    )
     sigmas = np.logspace(
-            np.log2(sigma_min), np.log2(sigma_max),
-            num=int(np.log2(sigma_max) - np.log2(sigma_min) + 1),
-            base=2, endpoint=True)
+        np.log2(sigma_min),
+        np.log2(sigma_max),
+        num=int(np.log2(sigma_max) - np.log2(sigma_min) + 1),
+        base=2,
+        endpoint=True,
+    )
     for ch, color in zip(range(3), ['r', 'g', 'b']):
         ax[0].plot(sigmas, feature_importance[ch][::3], 'o', color=color)
         ax[0].set_title("Intensity features")
@@ -143,7 +151,7 @@ between regions.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-100
+.. GENERATED FROM PYTHON SOURCE LINES 102-108
 
 Fitting new images
 ------------------
@@ -152,7 +160,7 @@ If you have several images of similar objects acquired in similar conditions,
 you can use the classifier trained with `fit_segmenter` to segment other
 images. In the example below we just use a different part of the image.
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-113
+.. GENERATED FROM PYTHON SOURCE LINES 108-121
 
 .. code-block:: default
 
@@ -184,7 +192,7 @@ images. In the example below we just use a different part of the image.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 8.169 seconds)
+   **Total running time of the script:** (0 minutes 7.672 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_trainable_segmentation.py:

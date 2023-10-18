@@ -26,7 +26,7 @@ The CENSURE feature detector is a scale-invariant center-surround detector
 (CENSURE) that claims to outperform other detectors and is capable of real-time
 implementation.
 
-.. GENERATED FROM PYTHON SOURCE LINES 10-47
+.. GENERATED FROM PYTHON SOURCE LINES 10-58
 
 
 
@@ -51,8 +51,9 @@ implementation.
 
 
     img_orig = rgb2gray(data.astronaut())
-    tform = transform.AffineTransform(scale=(1.5, 1.5), rotation=0.5,
-                                      translation=(150, -200))
+    tform = transform.AffineTransform(
+        scale=(1.5, 1.5), rotation=0.5, translation=(150, -200)
+    )
     img_warp = transform.warp(img_orig, tform)
 
     detector = CENSURE()
@@ -62,15 +63,25 @@ implementation.
     detector.detect(img_orig)
 
     ax[0].imshow(img_orig, cmap=plt.cm.gray)
-    ax[0].scatter(detector.keypoints[:, 1], detector.keypoints[:, 0],
-                  2 ** detector.scales, facecolors='none', edgecolors='r')
+    ax[0].scatter(
+        detector.keypoints[:, 1],
+        detector.keypoints[:, 0],
+        2**detector.scales,
+        facecolors='none',
+        edgecolors='r',
+    )
     ax[0].set_title("Original Image")
 
     detector.detect(img_warp)
 
     ax[1].imshow(img_warp, cmap=plt.cm.gray)
-    ax[1].scatter(detector.keypoints[:, 1], detector.keypoints[:, 0],
-                  2 ** detector.scales, facecolors='none', edgecolors='r')
+    ax[1].scatter(
+        detector.keypoints[:, 1],
+        detector.keypoints[:, 0],
+        2**detector.scales,
+        facecolors='none',
+        edgecolors='r',
+    )
     ax[1].set_title('Transformed Image')
 
     for a in ax:
@@ -82,7 +93,7 @@ implementation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.097 seconds)
+   **Total running time of the script:** (0 minutes 2.059 seconds)
 
 
 .. _sphx_glr_download_auto_examples_features_detection_plot_censure.py:

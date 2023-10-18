@@ -243,7 +243,7 @@ In this example we also show that it is possible to post-process the binary
 mask returned by :func:`skimage.segmentation.flood` thanks to the functions
 of :mod:`skimage.morphology`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 155-187
+.. GENERATED FROM PYTHON SOURCE LINES 155-184
 
 .. code-block:: default
 
@@ -259,14 +259,11 @@ of :mod:`skimage.morphology`.
     img_hsv[mask, 0] = 0.5
     # Post-processing in order to improve the result
     # Remove white pixels from flag, using saturation channel
-    mask_postprocessed = np.logical_and(mask,
-                                        img_hsv_copy[..., 1] > 0.4)
+    mask_postprocessed = np.logical_and(mask, img_hsv_copy[..., 1] > 0.4)
     # Remove thin structures with binary opening
-    mask_postprocessed = morphology.binary_opening(mask_postprocessed,
-                                                   np.ones((3, 3)))
+    mask_postprocessed = morphology.binary_opening(mask_postprocessed, np.ones((3, 3)))
     # Fill small holes with binary closing
-    mask_postprocessed = morphology.binary_closing(
-                    mask_postprocessed, morphology.disk(20))
+    mask_postprocessed = morphology.binary_closing(mask_postprocessed, morphology.disk(20))
     img_hsv_copy[mask_postprocessed, 0] = 0.5
 
     fig, ax = plt.subplots(1, 2, figsize=(8, 4))
@@ -294,7 +291,7 @@ of :mod:`skimage.morphology`.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 12.447 seconds)
+   **Total running time of the script:** (0 minutes 12.362 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_floodfill.py:
