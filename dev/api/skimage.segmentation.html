@@ -577,7 +577,7 @@ document.write(`
 <td><p>Segments image using k-means clustering in Color-(x,y,z) space.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#skimage.segmentation.watershed" title="skimage.segmentation.watershed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.segmentation.watershed</span></code></a></p></td>
-<td><p>Find watershed basins in <em class="xref py py-obj">image</em> flooded from given <em class="xref py py-obj">markers</em>.</p></td>
+<td><p>Find watershed basins in an image flooded from given markers.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2236,17 +2236,21 @@ application to local pathology characterisation in medical images.”,
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.segmentation.watershed">
-<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watershed_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_watershed.py#L86-L234"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.watershed" title="Link to this definition">#</a></dt>
-<dd><p>Find watershed basins in <em class="xref py py-obj">image</em> flooded from given <em class="xref py py-obj">markers</em>.</p>
+<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watershed_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_watershed.py#L86-L241"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.watershed" title="Link to this definition">#</a></dt>
+<dd><p>Find watershed basins in an image flooded from given markers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>image</strong><span class="classifier">(M, N[, …]) ndarray</span></dt><dd><p>Data array where the lowest value points are labeled first.</p>
 </dd>
-<dt><strong>markers</strong><span class="classifier">int, or (M, N[, …]) ndarray of int, optional</span></dt><dd><p>The desired number of markers, or an array marking the basins with the
+<dt><strong>markers</strong><span class="classifier">int, or (M, N[, …]) ndarray of int, optional</span></dt><dd><p>The desired number of basins, or an array marking the basins with the
 values to be assigned in the label matrix. Zero means not a marker. If
-<code class="docutils literal notranslate"><span class="pre">None</span></code> (no markers given), the local minima of the image are used as
-markers.</p>
+None, the (default) markers are determined as the local minima of
+<em class="xref py py-obj">image</em>. Specifically, the computation is equivalent to applying
+<a class="reference internal" href="skimage.morphology.html#skimage.morphology.local_minima" title="skimage.morphology.local_minima"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.local_minima()</span></code></a> onto <em class="xref py py-obj">image</em>, followed by
+<a class="reference internal" href="skimage.measure.html#skimage.measure.label" title="skimage.measure.label"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.measure.label()</span></code></a> onto the result (with the same given
+<em class="xref py py-obj">connectivity</em>). Generally speaking, users are encouraged to pass
+markers explicitly.</p>
 </dd>
 <dt><strong>connectivity</strong><span class="classifier">ndarray, optional</span></dt><dd><p>An array with the same number of dimensions as <em class="xref py py-obj">image</em> whose
 non-zero elements indicate neighbors for connection.
@@ -2255,12 +2259,13 @@ the dimension of the image.</p>
 </dd>
 <dt><strong>offset</strong><span class="classifier">array_like of shape image.ndim, optional</span></dt><dd><p>offset of the connectivity (one offset per dimension)</p>
 </dd>
-<dt><strong>mask</strong><span class="classifier">(M, N[, …]) ndarray of bools or 0’s and 1’s, optional</span></dt><dd><p>Only points where mask == True will be labeled.</p>
+<dt><strong>mask</strong><span class="classifier">(M, N[, …]) ndarray of bools or 0’s and 1’s, optional</span></dt><dd><p>Array of same shape as <em class="xref py py-obj">image</em>. Only points at which mask == True
+will be labeled.</p>
 </dd>
-<dt><strong>compactness</strong><span class="classifier">float, optional</span></dt><dd><p>Use compact watershed <a class="reference internal" href="#rc8002e235889-3" id="id26">[3]</a> with given compactness parameter.
+<dt><strong>compactness</strong><span class="classifier">float, optional</span></dt><dd><p>Use compact watershed <a class="reference internal" href="#rc8002e235889-1" id="id26">[1]</a> with given compactness parameter.
 Higher values result in more regularly-shaped watershed basins.</p>
 </dd>
-<dt><strong>watershed_line</strong><span class="classifier">bool, optional</span></dt><dd><p>If watershed_line is True, a one-pixel wide line separates the regions
+<dt><strong>watershed_line</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, a one-pixel wide line separates the regions
 obtained by the watershed algorithm. The line has the label 0.
 Note that the method used for adding this line expects that
 marker regions are not adjacent; the watershed line may not catch
@@ -2270,7 +2275,7 @@ borders between adjacent marker regions.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>A labeled matrix of the same type and shape as markers</p>
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>A labeled matrix of the same type and shape as <em class="xref py py-obj">markers</em>.</p>
 </dd>
 </dl>
 </dd>
@@ -2278,20 +2283,18 @@ borders between adjacent marker regions.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference internal" href="#skimage.segmentation.random_walker" title="skimage.segmentation.random_walker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.segmentation.random_walker</span></code></a></dt><dd><p>random walker segmentation A segmentation algorithm based on anisotropic diffusion, usually slower than the watershed but with good results on noisy data and boundaries with holes.</p>
+<dt><a class="reference internal" href="#skimage.segmentation.random_walker" title="skimage.segmentation.random_walker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.segmentation.random_walker</span></code></a></dt><dd><p>A segmentation algorithm based on anisotropic diffusion, usually slower than the watershed but with good results on noisy data and boundaries with holes.</p>
 </dd>
 </dl>
 </div>
 <p class="rubric">Notes</p>
-<p>This function implements a watershed algorithm <a class="reference internal" href="#rc8002e235889-1" id="id27">[1]</a> <a class="reference internal" href="#rc8002e235889-2" id="id28">[2]</a> that apportions
+<p>This function implements a watershed algorithm <a class="reference internal" href="#rc8002e235889-2" id="id27">[2]</a> <a class="reference internal" href="#rc8002e235889-3" id="id28">[3]</a> that apportions
 pixels into marked basins. The algorithm uses a priority queue to hold
 the pixels with the metric for the priority queue being pixel value, then
-the time of entry into the queue - this settles ties in favor of the
+the time of entry into the queue – this settles ties in favor of the
 closest marker.</p>
-<p>Some ideas taken from
-Soille, “Automated Basin Delineation from Digital Elevation Models Using
-Mathematical Morphology”, Signal Processing 20 (1990) 171-182</p>
-<p>The most important insight in the paper is that entry time onto the queue
+<p>Some ideas are taken from <a class="reference internal" href="#rc8002e235889-4" id="id29">[4]</a>.
+The most important insight in the paper is that entry time onto the queue
 solves two problems: a pixel should be assigned to the neighbor with the
 largest gradient or, if there is no gradient, pixels on a plateau should
 be split between markers on opposite sides.</p>
@@ -2304,19 +2307,26 @@ distance function to the background for separating overlapping objects
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="rc8002e235889-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id27">1</a><span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Watershed_%28image_processing%29">https://en.wikipedia.org/wiki/Watershed_%28image_processing%29</a></p>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id26">1</a><span class="fn-bracket">]</span></span>
+<p>P. Neubert and P. Protzel, “Compact Watershed and Preemptive SLIC:
+On Improving Trade-offs of Superpixel Segmentation Algorithms,”
+2014 22nd International Conference on Pattern Recognition,
+Stockholm, Sweden, 2014, pp. 996-1001, <a class="reference external" href="https://doi.org/10.1109/ICPR.2014.181">DOI:10.1109/ICPR.2014.181</a>
+<a class="reference external" href="https://www.tu-chemnitz.de/etit/proaut/publications/cws_pSLIC_ICPR.pdf">https://www.tu-chemnitz.de/etit/proaut/publications/cws_pSLIC_ICPR.pdf</a></p>
 </div>
 <div class="citation" id="rc8002e235889-2" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id28">2</a><span class="fn-bracket">]</span></span>
-<p><a class="reference external" href="http://cmm.ensmp.fr/~beucher/wtshed.html">http://cmm.ensmp.fr/~beucher/wtshed.html</a></p>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id27">2</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Watershed_%28image_processing%29">https://en.wikipedia.org/wiki/Watershed_%28image_processing%29</a></p>
 </div>
 <div class="citation" id="rc8002e235889-3" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id26">3</a><span class="fn-bracket">]</span></span>
-<p>Peer Neubert &amp; Peter Protzel (2014). Compact Watershed and
-Preemptive SLIC: On Improving Trade-offs of Superpixel Segmentation
-Algorithms. ICPR 2014, pp 996-1001. <a class="reference external" href="https://doi.org/10.1109/ICPR.2014.181">DOI:10.1109/ICPR.2014.181</a>
-<a class="reference external" href="https://www.tu-chemnitz.de/etit/proaut/publications/cws_pSLIC_ICPR.pdf">https://www.tu-chemnitz.de/etit/proaut/publications/cws_pSLIC_ICPR.pdf</a></p>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id28">3</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="http://cmm.ensmp.fr/~beucher/wtshed.html">http://cmm.ensmp.fr/~beucher/wtshed.html</a></p>
+</div>
+<div class="citation" id="rc8002e235889-4" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id29">4</a><span class="fn-bracket">]</span></span>
+<p>P. J. Soille and M. M. Ansoult, “Automated basin delineation from
+digital elevation models using mathematical morphology,” Signal
+Processing, 20(2):171-182, <a class="reference external" href="https://doi.org/10.1016/0165-1684(90)90127-K">DOI:10.1016/0165-1684(90)90127-K</a></p>
 </div>
 </div>
 <p class="rubric">Examples</p>
