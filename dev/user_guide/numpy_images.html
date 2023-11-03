@@ -523,6 +523,19 @@ manipulating arrays:</p>
 <span class="go">&lt;type &#39;numpy.ndarray&#39;&gt;</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Labeled array-like data types, such as
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">pandas.DataFrame</a>
+or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html">xarray.DataArray</a>,
+are not natively supported in <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code>. However, data stored in these types
+can be converted to <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> with certain assumptions
+(see <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame.to_numpy()</span></code> and <code class="docutils literal notranslate"><span class="pre">xarray.DataArray.data</span></code>). Particularly,
+these conversions ignore the sampling coordinates (<code class="docutils literal notranslate"><span class="pre">DataFrame.index</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DataFrame.columns</span></code>, or <code class="docutils literal notranslate"><span class="pre">DataArray.coords</span></code>), which may result in
+misrepresented data, for instance, when the original data points are irregularly
+spaced.</p>
+</div>
 <p>Retrieving the geometry of the image and the number of pixels:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camera</span><span class="o">.</span><span class="n">shape</span>
 <span class="go">(512, 512)</span>
