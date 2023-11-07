@@ -624,14 +624,20 @@ although some may be useful for images of other types as well.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.medial_axis" title="skimage.morphology.medial_axis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.medial_axis</span></code></a></p></td>
 <td><p>Compute the medial axis transform of a binary image.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.octagon" title="skimage.morphology.octagon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.octagon</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.mirror_footprint" title="skimage.morphology.mirror_footprint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.mirror_footprint</span></code></a></p></td>
+<td><p>Mirror each dimension in the footprint.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.octagon" title="skimage.morphology.octagon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.octagon</span></code></a></p></td>
 <td><p>Generates an octagon shaped footprint.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.octahedron" title="skimage.morphology.octahedron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.octahedron</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.octahedron" title="skimage.morphology.octahedron"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.octahedron</span></code></a></p></td>
 <td><p>Generates a octahedron-shaped footprint.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.opening" title="skimage.morphology.opening"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.opening" title="skimage.morphology.opening"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code></a></p></td>
 <td><p>Return grayscale morphological opening of an image.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.pad_footprint" title="skimage.morphology.pad_footprint"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.pad_footprint</span></code></a></p></td>
+<td><p>Pad the footprint to an odd size along each dimension.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.reconstruction" title="skimage.morphology.reconstruction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.reconstruction</span></code></a></p></td>
 <td><p>Perform a morphological reconstruction of an image.</p></td>
@@ -981,7 +987,7 @@ UK.
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.binary_closing">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_closing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L199-L248"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_closing" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_closing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L262-L320"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_closing" title="Link to this definition">#</a></dt>
 <dd><p>Return fast binary morphological closing of an image.</p>
 <p>This function returns the same result as grayscale closing but performs
 faster for binary images.</p>
@@ -989,9 +995,9 @@ faster for binary images.</p>
 an erosion. Closing can remove small dark spots (i.e. “pepper”) and connect
 small bright cracks. This tends to “close” up (dark) gaps between (bright)
 features.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Binary input image.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1001,6 +1007,15 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray of bool, optional</span></dt><dd><p>The array to store the result of the morphology. If None,
 is passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘max’, ‘min’, ‘ignore’.
+If ‘ignore’, pixels outside the image domain are assumed to be <em class="xref py py-obj">True</em>
+for the erosion and <em class="xref py py-obj">False</em> for the dilation, which causes them to not
+influence the result. Default is ‘ignore’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> was added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1025,7 +1040,7 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate a
 footprint sequence of this type.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Flood fill is an algorithm to identify and/or change adjacent values in an image based on their..."><img alt="" src="../_images/sphx_glr_plot_floodfill_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_floodfill.html#sphx-glr-auto-examples-segmentation-plot-floodfill-py"><span class="std std-ref">Flood Fill</span></a></p>
@@ -1035,16 +1050,16 @@ footprint sequence of this type.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.binary_dilation">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_dilation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L90-L144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_dilation" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_dilation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L120-L198"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_dilation" title="Link to this definition">#</a></dt>
 <dd><p>Return fast binary morphological dilation of an image.</p>
 <p>This function returns the same result as grayscale dilation but performs
 faster for binary images.</p>
 <p>Morphological dilation sets a pixel at <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code> to the maximum over all
 pixels in the neighborhood centered at <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>. Dilation enlarges bright
 regions and shrinks dark regions.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Binary input image.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1054,6 +1069,15 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray of bool, optional</span></dt><dd><p>The array to store the result of the morphology. If None is
 passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘max’, ‘min’, ‘ignore’.
+If ‘min’ or ‘ignore’, pixels outside the image domain are assumed
+to be <em class="xref py py-obj">False</em>, which causes them to not influence the result.
+Default is ‘ignore’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> was added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1079,8 +1103,11 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate a
 footprint sequence of this type.</p>
+<p>For non-symmetric footprints, <a class="reference internal" href="#skimage.morphology.binary_dilation" title="skimage.morphology.binary_dilation"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.binary_dilation()</span></code></a>
+and <a class="reference internal" href="#skimage.morphology.dilation" title="skimage.morphology.dilation"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.dilation()</span></code></a> produce an output that differs:
+<a class="reference internal" href="#skimage.morphology.binary_dilation" title="skimage.morphology.binary_dilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binary_dilation</span></code></a> mirrors the footprint, whereas <a class="reference internal" href="#skimage.morphology.dilation" title="skimage.morphology.dilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dilation</span></code></a> does not.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Inpainting [1]_ is the process of reconstructing lost or deteriorated parts of images and video..."><img alt="" src="../_images/sphx_glr_plot_inpaint_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/filters/plot_inpaint.html#sphx-glr-auto-examples-filters-plot-inpaint-py"><span class="std std-ref">Fill in defects with inpainting</span></a></p>
   <div class="sphx-glr-thumbnail-title">Fill in defects with inpainting</div>
@@ -1092,16 +1119,16 @@ footprint sequence of this type.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.binary_erosion">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_erosion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L32-L87"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_erosion" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_erosion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L39-L117"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_erosion" title="Link to this definition">#</a></dt>
 <dd><p>Return fast binary morphological erosion of an image.</p>
 <p>This function returns the same result as grayscale erosion but performs
 faster for binary images.</p>
 <p>Morphological erosion sets a pixel at <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code> to the minimum over all
 pixels in the neighborhood centered at <code class="docutils literal notranslate"><span class="pre">(i,j)</span></code>. Erosion shrinks bright
 regions and enlarges dark regions.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Binary input image.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1111,6 +1138,15 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray of bool, optional</span></dt><dd><p>The array to store the result of the morphology. If None is
 passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘max’, ‘min’, ‘ignore’.
+If ‘max’ or ‘ignore’, pixels outside the image domain are assumed
+to be <em class="xref py py-obj">True</em>, which causes them to not influence the result.
+Default is ‘ignore’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> was added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1136,8 +1172,11 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate a
 footprint sequence of this type.</p>
+<p>For even-sized footprints, <a class="reference internal" href="#skimage.morphology.erosion" title="skimage.morphology.erosion"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.erosion()</span></code></a> and
+this function produce an output that differs: one is shifted by one pixel
+compared to the other.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example reproduces a well-established workflow in bioimage data analysis for measuring the..."><img alt="" src="../_images/sphx_glr_plot_fluorescence_nuclear_envelope_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/applications/plot_fluorescence_nuclear_envelope.html#sphx-glr-auto-examples-applications-plot-fluorescence-nuclear-envelope-py"><span class="std std-ref">Measure fluorescence intensity at the nuclear envelope</span></a></p>
   <div class="sphx-glr-thumbnail-title">Measure fluorescence intensity at the nuclear envelope</div>
@@ -1146,7 +1185,7 @@ footprint sequence of this type.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.binary_opening">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_opening</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L147-L196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_opening" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">binary_opening</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ignore'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/binary.py#L201-L259"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.binary_opening" title="Link to this definition">#</a></dt>
 <dd><p>Return fast binary morphological opening of an image.</p>
 <p>This function returns the same result as grayscale opening but performs
 faster for binary images.</p>
@@ -1154,9 +1193,9 @@ faster for binary images.</p>
 a dilation. Opening can remove small bright spots (i.e. “salt”) and connect
 small dark cracks. This tends to “open” up (dark) gaps between (bright)
 features.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Binary input image.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1166,6 +1205,15 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray of bool, optional</span></dt><dd><p>The array to store the result of the morphology. If None
 is passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘max’, ‘min’, ‘ignore’.
+If ‘ignore’, pixels outside the image domain are assumed to be <em class="xref py py-obj">True</em>
+for the erosion and <em class="xref py py-obj">False</em> for the dilation, which causes them to not
+influence the result. Default is ‘ignore’.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> was added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1190,7 +1238,7 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate a
 footprint sequence of this type.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Flood fill is an algorithm to identify and/or change adjacent values in an image based on their..."><img alt="" src="../_images/sphx_glr_plot_floodfill_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/segmentation/plot_floodfill.html#sphx-glr-auto-examples-segmentation-plot-floodfill-py"><span class="std std-ref">Flood Fill</span></a></p>
@@ -1200,7 +1248,7 @@ footprint sequence of this type.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.black_tophat">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">black_tophat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L561-L635"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.black_tophat" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">black_tophat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L612-L702"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.black_tophat" title="Link to this definition">#</a></dt>
 <dd><p>Return black top hat of an image.</p>
 <p>The black top hat of an image is defined as its morphological closing minus
 the original image. This operation returns the dark spots of the image that
@@ -1208,7 +1256,7 @@ are smaller than the footprint. Note that dark spots in the
 original image are bright spots after the black top hat.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1218,6 +1266,17 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The array to store the result of the morphology. If None
 is passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’. See <a class="reference internal" href="#skimage.morphology.closing" title="skimage.morphology.closing"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.closing()</span></code></a>.
+Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1242,8 +1301,8 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="rd2d72f1c8811-1" role="doc-biblioentry">
@@ -1276,7 +1335,7 @@ footprint sequence of this type.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.closing">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">closing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L391-L452"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.closing" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">closing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L442-L516"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.closing" title="Link to this definition">#</a></dt>
 <dd><p>Return grayscale morphological closing of an image.</p>
 <p>The morphological closing of an image is defined as a dilation followed by
 an erosion. Closing can remove small dark spots (i.e. “pepper”) and connect
@@ -1284,7 +1343,7 @@ small bright cracks. This tends to “close” up (dark) gaps between (bright)
 features.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1294,6 +1353,20 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The array to store the result of the morphology. If None,
 a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’.
+If ‘ignore’, pixels outside the image domain are assumed
+to be the maximum for the image’s dtype in the erosion, and minimum
+in the dilation, which causes them to not influence the result.
+Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1312,8 +1385,8 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Close a gap between two bright lines</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1733,7 +1806,7 @@ size.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.dilation">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">dilation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L238-L324"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.dilation" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">dilation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_x=&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_y=&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval=0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L244-L362"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.dilation" title="Link to this definition">#</a></dt>
 <dd><p>Return grayscale morphological dilation of an image.</p>
 <p>Morphological dilation sets the value of a pixel to the maximum over all
 pixel values within a local neighborhood centered about it. The values
@@ -1741,7 +1814,7 @@ where the footprint is 1 define this neighborhood.
 Dilation enlarges bright regions and shrinks dark regions.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -1752,9 +1825,18 @@ in the notes below.</p>
 <dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The array to store the result of the morphology. If None is
 passed, a new array will be allocated.</p>
 </dd>
-<dt><strong>shift_x, shift_y</strong><span class="classifier">bool, optional</span></dt><dd><p>Shift footprint about center point. This only affects 2D
-eccentric footprints (i.e., footprints with even-numbered
-sides).</p>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’.
+If ‘min’ or ‘ignore’, pixels outside the image domain are assumed
+to be the maximum for the image’s dtype, which causes them to not
+influence the result. Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -1764,11 +1846,19 @@ sides).</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Other Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>shift_x, shift_y</strong><span class="classifier">DEPRECATED</span></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.23.</span></p>
+</div>
+</dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>For <em class="xref py py-obj">uint8</em> (and <em class="xref py py-obj">uint16</em> up to a certain bit-depth) data, the lower
-algorithm complexity makes the <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.maximum" title="skimage.filters.rank.maximum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.filters.rank.maximum</span></code></a> function more
-efficient for larger images and footprints.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">uint8</span></code> (and <code class="docutils literal notranslate"><span class="pre">uint16</span></code> up to a certain bit-depth) data, the lower
+algorithm complexity makes the <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.maximum" title="skimage.filters.rank.maximum"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.maximum()</span></code></a>
+function more efficient for larger images and footprints.</p>
 <p>The footprint can also be a provided as a sequence of 2-tuples where the
 first element of each 2-tuple is a footprint ndarray and the second element
 is an integer describing the number of times it should be iterated. For
@@ -1776,8 +1866,11 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
+<p>For non-symmetric footprints, <a class="reference internal" href="#skimage.morphology.binary_dilation" title="skimage.morphology.binary_dilation"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.binary_dilation()</span></code></a>
+and <a class="reference internal" href="#skimage.morphology.dilation" title="skimage.morphology.dilation"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.dilation()</span></code></a> produce an output that differs:
+<a class="reference internal" href="#skimage.morphology.binary_dilation" title="skimage.morphology.binary_dilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">binary_dilation</span></code></a> mirrors the footprint, whereas <a class="reference internal" href="#skimage.morphology.dilation" title="skimage.morphology.dilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dilation</span></code></a> does not.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Dilation enlarges bright regions</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2019,14 +2112,14 @@ Image Processing, (1 November 1990).
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.erosion">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">erosion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L159-L235"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.erosion" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">erosion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_x=&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift_y=&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval=0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L127-L241"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.erosion" title="Link to this definition">#</a></dt>
 <dd><p>Return grayscale morphological erosion of an image.</p>
 <p>Morphological erosion sets a pixel at (i,j) to the minimum over all pixels
 in the neighborhood centered at (i,j). Erosion shrinks bright regions and
 enlarges dark regions.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -2037,9 +2130,18 @@ in the notes below.</p>
 <dt><strong>out</strong><span class="classifier">ndarrays, optional</span></dt><dd><p>The array to store the result of the morphology. If None is
 passed, a new array will be allocated.</p>
 </dd>
-<dt><strong>shift_x, shift_y</strong><span class="classifier">bool, optional</span></dt><dd><p>shift footprint about center point. This only affects
-eccentric footprints (i.e. footprint with even numbered
-sides).</p>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’.
+If ‘max’ or ‘ignore’, pixels outside the image domain are assumed
+to be the maximum for the image’s dtype, which causes them to not
+influence the result. Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -2049,10 +2151,18 @@ sides).</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Other Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>shift_x, shift_y</strong><span class="classifier">DEPRECATED</span></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.23.</span></p>
+</div>
+</dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>For <code class="docutils literal notranslate"><span class="pre">uint8</span></code> (and <code class="docutils literal notranslate"><span class="pre">uint16</span></code> up to a certain bit-depth) data, the
-lower algorithm complexity makes the <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.minimum" title="skimage.filters.rank.minimum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.filters.rank.minimum</span></code></a>
+lower algorithm complexity makes the <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.minimum" title="skimage.filters.rank.minimum"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.minimum()</span></code></a>
 function more efficient for larger images and footprints.</p>
 <p>The footprint can also be a provided as a sequence of 2-tuples where the
 first element of each 2-tuple is a footprint ndarray and the second element
@@ -2061,8 +2171,11 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
+<p>For even-sized footprints, <a class="reference internal" href="#skimage.morphology.binary_erosion" title="skimage.morphology.binary_erosion"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.binary_erosion()</span></code></a> and
+this function produce an output that differs: one is shifted by one pixel
+compared to the other.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Erosion shrinks bright regions</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -3275,6 +3388,37 @@ pass.</p></li>
 
 <hr class="docutils" />
 <dl class="py function">
+<dt class="sig sig-object py" id="skimage.morphology.mirror_footprint">
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">mirror_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">footprint</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/footprints.py#L967-L994"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.mirror_footprint" title="Link to this definition">#</a></dt>
+<dd><p>Mirror each dimension in the footprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>footprint</strong><span class="classifier">ndarray or tuple</span></dt><dd><p>The input footprint or sequence of footprints</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>inverted</strong><span class="classifier">ndarray or tuple</span></dt><dd><p>The footprint, mirrored along each dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">footprint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+<span class="go">array([[1, 1, 0],</span>
+<span class="go">       [1, 1, 0],</span>
+<span class="go">       [0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.octagon">
 <span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">octagon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.uint8'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decomposition=None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/footprints.py#L836-L916"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.octagon" title="Link to this definition">#</a></dt>
 <dd><p>Generates an octagon shaped footprint.</p>
@@ -3385,7 +3529,7 @@ size.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.opening">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">opening</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L327-L388"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.opening" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">opening</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L365-L439"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.opening" title="Link to this definition">#</a></dt>
 <dd><p>Return grayscale morphological opening of an image.</p>
 <p>The morphological opening of an image is defined as an erosion followed by
 a dilation. Opening can remove small bright spots (i.e. “salt”) and connect
@@ -3393,7 +3537,7 @@ small dark cracks. This tends to “open” up (dark) gaps between (bright)
 features.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -3403,6 +3547,20 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The array to store the result of the morphology. If None
 is passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’.
+If ‘ignore’, pixels outside the image domain are assumed
+to be the maximum for the image’s dtype in the erosion, and minimum
+in the dilation, which causes them to not influence the result.
+Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -3421,8 +3579,8 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Open up gap between two bright regions (but also shrink regions)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -3450,6 +3608,40 @@ footprint sequence of this type.</p>
 <p><a class="reference internal" href="../auto_examples/applications/plot_cornea_spot_inpainting.html#sphx-glr-auto-examples-applications-plot-cornea-spot-inpainting-py"><span class="std std-ref">Restore spotted cornea image with inpainting</span></a></p>
   <div class="sphx-glr-thumbnail-title">Restore spotted cornea image with inpainting</div>
 </div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.morphology.pad_footprint">
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">pad_footprint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">footprint</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/footprints.py#L997-L1030"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.pad_footprint" title="Link to this definition">#</a></dt>
+<dd><p>Pad the footprint to an odd size along each dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>footprint</strong><span class="classifier">ndarray or tuple</span></dt><dd><p>The input footprint or sequence of footprints</p>
+</dd>
+<dt><strong>pad_end</strong><span class="classifier">bool, optional</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, pads at the end of each dimension (right side), otherwise
+pads on the front (left side).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>padded</strong><span class="classifier">ndarray or tuple</span></dt><dd><p>The footprint, padded to an odd size along each dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">footprint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0],</span>
+<span class="go">       [1, 1, 0],</span>
+<span class="go">       [1, 1, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <hr class="docutils" />
 <dl class="py function">
@@ -4106,14 +4298,14 @@ p. 879, 1992. <a class="reference external" href="https://doi.org/10.1109/34.161
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.white_tophat">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">white_tophat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L472-L558"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.white_tophat" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">white_tophat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reflect'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/gray.py#L519-L609"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.white_tophat" title="Link to this definition">#</a></dt>
 <dd><p>Return white top hat of an image.</p>
 <p>The white top hat of an image is defined as the image minus its
 morphological opening. This operation returns the bright spots of the image
 that are smaller than the footprint.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Image array.</p>
 </dd>
 <dt><strong>footprint</strong><span class="classifier">ndarray or tuple, optional</span></dt><dd><p>The neighborhood expressed as a 2-D array of 1’s and 0’s.
@@ -4123,6 +4315,17 @@ in the notes below.</p>
 </dd>
 <dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The array to store the result of the morphology. If None
 is passed, a new array will be allocated.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>The <em class="xref py py-obj">mode</em> parameter determines how the array borders are handled.
+Valid modes are: ‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’,
+‘max’, ‘min’, or ‘ignore’. See <a class="reference internal" href="#skimage.morphology.opening" title="skimage.morphology.opening"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.opening()</span></code></a>.
+Default is ‘reflect’.</p>
+</dd>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if <em class="xref py py-obj">mode</em> is ‘constant’. Default
+is 0.0.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">mode</em> and <em class="xref py py-obj">cval</em> were added in 0.23.</p>
+</div>
 </dd>
 </dl>
 </dd>
@@ -4147,8 +4350,8 @@ example <code class="docutils literal notranslate"><span class="pre">footprint=[
 would apply a 9x1 footprint followed by a 1x9 footprint resulting in a net
 effect that is the same as <code class="docutils literal notranslate"><span class="pre">footprint=np.ones((9,</span> <span class="pre">9))</span></code>, but with lower
 computational cost. Most of the builtin footprints such as
-<code class="docutils literal notranslate"><span class="pre">skimage.morphology.disk</span></code> provide an option to automatically generate a
-footprint sequence of this type.</p>
+<a class="reference internal" href="#skimage.morphology.disk" title="skimage.morphology.disk"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.morphology.disk()</span></code></a> provide an option to automatically generate
+a footprint sequence of this type.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="r9700090f0649-1" role="doc-biblioentry">
@@ -4236,9 +4439,11 @@ footprint sequence of this type.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.max_tree"><code class="docutils literal notranslate"><span class="pre">max_tree()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.max_tree_local_maxima"><code class="docutils literal notranslate"><span class="pre">max_tree_local_maxima()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.medial_axis"><code class="docutils literal notranslate"><span class="pre">medial_axis()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.mirror_footprint"><code class="docutils literal notranslate"><span class="pre">mirror_footprint()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.octagon"><code class="docutils literal notranslate"><span class="pre">octagon()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.octahedron"><code class="docutils literal notranslate"><span class="pre">octahedron()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.opening"><code class="docutils literal notranslate"><span class="pre">opening()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.pad_footprint"><code class="docutils literal notranslate"><span class="pre">pad_footprint()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.reconstruction"><code class="docutils literal notranslate"><span class="pre">reconstruction()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.rectangle"><code class="docutils literal notranslate"><span class="pre">rectangle()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.morphology.remove_small_holes"><code class="docutils literal notranslate"><span class="pre">remove_small_holes()</span></code></a></li>
