@@ -60,8 +60,8 @@
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Straight line Hough transform" href="plot_line_hough_transform.html" />
-    <link rel="prev" title="Approximate and subdivide polygons" href="plot_polygon.html" />
+    <link rel="next" title="Skeletonize" href="plot_skeleton.html" />
+    <link rel="prev" title="Straight line Hough transform" href="plot_line_hough_transform.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -473,8 +473,8 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="plot_shapes.html">Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_random_shapes.html">Random Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_polygon.html">Approximate and subdivide polygons</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Circular and Elliptical Hough Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_line_hough_transform.html">Straight line Hough transform</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Circular and Elliptical Hough Transforms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_skeleton.html">Skeletonize</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_edge_filter.html">Edge operators</a></li>
 </ul>
@@ -741,10 +741,12 @@ determined, instead of three for circles.</p>
 <section id="id1">
 <h3>Algorithm overview<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>The algorithm takes two different points belonging to the ellipse. It
-assumes that it is the main axis. A loop on all the other points determines
-how much an ellipse passes to them. A good match corresponds to high
-accumulator values.</p>
-<p>A full description of the algorithm can be found in reference <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+assumes that these two points form the major axis. A loop on all the
+other points determines the minor axis length for candidate ellipses.
+The latter are included in the results if enough ‘valid’ candidates have
+similar minor axis lengths. By valid, we mean candidates for which the
+minor and major axis lengths fall within the prescribed bounds.
+A full description of the algorithm can be found in reference <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 </section>
 <section id="references">
 <h3>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
@@ -769,9 +771,11 @@ ellipse detection method.” Pattern Recognition, 2002. Proceedings.
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges</span></a> <span class="o">=</span> <a href="../../api/skimage.feature.html#skimage.feature.canny" title="skimage.feature.canny" class="sphx-glr-backref-module-skimage-feature sphx-glr-backref-type-py-function"><span class="n">canny</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_gray</span></a><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">low_threshold</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span> <span class="n">high_threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 
 <span class="c1"># Perform a Hough Transform</span>
-<span class="c1"># The accuracy corresponds to the bin size of a major axis.</span>
-<span class="c1"># The value is chosen in order to get a single high accumulator.</span>
-<span class="c1"># The threshold eliminates low accumulators</span>
+<span class="c1"># The accuracy corresponds to the bin size of the histogram for minor axis lengths.</span>
+<span class="c1"># A higher `accuracy` value will lead to more ellipses being found, at the</span>
+<span class="c1"># cost of a lower precision on the minor axis length estimation.</span>
+<span class="c1"># A higher `threshold` will lead to less ellipses being found, filtering out those</span>
+<span class="c1"># with fewer edge points (as found above by the Canny detector) on their perimeter.</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">result</span></a> <span class="o">=</span> <a href="../../api/skimage.transform.html#skimage.transform.hough_ellipse" title="skimage.transform.hough_ellipse" class="sphx-glr-backref-module-skimage-transform sphx-glr-backref-type-py-function"><span class="n">hough_ellipse</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">edges</span></a><span class="p">,</span> <span class="n">accuracy</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">result</span></a><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s1">&#39;accumulator&#39;</span><span class="p">)</span>
 
@@ -800,7 +804,7 @@ ellipse detection method.” Pattern Recognition, 2002. Proceedings.
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_circular_elliptical_hough_transform_002.png" srcset="../../_images/sphx_glr_plot_circular_elliptical_hough_transform_002.png" alt="Original picture, Edge (white) and result (red)" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.089 seconds)</p>
+<img src="../../_images/sphx_glr_plot_circular_elliptical_hough_transform_002.png" srcset="../../_images/sphx_glr_plot_circular_elliptical_hough_transform_002.png" alt="Original picture, Edge (white) and result (red)" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.223 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-edges-plot-circular-elliptical-hough-transform-py">
 <div class="binder-badge docutils container">
 <a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/edges/plot_circular_elliptical_hough_transform.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo.svg" width="150px" /></a>
