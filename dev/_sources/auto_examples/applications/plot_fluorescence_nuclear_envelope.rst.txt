@@ -48,7 +48,7 @@ scikit-image.
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-42
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -74,7 +74,7 @@ We start with a single cell/nucleus to construct the workflow.
 
 .. GENERATED FROM PYTHON SOURCE LINES 44-49
 
-.. code-block:: default
+.. code-block:: Python
 
 
     image_sequence = protein_transport()
@@ -100,7 +100,7 @@ The dataset is a 2D image stack with 15 frames (time points) and 2 channels.
 
 .. GENERATED FROM PYTHON SOURCE LINES 51-65
 
-.. code-block:: default
+.. code-block:: Python
 
 
     vmin, vmax = 0, image_sequence.max()
@@ -133,7 +133,7 @@ To begin with, let us consider the first channel of the first image (step
 
 .. GENERATED FROM PYTHON SOURCE LINES 68-71
 
-.. code-block:: default
+.. code-block:: Python
 
 
     image_t_0_channel_0 = image_sequence[0, 0, :, :]
@@ -157,7 +157,7 @@ then fill the holes in the objects (step ``c-1)``).
 
 .. GENERATED FROM PYTHON SOURCE LINES 79-87
 
-.. code-block:: default
+.. code-block:: Python
 
 
     smooth = filters.gaussian(image_t_0_channel_0, sigma=1.5)
@@ -182,7 +182,7 @@ touching the bottom right-hand corner.
 
 .. GENERATED FROM PYTHON SOURCE LINES 91-95
 
-.. code-block:: default
+.. code-block:: Python
 
 
     clear = segmentation.clear_border(fill)
@@ -208,7 +208,7 @@ We compute both the morphological dilation of this binary image
 
 .. GENERATED FROM PYTHON SOURCE LINES 98-103
 
-.. code-block:: default
+.. code-block:: Python
 
 
     dilate = morphology.binary_dilation(clear)
@@ -230,7 +230,7 @@ Finally, we subtract the eroded from the dilated to get the nucleus rim
 
 .. GENERATED FROM PYTHON SOURCE LINES 107-110
 
-.. code-block:: default
+.. code-block:: Python
 
 
     mask = np.logical_and(dilate, ~erode)
@@ -248,7 +248,7 @@ Let us visualize these processing steps in a sequence of subplots.
 
 .. GENERATED FROM PYTHON SOURCE LINES 112-144
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig, ax = plt.subplots(2, 4, figsize=(12, 6), sharey=True)
@@ -303,7 +303,7 @@ it as a mask to measure the intensity in the second channel.
 
 .. GENERATED FROM PYTHON SOURCE LINES 149-165
 
-.. code-block:: default
+.. code-block:: Python
 
 
     image_t_0_channel_1 = image_sequence[0, 1, :, :]
@@ -342,7 +342,7 @@ image.
 
 .. GENERATED FROM PYTHON SOURCE LINES 170-177
 
-.. code-block:: default
+.. code-block:: Python
 
 
     props = measure.regionprops_table(
@@ -364,7 +364,7 @@ We may want to check that the value for the total intensity
 
 .. GENERATED FROM PYTHON SOURCE LINES 179-182
 
-.. code-block:: default
+.. code-block:: Python
 
 
     selection.sum()
@@ -388,7 +388,7 @@ can be recovered from:
 
 .. GENERATED FROM PYTHON SOURCE LINES 184-187
 
-.. code-block:: default
+.. code-block:: Python
 
 
     props['area'] * props['intensity_mean']
@@ -416,7 +416,7 @@ Indeed, most scikit-image functions support nD images.
 
 .. GENERATED FROM PYTHON SOURCE LINES 193-200
 
-.. code-block:: default
+.. code-block:: Python
 
 
     n_z = image_sequence.shape[0]  # number of frames
@@ -451,7 +451,7 @@ computations (``np.newaxis`` is used to prepend an axis of size 1 for time):
 
 .. GENERATED FROM PYTHON SOURCE LINES 215-219
 
-.. code-block:: default
+.. code-block:: Python
 
 
     footprint = ndi.generate_binary_structure(2, 1)[np.newaxis, ...]
@@ -479,7 +479,7 @@ frames are never spatial neighbors).
 
 .. GENERATED FROM PYTHON SOURCE LINES 222-225
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fill_seq = ndi.binary_fill_holes(thresh_seq, structure=footprint)
@@ -520,7 +520,7 @@ values. This can be seen in 3D by running the following code:
 
 .. GENERATED FROM PYTHON SOURCE LINES 250-259
 
-.. code-block:: default
+.. code-block:: Python
 
 
     border_mask = np.ones_like(fill_seq)
@@ -546,7 +546,7 @@ minimum-size integer dtype needed to represent the number of time points:
 
 .. GENERATED FROM PYTHON SOURCE LINES 263-269
 
-.. code-block:: default
+.. code-block:: Python
 
 
     label_dtype = np.min_scalar_type(n_z)
@@ -568,7 +568,7 @@ regions.
 
 .. GENERATED FROM PYTHON SOURCE LINES 272-296
 
-.. code-block:: default
+.. code-block:: Python
 
 
     props = measure.regionprops_table(
@@ -615,7 +615,7 @@ time points, and then becomes roughly constant.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.688 seconds)
+   **Total running time of the script:** (0 minutes 1.806 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_fluorescence_nuclear_envelope.py:
@@ -624,7 +624,6 @@ time points, and then becomes roughly constant.
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
-
     .. container:: binder-badge
 
       .. image:: images/binder_badge_logo.svg
@@ -632,15 +631,13 @@ time points, and then becomes roughly constant.
         :alt: Launch binder
         :width: 150 px
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_fluorescence_nuclear_envelope.ipynb <plot_fluorescence_nuclear_envelope.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: plot_fluorescence_nuclear_envelope.py <plot_fluorescence_nuclear_envelope.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: plot_fluorescence_nuclear_envelope.ipynb <plot_fluorescence_nuclear_envelope.ipynb>`
 
 
 .. only:: html

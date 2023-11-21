@@ -33,7 +33,7 @@ confocal fluorescence microscopy (more details at [1]_ under
 
 .. GENERATED FROM PYTHON SOURCE LINES 16-25
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -59,7 +59,7 @@ This biomedical image is available through `scikit-image`'s data registry.
 
 .. GENERATED FROM PYTHON SOURCE LINES 29-32
 
-.. code-block:: default
+.. code-block:: Python
 
 
     data = data.kidney()
@@ -77,7 +77,7 @@ What exactly are the shape and size of our 3D multichannel image?
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-39
 
-.. code-block:: default
+.. code-block:: Python
 
 
     print(f'number of dimensions: {data.ndim}')
@@ -107,7 +107,7 @@ of values?
 
 .. GENERATED FROM PYTHON SOURCE LINES 43-48
 
-.. code-block:: default
+.. code-block:: Python
 
 
     n_plane, n_row, n_col, n_chan = data.shape
@@ -133,7 +133,7 @@ Let us visualize the middle slice of our 3D image.
 
 .. GENERATED FROM PYTHON SOURCE LINES 50-60
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig1 = px.imshow(
@@ -163,7 +163,7 @@ Z.
 
 .. GENERATED FROM PYTHON SOURCE LINES 64-76
 
-.. code-block:: default
+.. code-block:: Python
 
 
     sample = data[5:13, 380:410, 370:400, 1]
@@ -222,7 +222,7 @@ typical size for strong variations. We shall use this size as the
 
 .. GENERATED FROM PYTHON SOURCE LINES 104-115
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig2 = px.imshow(
@@ -258,7 +258,7 @@ the X-Z or Y-Z planes confirms it is reasonable.
 
 .. GENERATED FROM PYTHON SOURCE LINES 124-128
 
-.. code-block:: default
+.. code-block:: Python
 
 
     sigma = (1, 1.5, 2.5)
@@ -277,7 +277,7 @@ We can then compute the eigenvalues of the structure tensor.
 
 .. GENERATED FROM PYTHON SOURCE LINES 130-134
 
-.. code-block:: default
+.. code-block:: Python
 
 
     eigen = feature.structure_tensor_eigenvalues(A_elems)
@@ -302,7 +302,7 @@ Where is the largest eigenvalue?
 
 .. GENERATED FROM PYTHON SOURCE LINES 136-141
 
-.. code-block:: default
+.. code-block:: Python
 
 
     coords = np.unravel_index(eigen.argmax(), eigen.shape)
@@ -333,7 +333,7 @@ where the maximum eigenvalue is found (i.e., ``Z = coords[1]``).
 
 .. GENERATED FROM PYTHON SOURCE LINES 148-158
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig3 = px.imshow(
@@ -362,7 +362,7 @@ around the maximum eigenvalue in the above X-Y plane.
 
 .. GENERATED FROM PYTHON SOURCE LINES 161-164
 
-.. code-block:: default
+.. code-block:: Python
 
 
     eigen[0, coords[1], coords[2] - 2 : coords[2] + 1, coords[3] - 2 : coords[3] + 1]
@@ -389,7 +389,7 @@ see that they have the same order of magnitude as the largest ones.
 
 .. GENERATED FROM PYTHON SOURCE LINES 167-170
 
-.. code-block:: default
+.. code-block:: Python
 
 
     eigen[1, coords[1], coords[2] - 2 : coords[2] + 1, coords[3] - 2 : coords[3] + 1]
@@ -416,7 +416,7 @@ smaller.
 
 .. GENERATED FROM PYTHON SOURCE LINES 173-176
 
-.. code-block:: default
+.. code-block:: Python
 
 
     eigen[2, coords[1], coords[2] - 2 : coords[2] + 1, coords[3] - 2 : coords[3] + 1]
@@ -443,7 +443,7 @@ maximum eigenvalue is found.
 
 .. GENERATED FROM PYTHON SOURCE LINES 179-190
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig4 = px.imshow(
@@ -476,7 +476,7 @@ tissue), especially in the Y-Z plane (``longitudinal=1``).
 
 .. GENERATED FROM PYTHON SOURCE LINES 196-204
 
-.. code-block:: default
+.. code-block:: Python
 
 
     subplots = np.dstack((sample[:, coords[2], :], sample[:, :, coords[3]]))
@@ -524,7 +524,7 @@ we would get the pancake situation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.261 seconds)
+   **Total running time of the script:** (0 minutes 1.254 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_3d_structure_tensor.py:
@@ -533,7 +533,6 @@ we would get the pancake situation.
 
   .. container:: sphx-glr-footer sphx-glr-footer-example
 
-
     .. container:: binder-badge
 
       .. image:: images/binder_badge_logo.svg
@@ -541,15 +540,13 @@ we would get the pancake situation.
         :alt: Launch binder
         :width: 150 px
 
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_3d_structure_tensor.ipynb <plot_3d_structure_tensor.ipynb>`
 
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: plot_3d_structure_tensor.py <plot_3d_structure_tensor.py>`
-
-    .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-      :download:`Download Jupyter notebook: plot_3d_structure_tensor.ipynb <plot_3d_structure_tensor.ipynb>`
 
 
 .. only:: html

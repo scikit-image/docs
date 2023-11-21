@@ -697,7 +697,7 @@ images that also have a translation offset.</p>
 differ with respect to rotation around a common center point. By remapping
 these images into polar space, the rotation difference becomes a simple
 translation difference that can be recovered by phase correlation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span>
@@ -743,7 +743,7 @@ Recovered value for counterclockwise rotation: 35.0
 the axis tick values). By remapping these images into log-polar space,
 we can recover rotation as before, and now also scaling, by phase
 correlation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># radius must be large enough to capture useful info in larger image</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># radius must be large enough to capture useful info in larger image</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">radius</span></a> <span class="o">=</span> <span class="mi">1500</span>
 <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">angle</span></a> <span class="o">=</span> <span class="mf">53.7</span>
 <a href="https://docs.python.org/3/library/functions.html#float" title="builtins.float" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">scale</span></a> <span class="o">=</span> <span class="mf">2.2</span>
@@ -802,7 +802,7 @@ resolve rotation and scaling differences for translated images by working on
 the magnitude spectra of the Fourier-transformed images.</p>
 <p>In this next example, we first show how the above approaches fail when two
 images differ by rotation, scaling, and translation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">rgb2gray</span></a>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <a href="../../api/skimage.color.html#skimage.color.rgb2gray" title="skimage.color.rgb2gray" class="sphx-glr-backref-module-skimage-color sphx-glr-backref-type-py-function"><span class="n">rgb2gray</span></a>
 <span class="kn">from</span> <span class="nn">skimage.filters</span> <span class="kn">import</span> <a href="../../api/skimage.filters.html#skimage.filters.window" title="skimage.filters.window" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">window</span></a><span class="p">,</span> <a href="../../api/skimage.filters.html#skimage.filters.difference_of_gaussians" title="skimage.filters.difference_of_gaussians" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">difference_of_gaussians</span></a>
 <span class="kn">from</span> <span class="nn">scipy.fft</span> <span class="kn">import</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fft2.html#scipy.fft.fft2" title="scipy.fft.fft2" class="sphx-glr-backref-module-scipy-fft sphx-glr-backref-type-py-function"><span class="n">fft2</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fftshift.html#scipy.fft.fftshift" title="scipy.fft.fftshift" class="sphx-glr-backref-module-scipy-fft sphx-glr-backref-type-py-function"><span class="n">fftshift</span></a>
 
@@ -864,7 +864,7 @@ differences, are apparent in the frequency magnitude spectra of the images.
 These differences can be recovered by treating the magnitude spectra as
 images themselves, and applying the same log-polar + phase correlation
 approach taken above.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, band-pass filter both images</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, band-pass filter both images</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.difference_of_gaussians" title="skimage.filters.difference_of_gaussians" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">difference_of_gaussians</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rts_image</span></a> <span class="o">=</span> <a href="../../api/skimage.filters.html#skimage.filters.difference_of_gaussians" title="skimage.filters.difference_of_gaussians" class="sphx-glr-backref-module-skimage-filters sphx-glr-backref-type-py-function"><span class="n">difference_of_gaussians</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rts_image</span></a><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 
@@ -975,16 +975,16 @@ scale-invariant image registration.” In 4th SEAS DTC Technical
 Conference. 2009. <a class="reference external" href="https://doi.org/10.1109/TPAMI.2010.107">DOI:10.1109/TPAMI.2010.107</a></p>
 </aside>
 </aside>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.711 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.803 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-registration-plot-register-rotation-py">
 <div class="binder-badge docutils container">
-<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/registration/plot_register_rotation.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo10.svg" width="150px" /></a>
-</div>
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/54c4e49350ca43f700c5f35ded7c6bbb/plot_register_rotation.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_register_rotation.py</span></code></a></p>
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/main?filepath=notebooks/auto_examples/registration/plot_register_rotation.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo9.svg" width="150px" /></a>
 </div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/47741d930eb132bae0225bc5b94f785e/plot_register_rotation.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_register_rotation.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/54c4e49350ca43f700c5f35ded7c6bbb/plot_register_rotation.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_register_rotation.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
