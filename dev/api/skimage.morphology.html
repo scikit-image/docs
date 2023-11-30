@@ -3297,12 +3297,15 @@ Processing, 23(9), 3885-3895.
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.medial_axis">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">medial_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L846-L1006"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.medial_axis" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">medial_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L358-L521"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.medial_axis" title="Link to this definition">#</a></dt>
 <dd><p>Compute the medial axis transform of a binary image.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>image</strong><span class="classifier">binary ndarray, shape (M, N)</span></dt><dd><p>The image of the shape to be skeletonized.</p>
+<dt><strong>image</strong><span class="classifier">binary ndarray, shape (M, N)</span></dt><dd><p>The image of the shape to skeletonize. If this input isn’t already a
+binary image, it gets converted into one: In this case, zero values are
+considered background (False), nonzero values are considered
+foreground (True).</p>
 </dd>
 <dt><strong>mask</strong><span class="classifier">binary ndarray, shape (M, N), optional</span></dt><dd><p>If a mask is given, only those elements in <em class="xref py py-obj">image</em> with a true
 value in <em class="xref py py-obj">mask</em> are used for computing the medial axis.</p>
@@ -3367,9 +3370,9 @@ pass.</p></li>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
@@ -3377,7 +3380,7 @@ pass.</p></li>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">medial_axis</span><span class="p">(</span><span class="n">square</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">medial_axis</span><span class="p">(</span><span class="n">square</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 0, 1, 0, 0],</span>
 <span class="go">       [0, 0, 0, 1, 0, 0, 0],</span>
@@ -3989,7 +3992,7 @@ placed. By default, a new array is created.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.skeletonize">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">skeletonize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L13-L89"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.skeletonize" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">skeletonize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L13-L91"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.skeletonize" title="Link to this definition">#</a></dt>
 <dd><p>Compute the skeleton of a binary image.</p>
 <p>Thinning is used to reduce each connected component in a binary image
 to a single-pixel wide skeleton.</p>
@@ -4007,7 +4010,7 @@ works for 2D or 3D images and is the default for 3D.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>skeleton</strong><span class="classifier">ndarray</span></dt><dd><p>The thinned image.</p>
+<dt><strong>skeleton</strong><span class="classifier">ndarray of bool</span></dt><dd><p>The thinned image.</p>
 </dd>
 </dl>
 </dd>
@@ -4035,8 +4038,8 @@ March 1984, Volume 27, Number 3.</p>
 </div>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">9</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ellipse</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ellipse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ellipse</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ellipse</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 0, 0, 1, 1, 1, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
@@ -4047,7 +4050,7 @@ March 1984, Volume 27, Number 3.</p>
 <span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 0, 1, 1, 1, 0, 0, 0]], dtype=uint8)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span> <span class="o">=</span> <span class="n">skeletonize</span><span class="p">(</span><span class="n">ellipse</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
@@ -4073,7 +4076,7 @@ March 1984, Volume 27, Number 3.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.skeletonize_3d">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">skeletonize_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L1077-L1147"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.skeletonize_3d" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">skeletonize_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L592-L656"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.skeletonize_3d" title="Link to this definition">#</a></dt>
 <dd><p>Compute the skeleton of a binary image.</p>
 <p>Thinning is used to reduce each connected component in a binary image
 to a single-pixel wide skeleton.</p>
@@ -4087,7 +4090,7 @@ represent background, nonzero values are foreground.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>skeleton</strong><span class="classifier">ndarray</span></dt><dd><p>The thinned image.</p>
+<dt><strong>skeleton</strong><span class="classifier">ndarray of bool</span></dt><dd><p>The thinned image.</p>
 </dd>
 </dl>
 </dd>
@@ -4222,12 +4225,14 @@ of the square array returned is <em class="xref py py-obj">2*a + 1 + 2*floor(a /
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.thin">
-<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">thin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L744-L838"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.thin" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">thin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_num_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L254-L350"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.thin" title="Link to this definition">#</a></dt>
 <dd><p>Perform morphological thinning of a binary image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">binary (M, N) ndarray</span></dt><dd><p>The image to be thinned.</p>
+<dt><strong>image</strong><span class="classifier">binary (M, N) ndarray</span></dt><dd><p>The image to thin. If this input isn’t already a binary image,
+it gets converted into one: In this case, zero values are considered
+background (False), nonzero values are considered foreground (True).</p>
 </dd>
 <dt><strong>max_num_iter</strong><span class="classifier">int, number of iterations, optional</span></dt><dd><p>Regardless of the value of this parameter, the thinned image
 is returned immediately if an iteration produces no change.
@@ -4274,10 +4279,10 @@ p. 879, 1992. <a class="reference external" href="https://doi.org/10.1109/34.161
 </div>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">square</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="mi">1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">square</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
@@ -4286,7 +4291,7 @@ p. 879, 1992. <a class="reference external" href="https://doi.org/10.1109/34.161
 <span class="go">       [0, 0, 1, 1, 1, 0, 0],</span>
 <span class="go">       [0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span> <span class="o">=</span> <span class="n">thin</span><span class="p">(</span><span class="n">square</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">skel</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
 <span class="go">array([[0, 1, 0, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 1, 0, 0, 0, 0],</span>
 <span class="go">       [0, 0, 0, 1, 0, 0, 0],</span>
