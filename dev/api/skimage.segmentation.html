@@ -948,13 +948,15 @@ smallest image dimension.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.segmentation.expand_labels">
-<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">expand_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_expand_labels.py#L5-L94"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.expand_labels" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">expand_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/segmentation/_expand_labels.py#L5-L104"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.expand_labels" title="Link to this definition">#</a></dt>
 <dd><p>Expand labels in label image by <code class="docutils literal notranslate"><span class="pre">distance</span></code> pixels without overlapping.</p>
 <p>Given a label image, <code class="docutils literal notranslate"><span class="pre">expand_labels</span></code> grows label regions (connected components)
-outwards by up to <code class="docutils literal notranslate"><span class="pre">distance</span></code> pixels without overflowing into neighboring regions.
+outwards by up to <code class="docutils literal notranslate"><span class="pre">distance</span></code> units without overflowing into neighboring regions.
 More specifically, each background pixel that is within Euclidean distance
 of &lt;= <code class="docutils literal notranslate"><span class="pre">distance</span></code> pixels of a connected component is assigned the label of that
-connected component.
+connected component. The <em class="xref py py-obj">spacing</em> parameter can be used to specify the spacing
+rate of the distance transform used to calculate the Euclidean distance for anisotropic
+images.
 Where multiple connected components are within <code class="docutils literal notranslate"><span class="pre">distance</span></code> pixels of a background
 pixel, the label value of the closest connected component will be assigned (see
 Notes for the case of multiple labels at equal distance).</p>
@@ -964,6 +966,10 @@ Notes for the case of multiple labels at equal distance).</p>
 <dt><strong>label_image</strong><span class="classifier">ndarray of dtype int</span></dt><dd><p>label image</p>
 </dd>
 <dt><strong>distance</strong><span class="classifier">float</span></dt><dd><p>Euclidean distance in pixels by which to grow the labels. Default is one.</p>
+</dd>
+<dt><strong>spacing</strong><span class="classifier">float, or sequence of float, optional</span></dt><dd><p>Spacing of elements along each dimension. If a sequence, must be of length
+equal to the input rank; if a single number, this is used for all axes. If
+not specified, a grid spacing of unity is implied.</p>
 </dd>
 </dl>
 </dd>
@@ -1027,6 +1033,10 @@ label closest to <code class="docutils literal notranslate"><span class="pre">(0
 <span class="go">array([[2, 1, 1, 0],</span>
 <span class="go">       [2, 2, 0, 0],</span>
 <span class="go">       [2, 3, 3, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expand_labels</span><span class="p">(</span><span class="n">labels2d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="go">array([[1, 1, 1, 1],</span>
+<span class="go">       [2, 2, 2, 0],</span>
+<span class="go">       [3, 3, 3, 3]])</span>
 </pre></div>
 </div>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Given several connected components represented by a label image, these connected components can..."><img alt="" src="../_images/sphx_glr_plot_expand_labels_thumb.png" />
