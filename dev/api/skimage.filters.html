@@ -1431,7 +1431,7 @@ deviations</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.filters.gaussian">
-<span class="sig-prename descclassname"><span class="pre">skimage.filters.</span></span><span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/_shared/filters.py#L15-L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.gaussian" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.filters.</span></span><span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output=&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate=4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out=None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/_shared/filters.py#L20-L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.gaussian" title="Link to this definition">#</a></dt>
 <dd><p>Multi-dimensional Gaussian filter.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1442,9 +1442,6 @@ deviations</p>
 deviations of the Gaussian filter are given for each axis as a
 sequence, or as a single number, in which case it is equal for
 all axes.</p>
-</dd>
-<dt><strong>output</strong><span class="classifier">ndarray, optional</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> parameter passes an array in which to store the
-filter output.</p>
 </dd>
 <dt><strong>mode</strong><span class="classifier">{‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">mode</span></code> parameter determines how the array borders are
 handled, where <code class="docutils literal notranslate"><span class="pre">cval</span></code> is the value when mode is equal to
@@ -1466,17 +1463,12 @@ dtype of input)</p>
 Otherwise, this parameter indicates which axis of the array corresponds
 to channels.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+<p><span class="versionmodified added">New in version 0.19: </span><em class="xref py py-obj">channel_axis</em> was added in 0.19.</p>
 </div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Automatic detection of the color channel based on the old deprecated
-<em class="xref py py-obj">multichannel=None</em> was broken in version 0.19. In 0.20 this
-behavior is fixed. The last axis of an <em class="xref py py-obj">image</em> with dimensions
-(M, N, 3) is interpreted as a color channel if <em class="xref py py-obj">channel_axis</em> is not
-set by the user (signaled by the default proxy value
-<em class="xref py py-obj">ChannelAxisNotSet</em>). Starting with 0.22, <em class="xref py py-obj">channel_axis=None</em> will
-be used as the new default value.</p>
+</dd>
+<dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>If given, the filtered image will be stored in this array.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.23: </span><em class="xref py py-obj">out</em> was added in 0.23.</p>
 </div>
 </dd>
 </dl>
@@ -1487,12 +1479,21 @@ be used as the new default value.</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-odd">Other Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>output</strong><span class="classifier">DEPRECATED</span></dt><dd><p>Deprecated in favor of <em class="xref py py-obj">out</em>.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.23.</span></p>
+</div>
+</dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>This function is a wrapper around <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.gaussian_filter.html#scipy.ndimage.gaussian_filter" title="(in SciPy v1.12.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.ndimage.gaussian_filter()</span></code></a>.</p>
 <p>Integer arrays are converted to float.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> should be floating point data type since gaussian converts
-to float provided <code class="docutils literal notranslate"><span class="pre">image</span></code>. If <code class="docutils literal notranslate"><span class="pre">output</span></code> is not provided, another array
+<p><em class="xref py py-obj">out</em> should be of floating-point data type since <a class="reference internal" href="#skimage.filters.gaussian" title="skimage.filters.gaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian</span></code></a> converts the
+input <em class="xref py py-obj">image</em> to float. If <em class="xref py py-obj">out</em> is not provided, another array
 will be allocated and returned as the result.</p>
 <p>The multi-dimensional filter is implemented as a sequence of
 one-dimensional convolution filters. The intermediate arrays are
@@ -1501,29 +1502,29 @@ types with a limited precision, the results may be imprecise
 because intermediate results may be stored with insufficient
 precision.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
 <span class="go">array([[0., 0., 0.],</span>
 <span class="go">       [0., 1., 0.],</span>
 <span class="go">       [0., 0., 0.]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># mild smoothing</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ski</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>  <span class="c1"># mild smoothing</span>
 <span class="go">array([[0.00163116, 0.03712502, 0.00163116],</span>
 <span class="go">       [0.03712502, 0.84496158, 0.03712502],</span>
 <span class="go">       [0.00163116, 0.03712502, 0.00163116]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># more smoothing</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ski</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># more smoothing</span>
 <span class="go">array([[0.05855018, 0.09653293, 0.05855018],</span>
 <span class="go">       [0.09653293, 0.15915589, 0.09653293],</span>
 <span class="go">       [0.05855018, 0.09653293, 0.05855018]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Several modes are possible for handling boundaries</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ski</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
 <span class="go">array([[0.08767308, 0.12075024, 0.08767308],</span>
 <span class="go">       [0.12075024, 0.16630671, 0.12075024],</span>
 <span class="go">       [0.08767308, 0.12075024, 0.08767308]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># For RGB images, each is filtered separately</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.data</span> <span class="kn">import</span> <span class="n">astronaut</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">astronaut</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_img</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">channel_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filtered_img</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">gaussian</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">channel_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="The active contour model is a method to fit open or closed splines to lines or edges in an imag..."><img alt="" src="../_images/sphx_glr_plot_active_contours_thumb.png" />
