@@ -47,7 +47,7 @@ mechanisms.
    Presentation on
    :ref:`sphx_glr_auto_examples_applications_plot_rank_filters.py`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-41
+.. GENERATED FROM PYTHON SOURCE LINES 31-43
 
 .. code-block:: Python
 
@@ -59,7 +59,9 @@ mechanisms.
     img = data.page()
 
     fig, ax = try_all_threshold(img, figsize=(10, 8), verbose=False)
+
     plt.show()
+
 
 
 
@@ -73,7 +75,7 @@ mechanisms.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-49
+.. GENERATED FROM PYTHON SOURCE LINES 44-51
 
 How to apply a threshold?
 =========================
@@ -83,7 +85,7 @@ This example uses the mean value of pixel intensities. It is a simple
 and naive threshold value, which is sometimes used as a guess value.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 49-71
+.. GENERATED FROM PYTHON SOURCE LINES 51-73
 
 .. code-block:: Python
 
@@ -105,7 +107,7 @@ and naive threshold value, which is sometimes used as a guess value.
     ax[1].set_title('Result')
 
     for a in ax:
-        a.axis('off')
+        a.set_axis_off()
 
     plt.show()
 
@@ -121,7 +123,7 @@ and naive threshold value, which is sometimes used as a guess value.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-78
+.. GENERATED FROM PYTHON SOURCE LINES 74-80
 
 Bimodal histogram
 =================
@@ -130,7 +132,7 @@ For pictures with a bimodal histogram, more specific algorithms can be used.
 For instance, the minimum algorithm takes a histogram of the image and smooths it
 repeatedly until there are only two peaks in the histogram.
 
-.. GENERATED FROM PYTHON SOURCE LINES 78-105
+.. GENERATED FROM PYTHON SOURCE LINES 80-108
 
 .. code-block:: Python
 
@@ -158,7 +160,8 @@ repeatedly until there are only two peaks in the histogram.
     ax[1, 1].axvline(thresh_min, color='r')
 
     for a in ax[:, 0]:
-        a.axis('off')
+        a.set_axis_off()
+
     plt.show()
 
 
@@ -173,7 +176,7 @@ repeatedly until there are only two peaks in the histogram.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-113
+.. GENERATED FROM PYTHON SOURCE LINES 109-116
 
 Otsu's method [2]_ calculates an "optimal" threshold (marked by a red line in the
 histogram below) by maximizing the variance between two classes of pixels,
@@ -183,7 +186,7 @@ the intra-class variance.
 .. [2] https://en.wikipedia.org/wiki/Otsu's_method
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-136
+.. GENERATED FROM PYTHON SOURCE LINES 116-139
 
 .. code-block:: Python
 
@@ -206,7 +209,7 @@ the intra-class variance.
 
     ax[2].imshow(binary, cmap=plt.cm.gray)
     ax[2].set_title('Thresholded')
-    ax[2].axis('off')
+    ax[2].set_axis_off()
 
     plt.show()
 
@@ -222,7 +225,7 @@ the intra-class variance.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 137-151
+.. GENERATED FROM PYTHON SOURCE LINES 140-154
 
 Local thresholding
 ==================
@@ -239,7 +242,7 @@ each pixel (i.e. local neighborhoods). Each threshold value is the weighted mean
 of the local neighborhood minus an offset value.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 151-182
+.. GENERATED FROM PYTHON SOURCE LINES 154-185
 
 .. code-block:: Python
 
@@ -270,7 +273,7 @@ of the local neighborhood minus an offset value.
     ax[2].set_title('Local thresholding')
 
     for a in ax:
-        a.axis('off')
+        a.set_axis_off()
 
     plt.show()
 
@@ -286,7 +289,7 @@ of the local neighborhood minus an offset value.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 183-190
+.. GENERATED FROM PYTHON SOURCE LINES 186-193
 
 Now, we show how Otsu's threshold [2]_ method can be applied locally. For
 each pixel, an "optimal" threshold is determined by maximizing the variance
@@ -296,7 +299,7 @@ structuring element.
 The example compares the local threshold with the global threshold.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 190-228
+.. GENERATED FROM PYTHON SOURCE LINES 193-231
 
 .. code-block:: Python
 
@@ -317,25 +320,25 @@ The example compares the local threshold with the global threshold.
 
     fig, axes = plt.subplots(2, 2, figsize=(8, 5), sharex=True, sharey=True)
     ax = axes.ravel()
-    plt.tight_layout()
+    fig.tight_layout()
 
     fig.colorbar(ax[0].imshow(img, cmap=plt.cm.gray), ax=ax[0], orientation='horizontal')
     ax[0].set_title('Original')
-    ax[0].axis('off')
+    ax[0].set_axis_off()
 
     fig.colorbar(
         ax[1].imshow(local_otsu, cmap=plt.cm.gray), ax=ax[1], orientation='horizontal'
     )
     ax[1].set_title(f'Local Otsu (radius={radius})')
-    ax[1].axis('off')
+    ax[1].set_axis_off()
 
     ax[2].imshow(img >= local_otsu, cmap=plt.cm.gray)
     ax[2].set_title('Original >= Local Otsu')
-    ax[2].axis('off')
+    ax[2].set_axis_off()
 
     ax[3].imshow(global_otsu, cmap=plt.cm.gray)
     ax[3].set_title('Global Otsu (threshold = {threshold_global_otsu})')
-    ax[3].axis('off')
+    ax[3].set_axis_off()
 
     plt.show()
 
@@ -353,7 +356,7 @@ The example compares the local threshold with the global threshold.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.142 seconds)
+   **Total running time of the script:** (0 minutes 3.096 seconds)
 
 
 .. _sphx_glr_download_auto_examples_applications_plot_thresholding_guide.py:
