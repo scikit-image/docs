@@ -1,0 +1,1489 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scikit-image 0.19.3 (2022-06-12) &#8212; skimage 0.23.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=b4d3b1f5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'release_notes/release_0.19';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.23.2';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="scikit-image 0.18.3 (2021-08-24)" href="release_0.18.html" />
+    <link rel="prev" title="scikit-image 0.20.0 (2023-02-28)" href="release_0.20.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="release_0.23.html">scikit-image 0.23.2 (2024-04-20)</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.22.html">scikit-image 0.22.0 (2023-11-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.21.html">scikit-image 0.21.0 (2023-06-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.20.html">scikit-image 0.20.0 (2023-02-28)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">scikit-image 0.19.3 (2022-06-12)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.18.html">scikit-image 0.18.3 (2021-08-24)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.17.html">scikit-image 0.17.2 (2020-05-13)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.16.html">scikit-image 0.16.2 (2019-10-22)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.15.html">scikit-image 0.15.0 (2019-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.14.html">scikit-image 0.14.4 (2019-09-04)</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.13.html">scikit-image 0.13.1 (2017-09-27)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.12.html">scikit-image 0.12.3 (2016-03-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.11.html">scikit-image 0.11.0 (2015-03-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.10.html">scikit-image 0.10.0 (2014-05-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.9.html">scikit-image 0.9.0 (2013-10-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.8.html">scikits-image 0.8.0 (2013-03-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.7.html">scikits-image 0.7.0 (2012-09-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.6.html">scikits-image 0.6 (2012-06-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.5.html">scikits-image 0.5 (2012-02-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.4.html">scikits-image 0.4 (2011-12-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.3.html">scikits.image 0.3 (2011-10-10)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">scikit-image...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="scikit-image-0-19-3-2022-06-12">
+<h1>scikit-image 0.19.3 (2022-06-12)<a class="headerlink" href="#scikit-image-0-19-3-2022-06-12" title="Link to this heading">#</a></h1>
+<p>We’re happy to announce the release of scikit-image v0.19.3!</p>
+<p>scikit-image is an image processing toolbox for SciPy that includes algorithms
+for segmentation, geometric transformations, color space manipulation,
+analysis, filtering, morphology, feature detection, and more.</p>
+<p>For more information, examples, and documentation, please visit our website:</p>
+<p><a class="reference external" href="https://scikit-image.org">https://scikit-image.org</a></p>
+<section id="bugs-fixed">
+<h2>Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Revert unintentional change to default multichannel behavior introduced in v0.19.0 for <code class="docutils literal notranslate"><span class="pre">skimage.restoration.cycle_spin</span></code> (now defaults to single channel again)</p></li>
+<li><p>Fix corner case with an optimal angle of 0 degrees in hough_line_peaks</p></li>
+<li><p>Fixed the gallery example involving registration with log-polar transformations</p></li>
+<li><p>Update test suite for compatibility with the most recent <code class="docutils literal notranslate"><span class="pre">tifffile</span></code> release.</p></li>
+<li><p>warp/rotate: fixed a bug with clipping when cval is not in the input range</p></li>
+<li><p>Fix computation of histogram bins for multichannel integer-valued images</p></li>
+</ul>
+</section>
+<section id="general-maintenance">
+<h2>General Maintenance<a class="headerlink" href="#general-maintenance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">skimage.future.manual_polygon_segmentation</span></code> to work with Matplotlib 3.5.</p></li>
+<li><p>Update <code class="docutils literal notranslate"><span class="pre">skimage.io.imread</span></code> to avoid warnings when using <code class="docutils literal notranslate"><span class="pre">imageio</span></code>&gt;=2.16.2.</p></li>
+<li><p>Now compatible with Pillow &gt;= 9.1 (palette may contain &lt;256 entries)</p></li>
+<li><p>Added support for NumPy 1.23</p></li>
+</ul>
+</section>
+<section id="pull-requests-included">
+<h2>Pull Requests Included<a class="headerlink" href="#pull-requests-included" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Backport PR #6306 on branch v0.19.x (Fix for error in ‘Using Polar and Log-Polar Transformations for Registration’) (#6312)</p></li>
+<li><p>Backport PR #6271 on branch v0.19.x (hough_line_peaks fix for corner case with optimal angle=0) (#6313)</p></li>
+<li><p>Backport PR #6261 on branch v0.19.x (Ignore sparse matrix deprecation warning) (#6316)</p></li>
+<li><p>backport PR 6328: Fix issue with newer versions of matplotlib in manual segmentation (#6334)</p></li>
+<li><p>Backport PR #6343 on branch v0.19.x (avoid warnings about change to v3 API from imageio) (#6344)</p></li>
+<li><p>Backport PR #6355 on branch v0.19.x (remove use of deprecated kwargs from <em class="xref py py-obj">test_tifffile_kwarg_passthrough</em>) (#6357)</p></li>
+<li><p>Backport PR #6352 on branch v0.19.x (Fix channel_axis default for cycle_spin) (#6358)</p></li>
+<li><p>Backport PR #6348 on branch v0.19.x (Fix smoothed image computation when mask is None in canny) (#6359)</p></li>
+<li><p>Backport PR #6361 on branch v0.19.x (Document support for Path objects in io functions) (#6363)</p></li>
+<li><p>Backport PR #6400 on branch v0.19.x (Add support for NumPy 1.23) (#6403)</p></li>
+<li><p>Backport PR #6335 on branch v0.19.x (warp/rotate: fixed a bug with clipping when cval is not in the input range) (#6411)</p></li>
+<li><p>Backport PR #6413 on branch v0.19.x (Fix computation of histogram bins for multichannel integer-valued images) (#6414)</p></li>
+</ul>
+</section>
+<section id="authors-added-to-this-release-alphabetical-by-first-name-or-login">
+<h2>10 authors added to this release [alphabetical by first name or login]<a class="headerlink" href="#authors-added-to-this-release-alphabetical-by-first-name-or-login" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Albert Y. Shih</p></li>
+<li><p>Bartłomiej Śmietanka</p></li>
+<li><p>Dave Mellert</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Graham Inggs</p></li>
+<li><p>Jarrod Millman</p></li>
+<li><p>John Hagen</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Stefan van der Walt</p></li>
+</ul>
+</section>
+<section id="reviewers-added-to-this-release-alphabetical-by-first-name-or-login">
+<h2>7 reviewers added to this release [alphabetical by first name or login]<a class="headerlink" href="#reviewers-added-to-this-release-alphabetical-by-first-name-or-login" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Jarrod Millman</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Lars Grüter</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Riadh Fezzani</p></li>
+</ul>
+</section>
+</section>
+<section id="scikit-image-0-19-2-2021-02-17">
+<h1>scikit-image 0.19.2 (2021-02-17)<a class="headerlink" href="#scikit-image-0-19-2-2021-02-17" title="Link to this heading">#</a></h1>
+<p>We’re happy to announce the release of scikit-image v0.19.2! This is primarily
+a bug fix release, although there is one new gallery example related to
+detection of fluorescence at the nuclear envelope of mammalian cells.</p>
+<p>scikit-image is an image processing toolbox for SciPy that includes algorithms
+for segmentation, geometric transformations, color space manipulation,
+analysis, filtering, morphology, feature detection, and more.</p>
+<p>For more information, examples, and documentation, please visit our website:</p>
+<p><a class="reference external" href="https://scikit-image.org">https://scikit-image.org</a></p>
+<section id="id1">
+<h2>Pull Requests Included<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>fix mistake in tests.yml made during backport (gh-6129)</p></li>
+<li><p>Backport PR #6145 on branch v0.19.x (Fix channel_axis handling in pyramid_gaussian and pyramid_laplace) (gh-6155)</p></li>
+<li><p>Backport PR #6130 on branch v0.19.x (bump deprecated Azure windows environment) (gh-6131)</p></li>
+<li><p>Backport PR #6148 on branch v0.19.x (deprecate n_iter_max (should be max_num_iter)) (gh-6156)</p></li>
+<li><p>Backport PR #6152 on branch v0.19.x (specify python version used by mybinder.org for gallery demos) (gh-6157)</p></li>
+<li><p>Backport PR #6139 on branch v0.19.x (fix phase_cross_correlation typo) (gh-6158)</p></li>
+<li><p>Backport PR #6133 on branch v0.19.x (Update user warning message for viewer module.) (gh-6159)</p></li>
+<li><p>Backport PR #6169 on branch v0.19.x (Fix unintended change to output dtype of match_histograms) (gh-6172)</p></li>
+<li><p>Backport PR #6184 on branch v0.19.x (Fix SIFT wrong octave indices + typo) (gh-6186)</p></li>
+<li><p>Backport PR #6191 on branch v0.19.x (Fix issue6190 - inconsistent default parameters in pyramids.py) (gh-6193)</p></li>
+<li><p>Backport PR #6207 on branch v0.19.x (Always set params to nan when ProjectiveTransform.estimate fails) (gh-6210)</p></li>
+<li><p>Backport PR #5262 on branch v0.19.x (Add textbook-like tutorial on measuring fluorescence at nuclear envelope.) (gh-6213)</p></li>
+<li><p>Backport PR #6087 on branch v0.19.x (Add two datasets for use in upcoming scientific tutorials.) (gh-6215)</p></li>
+<li><p>Backport PR #6214 on branch v0.19.x (EuclideanTransform.estimate should return False when NaNs are present) (gh-6221)</p></li>
+<li><p>Backport PR #6219 on branch v0.19.x (Allow the output_shape argument to be any iterable for resize and resize_local_mean) (gh-6222)</p></li>
+<li><p>Backport PR #6223 on branch v0.19.x (Update filename in testing instructions.) (gh-6225)</p></li>
+<li><p>Backport PR #6231 on branch v0.19.x (Update imports/refs from deprecated scipy.ndimage.filters namespace) (gh-6233)</p></li>
+<li><p>Backport PR #6229 on branch v0.19.x (Remove redundant testing on Appveyor) (gh-6234)</p></li>
+<li><p>Backport PR #6183 on branch v0.19.x (Fix decorators warnings stacklevel) (gh-6238)</p></li>
+<li><p>Backport PR #6239 on branch v0.19.x (DOC: fix SciPy intersphinx) (gh-6241)</p></li>
+<li><p>Backport PR #6232 on branch v0.19.x (Include Cython sources via package_data) (gh-6244)</p></li>
+<li><p>Backport PR #6227 on branch v0.19.x (Fix calculation of Z normal in marching cubes) (gh-6245)</p></li>
+<li><p>Backport PR #6242 on branch v0.19.x (Fix bug in SLIC superpixels with <em class="xref py py-obj">enforce_connectivity=True</em> and <em class="xref py py-obj">start_label &gt; 0</em>) (gh-6246)</p></li>
+<li><p>Backport PR #6211 on branch v0.19.x (PiecewiseAffineTransform.estimate return should reflect underlying transforms) gh-6247</p></li>
+<li><p>update MacOS libomp installation in wheel building script (gh-6249)</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>9 authors added to this release [alphabetical by first name or login]<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Chris Roat</p></li>
+<li><p>Fabian Schneider</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Hande Gözükan</p></li>
+<li><p>Larry Bradley</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Miles Lucas</p></li>
+<li><p>Riadh Fezzani</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>8 reviewers added to this release [alphabetical by first name or login]<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Gregory Lee</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Robert Haase</p></li>
+<li><p>Stefan van der Walt</p></li>
+</ul>
+</section>
+</section>
+<section id="scikit-image-0-19-1-2021-12-03">
+<h1>scikit-image 0.19.1 (2021-12-03)<a class="headerlink" href="#scikit-image-0-19-1-2021-12-03" title="Link to this heading">#</a></h1>
+<p>We’re happy to announce the release of scikit-image v0.19.1!</p>
+<p>This is a small bug fix release that resolves a couple of backwards compatibility issues and a couple of issues with the wheels on PyPI. Specifically, MacOs wheels for Apple M1 (arm64) on PyPI were broken in 0.19.0, but should now be repaired. The arm64 wheels are for MacOs &gt;= 12 only. Wheel sizes are also greatly reduced relative to 0.19.0 by stripping debug symbols from the binaries and making sure that Cython-generated source files are not bundled in the wheels.</p>
+<section id="id4">
+<h2>Pull Requests Included<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Backport PR #6089 on branch v0.19.x (Skip tests requiring fetched data) (gh-6115)</p></li>
+<li><p>Backport PR #6097 on branch v0.19.x (restore non-underscore functions in skimage.data) (gh-6099)</p></li>
+<li><p>Backport PR #6095 on branch v0.19.x (Preserve backwards compatibility for <em class="xref py py-obj">channel_axis</em> parameter in transform functions) (gh-6100)</p></li>
+<li><p>Backport PR #6103 on branch v0.19.x (make rank filter test comparisons robust across architectures) (gh-6106)</p></li>
+<li><p>Backport PR #6105 on branch v0.19.x (pass a specific random_state into ransac in test_ransac_geometric) (gh-6107)</p></li>
+<li><p>Fix two equality comparison bugs in the wheel build script (gh-6098)</p></li>
+<li><p>Backport of gh-6109 (Add linker flags to strip debug symbols during wheel building) (gh-6110)</p></li>
+<li><p>Pin setuptools maximum in v0.19.x to avoid breaking on planned distutils API changes (gh-6112)</p></li>
+<li><p>Avoid potential circular import of rgb2gray (gh-6113)</p></li>
+<li><p>Backport PR #6089 on branch v0.19.x (Skip tests requiring fetched data) (gh-6115)</p></li>
+<li><p>Backport PR #6118 on branch v0.19.x (Fixes to tests.yml and fixes for expected warnings) (gh-6127)</p></li>
+<li><p>Backport PR #6114 on branch v0.19.x (relax test condition to make it more robust to variable CI load) (gh-6128)</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>3 authors added to this release [alphabetical by first name or login]<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Gregory R. Lee</p></li>
+<li><p>Joshua Newton</p></li>
+<li><p>Mark Harfouche</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>5 reviewers added to this release [alphabetical by first name or login]<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Gregory R. Lee</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Stefan van der Walt</p></li>
+</ul>
+</section>
+</section>
+<section id="scikit-image-0-19-0-2021-12-03">
+<h1>scikit-image 0.19.0 (2021-12-03)<a class="headerlink" href="#scikit-image-0-19-0-2021-12-03" title="Link to this heading">#</a></h1>
+<p>We’re happy to announce the release of scikit-image v0.19.0!</p>
+<p>scikit-image is an image processing toolbox for SciPy that includes algorithms
+for segmentation, geometric transformations, color space manipulation,
+analysis, filtering, morphology, feature detection, and more.</p>
+<p>For more information, examples, and documentation, please visit our website:</p>
+<p><a class="reference external" href="https://scikit-image.org">https://scikit-image.org</a></p>
+<p>A highlight of this release is the addition of the popular scale-invariant
+feature transform (SIFT) feature detector and descriptor. This release also
+introduces a perceptual blur metric, new pixel graph algorithms, and most
+functions now operate in single-precision when single-precision inputs are
+provided. Many other bug fixes, enhancements and performance improvements are
+detailed below.</p>
+<p>A significant change in this release is in the treatment of multichannel
+images. The existing <code class="docutils literal notranslate"><span class="pre">multichannel</span></code> argument to functions has been deprecated
+in favor of a new <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> argument. <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> can be used to
+specify which axis of an array contains channel information (with
+<code class="docutils literal notranslate"><span class="pre">channel_axis=None</span></code> indicating a grayscale image).</p>
+<p>scikit-image now uses “lazy loading”, which enables users to access the
+functions from all <code class="docutils literal notranslate"><span class="pre">skimage</span></code> submodules without the overhead of eagerly
+importing all submodules. As a concrete example, after calling “import skimage”
+a user can directly call a function such as <code class="docutils literal notranslate"><span class="pre">skimage.transform.warp</span></code> whereas
+previously it would have been required to first “import skimage.transform”.</p>
+<p>An exciting change on the development side is the introduction of support for
+Pythran as an alternative to Cython for generating compiled code. We plan to
+keep Cython support as well going forward, so developers are free to use either
+one as appropriate. For those curious about Pythran, a good overview was given
+in the SciPy 2021 presentation, “Building SciPy Kernels with Pythran” (<a class="reference external" href="https://www.youtube.com/watch?v=6a9D9WL6ZjQ">https://www.youtube.com/watch?v=6a9D9WL6ZjQ</a>).</p>
+<p>This release now supports Python 3.7-3.10. Apple M1 architecture (arm64)
+support is new to this release. MacOS 12 wheels are provided for
+Python 3.8-3.10.</p>
+<section id="new-features">
+<h2>New Features<a class="headerlink" href="#new-features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Added support for processing images with channels located along any array
+axis. This is in contrast to previous releases where channels were required
+to be the last axis of an image. See more info on the new <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code>
+argument under the API section of the release notes.</p></li>
+<li><p>A no-reference measure of perceptual blur was added
+(<code class="docutils literal notranslate"><span class="pre">skimage.measure.blur_effect</span></code>).</p></li>
+<li><p>Non-local means (<code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_nl_means</span></code>) now supports
+3D multichannel, 4D and 4D multichannel data when <code class="docutils literal notranslate"><span class="pre">fast_mode=True</span></code>.</p></li>
+<li><p>An n-dimensional Fourier-domain Butterworth filter
+(<code class="docutils literal notranslate"><span class="pre">skimage.filters.butterworth</span></code>) was added.</p></li>
+<li><p>Color conversion functions now have a new <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> keyword argument
+that allows specification of which axis of an array corresponds to channels.
+For backwards compatibility, this parameter defaults to <code class="docutils literal notranslate"><span class="pre">channel_axis=-1</span></code>,
+indicating that channels are along the last axis.</p></li>
+<li><p>Added a new keyword only parameter <code class="docutils literal notranslate"><span class="pre">random_state</span></code> to
+<code class="docutils literal notranslate"><span class="pre">morphology.medial_axis</span></code> and <code class="docutils literal notranslate"><span class="pre">restoration.unsupervised_wiener</span></code>.</p></li>
+<li><p>Seeding random number generators will not give the same results as the
+underlying generator was updated to use <code class="docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code>.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">saturation</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code></p></li>
+<li><p>Added normalized mutual information metric
+<code class="docutils literal notranslate"><span class="pre">skimage.metrics.normalized_mutual_information</span></code></p></li>
+<li><p>threshold_local now supports n-dimensional inputs and anisotropic block_size</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">skimage.util.label_points</span></code> function for assigning labels to points.</p></li>
+<li><p>Added nD support to several geometric transform classes</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">skimage.metrics.hausdorff_pair</span></code> to find points separated by the
+Hausdorff distance.</p></li>
+<li><p>Additional colorspace <code class="docutils literal notranslate"><span class="pre">illuminants</span></code> and <code class="docutils literal notranslate"><span class="pre">observers</span></code> parameter options
+were added to <code class="docutils literal notranslate"><span class="pre">skimage.color.lab2rgb</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2lab</span></code>,
+<code class="docutils literal notranslate"><span class="pre">skimage.color.xyz2lab</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.color.lab2xyz</span></code>,
+<code class="docutils literal notranslate"><span class="pre">skimage.color.xyz2luv</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.color.luv2xyz</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_multiotsu</span></code> has a new <code class="docutils literal notranslate"><span class="pre">hist</span></code> keyword argument
+to allow use with a user-supplied histogram. (gh-5543)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_bilateral</span></code> added support for images containing
+negative values. (gh-5527)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">skimage.feature</span></code> functions <code class="docutils literal notranslate"><span class="pre">blob_dog</span></code>, <code class="docutils literal notranslate"><span class="pre">blob_doh</span></code> and <code class="docutils literal notranslate"><span class="pre">blob_log</span></code>
+now support a <code class="docutils literal notranslate"><span class="pre">threshold_rel</span></code> keyword argument that can be used to specify
+a relative threshold (in range [0, 1]) rather than an absolute one. (gh-5517)</p></li>
+<li><p>Implement lazy submodule importing (gh-5101)</p></li>
+<li><p>Implement weighted estimation of geometric transform matrices (gh-5601)</p></li>
+<li><p>Added new pixel graph algorithms in <code class="docutils literal notranslate"><span class="pre">skimage.graph</span></code>:
+<code class="docutils literal notranslate"><span class="pre">pixel_graph</span></code> generates a graph (network) of pixels
+according to their adjacency, and <code class="docutils literal notranslate"><span class="pre">central_pixel</span></code> finds
+the geodesic center of the pixels. (gh-5602)</p></li>
+<li><p>scikit-image now supports use of Pythran in contributed code. (gh-3226)</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A new doc tutorial presenting a 3D biomedical imaging example has been added
+to the gallery (gh-4946). The technical content benefited from conversations
+with Genevieve Buckley, Kevin Mader, and Volker Hilsenstein.</p></li>
+<li><p>New gallery example for 3D structure tensor.</p></li>
+<li><p>New gallery example displaying a 3D dataset.</p></li>
+<li><p>Extended rolling ball example with ECG data (1D).</p></li>
+<li><p>The stain unmixing gallery example was fixed and now displays proper
+separation of the stains.</p></li>
+<li><p>Documentation has been added to the contributing notes about how to submit a
+gallery example.</p></li>
+<li><p>Autoformat docstrings in morphology.</p></li>
+<li><p>Display plotly figures from gallery example even when running script at CLI.</p></li>
+<li><p>Single out docs-only PRs in review process.</p></li>
+<li><p>Use matplotlib’s infinite axline to demonstrate hough transform.</p></li>
+<li><p>Clarify disk documentation inconsistency regarding ‘shape’.</p></li>
+<li><p>docs: fix simple typo, conversions -&gt; conversions.</p></li>
+<li><p>Fixes to linspace in example.</p></li>
+<li><p>Minor fixes to Hough line transform code and examples.</p></li>
+<li><p>Added 1/2 pixel bounds to extent of displayed images in several examples.</p></li>
+<li><p>Add release step on github to RELEASE.txt.</p></li>
+<li><p>Remove reference to opencv in threshold_local documentation.</p></li>
+<li><p>Update structure_tensor docstring to include per-axis sigma.</p></li>
+<li><p>Fix typo in _shared/utils.py docs.</p></li>
+<li><p>Proofread and crosslink examples with immunohistochemistry image.</p></li>
+<li><p>Spelling correction: witch -&gt; which.</p></li>
+<li><p>Mention possible filters in radon_transform -&gt; filtered-back-projection</p></li>
+<li><p>Fix dtype info in documentation for watershed.</p></li>
+<li><p>Proofread gallery example for Radon transform.</p></li>
+<li><p>Use internal function for noise + clarify code in Canny example.</p></li>
+<li><p>Make more comprehensive ‘see also’ sections in filters.</p></li>
+<li><p>Specify the release note version instead of the misleading <em class="xref py py-obj">latest</em>.</p></li>
+<li><p>Remove misleading comment in <code class="docutils literal notranslate"><span class="pre">plot_thresholding.py</span></code> example.</p></li>
+<li><p>Fix sphinx layout to make the search engine work with recent sphinx versions.</p></li>
+<li><p>Draw node IDs in RAG example.</p></li>
+<li><p>Update sigma_color description in denoise_bilateral.</p></li>
+<li><p>Update intersphinx fallback inventories + add matplotlib fallback inventory.</p></li>
+<li><p>Fix numpy deprecation in <code class="docutils literal notranslate"><span class="pre">plot_local_equalize.py</span></code>.</p></li>
+<li><p>Rename <code class="docutils literal notranslate"><span class="pre">label</span></code> variable in <code class="docutils literal notranslate"><span class="pre">plot_regionprops.py</span></code> to circumvent link issue
+in docs.</p></li>
+<li><p>Avoid duplicate API documentation for ImageViewer, CollectionViewer.</p></li>
+<li><p>Fix ‘blog_dog’ typo in <code class="docutils literal notranslate"><span class="pre">gaussian</span></code> docs.</p></li>
+<li><p>Update reference link documentation in the <code class="docutils literal notranslate"><span class="pre">adjust_sigmoid</span></code> function.</p></li>
+<li><p>Fix reference to multiscale_basic_features in TrainableSegmenter.</p></li>
+<li><p>Slight <code class="docutils literal notranslate"><span class="pre">shape_index</span></code> docstring modification to specify 2D array.</p></li>
+<li><p>Add stitching gallery example (gh-5365)</p></li>
+<li><p>Add draft SKIP3: transition to scikit-image 1.0 (gh-5475)</p></li>
+<li><p>Mention commit messages in the contribution guidelines. (gh-5504)</p></li>
+<li><p>Fix and standardize docstrings for blob detection functions. (gh-5547)</p></li>
+<li><p>Update the User Guide to reflect usage of <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> rather than
+<code class="docutils literal notranslate"><span class="pre">multichannel</span></code>. (gh-5554)</p></li>
+<li><p>Update the user guide to use channel_axis rather than multichannel (gh-5556)</p></li>
+<li><p>Add hyperlinks to referenced documentation places. (gh-5560)</p></li>
+<li><p>Update branching instructions to change the location of the pooch repo.
+(gh-5565)</p></li>
+<li><p>Add Notes and References section to the Cascade class docstring. (gh-5568)</p></li>
+<li><p>Clarify 2D vs nD in skimage.feature.corner docstrings (gh-5569)</p></li>
+<li><p>Fix math formulas in plot_swirl.py example. (gh-5574)</p></li>
+<li><p>Update references in texture feature detectors docstrings (gh-5578)</p></li>
+<li><p>Update mailing list location to discuss.scientific-python.org forum (gh-5951)</p></li>
+<li><p>DOC: Fix docstring in rescale_intensity() (gh-5964)</p></li>
+<li><p>Fix slic documentation (gh-5975)</p></li>
+<li><p>Update docstring for dilation, which is now nD. (gh-5978)</p></li>
+<li><p>Change stitching gallery example thumbnail (gh-5985)</p></li>
+<li><p>Add circle and disk to glossary.md (gh-5590)</p></li>
+<li><p>Update pixel graphs example (gh-5991)</p></li>
+<li><p>Separate entries that have the same description in glossary.md (gh-5592)</p></li>
+<li><p>Do not use space before colon in directive name (gh-6002)</p></li>
+</ul>
+</section>
+<section id="improvements">
+<h2>Improvements<a class="headerlink" href="#improvements" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Many more functions throughout the library now have single precision
+(float32) support.</p></li>
+<li><p>Biharmonic  inpainting (<code class="docutils literal notranslate"><span class="pre">skimage.restoration.inpaint_biharmonic</span></code>) was
+refactored and is orders of magnitude faster than before.</p></li>
+<li><p>Salt-and-pepper noise generation with <code class="docutils literal notranslate"><span class="pre">skimage.util.random_noise</span></code> is now
+faster.</p></li>
+<li><p>The performance of the SLIC superpixels algorithm
+(<code class="docutils literal notranslate"><span class="pre">skimage.segmentation.slice</span></code>) was improved for the case where a mask
+is supplied by the user (gh-4903). The specific superpixels produced by
+masked SLIC will not be identical to those produced by prior releases.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exposure.adjust_gamma</span></code> has been accelerated for <code class="docutils literal notranslate"><span class="pre">uint8</span></code> images thanks to
+a LUT (gh-4966).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">measure.label</span></code> has been accelerated for boolean input images, by using
+<code class="docutils literal notranslate"><span class="pre">scipy.ndimage</span></code>’s implementation for this case (gh-4945).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">util.apply_parallel</span></code> now works with multichannel data (gh-4927).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code> supports now any Minkowski distance.</p></li>
+<li><p>Fast, non-Cython implementation for <code class="docutils literal notranslate"><span class="pre">skimage.filters.correlate_sparse</span></code>.</p></li>
+<li><p>For efficiency, the histogram is now precomputed within
+<code class="docutils literal notranslate"><span class="pre">skimage.filters.try_all_threshold</span></code>.</p></li>
+<li><p>Faster <code class="docutils literal notranslate"><span class="pre">skimage.filters.find_local_max</span></code> when given a finite <code class="docutils literal notranslate"><span class="pre">num_peaks</span></code>.</p></li>
+<li><p>All filters in the <code class="docutils literal notranslate"><span class="pre">skimage.filters.rank</span></code> module now release the GIL,
+enabling multithreaded use.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_bregman</span></code> and
+<code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_bilateral</span></code> now release the GIL, enabling
+multithreaded use.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code> performance regression was addressed.</p></li>
+<li><p>Improve numerical precision in <code class="docutils literal notranslate"><span class="pre">CircleModel.estimate</span></code>. (gh-5190)</p></li>
+<li><p>Add default keyword argument values to
+<code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_tv_bregman</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage.measure.block_reduce</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_local</span></code>. (gh-5454)</p></li>
+<li><p>Make matplotlib an optional dependency (gh-5990)</p></li>
+<li><p>single precision support in skimage.filters (gh-5354)</p></li>
+<li><p>Support nD images and labels in label2rgb (gh-5550)</p></li>
+<li><p>Regionprops table performance refactor (gh-5576)</p></li>
+<li><p>add regionprops benchmark script (gh-5579)</p></li>
+<li><p>remove use of apply_along_axes from greycomatrix &amp; greycoprops (gh-5580)</p></li>
+<li><p>refactor gabor_kernel for efficiency (gh-5582)</p></li>
+<li><p>remove need for channel_as_last_axis decorator in skimage.filters (gh-5584)</p></li>
+<li><p>replace use of scipy.ndimage.gaussian_filter with skimage.filters.gaussian
+(gh-5872)</p></li>
+<li><p>add channel_axis argument to quickshift (gh-5987)</p></li>
+<li><p>add MacOS arm64 wheels (gh-6068)</p></li>
+</ul>
+</section>
+<section id="api-changes">
+<h2>API Changes<a class="headerlink" href="#api-changes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">multichannel</span></code> boolean argument has been deprecated. All functions with
+multichannel support now use an integer <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> to specify which
+axis corresponds to channels. Setting <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> to None is used to
+indicate that the image is grayscale. Specifically, existing code with
+<code class="docutils literal notranslate"><span class="pre">multichannel=True</span></code> should be updated to use <code class="docutils literal notranslate"><span class="pre">channel_axis=-1</span></code> and code
+with <code class="docutils literal notranslate"><span class="pre">multichannel=False</span></code> should now specify <code class="docutils literal notranslate"><span class="pre">channel_axis=None</span></code>.</p></li>
+<li><p>Most functions now return float32 images when the input has float32 dtype.</p></li>
+<li><p>A default value has been added to <code class="docutils literal notranslate"><span class="pre">measure.find_contours</span></code>, corresponding to
+the half distance between the min and max values of the image
+(gh-4862).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data.cat</span></code> has been introduced as an alias of <code class="docutils literal notranslate"><span class="pre">data.chelsea</span></code> for a more
+descriptive name.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">level</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">measure.find_contours</span></code> is now a keyword
+argument, with a default value set to <code class="docutils literal notranslate"><span class="pre">(max(image)</span> <span class="pre">-</span> <span class="pre">min(image))</span> <span class="pre">/</span> <span class="pre">2</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p_norm</span></code> argument was added to <code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code>
+to add support for Minkowski distances.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.transforms.integral_image</span></code> now promotes floating point inputs to
+double precision by default (for accuracy). A new <code class="docutils literal notranslate"><span class="pre">dtype</span></code> keyword argument
+can be used to override this behavior when desired.</p></li>
+<li><p>Color conversion functions now have a new <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> keyword argument
+(see <strong>New Features</strong> section).</p></li>
+<li><p>SLIC superpixel segmentation outputs may differ from previous versions for
+data that was not already scaled to [0, 1] range. There is now an automatic
+internal rescaling of the input to [0, 1] so that the <code class="docutils literal notranslate"><span class="pre">compactness</span></code>
+parameter has an effect that is independent of the input image’s scaling.</p></li>
+<li><p>A bug fix to the phase normalization applied within
+<code class="docutils literal notranslate"><span class="pre">skimage.register.phase_cross_correlation</span></code> may result in a different result
+as compared to prior releases. The prior behavior of “unnormalized” cross
+correlation is still available by explicitly setting <code class="docutils literal notranslate"><span class="pre">normalization=None</span></code>.
+There is no change to the masked cross-correlation case, which uses a
+different algorithm.</p></li>
+</ul>
+</section>
+<section id="bugfixes">
+<h2>Bugfixes<a class="headerlink" href="#bugfixes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Input <code class="docutils literal notranslate"><span class="pre">labels</span></code> argument renumbering in <code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code>
+is avoided (gh-5047).</p></li>
+<li><p>fix clip bug in resize when anti_aliasing is applied (gh-5202)</p></li>
+<li><p>Nonzero values at the image edge are no longer incorrectly marked as a
+boundary when using <code class="docutils literal notranslate"><span class="pre">find_bounaries</span></code> with mode=’subpixel’ (gh-5447).</p></li>
+<li><p>Fix return dtype of <code class="docutils literal notranslate"><span class="pre">_label2rgb_avg</span></code> function.</p></li>
+<li><p>Ensure <code class="docutils literal notranslate"><span class="pre">skimage.color.separate_stains</span></code> does not return negative values.</p></li>
+<li><p>Prevent integer overflow in <code class="docutils literal notranslate"><span class="pre">EllipseModel</span></code>.</p></li>
+<li><p>Fixed off-by one error in pixel bins in Hough line transform,
+<code class="docutils literal notranslate"><span class="pre">skimage.transform.hough_line</span></code>.</p></li>
+<li><p>Handle 1D arrays properly in <code class="docutils literal notranslate"><span class="pre">skimage.filters.gaussian</span></code>.</p></li>
+<li><p>Fix Laplacian matrix size bug in <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.random_walker</span></code>.</p></li>
+<li><p>Regionprops table (<code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops_table</span></code>) dtype bugfix.</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">skimage.transform.rescale</span></code> when using a small scale factor.</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">skimage.measure.label</span></code> segfault.</p></li>
+<li><p>Watershed (<code class="docutils literal notranslate"><span class="pre">skimage.segmentation.watershed</span></code>): consider connectivity when
+calculating markers.</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">skimage.transform.warp</span></code> output dtype when order=0.</p></li>
+<li><p>Fix multichannel <code class="docutils literal notranslate"><span class="pre">intensity_image</span></code> extra_properties in regionprops.</p></li>
+<li><p>Fix error message for <code class="docutils literal notranslate"><span class="pre">skimage.metric.structural_similarity</span></code> when image is
+too small.</p></li>
+<li><p>Do not mark image edges in ‘subpixel’ mode of
+<code class="docutils literal notranslate"><span class="pre">skimage.segmentation.find_boundaries</span></code>.</p></li>
+<li><p>Fix behavior of <code class="docutils literal notranslate"><span class="pre">skimage.exposure.is_low_contrast</span></code> for boolean inputs.</p></li>
+<li><p>Fix wrong syntax for the string argument of ValueError in
+<code class="docutils literal notranslate"><span class="pre">skimage.metric.structural_similarity</span></code> .</p></li>
+<li><p>Fixed NaN issue in <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_otsu</span></code>.</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">skimage.feature.blob_dog</span></code> docstring example and normalization.</p></li>
+<li><p>Fix uint8 overflow in <code class="docutils literal notranslate"><span class="pre">skimage.exposure.adjust_gamma</span></code>.</p></li>
+<li><p>Work with pooch 1.5.0 for fetching data (gh-5529).</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">offsets</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">skimage.graph.MCP</span></code> is now public. (gh-5547)</p></li>
+<li><p>Fix io.imread behavior with pathlib.Path inputs (gh-5543)</p></li>
+<li><p>Make scikit-image imports from Pooch, compatible with pooch &gt;= 1.5.0.
+(gh-5529)</p></li>
+<li><p>Fix several broken doctests and restore doctesting on GitHub Actions.
+(gh-5505)</p></li>
+<li><p>Fix broken doctests in <code class="docutils literal notranslate"><span class="pre">skimage.exposure.histogram</span></code> and
+<code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops_table</span></code>. (gh-5522)</p></li>
+<li><p>Rescale image consistently during SLIC superpixel segmentation. (gh-5518)</p></li>
+<li><p>Correct phase correlation in <code class="docutils literal notranslate"><span class="pre">skimage.register.phase_cross_correlation</span></code>.
+(gh-5461)</p></li>
+<li><p>Fix hidden attribute ‘offsets’ in skimage.graph.MCP (gh-5551)</p></li>
+<li><p>fix phase_cross_correlation for 3D with reference masks (gh-5559)</p></li>
+<li><p>fix return shape of blob_log and blob_dog when no peaks are found (gh-5567)</p></li>
+<li><p>Fix find contours key error (gh-5577)</p></li>
+<li><p>Refactor measure.ransac and add warning when the estimated model is not valid
+(gh-5583)</p></li>
+<li><p>Restore integer image rescaling for edge filters (gh-5589)</p></li>
+<li><p>trainable_segmentation: re-raise in error case (gh-5600)</p></li>
+<li><p>allow regionprops_table to be called with deprecated property names (gh-5908)</p></li>
+<li><p>Fix weight calculation in fast mode of non-local means (gh-5923)</p></li>
+<li><p>fix for #5948: lower boundary 1 for kernel_size in equalize_adapthist
+(gh-5949)</p></li>
+<li><p>convert pathlib.Path to str in imsave (gh-5971)</p></li>
+<li><p>Fix slic spacing (gh-5974)</p></li>
+<li><p>Add small regularization to avoid zero-division in richardson_lucy (gh-5976)</p></li>
+<li><p>Fix benchmark suite (watershed function was moved) (gh-5982)</p></li>
+<li><p>catch QhullError and return empty array (<code class="docutils literal notranslate"><span class="pre">convex_hull</span></code>) (gh-6008)</p></li>
+<li><p>add property getters for all newly deprecated regionprops names (gh-6000)</p></li>
+<li><p>Fix the estimation of ellipsoid axis lengths in the 3D case (gh-6013)</p></li>
+<li><p>Fix peak local max segfault (gh-6035)</p></li>
+<li><p>Avoid circular import errors when EAGER_IMPORT=1 (gh-6042)</p></li>
+<li><p>remove all use of the deprecated distutils package (gh-6044)</p></li>
+</ul>
+</section>
+<section id="deprecations">
+<h2>Deprecations<a class="headerlink" href="#deprecations" title="Link to this heading">#</a></h2>
+<section id="completed-deprecations-from-prior-releases">
+<h3>Completed deprecations from prior releases<a class="headerlink" href="#completed-deprecations-from-prior-releases" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>In <code class="docutils literal notranslate"><span class="pre">measure.label</span></code>, the deprecated <code class="docutils literal notranslate"><span class="pre">neighbors</span></code> parameter has been
+removed (use <code class="docutils literal notranslate"><span class="pre">connectivity</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2grey</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.color.grey2rgb</span></code>
+functions have been removed (use <code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2gray</span></code> and
+<code class="docutils literal notranslate"><span class="pre">skimage.color.gray2rgb</span></code> instead).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.color.rgb2gray</span></code> no longer allows grayscale or RGBA inputs.</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">alpha</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">skimage.color.gray2rgb</span></code> has now been
+removed. Use <code class="docutils literal notranslate"><span class="pre">skimage.color.gray2rgba</span></code> for conversion to RGBA.</p></li>
+<li><p>Attempting to warp a boolean image with <code class="docutils literal notranslate"><span class="pre">order</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> now raises a
+ValueError.</p></li>
+<li><p>When warping or rescaling boolean images, setting <code class="docutils literal notranslate"><span class="pre">anti-aliasing=True</span></code> will
+raise a ValueError.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">bg_label</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">skimage.color.label2rgb</span></code> is now 0.</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">filter</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">skimage.transform.iradon</span></code> has now
+been removed (use <code class="docutils literal notranslate"><span class="pre">filter_name</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.draw.circle</span></code> function has been removed (use
+<code class="docutils literal notranslate"><span class="pre">skimage.draw.disk</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.feature.register_translation</span></code> function has
+been removed (use <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.feature.masked_register_translation</span></code> function has
+been removed (use <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes_classic</span></code> function has
+been removed (use <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes_lewiner</span></code> function has
+been removed (use <code class="docutils literal notranslate"><span class="pre">skimage.measure.marching_cubes</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.circle_level_set</span></code> function has been
+removed (use <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.disk_level_set</span></code> instead).</p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">inplace</span></code> parameter of <code class="docutils literal notranslate"><span class="pre">skimage.morphology.flood_fill</span></code></p></li>
+<li><p>The deprecated <code class="docutils literal notranslate"><span class="pre">skimage.util.pad</span></code> function has been removed (use
+<code class="docutils literal notranslate"><span class="pre">numpy.pad</span></code> instead).
+been removed (use <code class="docutils literal notranslate"><span class="pre">in_place</span></code> instead).</p></li>
+<li><p>The default <code class="docutils literal notranslate"><span class="pre">mode</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.filters.hessian</span></code> is now
+<code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p>The default boundary <code class="docutils literal notranslate"><span class="pre">mode</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.filters.sato</span></code> is now
+<code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p>The default boundary <code class="docutils literal notranslate"><span class="pre">mode</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.measure.profile_line</span></code> is now
+<code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>.</p></li>
+<li><p>The default value of <code class="docutils literal notranslate"><span class="pre">preserve_range</span></code> in
+<code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_nl_means</span></code> is now False.</p></li>
+<li><p>The default value of <code class="docutils literal notranslate"><span class="pre">start_label</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.segmentation.slic</span></code> is now
+1.</p></li>
+</ul>
+</section>
+<section id="newly-introduced-deprecations">
+<h3>Newly introduced deprecations:<a class="headerlink" href="#newly-introduced-deprecations" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">multichannel</span></code> argument is now deprecated throughout the library and
+will be removed in 1.0. The new <code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> argument should be used
+instead. Existing code with <code class="docutils literal notranslate"><span class="pre">multichannel=True</span></code> should be updated to use
+<code class="docutils literal notranslate"><span class="pre">channel_axis=-1</span></code> and code with <code class="docutils literal notranslate"><span class="pre">multichannel=False</span></code> should now specify
+<code class="docutils literal notranslate"><span class="pre">channel_axis=None</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.feature.greycomatrix</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.feature.greycoprops</span></code> are
+deprecated in favor of <code class="docutils literal notranslate"><span class="pre">skimage.feature.graycomatrix</span></code> and
+<code class="docutils literal notranslate"><span class="pre">skimage.feature.graycoprops</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">skimage.morphology.grey</span></code> module has been renamed
+<code class="docutils literal notranslate"><span class="pre">skimage.morphology.gray</span></code>. The old name is deprecated.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">skimage.morphology.greyreconstruct</span></code> module has been renamed
+<code class="docutils literal notranslate"><span class="pre">skimage.morphology.grayreconstruct</span></code>. The old name is deprecated.</p></li>
+<li><p>see <strong>API Changes</strong> section regarding functions with deprecated argument
+names related to the number of iterations. <code class="docutils literal notranslate"><span class="pre">num_iterations</span></code> and
+<code class="docutils literal notranslate"><span class="pre">max_num_iter</span></code> are now used throughout the library.</p></li>
+<li><p>see <strong>API Changes</strong> section on deprecation of the <code class="docutils literal notranslate"><span class="pre">selem</span></code> argument in favor
+of <code class="docutils literal notranslate"><span class="pre">footprint</span></code> throughout the library</p></li>
+<li><p>Deprecate <code class="docutils literal notranslate"><span class="pre">in_place</span></code> in favor of the use of an explicit <code class="docutils literal notranslate"><span class="pre">out</span></code> argument
+in <code class="docutils literal notranslate"><span class="pre">skimage.morphology.remove_small_objects</span></code>,
+<code class="docutils literal notranslate"><span class="pre">skimage.morphology.remove_small_holes</span></code> and
+<code class="docutils literal notranslate"><span class="pre">skimage.segmentation.clear_border</span></code></p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">input</span></code> argument of <code class="docutils literal notranslate"><span class="pre">skimage.measure.label</span></code> has been renamed
+<code class="docutils literal notranslate"><span class="pre">label_image</span></code>. The old name is deprecated.</p></li>
+<li><p>standardize on <code class="docutils literal notranslate"><span class="pre">num_iter</span></code> for parameters describing the number of iterations
+and <code class="docutils literal notranslate"><span class="pre">max_num_iter</span></code> for parameters specifying an iteration limit. Functions
+where the old argument names have now been deprecated are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">skimage</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">threshold_minimum</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">thin</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">restoration</span><span class="o">.</span><span class="n">denoise_tv_bregman</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">restoration</span><span class="o">.</span><span class="n">richardson_lucy</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">active_contour</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">chan_vese</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">morphological_chan_vese</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">morphological_geodesic_active_contour</span>
+<span class="n">skimage</span><span class="o">.</span><span class="n">segmentation</span><span class="o">.</span><span class="n">slic</span>
+</pre></div>
+</div>
+</li>
+<li><p>The names of several parameters in <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops</span></code> have been
+updated so that properties are better grouped by the first word(s) of the
+name. The old names will continue to work for backwards compatibility.
+The specific names that were updated are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">============================</span> <span class="o">============================</span>
+<span class="n">Old</span> <span class="n">Name</span>                     <span class="n">New</span> <span class="n">Name</span>
+<span class="o">============================</span> <span class="o">============================</span>
+<span class="n">max_intensity</span>                <span class="n">intensity_max</span>
+<span class="n">mean_intensity</span>               <span class="n">intensity_mean</span>
+<span class="n">min_intensity</span>                <span class="n">intensity_min</span>
+
+<span class="n">bbox_area</span>                    <span class="n">area_bbox</span>
+<span class="n">convex_area</span>                  <span class="n">area_convex</span>
+<span class="n">filled_area</span>                  <span class="n">area_filled</span>
+
+<span class="n">convex_image</span>                 <span class="n">image_convex</span>
+<span class="n">filled_image</span>                 <span class="n">image_filled</span>
+<span class="n">intensity_image</span>              <span class="n">image_intensity</span>
+
+<span class="n">local_centroid</span>               <span class="n">centroid_local</span>
+<span class="n">weighted_centroid</span>            <span class="n">centroid_weighted</span>
+<span class="n">weighted_local_centroid</span>      <span class="n">centroid_weighted_local</span>
+
+<span class="n">major_axis_length</span>            <span class="n">axis_major_length</span>
+<span class="n">minor_axis_length</span>            <span class="n">axis_minor_length</span>
+
+<span class="n">weighted_moments</span>             <span class="n">moments_weighted</span>
+<span class="n">weighted_moments_central</span>     <span class="n">moments_weighted_central</span>
+<span class="n">weighted_moments_hu</span>          <span class="n">moments_weighted_hu</span>
+<span class="n">weighted_moments_normalized</span>  <span class="n">moments_weighted_normalized</span>
+
+<span class="n">equivalent_diameter</span>          <span class="n">equivalent_diameter_area</span>
+<span class="o">============================</span> <span class="o">============================</span>
+</pre></div>
+</div>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">selem</span></code> argument has been renamed to <code class="docutils literal notranslate"><span class="pre">footprint</span></code> throughout the
+library. The <code class="docutils literal notranslate"><span class="pre">selem</span></code> argument is now deprecated.</p></li>
+</ul>
+</section>
+</section>
+<section id="development-process">
+<h2>Development process<a class="headerlink" href="#development-process" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Test setup and teardown functions added to allow raising an error on any
+uncaught warnings via <code class="docutils literal notranslate"><span class="pre">SKIMAGE_TEST_STRICT_WARNINGS_GLOBAL</span></code> environment
+variable.</p></li>
+<li><p>Increase automation in release process.</p></li>
+<li><p>Release wheels before source</p></li>
+<li><p>update minimum supported Matplotlib, NumPy, SciPy and Pillow</p></li>
+<li><p>Pin pillow to !=8.3.0</p></li>
+<li><p>Rename <em class="xref py py-obj">master</em> to <em class="xref py py-obj">main</em> throughout</p></li>
+<li><p>Ensure that README.txt has write permissions for subsequent imports.</p></li>
+<li><p>Run face classification gallery example with a single thread</p></li>
+<li><p>Enable pip and skimage.data caching on Azure</p></li>
+<li><p>Fix CircleCI and Azure CI caching.</p></li>
+<li><p>Address Cython warnings.</p></li>
+<li><p>Disable calls to plotly.io.show when running on Azure.</p></li>
+<li><p>Remove legacy Travis-CI scripts and update contributor documentation
+accordingly.</p></li>
+<li><p>Increase cibuildwheel verbosity.</p></li>
+<li><p>Update pip during dev environment installation.</p></li>
+<li><p>Add benchmark checks to CI.</p></li>
+<li><p>Resolve stochastic rank filter test failures on CI.</p></li>
+<li><p>Ensure that README.txt has write permissions for subsequent imports.</p></li>
+<li><p>Decorators for helping with the transition between the keyword argument
+multichannel and channel_axis.</p></li>
+<li><p>Add missing import in lch2lab docstring example (gh-5998)</p></li>
+<li><p>Prefer importing build_py and sdist from setuptools (gh-6007)</p></li>
+<li><p>Reintroduce skimage.test utility (gh-5909)</p></li>
+</ul>
+</section>
+<section id="other-updates">
+<h2>Other Updates<a class="headerlink" href="#other-updates" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Refactor np.random.x to use np.random.Generator.</p></li>
+<li><p>Avoid warnings about use of deprecated <code class="docutils literal notranslate"><span class="pre">scipy.linalg.pinv2</span></code>.</p></li>
+<li><p>Simplify resize implementation using new SciPy 1.6 zoom option.</p></li>
+<li><p>Fix duplicate test function names in <code class="docutils literal notranslate"><span class="pre">test_unsharp_mask.py</span></code>.</p></li>
+<li><p>Benchmarks: <code class="docutils literal notranslate"><span class="pre">fix</span> <span class="pre">ResizeLocalMeanSuite.time_resize_local_mean</span></code> signature.</p></li>
+<li><p>Prefer use of new-style NumPy random API in tests (gh-5450)</p></li>
+<li><p>Add fixture enforcing SimpleITK I/O in test_simpleitk.py (gh-5526)</p></li>
+<li><p>MNT: Remove unused stat import from skimage data (gh-5566)</p></li>
+<li><p>MAINT: Remove unused imports (gh-5595)</p></li>
+<li><p>MAINT: Refactor duplicated tests, remove unnecessary assignments and
+variables (gh-5596)</p></li>
+<li><p>Remove obsolete lazy import (gh-5992)</p></li>
+<li><p>Lazily load data_dir into the top-level namespace (gh-5996)</p></li>
+<li><p>Update scipy requirement to 1.4.1 and use scipy.fft instead of scipy.fftpack
+(gh-5999)</p></li>
+<li><p>Remove lines generating Requires metadata (gh-6017)</p></li>
+<li><p>Update wheel builds to include Python 3.10 (gh-6021)</p></li>
+<li><p>Update pyproject.toml to handle Python 3.10 and Apple arm64 (gh-6022)</p></li>
+<li><p>Add python 3.10 test runs on GitHub Actions and Appveyor (gh-6027)</p></li>
+<li><p>Pin sphinx to &lt;4.3 until new sphinx-gallery release is available (gh-6029)</p></li>
+<li><p>Relax a couple of equality tests causing i686 test failures on cibuildwheel
+(gh-6031)</p></li>
+<li><p>Avoid matplotlib import overhead during ‘import skimage’ (gh-6032)</p></li>
+<li><p>Update sphinx gallery pin (gh-6034)</p></li>
+</ul>
+</section>
+<section id="contributors-to-this-release">
+<h2>Contributors to this release<a class="headerlink" href="#contributors-to-this-release" title="Link to this heading">#</a></h2>
+</section>
+<section id="id7">
+<h2>80 authors added to this release [alphabetical by first name or login]<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Abhinavmishra8960 (Abhinavmishra8960)</p></li>
+<li><p>abouysso</p></li>
+<li><p>Alessia Marcolini</p></li>
+<li><p>Alex Brooks</p></li>
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Andres Fernandez</p></li>
+<li><p>Andrew Hurlbatt</p></li>
+<li><p>andrewnags (andrewnags)</p></li>
+<li><p>Antoine Bierret</p></li>
+<li><p>BMaster123 (BMaster123)</p></li>
+<li><p>Boaz Mohar</p></li>
+<li><p>Bozhidar Karaargirov</p></li>
+<li><p>Carlos Andrés Álvarez Restrepo</p></li>
+<li><p>Christoph Gohlke</p></li>
+<li><p>Christoph Sommer</p></li>
+<li><p>Clement Ng</p></li>
+<li><p>cmarasinou</p></li>
+<li><p>Cris Luengo</p></li>
+<li><p>David Manthey</p></li>
+<li><p>Devanshu Shah</p></li>
+<li><p>Dhiraj Kumar Sah</p></li>
+<li><p>divyank agarwal</p></li>
+<li><p>Egor Panfilov</p></li>
+<li><p>Emmanuelle Gouillart</p></li>
+<li><p>Erik Reed</p></li>
+<li><p>erykoff (erykoff)</p></li>
+<li><p>Fabian Schneider</p></li>
+<li><p>Felipe Gutierrez-Barragan</p></li>
+<li><p>François Boulogne</p></li>
+<li><p>Fred Bunt</p></li>
+<li><p>Fukai Yohsuke</p></li>
+<li><p>Gregory R. Lee</p></li>
+<li><p>Hari Prasad</p></li>
+<li><p>Harish Venkataraman</p></li>
+<li><p>Harshit Dixit</p></li>
+<li><p>Ian Hunt-Isaak</p></li>
+<li><p>Jaime Rodríguez-Guerra</p></li>
+<li><p>Jan-Hendrik Müller</p></li>
+<li><p>Janakarajan Natarajan</p></li>
+<li><p>Jenny Vo</p></li>
+<li><p>john lee</p></li>
+<li><p>Jonathan Striebel</p></li>
+<li><p>Joseph Fox-Rabinovitz</p></li>
+<li><p>Juan Antonio Barragan Noguera</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Julien Jerphanion</p></li>
+<li><p>Jurneo</p></li>
+<li><p>klaussfreire (klaussfreire)</p></li>
+<li><p>Larkinnjm1 (Larkinnjm1)</p></li>
+<li><p>Lars Grüter</p></li>
+<li><p>Mads Dyrmann</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Marios Achilias</p></li>
+<li><p>Mark Boer</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Matthias Bussonnier</p></li>
+<li><p>Mauro Silberberg</p></li>
+<li><p>Max Frei</p></li>
+<li><p>michalkrawczyk (michalkrawczyk)</p></li>
+<li><p>Niels Cautaerts</p></li>
+<li><p>Pamphile ROY</p></li>
+<li><p>Pradyumna Rahul</p></li>
+<li><p>R</p></li>
+<li><p>Raphael</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Robert Haase</p></li>
+<li><p>Sebastian Gonzalez Tirado</p></li>
+<li><p>Sebastián Vanrell</p></li>
+<li><p>serge-sans-paille (serge-sans-paille)</p></li>
+<li><p>Stefan van der Walt</p></li>
+<li><p>t.ae</p></li>
+<li><p>that1solodev (Xyno18)</p></li>
+<li><p>Thomas Walter</p></li>
+<li><p>Tim Gates</p></li>
+<li><p>Tom Flux</p></li>
+<li><p>Vinicius D. Cerutti</p></li>
+<li><p>Volker Hilsenstein</p></li>
+<li><p>WeiChungChang</p></li>
+<li><p>yacth</p></li>
+<li><p>Yash-10 (Yash-10)</p></li>
+</ul>
+</section>
+<section id="id8">
+<h2>63 reviewers added to this release [alphabetical by first name or login]<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Abhinavmishra8960</p></li>
+<li><p>Alessia Marcolini</p></li>
+<li><p>Alex Brooks</p></li>
+<li><p>Alexandre de Siqueira</p></li>
+<li><p>Andres Fernandez</p></li>
+<li><p>Andrew Hurlbatt</p></li>
+<li><p>andrewnags</p></li>
+<li><p>BMaster123</p></li>
+<li><p>Boaz Mohar</p></li>
+<li><p>Carlos Andrés Álvarez Restrepo</p></li>
+<li><p>Clement Ng</p></li>
+<li><p>Cris Luengo</p></li>
+<li><p>Dan Schult</p></li>
+<li><p>David Manthey</p></li>
+<li><p>Egor Panfilov</p></li>
+<li><p>Emmanuelle Gouillart</p></li>
+<li><p>erykoff</p></li>
+<li><p>Fabian Schneider</p></li>
+<li><p>Felipe Gutierrez-Barragan</p></li>
+<li><p>François Boulogne</p></li>
+<li><p>Fukai Yohsuke</p></li>
+<li><p>Genevieve Buckley</p></li>
+<li><p>Gregory R. Lee</p></li>
+<li><p>Jan Eglinger</p></li>
+<li><p>Jan-Hendrik Müller</p></li>
+<li><p>Janakarajan Natarajan</p></li>
+<li><p>Jarrod Millman</p></li>
+<li><p>Jirka Borovec</p></li>
+<li><p>Joan Massich</p></li>
+<li><p>Johannes Schönberger</p></li>
+<li><p>john lee</p></li>
+<li><p>Jon Crall</p></li>
+<li><p>Joseph Fox-Rabinovitz</p></li>
+<li><p>Josh Warner</p></li>
+<li><p>Juan Nunez-Iglesias</p></li>
+<li><p>Julien Jerphanion</p></li>
+<li><p>Kenneth Hoste</p></li>
+<li><p>klaussfreire</p></li>
+<li><p>Larkinnjm1</p></li>
+<li><p>Lars Grüter</p></li>
+<li><p>Marianne Corvellec</p></li>
+<li><p>Mark Boer</p></li>
+<li><p>Mark Harfouche</p></li>
+<li><p>Matthias Bussonnier</p></li>
+<li><p>Max Frei</p></li>
+<li><p>michalkrawczyk</p></li>
+<li><p>Niels Cautaerts</p></li>
+<li><p>Pamphile ROY</p></li>
+<li><p>Pomax</p></li>
+<li><p>R</p></li>
+<li><p>Raphael</p></li>
+<li><p>Riadh Fezzani</p></li>
+<li><p>Robert Kern</p></li>
+<li><p>Ross Barnowski</p></li>
+<li><p>Sebastian Berg</p></li>
+<li><p>Sebastian Gonzalez Tirado</p></li>
+<li><p>Sebastian Wallkötter</p></li>
+<li><p>serge-sans-paille</p></li>
+<li><p>Stefan van der Walt</p></li>
+<li><p>t.ae</p></li>
+<li><p>Vinicius D. Cerutti</p></li>
+<li><p>Volker Hilsenstein</p></li>
+<li><p>Yash-10</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">scikit-image 0.19.3 (2022-06-12)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bugs-fixed">Bugs Fixed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-maintenance">General Maintenance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests-included">Pull Requests Included</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-added-to-this-release-alphabetical-by-first-name-or-login">10 authors added to this release [alphabetical by first name or login]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reviewers-added-to-this-release-alphabetical-by-first-name-or-login">7 reviewers added to this release [alphabetical by first name or login]</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-image-0-19-2-2021-02-17">scikit-image 0.19.2 (2021-02-17)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Pull Requests Included</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">9 authors added to this release [alphabetical by first name or login]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">8 reviewers added to this release [alphabetical by first name or login]</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-image-0-19-1-2021-12-03">scikit-image 0.19.1 (2021-12-03)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Pull Requests Included</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3 authors added to this release [alphabetical by first name or login]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">5 reviewers added to this release [alphabetical by first name or login]</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-image-0-19-0-2021-12-03">scikit-image 0.19.0 (2021-12-03)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">New Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements">Improvements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-changes">API Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bugfixes">Bugfixes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations">Deprecations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#completed-deprecations-from-prior-releases">Completed deprecations from prior releases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#newly-introduced-deprecations">Newly introduced deprecations:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-process">Development process</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-updates">Other Updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors-to-this-release">Contributors to this release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">80 authors added to this release [alphabetical by first name or login]</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">63 reviewers added to this release [alphabetical by first name or login]</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/release_notes/release_0.19.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2013-2024, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

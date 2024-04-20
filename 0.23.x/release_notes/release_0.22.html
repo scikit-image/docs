@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>scikit-image 0.22.0 (2023-11-03) &#8212; skimage 0.23.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=b4d3b1f5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'release_notes/release_0.22';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.2';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.23.2';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="scikit-image 0.21.0 (2023-06-02)" href="release_0.21.html" />
+    <link rel="prev" title="scikit-image 0.23.2 (2024-04-20)" href="release_0.23.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide/index.html">
+                        User guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../auto_examples/index.html">
+                        Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/api.html">
+                        API reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Release notes
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../development/index.html">
+                        Development
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../about/index.html">
+                        About
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="release_0.23.html">scikit-image 0.23.2 (2024-04-20)</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">scikit-image 0.22.0 (2023-11-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.21.html">scikit-image 0.21.0 (2023-06-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.20.html">scikit-image 0.20.0 (2023-02-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.19.html">scikit-image 0.19.3 (2022-06-12)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.18.html">scikit-image 0.18.3 (2021-08-24)</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.17.html">scikit-image 0.17.2 (2020-05-13)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.16.html">scikit-image 0.16.2 (2019-10-22)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.15.html">scikit-image 0.15.0 (2019-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.14.html">scikit-image 0.14.4 (2019-09-04)</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.13.html">scikit-image 0.13.1 (2017-09-27)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="release_0.12.html">scikit-image 0.12.3 (2016-03-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.11.html">scikit-image 0.11.0 (2015-03-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.10.html">scikit-image 0.10.0 (2014-05-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.9.html">scikit-image 0.9.0 (2013-10-19)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.8.html">scikits-image 0.8.0 (2013-03-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.7.html">scikits-image 0.7.0 (2012-09-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.6.html">scikits-image 0.6 (2012-06-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.5.html">scikits-image 0.5 (2012-02-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.4.html">scikits-image 0.4 (2011-12-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_0.3.html">scikits.image 0.3 (2011-10-10)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">scikit-image...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="scikit-image-0-22-0-2023-11-03">
+<h1>scikit-image 0.22.0 (2023-11-03)<a class="headerlink" href="#scikit-image-0-22-0-2023-11-03" title="Link to this heading">#</a></h1>
+<p>We’re happy to announce the release of scikit-image 0.22.0!</p>
+<section id="highlights">
+<h2>Highlights<a class="headerlink" href="#highlights" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Add new image sequence <code class="docutils literal notranslate"><span class="pre">skimage.data.palisades_of_vogt</span></code> showing in-vivo tissue of the palisades of Vogt (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6858">#6858</a>).</p></li>
+<li><p>Add inpainting example to gallery (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6853">#6853</a>).</p></li>
+</ul>
+</section>
+<section id="new-features">
+<h2>New Features<a class="headerlink" href="#new-features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Add new image sequence <code class="docutils literal notranslate"><span class="pre">skimage.data.palisades_of_vogt</span></code> showing in-vivo tissue of the palisades of Vogt (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6858">#6858</a>).</p></li>
+</ul>
+</section>
+<section id="api-changes">
+<h2>API Changes<a class="headerlink" href="#api-changes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Update minimal required NumPy version to 1.22 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7005">#7005</a>).</p></li>
+<li><p>Update minimal required lazy_loader version to 0.3 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7043">#7043</a>).</p></li>
+<li><p>Make PyWavelets an optional dependency which is only required for <code class="docutils literal notranslate"><span class="pre">skimage.restoration.denoise_wavelet</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage.restoration.estimate_sigma</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7156">#7156</a>).</p></li>
+<li><p>Remove deprecated <code class="docutils literal notranslate"><span class="pre">skimage.filters.inverse</span></code>. Use <code class="docutils literal notranslate"><span class="pre">skimage.filters.filter_inverse</span></code> instead (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7161">#7161</a>).</p></li>
+<li><p>Remove deprecated function <code class="docutils literal notranslate"><span class="pre">skimage.filters.ridges.compute_hessian_eigenvalues</span></code>.  Use <code class="docutils literal notranslate"><span class="pre">skimage.feature.hessian_matrix_eigvals</span></code> on the results of  <code class="docutils literal notranslate"><span class="pre">skimage.feature.hessian_matrix</span></code> instead (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7162">#7162</a>).</p></li>
+<li><p>Remove deprecated automatic detection of the color channel in  <code class="docutils literal notranslate"><span class="pre">skimage.filters.gaussian</span></code>. <code class="docutils literal notranslate"><span class="pre">channel_axis=None</span></code> now indicates a grayscale image. Set the color channel with <code class="docutils literal notranslate"><span class="pre">channel_axis=-1</span></code> explicitly (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7164">#7164</a>).</p></li>
+<li><p>Change number of returned arguments in <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code>. The function now always returns the 3 arguments <code class="docutils literal notranslate"><span class="pre">shift</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code>, and <code class="docutils literal notranslate"><span class="pre">phasediff</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7166">#7166</a>).</p></li>
+<li><p>Deprecate <code class="docutils literal notranslate"><span class="pre">return_error</span></code> in <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7174">#7174</a>).</p></li>
+</ul>
+</section>
+<section id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.feature</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6983">#6983</a>).</p></li>
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.graph</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6985">#6985</a>).</p></li>
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.measure</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6999">#6999</a>).</p></li>
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7009">#7009</a>).</p></li>
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.restoration</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7021">#7021</a>).</p></li>
+<li><p>Add lazy loading to the <code class="docutils literal notranslate"><span class="pre">skimage.registration</span></code> submodule (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7032">#7032</a>).</p></li>
+<li><p>Avoid unnecessary padding in <code class="docutils literal notranslate"><span class="pre">skimage.measure.block_resize</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7092">#7092</a>).</p></li>
+</ul>
+</section>
+<section id="bug-fixes">
+<h2>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Add missing properties <code class="docutils literal notranslate"><span class="pre">num_pixels</span></code> and <code class="docutils literal notranslate"><span class="pre">coords_scaled</span></code> to  <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops_table</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7039">#7039</a>).</p></li>
+<li><p>Fix <code class="docutils literal notranslate"><span class="pre">too</span> <span class="pre">many</span> <span class="pre">values</span> <span class="pre">to</span> <span class="pre">unpack</span> <span class="pre">error</span></code> with imageio 2.31.1 in <code class="docutils literal notranslate"><span class="pre">video.rst</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7076">#7076</a>).</p></li>
+<li><p>Address error in <code class="docutils literal notranslate"><span class="pre">skimage.filters.threshold_triangle</span></code> when images with a uniform intensity are passed. In these cases the uniform intensity is returned as the threshold (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7098">#7098</a>).</p></li>
+<li><p>Fix error in <code class="docutils literal notranslate"><span class="pre">skimage.color.lab2rgb</span></code> for 1D input (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7116">#7116</a>).</p></li>
+<li><p>Make <code class="docutils literal notranslate"><span class="pre">skimage.registration.phase_cross_correlation</span></code> consistently return an array even if <code class="docutils literal notranslate"><span class="pre">disambiguate=True</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7112">#7112</a>).</p></li>
+<li><p>Allow <code class="docutils literal notranslate"><span class="pre">extra_properties</span></code> of non-equal lengths to be passed correctly to  <code class="docutils literal notranslate"><span class="pre">skimage.measure.regionprops_table</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7136">#7136</a>).</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use a more descriptive title for current inpainting example (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6989">#6989</a>).</p></li>
+<li><p>Fix URLs to the install page (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6998">#6998</a>).</p></li>
+<li><p>Fix equation for Wiener filter in <code class="docutils literal notranslate"><span class="pre">restoration.wiener</span></code>’s docstring (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6987">#6987</a>).</p></li>
+<li><p>Fix missing links in INSTALL.rst and simplify language (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6984">#6984</a>).</p></li>
+<li><p>Edit installation and contributor guidelines (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6991">#6991</a>).</p></li>
+<li><p>Fix URLs that lead to 404 page (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7008">#7008</a>).</p></li>
+<li><p>Replace with correct reference to eigenvalues in ridge detection docstrings (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7034">#7034</a>).</p></li>
+<li><p>Add inpainting example to gallery (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6853">#6853</a>).</p></li>
+<li><p>Fix grammar in SKIP 1 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7081">#7081</a>).</p></li>
+<li><p>Add missing minus in <code class="docutils literal notranslate"><span class="pre">SimilarityTransform</span></code> docstring (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6840">#6840</a>).</p></li>
+<li><p>Add one-line docstring to <code class="docutils literal notranslate"><span class="pre">skimage.segmentation</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6843">#6843</a>).</p></li>
+<li><p>Add a short docstring to <code class="docutils literal notranslate"><span class="pre">skimage.util</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6831">#6831</a>).</p></li>
+<li><p>Enable version warning banners for docs (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7139">#7139</a>).</p></li>
+<li><p>Clarify order of dimensions in <code class="docutils literal notranslate"><span class="pre">skimage.transform.EuclideanTransform</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7103">#7103</a>).</p></li>
+<li><p>Add docstring to the <code class="docutils literal notranslate"><span class="pre">morphology</span></code> module (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6814">#6814</a>).</p></li>
+<li><p>Include Plausible analytics from Scientific Python in our HTML docs (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7145">#7145</a>).</p></li>
+<li><p>Specify coordinate convention in <code class="docutils literal notranslate"><span class="pre">skimage.draw.polygon2mask</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7131">#7131</a>).</p></li>
+<li><p>Update 0.22.0 release notes (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7182">#7182</a>).</p></li>
+</ul>
+</section>
+<section id="infrastructure">
+<h2>Infrastructure<a class="headerlink" href="#infrastructure" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Pin milestone labeler to v0.1.0 SHA (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6982">#6982</a>).</p></li>
+<li><p>Ensure existing target directory for <code class="docutils literal notranslate"><span class="pre">random.js</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7015">#7015</a>).</p></li>
+<li><p>Assign next milestone only for PRs targeting <code class="docutils literal notranslate"><span class="pre">main</span></code> branch (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7018">#7018</a>).</p></li>
+<li><p>Add missing directories to <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">docs</span> <span class="pre">--clean</span></code> command (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7019">#7019</a>).</p></li>
+<li><p>Rework <code class="docutils literal notranslate"><span class="pre">generate_release_notes.py</span></code> and add PR summary parsing (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6961">#6961</a>).</p></li>
+<li><p>Use packaged version of <code class="docutils literal notranslate"><span class="pre">generate_release_notes.py</span></code> (<code class="docutils literal notranslate"><span class="pre">changelist</span></code>) (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7049">#7049</a>).</p></li>
+<li><p>Generate requirements files from pyproject.toml (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7085">#7085</a>).</p></li>
+<li><p>Update spin to v0.5 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7093">#7093</a>).</p></li>
+<li><p>Update to LLVM 16 with choco temporarily (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7109">#7109</a>).</p></li>
+<li><p>Update pytest config in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> with repo-review recommendations (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7063">#7063</a>).</p></li>
+<li><p>Use checkout action version 4 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7180">#7180</a>).</p></li>
+</ul>
+</section>
+<section id="maintenance">
+<h2>Maintenance<a class="headerlink" href="#maintenance" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Don’t test numpy prerelease on azure (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6996">#6996</a>).</p></li>
+<li><p>Drop Python 3.8 support per SPEC 0 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6990">#6990</a>).</p></li>
+<li><p>Upper pin imageio (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7002">#7002</a>).</p></li>
+<li><p>meson: allow proper selection of NumPy, Pythran in cross builds (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7003">#7003</a>).</p></li>
+<li><p>Unpin imageio and add warningfilter (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7006">#7006</a>).</p></li>
+<li><p>Update to latest attach-next-milestone action (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7014">#7014</a>).</p></li>
+<li><p>Avoid deprecated auto-removal of overlapping axes in thresholding example (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7026">#7026</a>).</p></li>
+<li><p>Remove conflicting setuptools upper pin (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7045">#7045</a>).</p></li>
+<li><p>Remove future.graph after v0.21 release (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6899">#6899</a>).</p></li>
+<li><p>Cleanup from move to pyproject.toml (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7044">#7044</a>).</p></li>
+<li><p>Ignore new matplotlib warning (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7056">#7056</a>).</p></li>
+<li><p>Update spin (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7054">#7054</a>).</p></li>
+<li><p>Ignore SciPy 1.12.dev0 deprecation warning (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7057">#7057</a>).</p></li>
+<li><p>Include expected warning for SciPy 1.12 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7058">#7058</a>).</p></li>
+<li><p>Mark NaN-related deprecation warning from <code class="docutils literal notranslate"><span class="pre">np.clip</span></code> as optional in tests (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7052">#7052</a>).</p></li>
+<li><p>Fix abs value function warnings (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7010">#7010</a>).</p></li>
+<li><p>Temporary fix for wheel recipe (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7059">#7059</a>).</p></li>
+<li><p>Temporary fix for wheel building (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7060">#7060</a>).</p></li>
+<li><p>Remove outdated comment (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7077">#7077</a>).</p></li>
+<li><p>Include py.typed file in distribution (PEP 561) (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7073">#7073</a>).</p></li>
+<li><p>Transition user guide to <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">skimage</span> <span class="pre">as</span> <span class="pre">ski</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7024">#7024</a>).</p></li>
+<li><p>Fix for NumPy 1.25 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/6970">#6970</a>).</p></li>
+<li><p>Pin sphinx until sphinx-gallery is fixed (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7100">#7100</a>).</p></li>
+<li><p>Cleanup old Python 3.11 tests (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7099">#7099</a>).</p></li>
+<li><p>Revert “Pin sphinx until sphinx-gallery is fixed (#7100)” (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7102">#7102</a>).</p></li>
+<li><p>MNT: Remove <code class="docutils literal notranslate"><span class="pre">np.float_</span></code> alias; it is removed in NumPy 2.0 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7118">#7118</a>).</p></li>
+<li><p>Fix for NumPy 1.26 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7101">#7101</a>).</p></li>
+<li><p>Update meson-python (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7120">#7120</a>).</p></li>
+<li><p>We now require sklearn 1.1, as per [SPEC0](<a class="reference external" href="https://scientific-python.org/specs/spec-0000/">https://scientific-python.org/specs/spec-0000/</a>) (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7121">#7121</a>).</p></li>
+<li><p>Update for NumPy 2 namespace cleanup (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7119">#7119</a>).</p></li>
+<li><p>DOC: minor numpydoc syntax update (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7123">#7123</a>).</p></li>
+<li><p>Update for NumPy 2 namespace cleanup (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7122">#7122</a>).</p></li>
+<li><p>Temporary work-around for NEP 51 numpy scalar reprs + doctests (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7125">#7125</a>).</p></li>
+<li><p>Update lazy loader (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7126">#7126</a>).</p></li>
+<li><p>Fix PEP 8 issues (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7142">#7142</a>).</p></li>
+<li><p>Remove single-threaded dask usage in face detection gallery example which fixes issues with running the example on Windows and CI (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7141">#7141</a>).</p></li>
+<li><p>Update spin version to 0.6 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7150">#7150</a>).</p></li>
+<li><p>Match pep8speaks and ruff line lengths to 88 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7148">#7148</a>).</p></li>
+<li><p>Remove last reference to distutils in <code class="docutils literal notranslate"><span class="pre">_build_utils/tempita.py</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7137">#7137</a>).</p></li>
+<li><p>Update sphinx, sphinx-gallery &amp; sphinx_design (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7155">#7155</a>).</p></li>
+<li><p>Update minimal version of numpydoc to 1.6 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7106">#7106</a>).</p></li>
+<li><p>Build wheels for py3.12 (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7082">#7082</a>).</p></li>
+<li><p>Update label and milestone workflows (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7163">#7163</a>).</p></li>
+<li><p>Update TODO (see #6899) (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7165">#7165</a>).</p></li>
+<li><p>Announce Python 3.12 support (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7167">#7167</a>).</p></li>
+<li><p>Remove pep8speaks config (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7172">#7172</a>).</p></li>
+<li><p>Filter out expected runtime warnings in registation.phase_cross_correlation when disambiguate=True (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7147">#7147</a>).</p></li>
+<li><p>Use pre-commit bot (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7171">#7171</a>).</p></li>
+<li><p>Fix missing warnings import in <code class="docutils literal notranslate"><span class="pre">phase_cross_correlation</span></code> (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7175">#7175</a>).</p></li>
+<li><p>Fix release notes error (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7177">#7177</a>).</p></li>
+<li><p>Use trusted publisher (<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7178">#7178</a>).</p></li>
+</ul>
+</section>
+<section id="contributors">
+<h2>Contributors<a class="headerlink" href="#contributors" title="Link to this heading">#</a></h2>
+<p>24 authors added to this release (alphabetically):</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/akonsk">&#64;akonsk</a></p></li>
+<li><p><a class="reference external" href="https://github.com/patquem">&#64;patquem</a></p></li>
+<li><p><a class="reference external" href="https://github.com/rraadd88">&#64;rraadd88</a></p></li>
+<li><p><a class="reference external" href="https://github.com/scott-vsi">&#64;scott-vsi</a></p></li>
+<li><p>Adeyemi Biola  (<a class="reference external" href="https://github.com/decorouz">&#64;decorouz</a>)</p></li>
+<li><p>Amund Vedal (<a class="reference external" href="https://github.com/vedal">&#64;vedal</a>)</p></li>
+<li><p>Ananya Srivastava (<a class="reference external" href="https://github.com/ana42742">&#64;ana42742</a>)</p></li>
+<li><p>Andrew J. Hesford (<a class="reference external" href="https://github.com/ahesford">&#64;ahesford</a>)</p></li>
+<li><p>Antony Lee (<a class="reference external" href="https://github.com/anntzer">&#64;anntzer</a>)</p></li>
+<li><p>Elena Pascal (<a class="reference external" href="https://github.com/elena-pascal">&#64;elena-pascal</a>)</p></li>
+<li><p>Jarrod Millman (<a class="reference external" href="https://github.com/jarrodmillman">&#64;jarrodmillman</a>)</p></li>
+<li><p>Juan Nunez-Iglesias (<a class="reference external" href="https://github.com/jni">&#64;jni</a>)</p></li>
+<li><p>Kenfack Anafack Alex Bruno (<a class="reference external" href="https://github.com/Br-Al">&#64;Br-Al</a>)</p></li>
+<li><p>Klaus Rettinghaus (<a class="reference external" href="https://github.com/rettinghaus">&#64;rettinghaus</a>)</p></li>
+<li><p>Larry Bradley (<a class="reference external" href="https://github.com/larrybradley">&#64;larrybradley</a>)</p></li>
+<li><p>Lars Grüter (<a class="reference external" href="https://github.com/lagru">&#64;lagru</a>)</p></li>
+<li><p>Marianne Corvellec (<a class="reference external" href="https://github.com/mkcor">&#64;mkcor</a>)</p></li>
+<li><p>Marvin Albert (<a class="reference external" href="https://github.com/m-albert">&#64;m-albert</a>)</p></li>
+<li><p>Matthias Bussonnier (<a class="reference external" href="https://github.com/Carreau">&#64;Carreau</a>)</p></li>
+<li><p>Matthias Nwt (<a class="reference external" href="https://github.com/matthiasnwt">&#64;matthiasnwt</a>)</p></li>
+<li><p>Mike Taves (<a class="reference external" href="https://github.com/mwtoews">&#64;mwtoews</a>)</p></li>
+<li><p>Riadh Fezzani (<a class="reference external" href="https://github.com/rfezzani">&#64;rfezzani</a>)</p></li>
+<li><p>Stefan van der Walt (<a class="reference external" href="https://github.com/stefanv">&#64;stefanv</a>)</p></li>
+<li><p>Talley Lambert (<a class="reference external" href="https://github.com/tlambert03">&#64;tlambert03</a>)</p></li>
+</ul>
+<p>19 reviewers added to this release (alphabetically):</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/akonsk">&#64;akonsk</a></p></li>
+<li><p><a class="reference external" href="https://github.com/scott-vsi">&#64;scott-vsi</a></p></li>
+<li><p>Adeyemi Biola  (<a class="reference external" href="https://github.com/decorouz">&#64;decorouz</a>)</p></li>
+<li><p>Ananya Srivastava (<a class="reference external" href="https://github.com/ana42742">&#64;ana42742</a>)</p></li>
+<li><p>Andrew J. Hesford (<a class="reference external" href="https://github.com/ahesford">&#64;ahesford</a>)</p></li>
+<li><p>Egor Panfilov (<a class="reference external" href="https://github.com/soupault">&#64;soupault</a>)</p></li>
+<li><p>Grzegorz Bokota (<a class="reference external" href="https://github.com/Czaki">&#64;Czaki</a>)</p></li>
+<li><p>Jarrod Millman (<a class="reference external" href="https://github.com/jarrodmillman">&#64;jarrodmillman</a>)</p></li>
+<li><p>Juan Nunez-Iglesias (<a class="reference external" href="https://github.com/jni">&#64;jni</a>)</p></li>
+<li><p>Kristen Thyng (<a class="reference external" href="https://github.com/kthyng">&#64;kthyng</a>)</p></li>
+<li><p>Larry Bradley (<a class="reference external" href="https://github.com/larrybradley">&#64;larrybradley</a>)</p></li>
+<li><p>Lars Grüter (<a class="reference external" href="https://github.com/lagru">&#64;lagru</a>)</p></li>
+<li><p>Marianne Corvellec (<a class="reference external" href="https://github.com/mkcor">&#64;mkcor</a>)</p></li>
+<li><p>Mark Harfouche (<a class="reference external" href="https://github.com/hmaarrfk">&#64;hmaarrfk</a>)</p></li>
+<li><p>Marvin Albert (<a class="reference external" href="https://github.com/m-albert">&#64;m-albert</a>)</p></li>
+<li><p>Matthias Bussonnier (<a class="reference external" href="https://github.com/Carreau">&#64;Carreau</a>)</p></li>
+<li><p>Maxim (<a class="reference external" href="https://github.com/koshakOK">&#64;koshakOK</a>)</p></li>
+<li><p>Mike Taves (<a class="reference external" href="https://github.com/mwtoews">&#64;mwtoews</a>)</p></li>
+<li><p>Stefan van der Walt (<a class="reference external" href="https://github.com/stefanv">&#64;stefanv</a>)</p></li>
+</ul>
+<p><em>These lists are automatically generated, and may not be complete or may contain
+duplicates.</em></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#highlights">Highlights</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">New Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-changes">API Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug Fixes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#infrastructure">Infrastructure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance">Maintenance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors">Contributors</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/release_notes/release_0.22.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2013-2024, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
