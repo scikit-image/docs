@@ -1,0 +1,1122 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Max-tree &#8212; skimage 0.24.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../../_static/documentation_options.js?v=a9084e48"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/developers/plot_max_tree';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.3';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.24.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API reference" href="../../api/api.html" />
+    <link rel="prev" title="Li thresholding" href="plot_threshold_li.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../api/api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../api/api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../data/index.html">Data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_3d.html">Datasets with 3 or more spatial dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_scientific.html">Scientific images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_general.html">General-purpose images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/plot_specific.html">Specific images</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../numpy_operations/index.html">Operations on NumPy arrays</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../numpy_operations/plot_camera_numpy.html">Using simple NumPy operations for manipulating images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../numpy_operations/plot_structuring_elements.html">Generate footprints (structuring elements)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../numpy_operations/plot_view_as_blocks.html">Block views on images/arrays</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../numpy_operations/plot_footprint_decompositions.html">Decompose flat footprints (structuring elements)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../color_exposure/index.html">Manipulating exposure and color channels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_rgb_to_gray.html">RGB to grayscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_rgb_to_hsv.html">RGB to HSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_histogram_matching.html">Histogram matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_adapt_rgb.html">Adapting gray-scale filters to RGB images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_regional_maxima.html">Filtering regional maxima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_ihc_color_separation.html">Separate colors in immunohistochemical staining</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_log_gamma.html">Gamma and log contrast adjustment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_equalize.html">Histogram Equalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_tinting_grayscale_images.html">Tinting gray-scale images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_local_equalize.html">Local Histogram Equalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../color_exposure/plot_adapt_hist_eq_3d.html">3D adaptive histogram equalization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../edges/index.html">Edges and lines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_contours.html">Contour finding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_convex_hull.html">Convex Hull</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_canny.html">Canny edge detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_marching_cubes.html">Marching Cubes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_active_contours.html">Active Contour Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_ridge_filter.html">Ridge operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_shapes.html">Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_random_shapes.html">Random Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_polygon.html">Approximate and subdivide polygons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_line_hough_transform.html">Straight line Hough transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_circular_elliptical_hough_transform.html">Circular and Elliptical Hough Transforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_skeleton.html">Skeletonize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../edges/plot_edge_filter.html">Edge operators</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../transform/index.html">Geometrical transformations and registration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_swirl.html">Swirl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_edge_modes.html">Interpolation: Edge Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_rescale.html">Rescale, resize, and downscale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_pyramid.html">Build image pyramids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_piecewise_affine.html">Piecewise Affine Transformation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_geometric.html">Using geometric transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_ssim.html">Structural similarity index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_transform_types.html">Types of homographies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_tps_deformation.html">Use thin-plate splines for image warping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_fundamental_matrix.html">Fundamental matrix estimation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_ransac.html">Robust line model estimation using RANSAC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_radon_transform.html">Radon transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../transform/plot_matching.html">Robust matching using RANSAC</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../registration/index.html">Image registration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_register_translation.html">Image Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_masked_register_translation.html">Masked Normalized Cross-Correlation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_opticalflow.html">Registration using optical flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_stitching.html">Assemble images with simple image stitching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../registration/plot_register_rotation.html">Using Polar and Log-Polar Transformations for Registration</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../filters/index.html">Filtering and restoration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_tophat.html">Removing small objects in grayscale images with a top hat filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_hysteresis.html">Hysteresis thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_restoration.html">Image Deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_window.html">Using window functions with images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_rank_mean.html">Mean filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_unsharp_mask.html">Unsharp masking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_deconvolution.html">Image Deconvolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_blur_effect.html">Estimate strength of blur</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_entropy.html">Entropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_j_invariant.html">Calibrating Denoisers Using J-Invariance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_inpaint.html">Fill in defects with inpainting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_dog.html">Band-pass filtering by Difference of Gaussians</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_denoise.html">Denoising a picture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_cycle_spinning.html">Shift-invariant wavelet denoising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_phase_unwrap.html">Phase Unwrapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_nonlocal_means.html">Non-local means denoising for preserving textures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_attribute_operators.html">Attribute operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_denoise_wavelet.html">Wavelet denoising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_butterworth.html">Butterworth Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../filters/plot_j_invariant_tutorial.html">Full tutorial on calibrating Denoisers Using J-Invariance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../features_detection/index.html">Detection of features and objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_daisy.html">Dense DAISY feature description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_hog.html">Histogram of Oriented Gradients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_haar.html">Haar-like feature descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_template.html">Template Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_corner.html">Corner detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_multiblock_local_binary_pattern.html">Multi-Block Local Binary Pattern for texture classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_holes_and_peaks.html">Filling holes and finding peaks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_censure.html">CENSURE feature detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_remove_objects.html">Removing objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_blob.html">Blob Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_orb.html">ORB feature detector and binary descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_gabors_from_astronaut.html">Gabors / Primary Visual Cortex “Simple Cells” from an Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_brief.html">BRIEF binary descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_fisher_vector.html">Fisher vector feature encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_sift.html">SIFT feature detector and descriptor extractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_glcm.html">GLCM Texture Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_shape_index.html">Shape Index</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_windowed_histogram.html">Sliding window histogram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_gabor.html">Gabor filter banks for texture classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_detection/plot_local_binary_pattern.html">Local Binary Pattern for texture classification</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../segmentation/index.html">Segmentation of objects</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_boundary.html">Region Boundary based Region adjacency graphs (RAGs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_mean_color.html">Region adjacency graph (RAG) Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_ncut.html">Normalized Cut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_compact_watershed.html">Find Regular Segments Using Compact Watershed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_thresholding.html">Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_draw.html">Drawing Region Adjacency Graphs (RAGs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_chan_vese.html">Chan-Vese Segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_peak_local_max.html">Finding local maxima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_niblack_sauvola.html">Niblack and Sauvola Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_multiotsu.html">Multi-Otsu Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_mask_slic.html">Apply maskSLIC vs SLIC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_random_walker_segmentation.html">Random walker segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_expand_labels.html">Expand segmentation labels without overlap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_watershed.html">Watershed segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_marked_watershed.html">Markers for watershed transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_label.html">Label image regions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_segmentations.html">Comparison of segmentation and superpixel algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_join_segmentations.html">Find the intersection of two segmentations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag.html">Region Adjacency Graphs (RAGs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rag_merge.html">Region adjacency graph (RAG) Merging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_perimeters.html">Measure perimeters with different estimators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_boundary_merge.html">Hierarchical Merging of Region Boundary RAGs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_extrema.html">Extrema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_regionprops_table.html">Explore and visualize region properties with pandas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_hausdorff_distance.html">Hausdorff Distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_morphsnakes.html">Morphological Snakes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_trainable_segmentation.html">Trainable segmentation using local features and random forests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_regionprops.html">Measure region properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_floodfill.html">Flood Fill</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_metrics.html">Evaluating segmentation metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_euler_number.html">Euler number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../segmentation/plot_rolling_ball.html">Use rolling-ball algorithm for estimating background intensity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../applications/index.html">Longer examples and demonstrations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_text.html">Render text onto an image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_face_detection.html">Face detection using a cascade classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_interaction.html">Interact with 3D images (of kidney tissue)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_pixel_graphs.html">Use pixel graphs to find an object’s geodesic center</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_image_comparison.html">Visual image comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_morphology.html">Morphological Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_structure_tensor.html">Estimate anisotropy in a 3D microscopy image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_coins_segmentation.html">Comparing edge-based and region-based segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_human_mitosis.html">Segment human cells (in mitosis)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_colocalization_metrics.html">Colocalization metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_cornea_spot_inpainting.html">Restore spotted cornea image with inpainting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_thresholding_guide.html">Thresholding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_solidification_tracking.html">Track solidification of a metallic alloy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_fluorescence_nuclear_envelope.html">Measure fluorescence intensity at the nuclear envelope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_haar_extraction_selection_classification.html">Face classification using Haar-like feature descriptor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_3d_image_processing.html">Explore 3D images (of cells)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/plot_rank_filters.html">Rank filters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Examples for developers</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_threshold_li.html">Li thresholding</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Max-tree</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Examples</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples for developers</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Max-tree</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-developers-plot-max-tree-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code. or to run this example in your browser via Binder</p>
+</div>
+<section class="sphx-glr-example-title" id="max-tree">
+<span id="sphx-glr-auto-examples-developers-plot-max-tree-py"></span><h1>Max-tree<a class="headerlink" href="#max-tree" title="Link to this heading">#</a></h1>
+<p>The max-tree is a hierarchical representation of an image that is the basis
+for a large family of morphological filters.</p>
+<p>If we apply a threshold operation to an image, we obtain a binary image
+containing one or several connected components. If we apply a lower
+threshold, all the connected components from the higher threshold are
+contained in the connected components from the lower threshold. This
+naturally defines a hierarchy of nested components that can be
+represented by a tree. whenever a connected component A obtained by
+thresholding with threshold t1 is contained in a component B obtained by
+thresholding with threshold t1 &lt; t2, we say that B is the parent of A.
+The resulting tree structure is called a component tree. The max-tree
+is a compact representation of such a component tree. <a class="footnote-reference brackets" href="#id5" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id6" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id7" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>, <a class="footnote-reference brackets" href="#id8" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a></p>
+<p>In this example we give an intuition of what a max-tree is.</p>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Salembier, P., Oliveras, A., &amp; Garrido, L. (1998). Antiextensive
+Connected Operators for Image and Sequence Processing.
+IEEE Transactions on Image Processing, 7(4), 555-570.
+<a class="reference external" href="https://doi.org/10.1109/83.663500">DOI:10.1109/83.663500</a></p>
+</aside>
+<aside class="footnote brackets" id="id6" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>Berger, C., Geraud, T., Levillain, R., Widynski, N., Baillard, A.,
+Bertin, E. (2007). Effective Component Tree Computation with
+Application to Pattern Recognition in Astronomical Imaging.
+In International Conference on Image Processing (ICIP) (pp. 41-44).
+<a class="reference external" href="https://doi.org/10.1109/ICIP.2007.4379949">DOI:10.1109/ICIP.2007.4379949</a></p>
+</aside>
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>Najman, L., &amp; Couprie, M. (2006). Building the component tree in
+quasi-linear time. IEEE Transactions on Image Processing, 15(11),
+3531-3539.
+<a class="reference external" href="https://doi.org/10.1109/TIP.2006.877518">DOI:10.1109/TIP.2006.877518</a></p>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<p>Carlinet, E., &amp; Geraud, T. (2014). A Comparative Review of
+Component Tree Computation Algorithms. IEEE Transactions on Image
+Processing, 23(9), 3885-3895.
+<a class="reference external" href="https://doi.org/10.1109/TIP.2014.2336551">DOI:10.1109/TIP.2014.2336551</a></p>
+</aside>
+</aside>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="kn">import</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class"><span class="n">Line2D</span></a>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="../../api/skimage.morphology.html#skimage.morphology.max_tree" title="skimage.morphology.max_tree" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">max_tree</span></a>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+</pre></div>
+</div>
+<p>Before we start : a few helper functions</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_img</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">plot_text</span><span class="p">,</span> <span class="n">image_values</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot an image, overlaying image values or indices.&quot;&quot;&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.max.html#numpy.max" title="numpy.max" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">max</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span>
+            <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class"><span class="n">Line2D</span></a><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D" title="matplotlib.lines.Line2D" class="sphx-glr-backref-module-matplotlib-lines sphx-glr-backref-type-py-class"><span class="n">Line2D</span></a><span class="p">((</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">plot_text</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndindex.html#numpy.ndindex" title="numpy.ndindex" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class"><span class="n">np</span><span class="o">.</span><span class="n">ndindex</span></a><span class="p">(</span><span class="o">*</span><span class="n">image_values</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">j</span><span class="p">,</span>
+                <span class="n">i</span><span class="p">,</span>
+                <span class="n">image_values</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">prune</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transform a canonical max tree to a max tree.&quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">)</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preds</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">res</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prune</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">accumulate</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transform a max tree to a component tree.&quot;&quot;&quot;</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+    <span class="n">parents</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">accumulate</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span> <span class="o">=</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a>
+    <span class="k">return</span> <a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a>
+
+
+<span class="k">def</span> <span class="nf">position_nodes_for_max_tree</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">,</span> <span class="n">root_x</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">delta_x</span><span class="o">=</span><span class="mf">1.2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the position of nodes of a max-tree.</span>
+
+<span class="sd">    This function helps to visually distinguish between nodes at the same</span>
+<span class="sd">    level of the hierarchy and nodes at different levels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">topological_sort</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="p">))):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># root</span>
+            <span class="n">pos</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">root_x</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">in_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <a href="https://networkx.org/documentation/stable/reference/classes/generated/networkx.DiGraph.predecessors.html#networkx.DiGraph.predecessors" title="networkx.DiGraph.predecessors" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-method"><span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">predecessors</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">)]</span>
+
+        <span class="c1"># place the nodes at the same level</span>
+        <span class="n">level_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">,</span> <span class="n">in_nodes</span><span class="p">)]</span>
+        <span class="n">nb_level_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="n">nb_level_nodes</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="n">c</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">hy</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hy</span> <span class="o">=</span> <span class="mf">0.25</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">hy</span> <span class="o">/</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">level_node</span> <span class="ow">in</span> <span class="n">level_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">level_nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">pos</span><span class="p">[</span><span class="n">level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span><span class="p">[</span><span class="n">level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">pos</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span>
+                    <span class="n">value</span> <span class="o">+</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># place the nodes at different levels</span>
+        <span class="n">other_level_nodes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">value</span><span class="p">,</span> <span class="n">in_nodes</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">other_level_node</span> <span class="ow">in</span> <span class="n">other_level_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">other_level_nodes</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">other_level_node</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">pos</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">delta_x</span><span class="p">,</span>
+                <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">[</span><span class="n">other_level_node</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">pos</span>
+
+
+<span class="k">def</span> <span class="nf">plot_tree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot max and component trees.&quot;&quot;&quot;</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span>
+        <span class="n">graph</span><span class="p">,</span>
+        <span class="n">pos</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+        <span class="n">node_size</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+        <span class="n">node_shape</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+        <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span>
+        <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span>
+        <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">v</span> <span class="o">-</span> <span class="mf">0.15</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;val: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">text_size</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dotted&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="image-definition">
+<h3>Image Definition<a class="headerlink" href="#image-definition" title="Link to this heading">#</a></h3>
+<p>We define a small test image.
+For clarity, we choose an example image, where image values cannot be
+confounded with indices (different range).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">38</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">39</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">33</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">35</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">36</span><span class="p">],</span>
+    <span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">np</span><span class="o">.</span><span class="n">uint8</span></a><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>Max-tree<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>Next, we calculate the max-tree of this image.
+max-tree of the image</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">P</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">S</span></a> <span class="o">=</span> <a href="../../api/skimage.morphology.html#skimage.morphology.max_tree" title="skimage.morphology.max_tree" class="sphx-glr-backref-module-skimage-morphology sphx-glr-backref-type-py-function"><span class="n">max_tree</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">P_rav</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">P</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="image-plots">
+<h3>Image plots<a class="headerlink" href="#image-plots" title="Link to this heading">#</a></h3>
+<p>Then, we visualize the image and its raveled indices.
+Concretely, we plot the image with the following overlays:
+- the image values
+- the raveled indices (serve as pixel identifiers)
+- the output of the max_tree function</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># raveled image</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<span class="c1"># raveled indices of the example image (for display purpose)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">raveled_indices</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">size</span></a><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">)</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="n">plot_img</span><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">&#39;Image Values&#39;</span><span class="p">,</span> <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<span class="n">plot_img</span><span class="p">(</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+    <span class="s1">&#39;Raveled Indices&#39;</span><span class="p">,</span>
+    <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">image_values</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">raveled_indices</span></a><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot_img</span><span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s1">&#39;Max-tree indices&#39;</span><span class="p">,</span> <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">image_values</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">P</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_max_tree_001.png" srcset="../../_images/sphx_glr_plot_max_tree_001.png" alt="Image Values, Raveled Indices, Max-tree indices" class = "sphx-glr-single-img"/></section>
+<section id="visualizing-threshold-operations">
+<h3>Visualizing threshold operations<a class="headerlink" href="#visualizing-threshold-operations" title="Link to this heading">#</a></h3>
+<p>Now, we investigate the results of a series of threshold operations.
+The component tree (and max-tree) provide representations of the
+inclusion relationships between connected components at different
+levels.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axes</span></a> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresholds</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.unique.html#numpy.unique" title="numpy.unique" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">unique</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a><span class="p">)</span>
+<span class="k">for</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">k</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">threshold</span></a> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">thresholds</span></a><span class="p">):</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bin_img</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image</span></a> <span class="o">&gt;=</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">threshold</span></a>
+    <span class="n">plot_img</span><span class="p">(</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axes</span></a><span class="p">[(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">k</span></a> <span class="o">//</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">k</span></a> <span class="o">%</span> <span class="mi">3</span><span class="p">)],</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">bin_img</span></a><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Threshold : </span><span class="si">{</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.uint8" title="numpy.uint8" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">threshold</span></a><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">plot_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">image_values</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">raveled_indices</span></a><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_max_tree_002.png" srcset="../../_images/sphx_glr_plot_max_tree_002.png" alt="Threshold : 30, Threshold : 32, Threshold : 33, Threshold : 35, Threshold : 36, Threshold : 38, Threshold : 39, Threshold : 40, Threshold : 41" class = "sphx-glr-single-img"/></section>
+<section id="max-tree-plots">
+<h3>Max-tree plots<a class="headerlink" href="#max-tree-plots" title="Link to this heading">#</a></h3>
+<p>Now, we plot the component and max-trees. A component tree relates
+the different pixel sets resulting from all possible threshold operations
+to each other. There is an arrow in the graph, if a component at one level
+is included in the component of a lower level. The max-tree is just
+a different encoding of the pixel sets.</p>
+<ol class="arabic simple">
+<li><p>the component tree: pixel sets are explicitly written out. We see for
+instance that {6} (result of applying a threshold at 41) is the parent
+of {0, 1, 5, 6} (threshold at 40).</p></li>
+<li><p>the max-tree: only pixels that come into the set at this level
+are explicitly written out. We therefore will write
+{6} -&gt; {0,1,5} instead of {6} -&gt; {0, 1, 5, 6}</p></li>
+<li><p>the canonical max-treeL this is the representation which is given by
+our implementation. Here, every pixel is a node. Connected components
+of several pixels are represented by one of the pixels. We thus replace
+{6} -&gt; {0,1,5} by {6} -&gt; {5}, {1} -&gt; {5}, {0} -&gt; {5}
+This allows us to represent the graph by an image (top row, third column).</p></li>
+</ol>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the canonical max-tree graph</span>
+<a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a> <span class="o">=</span> <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class"><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span></a><span class="p">()</span>
+<a href="https://networkx.org/documentation/stable/reference/classes/generated/networkx.DiGraph.add_nodes_from.html#networkx.DiGraph.add_nodes_from" title="networkx.DiGraph.add_nodes_from" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-method"><span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">add_nodes_from</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">S</span></a><span class="p">)</span>
+<span class="k">for</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a> <span class="ow">in</span> <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+    <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span>
+<a href="https://networkx.org/documentation/stable/reference/classes/generated/networkx.DiGraph.add_edges_from.html#networkx.DiGraph.add_edges_from" title="networkx.DiGraph.add_edges_from" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-method"><span class="n">canonical_max_tree</span><span class="o">.</span><span class="n">add_edges_from</span></a><span class="p">([(</span><span class="n">n</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">P_rav</span></a><span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">S</span></a><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+
+<span class="c1"># max-tree from the canonical max-tree</span>
+<a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a> <span class="o">=</span> <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class"><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span></a><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="p">)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">prune</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">S</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="p">)</span>
+
+<span class="c1"># component tree from the max-tree</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels_ct</span></a> <span class="o">=</span> <span class="p">{}</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">total</span></a> <span class="o">=</span> <span class="n">accumulate</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">S</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels_ct</span></a><span class="p">)</span>
+
+<span class="c1"># positions of nodes : canonical max-tree (CMT)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_cmt</span></a> <span class="o">=</span> <span class="n">position_nodes_for_max_tree</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">image_rav</span></a><span class="p">)</span>
+
+<span class="c1"># positions of nodes : max-tree (MT)</span>
+<a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_mt</span></a> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">,</span> <span class="p">[</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_cmt</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a><span class="p">]</span> <span class="k">for</span> <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.int64" title="numpy.int64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">node</span></a> <span class="ow">in</span> <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="o">.</span><span class="n">nodes</span><span class="p">]))</span>
+
+<span class="c1"># plot the trees with networkx and matplotlib</span>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="matplotlib.figure.Figure" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fig</span></a><span class="p">,</span> <span class="p">(</span><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">)</span> <span class="o">=</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="matplotlib.pyplot.subplots" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">plot_tree</span><span class="p">(</span>
+    <a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_mt</span></a><span class="p">,</span>
+    <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax1</span></a><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Component tree&#39;</span><span class="p">,</span>
+    <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels_ct</span></a><span class="p">,</span>
+    <span class="n">font_size</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">text_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">plot_tree</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nx_max_tree</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_mt</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax2</span></a><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Max tree&#39;</span><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="o">=</span><a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">labels</span></a><span class="p">)</span>
+
+<span class="n">plot_tree</span><span class="p">(</span><a href="https://networkx.org/documentation/stable/reference/classes/digraph.html#networkx.DiGraph" title="networkx.DiGraph" class="sphx-glr-backref-module-networkx sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">canonical_max_tree</span></a><span class="p">,</span> <a href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pos_cmt</span></a><span class="p">,</span> <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="matplotlib.axes.Axes" class="sphx-glr-backref-module-matplotlib-axes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ax3</span></a><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Canonical max tree&#39;</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.tight_layout.html#matplotlib.figure.Figure.tight_layout" title="matplotlib.figure.Figure.tight_layout" class="sphx-glr-backref-module-matplotlib-figure sphx-glr-backref-type-py-method"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_max_tree_003.png" srcset="../../_images/sphx_glr_plot_max_tree_003.png" alt="Component tree, Max tree, Canonical max tree" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.334 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-developers-plot-max-tree-py">
+<div class="binder-badge docutils container">
+<a class="reference external image-reference" href="https://mybinder.org/v2/gh/scikit-image/scikit-image/v0.24.0?filepath=notebooks/auto_examples/developers/plot_max_tree.ipynb"><img alt="Launch binder" src="../../_images/binder_badge_logo3.svg" width="150px" /></a>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a6f710429c34a8591797d74c1c5b4285/plot_max_tree.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_max_tree.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/36f61bcadc7d4a834ce457e3714826df/plot_max_tree.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_max_tree.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-definition">Image Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Max-tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-plots">Image plots</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-threshold-operations">Visualizing threshold operations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#max-tree-plots">Max-tree plots</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/auto_examples/developers/plot_max_tree.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2013-2024, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

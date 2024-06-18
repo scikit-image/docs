@@ -1,0 +1,1869 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>skimage.draw &#8212; skimage 0.24.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4340df76" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+
+    <script src="../_static/documentation_options.js?v=a9084e48"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/skimage.draw';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.3';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.24.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="skimage.exposure" href="skimage.exposure.html" />
+    <link rel="prev" title="skimage.data" href="skimage.data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+   
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>`);</script>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item current active">
+  <a class="nav-link nav-internal" href="api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../development/index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item pst-header-nav-item">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm navbar-btn dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="skimage.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.color.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.color</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.data.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.data</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.draw</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.exposure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.exposure</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.feature.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.feature</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.filters.rank.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.filters.rank</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.future.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.future</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.graph.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.graph</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.io.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.io</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.measure.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.measure</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.metrics.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.metrics</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.morphology.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.registration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.registration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.restoration.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.restoration</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.segmentation.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.segmentation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.transform.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.transform</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="skimage.util.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.util</span></code></a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="api.html" class="nav-link">API reference</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-skimage.draw">
+<span id="skimage-draw"></span><h1><a class="reference internal" href="#module-skimage.draw" title="skimage.draw"><code class="xref py py-mod docutils literal notranslate"><span class="pre">skimage.draw</span></code></a><a class="headerlink" href="#module-skimage.draw" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.bezier_curve" title="skimage.draw.bezier_curve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.bezier_curve</span></code></a></p></td>
+<td><p>Generate Bezier curve coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.circle_perimeter" title="skimage.draw.circle_perimeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.circle_perimeter</span></code></a></p></td>
+<td><p>Generate circle perimeter coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.circle_perimeter_aa" title="skimage.draw.circle_perimeter_aa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.circle_perimeter_aa</span></code></a></p></td>
+<td><p>Generate anti-aliased circle perimeter coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.disk" title="skimage.draw.disk"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.disk</span></code></a></p></td>
+<td><p>Generate coordinates of pixels within circle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.ellipse" title="skimage.draw.ellipse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.ellipse</span></code></a></p></td>
+<td><p>Generate coordinates of pixels within ellipse.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.ellipse_perimeter" title="skimage.draw.ellipse_perimeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.ellipse_perimeter</span></code></a></p></td>
+<td><p>Generate ellipse perimeter coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.ellipsoid" title="skimage.draw.ellipsoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.ellipsoid</span></code></a></p></td>
+<td><p>Generates ellipsoid with semimajor axes aligned with grid dimensions on grid with specified <em class="xref py py-obj">spacing</em>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.ellipsoid_stats" title="skimage.draw.ellipsoid_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.ellipsoid_stats</span></code></a></p></td>
+<td><p>Calculates analytical surface area and volume for ellipsoid with semimajor axes aligned with grid dimensions of specified <em class="xref py py-obj">spacing</em>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.line" title="skimage.draw.line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.line</span></code></a></p></td>
+<td><p>Generate line pixel coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.line_aa" title="skimage.draw.line_aa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.line_aa</span></code></a></p></td>
+<td><p>Generate anti-aliased line pixel coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.line_nd" title="skimage.draw.line_nd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.line_nd</span></code></a></p></td>
+<td><p>Draw a single-pixel thick line in n dimensions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.polygon" title="skimage.draw.polygon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.polygon</span></code></a></p></td>
+<td><p>Generate coordinates of pixels inside a polygon.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.polygon2mask" title="skimage.draw.polygon2mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.polygon2mask</span></code></a></p></td>
+<td><p>Create a binary mask from a polygon.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.polygon_perimeter" title="skimage.draw.polygon_perimeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.polygon_perimeter</span></code></a></p></td>
+<td><p>Generate polygon perimeter coordinates.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.random_shapes" title="skimage.draw.random_shapes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.random_shapes</span></code></a></p></td>
+<td><p>Generate an image with random shapes, labeled with bounding boxes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.rectangle" title="skimage.draw.rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.rectangle</span></code></a></p></td>
+<td><p>Generate coordinates of pixels within a rectangle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#skimage.draw.rectangle_perimeter" title="skimage.draw.rectangle_perimeter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.rectangle_perimeter</span></code></a></p></td>
+<td><p>Generate coordinates of pixels that are exactly around a rectangle.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#skimage.draw.set_color" title="skimage.draw.set_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.draw.set_color</span></code></a></p></td>
+<td><p>Set pixel color in the image at the given coordinates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.bezier_curve">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">bezier_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L720-L774"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.bezier_curve" title="Link to this definition">#</a></dt>
+<dd><p>Generate Bezier curve coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r0, c0</strong><span class="classifier">int</span></dt><dd><p>Coordinates of the first control point.</p>
+</dd>
+<dt><strong>r1, c1</strong><span class="classifier">int</span></dt><dd><p>Coordinates of the middle control point.</p>
+</dd>
+<dt><strong>r2, c2</strong><span class="classifier">int</span></dt><dd><p>Coordinates of the last control point.</p>
+</dd>
+<dt><strong>weight</strong><span class="classifier">double</span></dt><dd><p>Middle control point weight, it describes the line tension.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output
+pixel coordinates. This is useful for curves that exceed the image
+size. If None, the full extent of the curve is used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">(N,) ndarray of int</span></dt><dd><p>Indices of pixels that belong to the Bezier curve.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The algorithm is the rational quadratic algorithm presented in
+reference <a class="reference internal" href="#r275489368e51-1" id="id1">[1]</a>.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r275489368e51-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>A Rasterizing Algorithm for Drawing Curves, A. Zingl, 2012
+<a class="reference external" href="http://members.chello.at/easyfilter/Bresenham.pdf">http://members.chello.at/easyfilter/Bresenham.pdf</a></p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">bezier_curve</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">bezier_curve</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.circle_perimeter">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">circle_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bresenham'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L525-L585"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.circle_perimeter" title="Link to this definition">#</a></dt>
+<dd><p>Generate circle perimeter coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r, c</strong><span class="classifier">int</span></dt><dd><p>Centre coordinate of circle.</p>
+</dd>
+<dt><strong>radius</strong><span class="classifier">int</span></dt><dd><p>Radius of circle.</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">{‘bresenham’, ‘andres’}, optional</span></dt><dd><p>bresenham : Bresenham method (default)
+andres : Andres method</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output
+pixel coordinates. This is useful for circles that exceed the image
+size. If None, the full extent of the circle is used.  Must be at least
+length 2. Only the first two values are used to determine the extent of
+the input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">(N,) ndarray of int</span></dt><dd><p>Bresenham and Andres’ method:
+Indices of pixels that belong to the circle perimeter.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Andres method presents the advantage that concentric
+circles create a disc whereas Bresenham can make holes. There
+is also less distortions when Andres circles are rotated.
+Bresenham method is also known as midpoint circle algorithm.
+Anti-aliased circle generator is available with <a class="reference internal" href="#skimage.draw.circle_perimeter_aa" title="skimage.draw.circle_perimeter_aa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circle_perimeter_aa</span></code></a>.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r1917606b9f32-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>J.E. Bresenham, “Algorithm for computer control of a digital
+plotter”, IBM Systems journal, 4 (1965) 25-30.</p>
+</div>
+<div class="citation" id="r1917606b9f32-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<p>E. Andres, “Discrete circles, rings and spheres”, Computers &amp;
+Graphics, 18 (1994) 695-706.</p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">circle_perimeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">circle_perimeter</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a method to detect straight lines but it can also b..."><img alt="" src="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_circular_elliptical_hough_transform.html#sphx-glr-auto-examples-edges-plot-circular-elliptical-hough-transform-py"><span class="std std-ref">Circular and Elliptical Hough Transforms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Circular and Elliptical Hough Transforms</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.circle_perimeter_aa">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">circle_perimeter_aa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L588-L646"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.circle_perimeter_aa" title="Link to this definition">#</a></dt>
+<dd><p>Generate anti-aliased circle perimeter coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r, c</strong><span class="classifier">int</span></dt><dd><p>Centre coordinate of circle.</p>
+</dd>
+<dt><strong>radius</strong><span class="classifier">int</span></dt><dd><p>Radius of circle.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output
+pixel coordinates. This is useful for circles that exceed the image
+size. If None, the full extent of the circle is used.  Must be at least
+length 2. Only the first two values are used to determine the extent of
+the input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc, val</strong><span class="classifier">(N,) ndarray (int, int, float)</span></dt><dd><p>Indices of pixels (<em class="xref py py-obj">rr</em>, <em class="xref py py-obj">cc</em>) and intensity values (<em class="xref py py-obj">val</em>).
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">val</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Wu’s method draws anti-aliased circle. This implementation doesn’t use
+lookup table optimization.</p>
+<p>Use the function <code class="docutils literal notranslate"><span class="pre">draw.set_color</span></code> to apply <code class="docutils literal notranslate"><span class="pre">circle_perimeter_aa</span></code>
+results to color images.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="ra3f820ec31b4-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>X. Wu, “An efficient antialiasing technique”, In ACM SIGGRAPH
+Computer Graphics, 25 (1991) 143-152.</p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">circle_perimeter_aa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">circle_perimeter_aa</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[  0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0,   0,  60, 211, 255, 211,  60,   0,   0,   0],</span>
+<span class="go">       [  0,  60, 194,  43,   0,  43, 194,  60,   0,   0],</span>
+<span class="go">       [  0, 211,  43,   0,   0,   0,  43, 211,   0,   0],</span>
+<span class="go">       [  0, 255,   0,   0,   0,   0,   0, 255,   0,   0],</span>
+<span class="go">       [  0, 211,  43,   0,   0,   0,  43, 211,   0,   0],</span>
+<span class="go">       [  0,  60, 194,  43,   0,  43, 194,  60,   0,   0],</span>
+<span class="go">       [  0,   0,  60, 211, 255, 211,  60,   0,   0,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">data</span><span class="p">,</span> <span class="n">draw</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">chelsea</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">draw</span><span class="o">.</span><span class="n">circle_perimeter_aa</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">75</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">draw</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.disk">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">disk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L152-L213"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.disk" title="Link to this definition">#</a></dt>
+<dd><p>Generate coordinates of pixels within circle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>center</strong><span class="classifier">tuple</span></dt><dd><p>Center coordinate of disk.</p>
+</dd>
+<dt><strong>radius</strong><span class="classifier">double</span></dt><dd><p>Radius of disk.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape as a tuple of size 2. Determines the maximum
+extent of output pixel coordinates. This is useful for disks that
+exceed the image size. If None, the full extent of the disk is used.
+The  shape might result in negative coordinates and wraparound
+behaviour.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">ndarray of int</span></dt><dd><p>Pixel coordinates of disk.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">disk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">disk</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[1, 1, 0, 0],</span>
+<span class="go">       [1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Negative coordinates in rr and cc perform a wraparound</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">disk</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[1, 1, 0, 1],</span>
+<span class="go">       [1, 1, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 0, 1]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">disk</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The shape index is a single valued measure of local curvature, derived from the eigen values of..."><img alt="" src="../_images/sphx_glr_plot_shape_index_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/features_detection/plot_shape_index.html#sphx-glr-auto-examples-features-detection-plot-shape-index-py"><span class="std std-ref">Shape Index</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shape Index</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.ellipse">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">ellipse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L54-L149"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.ellipse" title="Link to this definition">#</a></dt>
+<dd><p>Generate coordinates of pixels within ellipse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r, c</strong><span class="classifier">double</span></dt><dd><p>Centre coordinate of ellipse.</p>
+</dd>
+<dt><strong>r_radius, c_radius</strong><span class="classifier">double</span></dt><dd><p>Minor and major semi-axes. <code class="docutils literal notranslate"><span class="pre">(r/r_radius)**2</span> <span class="pre">+</span> <span class="pre">(c/c_radius)**2</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output pixel
+coordinates. This is useful for ellipses which exceed the image size.
+By default the full extent of the ellipse are used. Must be at least
+length 2. Only the first two values are used to determine the extent.</p>
+</dd>
+<dt><strong>rotation</strong><span class="classifier">float, optional (default 0.)</span></dt><dd><p>Set the ellipse rotation (rotation) in range (-PI, PI)
+in contra clock wise direction, so PI/2 degree means swap ellipse axis</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">ndarray of int</span></dt><dd><p>Pixel coordinates of ellipse.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The ellipse equation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="o">/</span> <span class="n">x_radius</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span>
+<span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="o">/</span> <span class="n">y_radius</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Note that the positions of <a class="reference internal" href="#skimage.draw.ellipse" title="skimage.draw.ellipse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ellipse</span></code></a> without specified <em class="xref py py-obj">shape</em> can have
+also, negative values, as this is correct on the plane. On the other hand
+using these ellipse positions for an image afterwards may lead to appearing
+on the other side of image, because <code class="docutils literal notranslate"><span class="pre">image[-1,</span> <span class="pre">-1]</span> <span class="pre">=</span> <span class="pre">image[end-1,</span> <span class="pre">end-1]</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1]], dtype=uint8)</span>
+</pre></div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">ellipse</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ellipse</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to approximate (Douglas-Peucker algorithm) and subdivide (B-Splines) pol..."><img alt="" src="../_images/sphx_glr_plot_polygon_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_polygon.html#sphx-glr-auto-examples-edges-plot-polygon-py"><span class="std std-ref">Approximate and subdivide polygons</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Approximate and subdivide polygons</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="In this example, we use the masked normalized cross-correlation to identify the relative shift ..."><img alt="" src="../_images/sphx_glr_plot_masked_register_translation_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/registration/plot_masked_register_translation.html#sphx-glr-auto-examples-registration-plot-masked-register-translation-py"><span class="std std-ref">Masked Normalized Cross-Correlation</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Masked Normalized Cross-Correlation</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Detect corner points using the Harris corner detector and determine the subpixel position of co..."><img alt="" src="../_images/sphx_glr_plot_corner_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/features_detection/plot_corner.html#sphx-glr-auto-examples-features-detection-plot-corner-py"><span class="std std-ref">Corner detection</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Corner detection</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to measure properties of labelled image regions. We first analyze an ima..."><img alt="" src="../_images/sphx_glr_plot_regionprops_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/segmentation/plot_regionprops.html#sphx-glr-auto-examples-segmentation-plot-regionprops-py"><span class="std std-ref">Measure region properties</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Measure region properties</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.ellipse_perimeter">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">ellipse_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L649-L717"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.ellipse_perimeter" title="Link to this definition">#</a></dt>
+<dd><p>Generate ellipse perimeter coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r, c</strong><span class="classifier">int</span></dt><dd><p>Centre coordinate of ellipse.</p>
+</dd>
+<dt><strong>r_radius, c_radius</strong><span class="classifier">int</span></dt><dd><p>Minor and major semi-axes. <code class="docutils literal notranslate"><span class="pre">(r/r_radius)**2</span> <span class="pre">+</span> <span class="pre">(c/c_radius)**2</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+<dt><strong>orientation</strong><span class="classifier">double, optional</span></dt><dd><p>Major axis orientation in clockwise direction as radians.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output
+pixel coordinates. This is useful for ellipses that exceed the image
+size. If None, the full extent of the ellipse is used.  Must be at
+least length 2. Only the first two values are used to determine the
+extent of the input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">(N,) ndarray of int</span></dt><dd><p>Indices of pixels that belong to the ellipse perimeter.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r1d1f03d90c6e-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>A Rasterizing Algorithm for Drawing Curves, A. Zingl, 2012
+<a class="reference external" href="http://members.chello.at/easyfilter/Bresenham.pdf">http://members.chello.at/easyfilter/Bresenham.pdf</a></p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">ellipse_perimeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ellipse_perimeter</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<p>Note that the positions of <a class="reference internal" href="#skimage.draw.ellipse" title="skimage.draw.ellipse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ellipse</span></code></a> without specified <em class="xref py py-obj">shape</em> can have
+also, negative values, as this is correct on the plane. On the other hand
+using these ellipse positions for an image afterwards may lead to appearing
+on the other side of image, because <code class="docutils literal notranslate"><span class="pre">image[-1,</span> <span class="pre">-1]</span> <span class="pre">=</span> <span class="pre">image[end-1,</span> <span class="pre">end-1]</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ellipse_perimeter</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a method to detect straight lines but it can also b..."><img alt="" src="../_images/sphx_glr_plot_circular_elliptical_hough_transform_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_circular_elliptical_hough_transform.html#sphx-glr-auto-examples-edges-plot-circular-elliptical-hough-transform-py"><span class="std std-ref">Circular and Elliptical Hough Transforms</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Circular and Elliptical Hough Transforms</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.ellipsoid">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">ellipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">levelset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw3d.py#L5-L61"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.ellipsoid" title="Link to this definition">#</a></dt>
+<dd><p>Generates ellipsoid with semimajor axes aligned with grid dimensions
+on grid with specified <em class="xref py py-obj">spacing</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with x-axis.</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with y-axis.</p>
+</dd>
+<dt><strong>c</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with z-axis.</p>
+</dd>
+<dt><strong>spacing</strong><span class="classifier">3-tuple of floats</span></dt><dd><p>Spacing in three spatial dimensions.</p>
+</dd>
+<dt><strong>levelset</strong><span class="classifier">bool</span></dt><dd><p>If True, returns the level set for this ellipsoid (signed level
+set about zero, with positive denoting interior) as np.float64.
+False returns a binarized version of said level set.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>ellipsoid</strong><span class="classifier">(M, N, P) array</span></dt><dd><p>Ellipsoid centered in a correctly sized array for given <em class="xref py py-obj">spacing</em>.
+Boolean dtype unless <em class="xref py py-obj">levelset=True</em>, in which case a float array is
+returned with the level set above 0.0 representing the ellipsoid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Marching cubes is an algorithm to extract a 2D surface mesh from a 3D volume. This can be conce..."><img alt="" src="../_images/sphx_glr_plot_marching_cubes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_marching_cubes.html#sphx-glr-auto-examples-edges-plot-marching-cubes-py"><span class="std std-ref">Marching Cubes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Marching Cubes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.ellipsoid_stats">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">ellipsoid_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw3d.py#L64-L109"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.ellipsoid_stats" title="Link to this definition">#</a></dt>
+<dd><p>Calculates analytical surface area and volume for ellipsoid with
+semimajor axes aligned with grid dimensions of specified <em class="xref py py-obj">spacing</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with x-axis.</p>
+</dd>
+<dt><strong>b</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with y-axis.</p>
+</dd>
+<dt><strong>c</strong><span class="classifier">float</span></dt><dd><p>Length of semimajor axis aligned with z-axis.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>vol</strong><span class="classifier">float</span></dt><dd><p>Calculated volume of ellipsoid.</p>
+</dd>
+<dt><strong>surf</strong><span class="classifier">float</span></dt><dd><p>Calculated surface area of ellipsoid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.line">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L363-L402"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.line" title="Link to this definition">#</a></dt>
+<dd><p>Generate line pixel coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r0, c0</strong><span class="classifier">int</span></dt><dd><p>Starting position (row, column).</p>
+</dd>
+<dt><strong>r1, c1</strong><span class="classifier">int</span></dt><dd><p>End position (row, column).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">(N,) ndarray of int</span></dt><dd><p>Indices of pixels that belong to the line.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Anti-aliased line generator is available with <a class="reference internal" href="#skimage.draw.line_aa" title="skimage.draw.line_aa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">line_aa</span></code></a>.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">line</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="The Hough transform in its simplest form is a method to detect straight lines [1]_."><img alt="" src="../_images/sphx_glr_plot_line_hough_transform_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_line_hough_transform.html#sphx-glr-auto-examples-edges-plot-line-hough-transform-py"><span class="std std-ref">Straight line Hough transform</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Straight line Hough transform</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.line_aa">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">line_aa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L405-L444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.line_aa" title="Link to this definition">#</a></dt>
+<dd><p>Generate anti-aliased line pixel coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r0, c0</strong><span class="classifier">int</span></dt><dd><p>Starting position (row, column).</p>
+</dd>
+<dt><strong>r1, c1</strong><span class="classifier">int</span></dt><dd><p>End position (row, column).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc, val</strong><span class="classifier">(N,) ndarray (int, int, float)</span></dt><dd><p>Indices of pixels (<em class="xref py py-obj">rr</em>, <em class="xref py py-obj">cc</em>) and intensity values (<em class="xref py py-obj">val</em>).
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">val</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="r99ed5d9f4c57-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<p>A Rasterizing Algorithm for Drawing Curves, A. Zingl, 2012
+<a class="reference external" href="http://members.chello.at/easyfilter/Bresenham.pdf">http://members.chello.at/easyfilter/Bresenham.pdf</a></p>
+</div>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">line_aa</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">line_aa</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[  0,   0,   0,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0, 255,  74,   0,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0,  74, 255,  74,   0,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0,   0,  74, 255,  74,   0,   0,   0,   0,   0],</span>
+<span class="go">       [  0,   0,   0,  74, 255,  74,   0,   0,   0,   0],</span>
+<span class="go">       [  0,   0,   0,   0,  74, 255,  74,   0,   0,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,  74, 255,  74,   0,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,   0,  74, 255,  74,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,   0,   0,  74, 255,   0],</span>
+<span class="go">       [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.line_nd">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">line_nd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw_nd.py#L52-L108"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.line_nd" title="Link to this definition">#</a></dt>
+<dd><p>Draw a single-pixel thick line in n dimensions.</p>
+<p>The line produced will be ndim-connected. That is, two subsequent
+pixels in the line will be either direct or diagonal neighbors in
+n dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start</strong><span class="classifier">array-like, shape (N,)</span></dt><dd><p>The start coordinates of the line.</p>
+</dd>
+<dt><strong>stop</strong><span class="classifier">array-like, shape (N,)</span></dt><dd><p>The end coordinates of the line.</p>
+</dd>
+<dt><strong>endpoint</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to include the endpoint in the returned line. Defaults
+to False, which allows for easy drawing of multi-point paths.</p>
+</dd>
+<dt><strong>integer</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to round the coordinates to integer. If True (default),
+the returned coordinates can be used to directly index into an
+array. <em class="xref py py-obj">False</em> could be used for e.g. vector drawing.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>coords</strong><span class="classifier">tuple of arrays</span></dt><dd><p>The coordinates of points on the line.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lin</span> <span class="o">=</span> <span class="n">line_nd</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lin</span>
+<span class="go">(array([1, 2, 3, 4]), array([1, 1, 2, 2]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span><span class="p">[</span><span class="n">lin</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im</span>
+<span class="go">array([[0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">line_nd</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">],</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">(array([2, 3, 4, 4, 5]), array([1, 2, 3, 4, 5]), array([1, 1, 2, 2, 2]))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.polygon">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">polygon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L447-L522"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.polygon" title="Link to this definition">#</a></dt>
+<dd><p>Generate coordinates of pixels inside a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r</strong><span class="classifier">(N,) array_like</span></dt><dd><p>Row coordinates of the polygon’s vertices.</p>
+</dd>
+<dt><strong>c</strong><span class="classifier">(N,) array_like</span></dt><dd><p>Column coordinates of the polygon’s vertices.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine the maximum extent of output
+pixel coordinates. This is useful for polygons that exceed the image
+size. If None, the full extent of the polygon is used.  Must be at
+least length 2. Only the first two values are used to determine the
+extent of the input image.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">ndarray of int</span></dt><dd><p>Pixel coordinates of polygon.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.draw.polygon2mask" title="skimage.draw.polygon2mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polygon2mask</span></code></a></dt><dd><p>Create a binary mask from a polygon.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This function ensures that <em class="xref py py-obj">rr</em> and <em class="xref py py-obj">cc</em> don’t contain negative values.
+Pixels of the polygon that whose coordinates are smaller 0, are not drawn.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+<p>If the image <em class="xref py py-obj">shape</em> is defined and vertices / points of the <a class="reference internal" href="#skimage.draw.polygon" title="skimage.draw.polygon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polygon</span></code></a> are
+outside this coordinate space, only a part (or none at all) of the polygon’s
+pixels is returned. Shifting the polygon’s vertices by an offset can be used
+to move the polygon around and potentially draw an arbitrary sub-region of
+the polygon.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span> <span class="o">-</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to draw several different shapes:"><img alt="" src="../_images/sphx_glr_plot_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_shapes.html#sphx-glr-auto-examples-edges-plot-shapes-py"><span class="std std-ref">Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Shapes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.polygon2mask">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">polygon2mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polygon</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/_polygon2mask.py#L6-L74"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.polygon2mask" title="Link to this definition">#</a></dt>
+<dd><p>Create a binary mask from a polygon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_shape</strong><span class="classifier">tuple of size 2</span></dt><dd><p>The shape of the mask.</p>
+</dd>
+<dt><strong>polygon</strong><span class="classifier">(N, 2) array_like</span></dt><dd><p>The polygon coordinates of shape (N, 2) where N is
+the number of points. The coordinates are (row, column).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>mask</strong><span class="classifier">2-D ndarray of type ‘bool’</span></dt><dd><p>The binary mask that corresponds to the input polygon.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#skimage.draw.polygon" title="skimage.draw.polygon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polygon</span></code></a></dt><dd><p>Generate coordinates of pixels inside a polygon.</p>
+</dd>
+</dl>
+</div>
+<p class="rubric">Notes</p>
+<p>This function does not do any border checking. Parts of the polygon that
+are outside the coordinate space defined by <em class="xref py py-obj">image_shape</em> are not drawn.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">polygon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon2mask</span><span class="p">(</span><span class="n">image_shape</span><span class="p">,</span> <span class="n">polygon</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+<p>If vertices / points of the <a class="reference internal" href="#skimage.draw.polygon" title="skimage.draw.polygon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polygon</span></code></a> are outside the coordinate space
+defined by <em class="xref py py-obj">image_shape</em>, only a part (or none at all) of the polygon is
+drawn in the mask.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ski</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">polygon2mask</span><span class="p">(</span><span class="n">image_shape</span><span class="p">,</span> <span class="n">polygon</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.polygon_perimeter">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">polygon_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L216-L295"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.polygon_perimeter" title="Link to this definition">#</a></dt>
+<dd><p>Generate polygon perimeter coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>r</strong><span class="classifier">(N,) ndarray</span></dt><dd><p>Row coordinates of vertices of polygon.</p>
+</dd>
+<dt><strong>c</strong><span class="classifier">(N,) ndarray</span></dt><dd><p>Column coordinates of vertices of polygon.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape which is used to determine maximum extents of output pixel
+coordinates. This is useful for polygons that exceed the image size.
+If None, the full extents of the polygon is used.  Must be at least
+length 2. Only the first two values are used to determine the extent of
+the input image.</p>
+</dd>
+<dt><strong>clip</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to clip the polygon to the provided shape.  If this is set
+to True, the drawn figure will always be a closed polygon with all
+edges visible.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>rr, cc</strong><span class="classifier">ndarray of int</span></dt><dd><p>Pixel coordinates of polygon.
+May be used to directly index into an array, e.g.
+<code class="docutils literal notranslate"><span class="pre">img[rr,</span> <span class="pre">cc]</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">polygon_perimeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polygon_perimeter</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+<span class="gp">... </span>                           <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+<span class="gp">... </span>                           <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 1, 1, 0, 0, 0, 0, 0, 0, 1],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 1, 1, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.random_shapes">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">random_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_shapes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_shapes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/_random_shapes.py#L304-L459"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.random_shapes" title="Link to this definition">#</a></dt>
+<dd><p>Generate an image with random shapes, labeled with bounding boxes.</p>
+<p>The image is populated with random shapes with random sizes, random
+locations, and random colors, with or without overlap.</p>
+<p>Shapes have random (row, col) starting coordinates and random sizes bounded
+by <em class="xref py py-obj">min_size</em> and <em class="xref py py-obj">max_size</em>. It can occur that a randomly generated shape
+will not fit the image at all. In that case, the algorithm will try again
+with new starting coordinates a certain number of times. However, it also
+means that some shapes may be skipped altogether. In that case, this
+function will generate fewer shapes than requested.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>image_shape</strong><span class="classifier">tuple</span></dt><dd><p>The number of rows and columns of the image to generate.</p>
+</dd>
+<dt><strong>max_shapes</strong><span class="classifier">int</span></dt><dd><p>The maximum number of shapes to (attempt to) fit into the shape.</p>
+</dd>
+<dt><strong>min_shapes</strong><span class="classifier">int, optional</span></dt><dd><p>The minimum number of shapes to (attempt to) fit into the shape.</p>
+</dd>
+<dt><strong>min_size</strong><span class="classifier">int, optional</span></dt><dd><p>The minimum dimension of each shape to fit into the image.</p>
+</dd>
+<dt><strong>max_size</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum dimension of each shape to fit into the image.</p>
+</dd>
+<dt><strong>num_channels</strong><span class="classifier">int, optional</span></dt><dd><p>Number of channels in the generated image. If 1, generate monochrome
+images, else color images with multiple channels. Ignored if
+<code class="docutils literal notranslate"><span class="pre">multichannel</span></code> is set to False.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">{rectangle, circle, triangle, ellipse, None} str, optional</span></dt><dd><p>The name of the shape to generate or <em class="xref py py-obj">None</em> to pick random ones.</p>
+</dd>
+<dt><strong>intensity_range</strong><span class="classifier">{tuple of tuples of uint8, tuple of uint8}, optional</span></dt><dd><p>The range of values to sample pixel values from. For grayscale
+images the format is (min, max). For multichannel - ((min, max),)
+if the ranges are equal across the channels, and
+((min_0, max_0), … (min_N, max_N)) if they differ. As the
+function supports generation of uint8 arrays only, the maximum
+range is (0, 255). If None, set to (0, 254) for each channel
+reserving color of intensity = 255 for background.</p>
+</dd>
+<dt><strong>allow_overlap</strong><span class="classifier">bool, optional</span></dt><dd><p>If <em class="xref py py-obj">True</em>, allow shapes to overlap.</p>
+</dd>
+<dt><strong>num_trials</strong><span class="classifier">int, optional</span></dt><dd><p>How often to attempt to fit a shape into the image before skipping it.</p>
+</dd>
+<dt><strong>rng</strong><span class="classifier">{<a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v2.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>, int}, optional</span></dt><dd><p>Pseudo-random number generator.
+By default, a PCG64 generator is used (see <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.default_rng" title="(in NumPy v2.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.random.default_rng()</span></code></a>).
+If <em class="xref py py-obj">rng</em> is an int, it is used to seed the generator.</p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 0.19: </span><code class="docutils literal notranslate"><span class="pre">channel_axis</span></code> was added in 0.19.</p>
+</div>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">uint8 array</span></dt><dd><p>An image with the fitted shapes.</p>
+</dd>
+<dt><strong>labels</strong><span class="classifier">list</span></dt><dd><p>A list of labels, one per shape in the image. Each label is a
+(category, ((r0, r1), (c0, c1))) tuple specifying the category and
+bounding box coordinates of the shape.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">skimage.draw</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">skimage</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">random_shapes</span><span class="p">((</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">max_shapes</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> 
+<span class="go">array([</span>
+<span class="go">   [[255, 255, 255],</span>
+<span class="go">    [255, 255, 255],</span>
+<span class="go">    [255, 255, 255],</span>
+<span class="go">    ...,</span>
+<span class="go">    [255, 255, 255],</span>
+<span class="go">    [255, 255, 255],</span>
+<span class="go">    [255, 255, 255]]], dtype=uint8)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> 
+<span class="go">[(&#39;circle&#39;, ((22, 18), (25, 21))),</span>
+<span class="go"> (&#39;triangle&#39;, ((5, 6), (13, 13)))]</span>
+</pre></div>
+</div>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Example of generating random shapes with particular properties."><img alt="" src="../_images/sphx_glr_plot_random_shapes_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/edges/plot_random_shapes.html#sphx-glr-auto-examples-edges-plot-random-shapes-py"><span class="std std-ref">Random Shapes</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Random Shapes</div>
+</div></div></dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.rectangle">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">rectangle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L777-L869"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.rectangle" title="Link to this definition">#</a></dt>
+<dd><p>Generate coordinates of pixels within a rectangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start</strong><span class="classifier">tuple</span></dt><dd><p>Origin point of the rectangle, e.g., <code class="docutils literal notranslate"><span class="pre">([plane,]</span> <span class="pre">row,</span> <span class="pre">column)</span></code>.</p>
+</dd>
+<dt><strong>end</strong><span class="classifier">tuple</span></dt><dd><p>End point of the rectangle <code class="docutils literal notranslate"><span class="pre">([plane,]</span> <span class="pre">row,</span> <span class="pre">column)</span></code>.
+For a 2D matrix, the slice defined by the rectangle is
+<code class="docutils literal notranslate"><span class="pre">[start:(end+1)]</span></code>.
+Either <em class="xref py py-obj">end</em> or <em class="xref py py-obj">extent</em> must be specified.</p>
+</dd>
+<dt><strong>extent</strong><span class="classifier">tuple</span></dt><dd><p>The extent (size) of the drawn rectangle.  E.g.,
+<code class="docutils literal notranslate"><span class="pre">([num_planes,]</span> <span class="pre">num_rows,</span> <span class="pre">num_cols)</span></code>.
+Either <em class="xref py py-obj">end</em> or <em class="xref py py-obj">extent</em> must be specified.
+A negative extent is valid, and will result in a rectangle
+going along the opposite direction. If extent is negative, the
+<em class="xref py py-obj">start</em> point is not included.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape used to determine the maximum bounds of the output
+coordinates. This is useful for clipping rectangles that exceed
+the image size. By default, no clipping is done.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>coords</strong><span class="classifier">array of int, shape (Ndim, Npoints)</span></dt><dd><p>The coordinates of all pixels in the rectangle.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function can be applied to N-dimensional images, by passing <em class="xref py py-obj">start</em> and
+<em class="xref py py-obj">end</em> or <em class="xref py py-obj">extent</em> as tuples of length N.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">rectangle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">extent</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 1, 1, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">rectangle</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="go">[[0 0 0 0 0 0]</span>
+<span class="go"> [0 3 3 2 2 0]</span>
+<span class="go"> [0 3 3 2 2 0]</span>
+<span class="go"> [0 4 4 1 1 0]</span>
+<span class="go"> [0 4 4 1 1 0]</span>
+<span class="go"> [0 0 0 0 0 0]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.rectangle_perimeter">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">rectangle_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L872-L942"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.rectangle_perimeter" title="Link to this definition">#</a></dt>
+<dd><p>Generate coordinates of pixels that are exactly around a rectangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>start</strong><span class="classifier">tuple</span></dt><dd><p>Origin point of the inner rectangle, e.g., <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">column)</span></code>.</p>
+</dd>
+<dt><strong>end</strong><span class="classifier">tuple</span></dt><dd><p>End point of the inner rectangle <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">column)</span></code>.
+For a 2D matrix, the slice defined by inner the rectangle is
+<code class="docutils literal notranslate"><span class="pre">[start:(end+1)]</span></code>.
+Either <em class="xref py py-obj">end</em> or <em class="xref py py-obj">extent</em> must be specified.</p>
+</dd>
+<dt><strong>extent</strong><span class="classifier">tuple</span></dt><dd><p>The extent (size) of the inner rectangle.  E.g.,
+<code class="docutils literal notranslate"><span class="pre">(num_rows,</span> <span class="pre">num_cols)</span></code>.
+Either <em class="xref py py-obj">end</em> or <em class="xref py py-obj">extent</em> must be specified.
+Negative extents are permitted. See <a class="reference internal" href="#skimage.draw.rectangle" title="skimage.draw.rectangle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rectangle</span></code></a> to better
+understand how they behave.</p>
+</dd>
+<dt><strong>shape</strong><span class="classifier">tuple, optional</span></dt><dd><p>Image shape used to determine the maximum bounds of the output
+coordinates. This is useful for clipping perimeters that exceed
+the image size. By default, no clipping is done.  Must be at least
+length 2. Only the first two values are used to determine the extent of
+the input image.</p>
+</dd>
+<dt><strong>clip</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to clip the perimeter to the provided shape. If this is set
+to True, the drawn figure will always be a closed polygon with all
+edges visible.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>coords</strong><span class="classifier">array of int, shape (2, Npoints)</span></dt><dd><p>The coordinates of all pixels in the rectangle.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">rectangle_perimeter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rectangle_perimeter</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 1, 1]], dtype=uint8)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">rectangle_perimeter</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 1, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 0, 1],</span>
+<span class="go">       [0, 0, 1, 1, 1]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<hr class="docutils" />
+<dl class="py function">
+<dt class="sig sig-object py" id="skimage.draw.set_color">
+<span class="sig-prename descclassname"><span class="pre">skimage.draw.</span></span><span class="sig-name descname"><span class="pre">set_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/v0.24.0/skimage/draw/draw.py#L298-L360"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.draw.set_color" title="Link to this definition">#</a></dt>
+<dd><p>Set pixel color in the image at the given coordinates.</p>
+<p>Note that this function modifies the color of the image in-place.
+Coordinates that exceed the shape of the image will be ignored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">(M, N, C) ndarray</span></dt><dd><p>Image</p>
+</dd>
+<dt><strong>coords</strong><span class="classifier">tuple of ((K,) ndarray, (K,) ndarray)</span></dt><dd><p>Row and column coordinates of pixels to be colored.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">(C,) ndarray</span></dt><dd><p>Color to be assigned to coordinates in the image.</p>
+</dd>
+<dt><strong>alpha</strong><span class="classifier">scalar or (K,) ndarray</span></dt><dd><p>Alpha values used to blend color with image.  0 is transparent,
+1 is opaque.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="kn">import</span> <span class="n">line</span><span class="p">,</span> <span class="n">set_color</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">line</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">set_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span>
+<span class="go">array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],</span>
+<span class="go">       [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]], dtype=uint8)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.bezier_curve"><code class="docutils literal notranslate"><span class="pre">bezier_curve()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.circle_perimeter"><code class="docutils literal notranslate"><span class="pre">circle_perimeter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.circle_perimeter_aa"><code class="docutils literal notranslate"><span class="pre">circle_perimeter_aa()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.disk"><code class="docutils literal notranslate"><span class="pre">disk()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.ellipse"><code class="docutils literal notranslate"><span class="pre">ellipse()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.ellipse_perimeter"><code class="docutils literal notranslate"><span class="pre">ellipse_perimeter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.ellipsoid"><code class="docutils literal notranslate"><span class="pre">ellipsoid()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.ellipsoid_stats"><code class="docutils literal notranslate"><span class="pre">ellipsoid_stats()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.line"><code class="docutils literal notranslate"><span class="pre">line()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.line_aa"><code class="docutils literal notranslate"><span class="pre">line_aa()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.line_nd"><code class="docutils literal notranslate"><span class="pre">line_nd()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.polygon"><code class="docutils literal notranslate"><span class="pre">polygon()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.polygon2mask"><code class="docutils literal notranslate"><span class="pre">polygon2mask()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.polygon_perimeter"><code class="docutils literal notranslate"><span class="pre">polygon_perimeter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.random_shapes"><code class="docutils literal notranslate"><span class="pre">random_shapes()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.rectangle"><code class="docutils literal notranslate"><span class="pre">rectangle()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.rectangle_perimeter"><code class="docutils literal notranslate"><span class="pre">rectangle_perimeter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage.draw.set_color"><code class="docutils literal notranslate"><span class="pre">set_color()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/api/skimage.draw.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2013-2024, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
