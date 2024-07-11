@@ -657,7 +657,7 @@ although some may be useful for images of other types as well.</p>
 <td><p>Remove objects smaller than the specified size.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#skimage.morphology.skeletonize" title="skimage.morphology.skeletonize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.skeletonize</span></code></a></p></td>
-<td><p>Compute the skeleton of a binary image.</p></td>
+<td><p>Compute the skeleton of the input image via thinning.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#skimage.morphology.square" title="skimage.morphology.square"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology.square</span></code></a></p></td>
 <td><p>Generates a flat, square-shaped footprint.</p></td>
@@ -4098,14 +4098,15 @@ placed. By default, a new array is created.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.morphology.skeletonize">
 <span class="sig-prename descclassname"><span class="pre">skimage.morphology.</span></span><span class="sig-name descname"><span class="pre">skeletonize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/morphology/_skeletonize.py#L14-L92"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.morphology.skeletonize" title="Link to this definition">#</a></dt>
-<dd><p>Compute the skeleton of a binary image.</p>
-<p>Thinning is used to reduce each connected component in a binary image
-to a single-pixel wide skeleton.</p>
+<dd><p>Compute the skeleton of the input image via thinning.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">ndarray, 2D or 3D</span></dt><dd><p>An image containing the objects to be skeletonized. Zeros or <code class="docutils literal notranslate"><span class="pre">False</span></code>
-represent background, nonzero values or <code class="docutils literal notranslate"><span class="pre">True</span></code> are foreground.</p>
+<dt><strong>image</strong><span class="classifier">(M, N[, P]) ndarray of bool or int</span></dt><dd><p>The image containing the objects to be skeletonized. Each connected component
+in the image is reduced to a single-pixel wide skeleton. The image is binarized
+prior to thinning; thus, adjacent objects of different intensities are
+considered as one. Zero or <code class="docutils literal notranslate"><span class="pre">False</span></code> values represent the background, nonzero
+or <code class="docutils literal notranslate"><span class="pre">True</span></code> values – foreground.</p>
 </dd>
 <dt><strong>method</strong><span class="classifier">{‘zhang’, ‘lee’}, optional</span></dt><dd><p>Which algorithm to use. Zhang’s algorithm <a class="reference internal" href="#rc75910d539e3-zha84" id="id66">[Zha84]</a> only works for
 2D images, and is the default for 2D. Lee’s algorithm <a class="reference internal" href="#rc75910d539e3-lee94" id="id67">[Lee94]</a>
@@ -4115,7 +4116,7 @@ works for 2D or 3D images and is the default for 3D.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>skeleton</strong><span class="classifier">ndarray of bool</span></dt><dd><p>The thinned image.</p>
+<dt><strong>skeleton</strong><span class="classifier">(M, N[, P]) ndarray of bool</span></dt><dd><p>The thinned image.</p>
 </dd>
 </dl>
 </dd>
