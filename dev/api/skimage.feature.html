@@ -3393,6 +3393,19 @@ discriminative and good descriptors.</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>descriptors</strong><span class="classifier">(Q, <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code>) array of dtype bool</span></dt><dd><p>2D ndarray of binary descriptors of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code> for Q
+keypoints after filtering out border keypoints with value at an
+index <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> either being <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> representing
+the outcome of the intensity comparison for i-th keypoint on j-th
+decision pixel-pair. It is <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">==</span> <span class="pre">np.sum(mask)</span></code>.</p>
+</dd>
+<dt><strong>mask</strong><span class="classifier">(N,) array of dtype bool</span></dt><dd><p>Mask indicating whether a keypoint has been filtered out
+(<code class="docutils literal notranslate"><span class="pre">False</span></code>) or is described in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptors</span></code> array (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+</dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="kn">import</span> <span class="p">(</span><span class="n">corner_harris</span><span class="p">,</span> <span class="n">corner_peaks</span><span class="p">,</span> <span class="n">BRIEF</span><span class="p">,</span>
@@ -3446,21 +3459,6 @@ discriminative and good descriptors.</p>
 <span class="go">       [6, 6]])</span>
 </pre></div>
 </div>
-<dl class="field-list">
-<dt class="field-odd">Attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>descriptors</strong><span class="classifier">(Q, <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code>) array of dtype bool</span></dt><dd><p>2D ndarray of binary descriptors of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code> for Q
-keypoints after filtering out border keypoints with value at an
-index <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> either being <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> representing
-the outcome of the intensity comparison for i-th keypoint on j-th
-decision pixel-pair. It is <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">==</span> <span class="pre">np.sum(mask)</span></code>.</p>
-</dd>
-<dt><strong>mask</strong><span class="classifier">(N,) array of dtype bool</span></dt><dd><p>Mask indicating whether a keypoint has been filtered out
-(<code class="docutils literal notranslate"><span class="pre">False</span></code>) or is described in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptors</span></code> array (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage.feature.BRIEF.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptor_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">49</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/brief.py#L126-L152"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.BRIEF.__init__" title="Link to this definition">#</a></dt>
@@ -3512,6 +3510,16 @@ magnitude response obtained after Non-Maximal Suppression.</p>
 </dd>
 <dt>line_threshold<span class="classifier">float, optional</span></dt><dd><p>Threshold for rejecting interest points which have ratio of principal
 curvatures greater than this value.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
+</dd>
+<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding scales.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p class="rubric">References</p>
@@ -3569,16 +3577,6 @@ Descriptors in the Context of Robot Navigation”
 <span class="go">       2])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
-</dd>
-<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding scales.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage.feature.CENSURE.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DoB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_max_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/censure.py#L232-L256"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.CENSURE.__init__" title="Link to this definition">#</a></dt>
@@ -3611,36 +3609,6 @@ instead of just creating a strong one. The second advantage of cascade
 classifier is that easy examples can be classified only by evaluating
 some of the classifiers in the cascade, making the process much faster
 than the process of evaluating a one strong classifier.</p>
-<p class="rubric">Notes</p>
-<p>The cascade approach was first described by Viola and Jones <a class="reference internal" href="#rec331695a2d7-1" id="id69">[1]</a>, <a class="reference internal" href="#rec331695a2d7-2" id="id70">[2]</a>,
-although these initial publications used a set of Haar-like features. This
-implementation instead uses multi-scale block local binary pattern (MB-LBP)
-features <a class="reference internal" href="#rec331695a2d7-3" id="id71">[3]</a>.</p>
-<p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="rec331695a2d7-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id69">1</a><span class="fn-bracket">]</span></span>
-<p>Viola, P. and Jones, M. “Rapid object detection using a boosted
-cascade of simple features,” In: Proceedings of the 2001 IEEE
-Computer Society Conference on Computer Vision and Pattern
-Recognition. CVPR 2001, pp. I-I.
-<a class="reference external" href="https://doi.org/10.1109/CVPR.2001.990517">DOI:10.1109/CVPR.2001.990517</a></p>
-</div>
-<div class="citation" id="rec331695a2d7-2" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id70">2</a><span class="fn-bracket">]</span></span>
-<p>Viola, P. and Jones, M.J, “Robust Real-Time Face Detection”,
-International Journal of Computer Vision 57, 137–154 (2004).
-<a class="reference external" href="https://doi.org/10.1023/B:VISI.0000013087.49260.fb">DOI:10.1023/B:VISI.0000013087.49260.fb</a></p>
-</div>
-<div class="citation" id="rec331695a2d7-3" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id71">3</a><span class="fn-bracket">]</span></span>
-<p>Liao, S. et al. Learning Multi-scale Block Local Binary Patterns for
-Face Recognition. International Conference on Biometrics (ICB),
-2007, pp. 828-837. In: Lecture Notes in Computer Science, vol 4642.
-Springer, Berlin, Heidelberg.
-<a class="reference external" href="https://doi.org/10.1007/978-3-540-74549-5_87">DOI:10.1007/978-3-540-74549-5_87</a></p>
-</div>
-</div>
 <dl class="field-list simple">
 <dt class="field-odd">Attributes<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -3673,6 +3641,36 @@ MBLBP features (MBLBPStumps) to evaluate a particular region.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The cascade approach was first described by Viola and Jones <a class="reference internal" href="#rec331695a2d7-1" id="id69">[1]</a>, <a class="reference internal" href="#rec331695a2d7-2" id="id70">[2]</a>,
+although these initial publications used a set of Haar-like features. This
+implementation instead uses multi-scale block local binary pattern (MB-LBP)
+features <a class="reference internal" href="#rec331695a2d7-3" id="id71">[3]</a>.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rec331695a2d7-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id69">1</a><span class="fn-bracket">]</span></span>
+<p>Viola, P. and Jones, M. “Rapid object detection using a boosted
+cascade of simple features,” In: Proceedings of the 2001 IEEE
+Computer Society Conference on Computer Vision and Pattern
+Recognition. CVPR 2001, pp. I-I.
+<a class="reference external" href="https://doi.org/10.1109/CVPR.2001.990517">DOI:10.1109/CVPR.2001.990517</a></p>
+</div>
+<div class="citation" id="rec331695a2d7-2" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id70">2</a><span class="fn-bracket">]</span></span>
+<p>Viola, P. and Jones, M.J, “Robust Real-Time Face Detection”,
+International Journal of Computer Vision 57, 137–154 (2004).
+<a class="reference external" href="https://doi.org/10.1023/B:VISI.0000013087.49260.fb">DOI:10.1023/B:VISI.0000013087.49260.fb</a></p>
+</div>
+<div class="citation" id="rec331695a2d7-3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id71">3</a><span class="fn-bracket">]</span></span>
+<p>Liao, S. et al. Learning Multi-scale Block Local Binary Patterns for
+Face Recognition. International Conference on Biometrics (ICB),
+2007, pp. 828-837. In: Lecture Notes in Computer Science, vol 4642.
+Springer, Berlin, Heidelberg.
+<a class="reference external" href="https://doi.org/10.1007/978-3-540-74549-5_87">DOI:10.1007/978-3-540-74549-5_87</a></p>
+</div>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage.feature.Cascade.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#skimage.feature.Cascade.__init__" title="Link to this definition">#</a></dt>
@@ -3776,7 +3774,7 @@ window, ‘c’ - col position, ‘width’ - width of detected window,
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureDetector</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DescriptorExtractor</span></code></p>
 <p>Oriented FAST and rotated BRIEF feature detector and binary descriptor
 extractor.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>n_keypoints</strong><span class="classifier">int, optional</span></dt><dd><p>Number of keypoints to be returned. The function will return the best
@@ -3806,6 +3804,24 @@ for a subsequent feature description.</p>
 </dd>
 <dt><strong>n_scales</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum number of scales from the bottom of the image pyramid to
 extract the features from.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
+</dd>
+<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding scales.</p>
+</dd>
+<dt><strong>orientations</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding orientations in radians.</p>
+</dd>
+<dt><strong>responses</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding Harris corner responses.</p>
+</dd>
+<dt><strong>descriptors</strong><span class="classifier">(Q, <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code>) array of dtype bool</span></dt><dd><p>2D array of binary descriptors of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code> for Q
+keypoints after filtering out border keypoints with value at an
+index <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> either being <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> representing
+the outcome of the intensity comparison for i-th keypoint on j-th
+decision pixel-pair. It is <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">==</span> <span class="pre">np.sum(mask)</span></code>.</p>
 </dd>
 </dl>
 </dd>
@@ -3853,26 +3869,6 @@ extract the features from.</p>
 <span class="go">       [72., 72.]])</span>
 </pre></div>
 </div>
-<dl class="field-list">
-<dt class="field-odd">Attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
-</dd>
-<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding scales.</p>
-</dd>
-<dt><strong>orientations</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding orientations in radians.</p>
-</dd>
-<dt><strong>responses</strong><span class="classifier">(N,) array</span></dt><dd><p>Corresponding Harris corner responses.</p>
-</dd>
-<dt><strong>descriptors</strong><span class="classifier">(Q, <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code>) array of dtype bool</span></dt><dd><p>2D array of binary descriptors of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptor_size</span></code> for Q
-keypoints after filtering out border keypoints with value at an
-index <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code> either being <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code> representing
-the outcome of the intensity comparison for i-th keypoint on j-th
-decision pixel-pair. It is <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">==</span> <span class="pre">np.sum(mask)</span></code>.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage.feature.ORB.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">downscale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_scales</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_keypoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fast_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fast_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">harris_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.04</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/orb.py#L119-L139"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.ORB.__init__" title="Link to this definition">#</a></dt>
@@ -3987,6 +3983,31 @@ n_hist * n_hist histograms.</p>
 </dd>
 </dl>
 </dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>delta_min</strong><span class="classifier">float</span></dt><dd><p>The sampling distance of the first octave. It’s final value is
+1/upsampling.</p>
+</dd>
+<dt><strong>float_dtype</strong><span class="classifier">type</span></dt><dd><p>The datatype of the image.</p>
+</dd>
+<dt><strong>scalespace_sigmas</strong><span class="classifier">(n_octaves, n_scales + 3) array</span></dt><dd><p>The sigma value of all scales in all octaves.</p>
+</dd>
+<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
+</dd>
+<dt><strong>positions</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Subpixel-precision keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
+</dd>
+<dt><strong>sigmas</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding sigma (blur) value of a keypoint.</p>
+</dd>
+<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding scale of a keypoint.</p>
+</dd>
+<dt><strong>orientations</strong><span class="classifier">(N,) array</span></dt><dd><p>The orientations of the gradient around every keypoint.</p>
+</dd>
+<dt><strong>octaves</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding octave of a keypoint.</p>
+</dd>
+<dt><strong>descriptors</strong><span class="classifier">(N, n_hist*n_hist*n_ori) array</span></dt><dd><p>The descriptors of a keypoint.</p>
+</dd>
+</dl>
+</dd>
 </dl>
 <p class="rubric">Notes</p>
 <p>The SIFT algorithm was developed by David Lowe <a class="reference internal" href="#rdc36d83fc179-1" id="id76">[1]</a>, <a class="reference internal" href="#rdc36d83fc179-2" id="id77">[2]</a> and later
@@ -4049,33 +4070,6 @@ Image Processing On Line, 4 (2014), pp. 370–396.
 <span class="go">       [293, 104]])</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Attributes<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>delta_min</strong><span class="classifier">float</span></dt><dd><p>The sampling distance of the first octave. It’s final value is
-1/upsampling.</p>
-</dd>
-<dt><strong>float_dtype</strong><span class="classifier">type</span></dt><dd><p>The datatype of the image.</p>
-</dd>
-<dt><strong>scalespace_sigmas</strong><span class="classifier">(n_octaves, n_scales + 3) array</span></dt><dd><p>The sigma value of all scales in all octaves.</p>
-</dd>
-<dt><strong>keypoints</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
-</dd>
-<dt><strong>positions</strong><span class="classifier">(N, 2) array</span></dt><dd><p>Subpixel-precision keypoint coordinates as <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>.</p>
-</dd>
-<dt><strong>sigmas</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding sigma (blur) value of a keypoint.</p>
-</dd>
-<dt><strong>scales</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding scale of a keypoint.</p>
-</dd>
-<dt><strong>orientations</strong><span class="classifier">(N,) array</span></dt><dd><p>The orientations of the gradient around every keypoint.</p>
-</dd>
-<dt><strong>octaves</strong><span class="classifier">(N,) array</span></dt><dd><p>The corresponding octave of a keypoint.</p>
-</dd>
-<dt><strong>descriptors</strong><span class="classifier">(N, n_hist*n_hist*n_ori) array</span></dt><dd><p>The descriptors of a keypoint.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage.feature.SIFT.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">upsampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_octaves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_scales</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_dog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.013333333333333334</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">36</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_descr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_hist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_ori</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/sift.py#L233-L274"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.SIFT.__init__" title="Link to this definition">#</a></dt>
