@@ -38,7 +38,7 @@ faulty and simply estimating the parameter set with all coordinates is not
 sufficient. Therefore, the RANSAC algorithm is used on top of the normal model
 to robustly estimate the parameter set by detecting outliers.
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-176
+.. GENERATED FROM PYTHON SOURCE LINES 23-181
 
 
 
@@ -58,14 +58,6 @@ to robustly estimate the parameter set by detecting outliers.
     Scale: (0.9015, 0.8904), Translation: (-9.3136, 14.9768), Rotation: -0.1678
     RANSAC:
     Scale: (0.8999, 0.9001), Translation: (-10.0005, 19.9744), Rotation: -0.1999
-    /home/runner/work/scikit-image/scikit-image/doc/examples/transform/plot_matching.py:150: FutureWarning:
-
-    `plot_matches` is deprecated since version 0.23 and will be removed in version 0.25. Use `skimage.feature.plot_matched_features` instead.
-
-    /home/runner/work/scikit-image/scikit-image/doc/examples/transform/plot_matching.py:163: FutureWarning:
-
-    `plot_matches` is deprecated since version 0.23 and will be removed in version 0.25. Use `skimage.feature.plot_matched_features` instead.
-
 
 
 
@@ -82,7 +74,12 @@ to robustly estimate the parameter set by detecting outliers.
 
     from skimage import data
     from skimage.util import img_as_float
-    from skimage.feature import corner_harris, corner_subpix, corner_peaks, plot_matches
+    from skimage.feature import (
+        corner_harris,
+        corner_subpix,
+        corner_peaks,
+        plot_matched_features,
+    )
     from skimage.transform import warp, AffineTransform
     from skimage.exposure import rescale_intensity
     from skimage.color import rgb2gray
@@ -203,26 +200,26 @@ to robustly estimate the parameter set by detecting outliers.
     plt.gray()
 
     inlier_idxs = np.nonzero(inliers)[0]
-    plot_matches(
-        ax[0],
+    plot_matched_features(
         img_orig_gray,
         img_warped_gray,
-        src,
-        dst,
-        np.column_stack((inlier_idxs, inlier_idxs)),
+        keypoints0=src,
+        keypoints1=dst,
+        matches=np.column_stack((inlier_idxs, inlier_idxs)),
+        ax=ax[0],
         matches_color='b',
     )
     ax[0].axis('off')
     ax[0].set_title('Correct correspondences')
 
     outlier_idxs = np.nonzero(outliers)[0]
-    plot_matches(
-        ax[1],
+    plot_matched_features(
         img_orig_gray,
         img_warped_gray,
-        src,
-        dst,
-        np.column_stack((outlier_idxs, outlier_idxs)),
+        keypoints0=src,
+        keypoints1=dst,
+        matches=np.column_stack((outlier_idxs, outlier_idxs)),
+        ax=ax[1],
         matches_color='r',
     )
     ax[1].axis('off')
@@ -233,7 +230,7 @@ to robustly estimate the parameter set by detecting outliers.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.472 seconds)
+   **Total running time of the script:** (0 minutes 0.473 seconds)
 
 
 .. _sphx_glr_download_auto_examples_transform_plot_matching.py:
