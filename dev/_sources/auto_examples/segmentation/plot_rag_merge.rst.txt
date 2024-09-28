@@ -27,7 +27,7 @@ regions that are similar in color. Merging two adjacent regions produces
 a new region with all the pixels from the merged regions. Regions are merged
 until no highly similar region pairs remain.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-81
+.. GENERATED FROM PYTHON SOURCE LINES 12-85
 
 
 
@@ -37,32 +37,16 @@ until no highly similar region pairs remain.
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /home/runner/work/scikit-image/scikit-image/doc/examples/segmentation/plot_rag_merge.py:79: FutureWarning:
-
-    `imshow` is deprecated since version 0.25 and will be removed in version 0.27. Please use `matplotlib`, `napari`, etc. to visualize images.
-
-    /home/runner/work/scikit-image/scikit-image/doc/examples/segmentation/plot_rag_merge.py:80: FutureWarning:
-
-    `show` is deprecated since version 0.25 and will be removed in version 0.27. Please use `matplotlib`, `napari`, etc. to visualize images.
 
 
-
-
-
-
-
-|
 
 .. code-block:: Python
 
 
-    from skimage import data, io, segmentation, color
+    from skimage import data, segmentation, color
     from skimage import graph
     import numpy as np
+    import matplotlib.pyplot as plt
 
 
     def _weight_mean_color(graph, src, dst, n):
@@ -126,13 +110,16 @@ until no highly similar region pairs remain.
 
     out = color.label2rgb(labels2, img, kind='avg', bg_label=0)
     out = segmentation.mark_boundaries(out, labels2, (0, 0, 0))
-    io.imshow(out)
-    io.show()
+
+    fig, ax = plt.subplots()
+    ax.imshow(out)
+    plt.tight_layout()
+    plt.show()
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.559 seconds)
+   **Total running time of the script:** (0 minutes 2.849 seconds)
 
 
 .. _sphx_glr_download_auto_examples_segmentation_plot_rag_merge.py:
