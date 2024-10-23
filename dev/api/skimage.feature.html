@@ -3194,7 +3194,7 @@ of the peaks where the dilated image equals the original image.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.feature.plot_matched_features">
-<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">plot_matched_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matches_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_matches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'horizontal'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/util.py#L44-L164"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.plot_matched_features" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">plot_matched_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keypoints_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matches_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_matches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'horizontal'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/util.py#L44-L183"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.plot_matched_features" title="Link to this definition">#</a></dt>
 <dd><p>Plot matched features between two images.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">Added in version 0.23.</span></p>
@@ -3218,8 +3218,9 @@ the indices in the first (resp. second) set of descriptors.</p>
 </dd>
 <dt><strong>keypoints_color</strong><span class="classifier">matplotlib color, optional</span></dt><dd><p>Color for keypoint locations.</p>
 </dd>
-<dt><strong>matches_color</strong><span class="classifier">matplotlib color, optional</span></dt><dd><p>Color for lines which connect keypoint matches. By default the
-color is chosen randomly.</p>
+<dt><strong>matches_color</strong><span class="classifier">matplotlib color or sequence thereof, optional</span></dt><dd><p>Single color or sequence of colors for each line defined by <code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code>,
+which connect keypoint matches. See <a class="reference internal" href="#rd2ae0de8095f-1" id="id63">[1]</a> for an overview of supported
+color formats. By default, colors are picked randomly.</p>
 </dd>
 <dt><strong>only_matches</strong><span class="classifier">bool, optional</span></dt><dd><p>Set to True to plot matches only and not the keypoint locations.</p>
 </dd>
@@ -3229,6 +3230,16 @@ the other (<code class="xref py py-obj docutils literal notranslate"><span class
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>To make a sequence of colors passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">matches_color</span></code> work for any number of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">matches</span></code>, you can wrap that sequence in <a class="reference external" href="https://docs.python.org/3/library/itertools.html#itertools.cycle" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">itertools.cycle()</span></code></a>.</p>
+<p class="rubric">References</p>
+<div role="list" class="citation-list">
+<div class="citation" id="rd2ae0de8095f-1" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id63">1</a><span class="fn-bracket">]</span></span>
+<p><a class="reference external" href="https://matplotlib.org/stable/users/explain/colors/colors.html#specifying-colors">https://matplotlib.org/stable/users/explain/colors/colors.html#specifying-colors</a></p>
+</div>
+</div>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to robustly estimate epipolar geometry &lt;https://en.wikipedia.org/wiki/Epipolar_geometry&gt; (the geometry of stereo vision) between two views using sparse ORB feature correspondences."><img alt="" src="../_images/sphx_glr_plot_fundamental_matrix_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/transform/plot_fundamental_matrix.html#sphx-glr-auto-examples-transform-plot-fundamental-matrix-py"><span class="std std-ref">Fundamental matrix estimation</span></a></p>
   <div class="sphx-glr-thumbnail-title">Fundamental matrix estimation</div>
@@ -3251,14 +3262,14 @@ the other (<code class="xref py py-obj docutils literal notranslate"><span class
 <dt class="sig sig-object py" id="skimage.feature.shape_index">
 <span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">shape_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'constant'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/corner.py#L522-L600"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.shape_index" title="Link to this definition">#</a></dt>
 <dd><p>Compute the shape index.</p>
-<p>The shape index, as defined by Koenderink &amp; van Doorn <a class="reference internal" href="#rc8faae48965f-1" id="id63">[1]</a>, is a
+<p>The shape index, as defined by Koenderink &amp; van Doorn <a class="reference internal" href="#rc8faae48965f-1" id="id65">[1]</a>, is a
 single valued measure of local curvature, assuming the image as a 3D plane
 with intensities representing heights.</p>
 <p>It is derived from the eigenvalues of the Hessian, and its
 value ranges from -1 to 1 (and is undefined (=NaN) in <em>flat</em> regions),
 with following ranges representing following shapes:</p>
-<div class="pst-scrollable-table-container"><table class="table" id="id82">
-<caption><span class="caption-text">Ranges of the shape index and corresponding shapes.</span><a class="headerlink" href="#id82" title="Link to this table">#</a></caption>
+<div class="pst-scrollable-table-container"><table class="table" id="id84">
+<caption><span class="caption-text">Ranges of the shape index and corresponding shapes.</span><a class="headerlink" href="#id84" title="Link to this table">#</a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Interval (s in …)</p></th>
 <th class="head"><p>Shape</p></th>
@@ -3320,7 +3331,7 @@ the image boundaries.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="rc8faae48965f-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id63">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id65">1</a><span class="fn-bracket">]</span></span>
 <p>Koenderink, J. J. &amp; van Doorn, A. J.,
 “Surface shape and curvature scales”,
 Image and Vision Computing, 1992, 10, 557-564.
@@ -3357,7 +3368,7 @@ Image and Vision Computing, 1992, 10, 557-564.
 </div>
 <p>which is approximated by the weighted sum of squared differences in a local
 window around each pixel in the image. This formula can be extended to a
-larger number of dimensions (see <a class="reference internal" href="#r0bb93eb224ab-1" id="id65">[1]</a>).</p>
+larger number of dimensions (see <a class="reference internal" href="#r0bb93eb224ab-1" id="id67">[1]</a>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -3399,7 +3410,7 @@ input image.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="r0bb93eb224ab-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id65">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id67">1</a><span class="fn-bracket">]</span></span>
 <p><a class="reference external" href="https://en.wikipedia.org/wiki/Structure_tensor">https://en.wikipedia.org/wiki/Structure_tensor</a></p>
 </div>
 </div>
@@ -3769,14 +3780,14 @@ MBLBP features (MBLBPStumps) to evaluate a particular region.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The cascade approach was first described by Viola and Jones <a class="reference internal" href="#rec331695a2d7-1" id="id69">[1]</a>, <a class="reference internal" href="#rec331695a2d7-2" id="id70">[2]</a>,
+<p>The cascade approach was first described by Viola and Jones <a class="reference internal" href="#rec331695a2d7-1" id="id71">[1]</a>, <a class="reference internal" href="#rec331695a2d7-2" id="id72">[2]</a>,
 although these initial publications used a set of Haar-like features. This
 implementation instead uses multi-scale block local binary pattern (MB-LBP)
-features <a class="reference internal" href="#rec331695a2d7-3" id="id71">[3]</a>.</p>
+features <a class="reference internal" href="#rec331695a2d7-3" id="id73">[3]</a>.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="rec331695a2d7-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id69">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id71">1</a><span class="fn-bracket">]</span></span>
 <p>Viola, P. and Jones, M. “Rapid object detection using a boosted
 cascade of simple features,” In: Proceedings of the 2001 IEEE
 Computer Society Conference on Computer Vision and Pattern
@@ -3784,13 +3795,13 @@ Recognition. CVPR 2001, pp. I-I.
 <a class="reference external" href="https://doi.org/10.1109/CVPR.2001.990517">DOI:10.1109/CVPR.2001.990517</a></p>
 </div>
 <div class="citation" id="rec331695a2d7-2" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id70">2</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id72">2</a><span class="fn-bracket">]</span></span>
 <p>Viola, P. and Jones, M.J, “Robust Real-Time Face Detection”,
 International Journal of Computer Vision 57, 137–154 (2004).
 <a class="reference external" href="https://doi.org/10.1023/B:VISI.0000013087.49260.fb">DOI:10.1023/B:VISI.0000013087.49260.fb</a></p>
 </div>
 <div class="citation" id="rec331695a2d7-3" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id71">3</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id73">3</a><span class="fn-bracket">]</span></span>
 <p>Liao, S. et al. Learning Multi-scale Block Local Binary Patterns for
 Face Recognition. International Conference on Biometrics (ICB),
 2007, pp. 828-837. In: Lecture Notes in Computer Science, vol 4642.
@@ -4149,28 +4160,28 @@ n_hist * n_hist histograms.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The SIFT algorithm was developed by David Lowe <a class="reference internal" href="#rdc36d83fc179-1" id="id76">[1]</a>, <a class="reference internal" href="#rdc36d83fc179-2" id="id77">[2]</a> and later
+<p>The SIFT algorithm was developed by David Lowe <a class="reference internal" href="#rdc36d83fc179-1" id="id78">[1]</a>, <a class="reference internal" href="#rdc36d83fc179-2" id="id79">[2]</a> and later
 patented by the University of British Columbia. Since the patent expired in
 2020 it’s free to use. The implementation here closely follows the
-detailed description in <a class="reference internal" href="#rdc36d83fc179-3" id="id78">[3]</a>, including use of the same default parameters.</p>
+detailed description in <a class="reference internal" href="#rdc36d83fc179-3" id="id80">[3]</a>, including use of the same default parameters.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="rdc36d83fc179-1" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id76">1</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id78">1</a><span class="fn-bracket">]</span></span>
 <p>D.G. Lowe. “Object recognition from local scale-invariant
 features”, Proceedings of the Seventh IEEE International
 Conference on Computer Vision, 1999, vol.2, pp. 1150-1157.
 <a class="reference external" href="https://doi.org/10.1109/ICCV.1999.790410">DOI:10.1109/ICCV.1999.790410</a></p>
 </div>
 <div class="citation" id="rdc36d83fc179-2" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id77">2</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id79">2</a><span class="fn-bracket">]</span></span>
 <p>D.G. Lowe. “Distinctive Image Features from Scale-Invariant
 Keypoints”, International Journal of Computer Vision, 2004,
 vol. 60, pp. 91–110.
 <a class="reference external" href="https://doi.org/10.1023/B:VISI.0000029664.99615.94">DOI:10.1023/B:VISI.0000029664.99615.94</a></p>
 </div>
 <div class="citation" id="rdc36d83fc179-3" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id78">3</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id80">3</a><span class="fn-bracket">]</span></span>
 <p>I. R. Otero and M. Delbracio. “Anatomy of the SIFT Method”,
 Image Processing On Line, 4 (2014), pp. 370–396.
 <a class="reference external" href="https://doi.org/10.5201/ipol.2014.82">DOI:10.5201/ipol.2014.82</a></p>
