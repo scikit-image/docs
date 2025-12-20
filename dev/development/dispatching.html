@@ -1,0 +1,683 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dispatching &#8212; skimage 0.26.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/theme_overrides.css?v=4bb1f280" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=4aa2dafa"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'development/dispatching';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://scikit-image.org/docs/dev/_static/version_switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.26.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            true;
+        </script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="About" href="../about/index.html" />
+    <link rel="prev" title="SKIP X — Template and Instructions" href="../skips/template.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="0.26.0" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class=" navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+     
+  
+
+<a class="navbar-brand logo" href="https://scikit-image.org">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="scikit-image's logo, showing a snake's head overlayed with green and orange"/>
+  
+  
+    <p class="title logo__title">scikit-image</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class=" navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../user_guide/index.html">
+    User guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../auto_examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../api/api.html">
+    API reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Development
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../about/index.html">
+    About
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/scikit-image/scikit-image" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/scikit-image/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-box fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">PyPI</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contribute.html">How to contribute to scikit-image</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gitwash/index.html">Working with <em>scikit-image</em> source code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gitwash/git_intro.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gitwash/git_install.html">Install git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gitwash/following_latest.html">Following the latest source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gitwash/patching.html">Making a patch</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../gitwash/git_development.html">Git for development</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../gitwash/forking_hell.html">Making your own copy (fork) of scikit-image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitwash/set_up_fork.html">Set up your fork</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitwash/configure_git.html">Configure git</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitwash/development_workflow.html">Development workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../gitwash/maintainer_workflow.html">Maintainer workflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../gitwash/git_resources.html">git resources</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="core_developer.html">Core Developer Guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../skips/index.html">scikit-image proposals (SKIPS)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../skips/0-skip-process.html">SKIP 0 — Purpose and Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skips/1-governance.html">SKIP 1 — scikit-image governance and decision-making</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skips/2-values.html">SKIP 2 — scikit-image mission statement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skips/3-transition-to-v1.html">SKIP 3 — Transitioning to scikit-image 1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skips/4-transition-to-v2.html">SKIP 4 — Transitioning to scikit-image 2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../skips/template.html">SKIP X — Template and Instructions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dispatching</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Development</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Dispatching</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dispatching">
+<h1>Dispatching<a class="headerlink" href="#dispatching" title="Link to this heading">#</a></h1>
+<p>The dispatching mechanism allows users to use alternative implementations of the algorithms
+available in scikit-image. The alternative implementations are provided by separate
+Python packages maintained outside of scikit-image. Example use-cases are support for array
+libraries other than NumPy or optimized implementations for particular hardware.</p>
+<p>This section of the documentation describes how to create an alternative implementation (a “backend”)
+and how the dispatching mechanism in scikit-image works.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The dispatching API is experimental and is not ready for production.
+It is made available as an early prototype so that developers can gain experience
+with the system.</p>
+<p>Consider the dispatching API to be very unstable; we might change behavior
+suddenly between releases without a deprecation period.</p>
+</div>
+<section id="creating-a-scikit-image-backend">
+<h2>Creating a scikit-image backend<a class="headerlink" href="#creating-a-scikit-image-backend" title="Link to this heading">#</a></h2>
+<p>An alternative implementation (“backend”) is a good place to provide optimized implementations
+for particular hardware, to support array libraries other than NumPy, or to explore novel ideas that
+are not (yet) a good fit for the core scikit-image library.</p>
+<p>To create a backend you have to create a new Python package that registers two particular
+<a class="reference external" href="https://packaging.python.org/en/latest/specifications/pyproject-toml/#entry-points">entry points</a>:
+* <a class="reference internal" href="#backend-infos-entry-point"><span class="std std-ref">The skimage_backend_infos entry point</span></a> should resolve to a function with no
+arguments that returns an instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">skimage.util._backends.BackendInformation</span></code> class
+or something that behaves like it;
+* <a class="reference internal" href="#backend-entry-point"><span class="std std-ref">The skimage_backends entry point</span></a> should resolve to a namespace
+that contains two functions: <code class="docutils literal notranslate"><span class="pre">can_has(name,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code> and <code class="docutils literal notranslate"><span class="pre">get_implementation(name)</span></code>.</p>
+<section id="the-skimage-backend-infos-entry-point">
+<span id="backend-infos-entry-point"></span><h3>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage_backend_infos</span></code> entry point<a class="headerlink" href="#the-skimage-backend-infos-entry-point" title="Link to this heading">#</a></h3>
+<p>The information your backend provides via this entry point is used to get things like its
+name, homepage, and which functions it implements. The main requirement for this entry point
+is that it is fast to import and has no dependencies other than scikit-image.</p>
+<p>The return value of the function should be an instance of the
+<code class="docutils literal notranslate"><span class="pre">skimage.util._backends.BackendInformation</span></code> class or something that behaves like it.</p>
+<p>The reason this entry point has to be fast is that the list of implemented functions
+is used to make a decision on which backends to try for a particular scikit-image
+function. This means it is loaded unconditionally as soon as a backend is installed.</p>
+<p>To help make your implementation fast, avoid computing the list of implemented functions
+dynamically or performing other expensive operations.</p>
+</section>
+<section id="the-skimage-backends-entry-point">
+<span id="backend-entry-point"></span><h3>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage_backends</span></code> entry point<a class="headerlink" href="#the-skimage-backends-entry-point" title="Link to this heading">#</a></h3>
+<p>This entry point should point to a namespace that contains two functions:
+<code class="docutils literal notranslate"><span class="pre">can_has(name,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code> and <code class="docutils literal notranslate"><span class="pre">get_implementation(name)</span></code>. They will be used to
+determine if the backend can be called with the provided arguments and to get the
+actual implementation.</p>
+<p>When a user calls a function that the backend listed as one that it implements (via
+the <code class="docutils literal notranslate"><span class="pre">skimage_backend_infos</span></code> entry point) the
+<code class="docutils literal notranslate"><span class="pre">can_has</span></code> function will be called with the function name and the arguments the user
+provided when calling the function. The <code class="docutils literal notranslate"><span class="pre">can_has</span></code> function
+should use this information to determine if the backend wants to be called or if a
+different backend should be tried. A backend might implement a particular function but
+only want to handle calls where the input arrays are of a particular type or size.</p>
+<p>If your backend cannot handle a particular call, the <code class="docutils literal notranslate"><span class="pre">can_has</span></code> function should return
+<code class="docutils literal notranslate"><span class="pre">False</span></code> as quickly as possible. This means you should perform fast checks first and
+more expensive checks later in your <code class="docutils literal notranslate"><span class="pre">can_has</span></code> function.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">can_has</span></code> function indicates that the backend wants to handle the call then the
+<code class="docutils literal notranslate"><span class="pre">get_implementation(name)</span></code> function is called to get the implementation. This should
+return the backend function that implements the behaviour of the function <code class="docutils literal notranslate"><span class="pre">name</span></code> in scikit-image.
+The <code class="docutils literal notranslate"><span class="pre">name</span></code> parameter will contain the public module name and the function name separated by a
+colon. For example, the <code class="docutils literal notranslate"><span class="pre">name</span></code> for the <code class="docutils literal notranslate"><span class="pre">canny</span></code> function from the <code class="docutils literal notranslate"><span class="pre">feature</span></code> module would
+be <code class="docutils literal notranslate"><span class="pre">skimage.feature:canny</span></code>.</p>
+<p>Once the implementation has been retrieved from the backend, it will be called with the
+arguments the user provided and it is expected to return the result of the computation.</p>
+<p>When returning an array, it has to be of the same type as the array(s) passed in to the
+function by the user. This means a backend implementation can convert the input to a different
+array type, but it has to convert the result back to the original array type.</p>
+</section>
+<section id="an-example-backend">
+<h3>An example backend<a class="headerlink" href="#an-example-backend" title="Link to this heading">#</a></h3>
+<p>To make the ideas described above more concrete, take a look at <a class="reference external" href="https://github.com/betatim/scikit-image-backend-phony">an example backend that implements
+a single function</a>.
+This example gives you an idea of how everything fits together and lets you see the dispatching
+in action. It is designed to make it easy to understand and experiment with.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-scikit-image-backend">Creating a scikit-image backend</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-skimage-backend-infos-entry-point">The <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage_backend_infos</span></code> entry point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-skimage-backends-entry-point">The <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage_backends</span></code> entry point</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-backend">An example backend</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/development/dispatching.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2013-2025, the scikit-image team.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
