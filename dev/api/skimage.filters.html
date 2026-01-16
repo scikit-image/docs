@@ -1109,7 +1109,7 @@ multidimensional signals”, IEEE Transactions on Image Processing
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>Input data.</p>
+<dt><strong>data</strong><span class="classifier">ndarray of shape (M, N)</span></dt><dd><p>Input data.</p>
 </dd>
 <dt><strong>impulse_response</strong><span class="classifier">callable <code class="xref py py-obj docutils literal notranslate"><span class="pre">f(r,</span> <span class="pre">c,</span> <span class="pre">**filter_params)</span></code></span></dt><dd><p>Impulse response of the filter.  See LPIFilter2D.__init__.</p>
 </dd>
@@ -1144,7 +1144,7 @@ images, construct the LPIFilter2D and specify it here.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>Input data.</p>
+<dt><strong>data</strong><span class="classifier">ndarray of shape (M, N)</span></dt><dd><p>Input data.</p>
 </dd>
 <dt><strong>impulse_response</strong><span class="classifier">callable <code class="xref py py-obj docutils literal notranslate"><span class="pre">f(r,</span> <span class="pre">c,</span> <span class="pre">**filter_params)</span></code></span></dt><dd><p>Impulse response of the filter.  See <a class="reference internal" href="#skimage.filters.LPIFilter2D" title="skimage.filters.LPIFilter2D"><code class="xref py py-class docutils literal notranslate"><span class="pre">LPIFilter2D</span></code></a>. This is a required
 argument unless a <code class="xref py py-obj docutils literal notranslate"><span class="pre">predifined_filter</span></code> is provided.</p>
@@ -1641,49 +1641,53 @@ skimage.restoration.uft.laplacian().</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.filters.median">
-<span class="sig-prename descclassname"><span class="pre">skimage.filters.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">behavior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ndimage'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_median.py#L9-L82"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.median" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.filters.</span></span><span class="sig-name descname"><span class="pre">median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">footprint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">behavior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ndimage'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/filters/_median.py#L9-L84"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.filters.median" title="Link to this definition">#</a></dt>
 <dd><p>Return local median of an image.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">array-like</span></dt><dd><p>Input image.</p>
 </dd>
-<dt><strong>footprint</strong><span class="classifier">ndarray, optional</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">behavior=='rank'</span></code>, <code class="docutils literal notranslate"><span class="pre">footprint</span></code> is a 2-D array of 1’s and 0’s.
-If <code class="docutils literal notranslate"><span class="pre">behavior=='ndimage'</span></code>, <code class="docutils literal notranslate"><span class="pre">footprint</span></code> is a N-D array of 1’s and 0’s
-with the same number of dimension than <code class="docutils literal notranslate"><span class="pre">image</span></code>.
-If None, <code class="docutils literal notranslate"><span class="pre">footprint</span></code> will be a N-D array with 3 elements for each
-dimension (e.g., vector, square, cube, etc.)</p>
+<dt><strong>footprint</strong><span class="classifier">ndarray, optional</span></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">behavior='rank'</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code> is a 2-D array of 1’s and 0’s.
+If <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code> is a N-D array of 1’s and 0’s
+with the same number of dimensions as <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>.
+If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code> will be a N-D array with 3 elements for each
+dimension (e.g., vector, square, cube, etc.).</p>
 </dd>
-<dt><strong>out</strong><span class="classifier">ndarray, (same dtype as image), optional</span></dt><dd><p>If None, a new array is allocated.</p>
+<dt><strong>out</strong><span class="classifier">ndarray, optional</span></dt><dd><p>If None, a new array is allocated. For <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>,
+dtype matches input. For <code class="docutils literal notranslate"><span class="pre">behavior='rank'</span></code>, dtype follows
+<a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.median" title="skimage.filters.rank.median"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.median()</span></code></a>.</p>
 </dd>
-<dt><strong>mode</strong><span class="classifier">{‘reflect’, ‘constant’, ‘nearest’, ‘mirror’,’‘wrap’}, optional</span></dt><dd><p>The mode parameter determines how the array borders are handled, where
-<code class="docutils literal notranslate"><span class="pre">cval</span></code> is the value when mode is equal to ‘constant’.
+<dt><strong>mode</strong><span class="classifier">{‘reflect’, ‘constant’, ‘nearest’, ‘mirror’, ‘wrap’}, optional</span></dt><dd><p>The mode parameter determines how the array borders are handled, where
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">cval</span></code> is the value when <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> is equal to ‘constant’.
 Default is ‘nearest’.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">Added in version 0.15: </span><code class="docutils literal notranslate"><span class="pre">mode</span></code> is used when <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>.</p>
+<p><span class="versionmodified added">Added in version 0.15: </span><code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> is used when <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>.</p>
 </div>
 </dd>
-<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input if mode is ‘constant’. Default is 0.0</p>
+<dt><strong>cval</strong><span class="classifier">scalar, optional</span></dt><dd><p>Value to fill past edges of input <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> if <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> is ‘constant’.
+Default is 0.0.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">Added in version 0.15: </span><code class="docutils literal notranslate"><span class="pre">cval</span></code> was added in 0.15 is used when <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>.</p>
+<p><span class="versionmodified added">Added in version 0.15: </span><code class="xref py py-obj docutils literal notranslate"><span class="pre">cval</span></code> was added in 0.15 and is used when <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>.</p>
 </div>
 </dd>
-<dt><strong>behavior</strong><span class="classifier">{‘ndimage’, ‘rank’}, optional</span></dt><dd><p>Either to use the old behavior (i.e., &lt; 0.15) or the new behavior.
-The old behavior will call the <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.median" title="skimage.filters.rank.median"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.median()</span></code></a>.
-The new behavior will call the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.median_filter.html#scipy.ndimage.median_filter" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.ndimage.median_filter()</span></code></a>.
+<dt><strong>behavior</strong><span class="classifier">{‘ndimage’, ‘rank’}, optional</span></dt><dd><p>Whether to use the old (i.e., scikit-image &lt; 0.15) or the new behavior.
+The old behavior will call <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.median" title="skimage.filters.rank.median"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.median()</span></code></a>.
+The new behavior will call <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.median_filter.html#scipy.ndimage.median_filter" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.ndimage.median_filter()</span></code></a>.
 Default is ‘ndimage’.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">Added in version 0.15: </span><code class="docutils literal notranslate"><span class="pre">behavior</span></code> is introduced in 0.15</p>
+<p><span class="versionmodified added">Added in version 0.15: </span><code class="xref py py-obj docutils literal notranslate"><span class="pre">behavior</span></code> is introduced in v0.15.</p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.16: </span>Default <code class="docutils literal notranslate"><span class="pre">behavior</span></code> has been changed from ‘rank’ to ‘ndimage’</p>
+<p><span class="versionmodified changed">Changed in version 0.16: </span>Default <code class="xref py py-obj docutils literal notranslate"><span class="pre">behavior</span></code> has been changed from ‘rank’ to ‘ndimage’.</p>
 </div>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl>
-<dt><strong>out</strong><span class="classifier">2-D array, same dtype as input <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></span></dt><dd><p>Output image.</p>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>Output image. For <code class="docutils literal notranslate"><span class="pre">behavior='ndimage'</span></code>, dtype matches input. For
+<code class="docutils literal notranslate"><span class="pre">behavior='rank'</span></code>, dtype follows <a class="reference internal" href="skimage.filters.rank.html#skimage.filters.rank.median" title="skimage.filters.rank.median"><code class="xref py py-func docutils literal notranslate"><span class="pre">skimage.filters.rank.median()</span></code></a>.</p>
 </dd>
 </dl>
 </dd>
@@ -1696,11 +1700,9 @@ Default is ‘ndimage’.</p>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="kn">import</span> <span class="n">data</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">skimage.morphology</span><span class="w"> </span><span class="kn">import</span> <span class="n">disk</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">skimage.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">median</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">med</span> <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">disk</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">med</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">disk</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -3195,7 +3197,7 @@ Electronic Imaging, 13(1): 146-165, <a class="reference external" href="https://
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>Input image.</p>
+<dt><strong>image</strong><span class="classifier">ndarray of shape (M, N)</span></dt><dd><p>Input image.</p>
 </dd>
 <dt><strong>figsize</strong><span class="classifier">tuple, optional</span></dt><dd><p>Figure size (in inches).</p>
 </dd>
@@ -3355,7 +3357,7 @@ ISBN 13: 9781119994398  <a class="reference external" href="https://doi.org/10.1
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier">(M, N) ndarray</span></dt><dd><p>Input data.</p>
+<dt><strong>data</strong><span class="classifier">ndarray of shape (M, N)</span></dt><dd><p>Input data.</p>
 </dd>
 <dt><strong>K</strong><span class="classifier">float or (M, N) ndarray</span></dt><dd><p>Ratio between power spectrum of noise and undegraded
 image.</p>
