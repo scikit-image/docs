@@ -47,8 +47,8 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=fa838abc"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -594,7 +594,7 @@ the chunks and return the resulting array.</p>
 <dd class="field-odd"><dl>
 <dt><strong>function</strong><span class="classifier">function</span></dt><dd><p>Function to be mapped which takes an array as an argument.</p>
 </dd>
-<dt><strong>array</strong><span class="classifier">numpy array or dask array</span></dt><dd><p>Array which the function will be applied to.</p>
+<dt><strong>array</strong><span class="classifier">ndarray or dask.array.Array</span></dt><dd><p>Array which the function will be applied to.</p>
 </dd>
 <dt><strong>chunks</strong><span class="classifier">int, tuple, or tuple of tuples, optional</span></dt><dd><p>A single integer is interpreted as the length of one side of a square
 chunk that should be tiled across the array.  One tuple of length
@@ -618,7 +618,7 @@ is not None, and a tuple of length <code class="docutils literal notranslate"><s
 </dd>
 <dt><strong>extra_keywords</strong><span class="classifier">dictionary, optional</span></dt><dd><p>Dictionary of keyword arguments to be passed to the function.</p>
 </dd>
-<dt><strong>dtype</strong><span class="classifier">data-type or None, optional</span></dt><dd><p>The data-type of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">function</span></code> output. If None, Dask will attempt to
+<dt><strong>dtype</strong><span class="classifier">dtype-like, optional</span></dt><dd><p>The data type of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">function</span></code> output. If None, Dask will attempt to
 infer this by calling the function on data of shape <code class="docutils literal notranslate"><span class="pre">(1,)</span> <span class="pre">*</span> <span class="pre">ndim</span></code>.
 For functions expecting RGB or multichannel data this may be
 problematic. In such cases, the user should manually specify this dtype
@@ -640,7 +640,7 @@ to channels.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>out</strong><span class="classifier">ndarray or dask Array</span></dt><dd><p>Returns the result of the applying the operation.
+<dt><strong>out</strong><span class="classifier">ndarray or dask.array.Array</span></dt><dd><p>Returns the result of the applying the operation.
 Type is dependent on the <code class="docutils literal notranslate"><span class="pre">compute</span></code> argument.</p>
 </dd>
 </dl>
@@ -712,9 +712,9 @@ alternatively the first and the second image. Note that images must be
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>ar</strong><span class="classifier">array-like of rank N</span></dt><dd><p>Input array.</p>
+<dt><strong>ar</strong><span class="classifier">array_like, of rank N</span></dt><dd><p>Input array.</p>
 </dd>
-<dt><strong>crop_width</strong><span class="classifier">{sequence, int}</span></dt><dd><p>Number of values to remove from the edges of each axis.
+<dt><strong>crop_width</strong><span class="classifier">int or Sequence</span></dt><dd><p>Number of values to remove from the edges of each axis.
 <code class="docutils literal notranslate"><span class="pre">((before_1,</span> <span class="pre">after_1),</span></code> … <code class="docutils literal notranslate"><span class="pre">(before_N,</span> <span class="pre">after_N))</span></code> specifies
 unique crop widths at the start and end of each axis.
 <code class="docutils literal notranslate"><span class="pre">((before,</span> <span class="pre">after),)</span> <span class="pre">or</span> <span class="pre">(before,</span> <span class="pre">after)</span></code> specifies
@@ -1043,7 +1043,7 @@ minimum.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>labels: ndarray</dt><dd><p>A mask of zeroes containing unique integer labels at the <code class="xref py py-obj docutils literal notranslate"><span class="pre">coords</span></code></p>
+<dt><strong>labels</strong><span class="classifier">ndarray of dtype int</span></dt><dd><p>A mask of zeroes containing unique integer labels at the <code class="xref py py-obj docutils literal notranslate"><span class="pre">coords</span></code>.</p>
 </dd>
 </dl>
 </dd>
@@ -1372,7 +1372,7 @@ computation is done for only the remaining dimensions.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>ar_shape</strong><span class="classifier">array-like of ints</span></dt><dd><p>The shape of the space embedding the grid. <code class="docutils literal notranslate"><span class="pre">len(ar_shape)</span></code> is the
+<dt><strong>ar_shape</strong><span class="classifier">array_like of dtype int</span></dt><dd><p>The shape of the space embedding the grid. <code class="docutils literal notranslate"><span class="pre">len(ar_shape)</span></code> is the
 number of dimensions.</p>
 </dd>
 <dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>The (approximate) number of points to embed in the space.</p>
@@ -1381,7 +1381,7 @@ number of dimensions.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>slices</strong><span class="classifier">tuple of slice objects</span></dt><dd><p>A slice along each dimension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ar_shape</span></code>, such that the intersection
+<dt><strong>slices</strong><span class="classifier">tuple of (slice, …)</span></dt><dd><p>A slice along each dimension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ar_shape</span></code>, such that the intersection
 of all the slices give the coordinates of regularly spaced points.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.14.1: </span>In scikit-image 0.14.1 and 0.15, the return type was changed from a
@@ -1428,7 +1428,7 @@ may convert the output of this function to a list with:</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.util.regular_seeds">
-<span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">regular_seeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'int'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/_regular_grid.py#L83-L114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.regular_seeds" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">regular_seeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ar_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'int'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/_regular_grid.py#L83-L114"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.regular_seeds" title="Link to this definition">#</a></dt>
 <dd><p>Return an image with ~`n_points` regularly-spaced nonzero pixels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1437,7 +1437,7 @@ may convert the output of this function to a list with:</p>
 </dd>
 <dt><strong>n_points</strong><span class="classifier">int</span></dt><dd><p>The desired number of nonzero points.</p>
 </dd>
-<dt><strong>dtype</strong><span class="classifier">numpy data type, optional</span></dt><dd><p>The desired data type of the output.</p>
+<dt><strong>dtype</strong><span class="classifier">dtype-like, optional</span></dt><dd><p>The desired data type of the output.</p>
 </dd>
 </dl>
 </dd>
@@ -1469,7 +1469,7 @@ may convert the output of this function to a list with:</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input image.</p>
 </dd>
-<dt><strong>slices</strong><span class="classifier">list of 2-tuple (a, b) where a &lt; b.</span></dt><dd><p>For each axis in <code class="xref py py-obj docutils literal notranslate"><span class="pre">axes</span></code>, a corresponding 2-tuple
+<dt><strong>slices</strong><span class="classifier">list of (tuple[int, int])</span></dt><dd><p>For each axis in <code class="xref py py-obj docutils literal notranslate"><span class="pre">axes</span></code>, a corresponding 2-tuple
 <code class="docutils literal notranslate"><span class="pre">(min_val,</span> <span class="pre">max_val)</span></code> to slice with (as with Python slices,
 <code class="docutils literal notranslate"><span class="pre">max_val</span></code> is non-inclusive).</p>
 </dd>
@@ -1745,7 +1745,7 @@ even worse as the dimension of the input array becomes larger.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="skimage.util.FailedEstimationAccessError">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">FailedEstimationAccessError</span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/_shared/utils.py#L479-L484"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.FailedEstimationAccessError" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">FailedEstimationAccessError</span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/_shared/utils.py#L479-L484"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.FailedEstimationAccessError" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AttributeError</span></code></a></p>
 <p>Error from use of failed estimation instance</p>
 <p>This error arises from attempts to use an instance of
@@ -1790,7 +1790,7 @@ set self.__traceback__ to tb and return self.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="skimage.util.PendingSkimage2Change">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">PendingSkimage2Change</span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/__init__.py#L67-L81"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.PendingSkimage2Change" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage.util.</span></span><span class="sig-name descname"><span class="pre">PendingSkimage2Change</span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/util/__init__.py#L67-L81"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.util.PendingSkimage2Change" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#PendingDeprecationWarning" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code></a></p>
 <p>A warning about API usage that will silently change or break in skimage2.</p>
 <p>As a subclass of <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#PendingDeprecationWarning" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PendingDeprecationWarning</span></code></a>, this warning isn’t
@@ -1945,7 +1945,7 @@ set self.__traceback__ to tb and return self.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
