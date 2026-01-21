@@ -730,7 +730,7 @@ with the total least-squares method.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">_GeometricTransform</span></code> or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the requested transformation if the estimation
+<dt><strong>tf</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">_GeometricTransform</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the requested transformation if the estimation
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to signal a
 failed estimation. Testing the truth value of the failed estimation
 object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -1405,7 +1405,7 @@ between 0 and 180 (if the shape of <code class="xref py py-obj docutils literal 
 this many pixels before reconstructing the image. The i’th value
 defines the shift of the i’th column of <code class="docutils literal notranslate"><span class="pre">radon_image</span></code>.</p>
 </dd>
-<dt><strong>clip</strong><span class="classifier">length-2 sequence of floats, optional</span></dt><dd><p>Force all values in the reconstructed tomogram to lie in the range
+<dt><strong>clip</strong><span class="classifier">tuple of (float, float), optional</span></dt><dd><p>Force all values in the reconstructed tomogram to lie in the range
 <code class="docutils literal notranslate"><span class="pre">[clip[0],</span> <span class="pre">clip[1]]</span></code></p>
 </dd>
 <dt><strong>relaxation</strong><span class="classifier">float, optional</span></dt><dd><p>Relaxation parameter for the update step. A higher value can
@@ -1507,15 +1507,15 @@ subsequent projections.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>theta</strong><span class="classifier">array of floats, shape (M,)</span></dt><dd><p>Projection angles in degrees. Duplicate angles are not allowed.</p>
+<dt><strong>theta</strong><span class="classifier">ndarray of dtype float and shape (M,)</span></dt><dd><p>Projection angles in degrees. Duplicate angles are not allowed.</p>
 </dd>
 </dl>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>indices_generator</strong><span class="classifier">generator yielding unsigned integers</span></dt><dd><p>The returned generator yields indices into <code class="docutils literal notranslate"><span class="pre">theta</span></code> such that
-<code class="docutils literal notranslate"><span class="pre">theta[indices]</span></code> gives the approximate golden ratio ordering
-of the projections. In total, <code class="docutils literal notranslate"><span class="pre">len(theta)</span></code> indices are yielded.
+<dt><strong>indices</strong><span class="classifier">np.intp</span></dt><dd><p>Indices into <code class="xref py py-obj docutils literal notranslate"><span class="pre">theta</span></code> such that <code class="docutils literal notranslate"><span class="pre">theta[indices]</span></code> gives the
+approximate golden ratio ordering of the projections. In total,
+<code class="docutils literal notranslate"><span class="pre">len(theta)</span></code> indices are yielded.
 All non-negative integers &lt; <code class="docutils literal notranslate"><span class="pre">len(theta)</span></code> are yielded exactly once.</p>
 </dd>
 </dl>
@@ -2528,7 +2528,7 @@ of coordinates and each element is a <code class="docutils literal notranslate">
 </dd>
 <dt><strong>shape</strong><span class="classifier">tuple</span></dt><dd><p>Shape of output image <code class="docutils literal notranslate"><span class="pre">(rows,</span> <span class="pre">cols[,</span> <span class="pre">bands])</span></code>.</p>
 </dd>
-<dt><strong>dtype</strong><span class="classifier">np.dtype or string</span></dt><dd><p>dtype for return value (sane choices: float32 or float64).</p>
+<dt><strong>dtype</strong><span class="classifier">dtype-like</span></dt><dd><p>dtype for return value (sane choices: float32 or float64).</p>
 </dd>
 </dl>
 </dd>
@@ -2952,7 +2952,7 @@ Thus the system of equations is:</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -3202,7 +3202,7 @@ estimated.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -3482,7 +3482,7 @@ with the total least-squares method.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -3747,7 +3747,7 @@ estimated.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -3956,7 +3956,7 @@ error:</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -4212,7 +4212,7 @@ A is multiplied.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -4549,7 +4549,7 @@ Thus the system of equations is:</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
@@ -4805,7 +4805,7 @@ with the total least-squares method.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>tf</strong><span class="classifier">Self or <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
+<dt><strong>tf</strong><span class="classifier">Self or <code class="xref py py-class docutils literal notranslate"><span class="pre">FailedEstimation</span></code></span></dt><dd><p>An instance of the transformation if the estimation succeeded.
 Otherwise, we return a special <code class="docutils literal notranslate"><span class="pre">FailedEstimation</span></code> object to
 signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>

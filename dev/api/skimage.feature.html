@@ -805,7 +805,7 @@ instead.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>A</strong><span class="classifier">(n, 3) ndarray</span></dt><dd><p>A 2d array with each row representing 3 values, <code class="docutils literal notranslate"><span class="pre">(y,x,sigma)</span></code>
+<dt><strong>A</strong><span class="classifier">ndarray of shape (n, 3)</span></dt><dd><p>A 2d array with each row representing 3 values, <code class="docutils literal notranslate"><span class="pre">(y,x,sigma)</span></code>
 where <code class="docutils literal notranslate"><span class="pre">(y,x)</span></code> are coordinates of the blob and <code class="docutils literal notranslate"><span class="pre">sigma</span></code> is the
 standard deviation of the Gaussian kernel of the Hessian Matrix whose
 determinant detected the blob.</p>
@@ -2574,7 +2574,7 @@ contains the ith-largest eigenvalue at position (j, k).</p>
 </dd>
 <dt><strong>cells_per_block</strong><span class="classifier">2-tuple (int, int), optional</span></dt><dd><p>Number of cells in each block.</p>
 </dd>
-<dt><strong>block_norm</strong><span class="classifier">str {‘L1’, ‘L1-sqrt’, ‘L2’, ‘L2-Hys’}, optional</span></dt><dd><p>Block normalization method:</p>
+<dt><strong>block_norm</strong><span class="classifier">{‘L1’, ‘L1-sqrt’, ‘L2’, ‘L2-Hys’}, optional</span></dt><dd><p>Block normalization method:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">L1</span></code></dt><dd><p>Normalization using L1-norm.</p>
 </dd>
@@ -2690,7 +2690,7 @@ the resultant Fisher vectors has maximal performance.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>descriptors</strong><span class="classifier">np.ndarray (N, M) or list [(N1, M), (N2, M), …]</span></dt><dd><p>List of NumPy arrays, or a single NumPy array, of the descriptors
+<dt><strong>descriptors</strong><span class="classifier">ndarray of shape (N, M) or list of (tuple[int, int])</span></dt><dd><p>List of NumPy arrays, or a single NumPy array, of the descriptors
 used to estimate the GMM. The reason a list of NumPy arrays is
 permissible is because often when using a Fisher vector encoding,
 descriptors/vectors are computed separately for each sample/image in
@@ -2752,7 +2752,7 @@ the angular space).</p>
 </dd>
 <dt><strong>R</strong><span class="classifier">float</span></dt><dd><p>Radius of circle (spatial resolution of the operator).</p>
 </dd>
-<dt><strong>method</strong><span class="classifier">str {‘default’, ‘ror’, ‘uniform’, ‘nri_uniform’, ‘var’}, optional</span></dt><dd><p>Method to determine the pattern:</p>
+<dt><strong>method</strong><span class="classifier">{‘default’, ‘ror’, ‘uniform’, ‘nri_uniform’, ‘var’}, optional</span></dt><dd><p>Method to determine the pattern:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">default</span></code></dt><dd><p>Original local binary pattern which is grayscale invariant but not
 rotation invariant.</p>
@@ -2816,20 +2816,19 @@ vol. 28, no. 12, pp. 2037-2041, Dec. 2006
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.feature.match_descriptors">
-<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">match_descriptors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptors2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cross_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/match.py#L5-L103"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.match_descriptors" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">match_descriptors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">descriptors1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descriptors2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cross_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/skimage/feature/match.py#L5-L102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.match_descriptors" title="Link to this definition">#</a></dt>
 <dd><p>Brute-force matching of descriptors.</p>
 <p>For each descriptor in the first set this matcher finds the closest
 descriptor in the second set (and vice-versa in the case of enabled
 cross-checking).</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>descriptors1</strong><span class="classifier">ndarray of shape (M, P)</span></dt><dd><p>Descriptors of size P about M keypoints in the first image.</p>
 </dd>
 <dt><strong>descriptors2</strong><span class="classifier">ndarray of shape (N, P)</span></dt><dd><p>Descriptors of size P about N keypoints in the second image.</p>
 </dd>
-<dt><strong>metric</strong><span class="classifier">{‘euclidean’, ‘cityblock’, ‘minkowski’, ‘hamming’, …} , optional</span></dt><dd><p>The metric to compute the distance between two descriptors. See
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html#scipy.spatial.distance.cdist" title="(in SciPy v1.17.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist</span></code></a> for all possible types. The hamming
+<dt><strong>metric</strong><span class="classifier">str, see <code class="xref py py-obj docutils literal notranslate"><span class="pre">metric</span></code> in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html#scipy.spatial.distance.cdist" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist()</span></code></a>, optional</span></dt><dd><p>The metric to compute the distance between two descriptors. The Hamming
 distance should be used for binary descriptors. By default the L2-norm
 is used for all descriptors of dtype float or double and the Hamming
 distance is used for binary descriptors automatically.</p>
@@ -3548,7 +3547,7 @@ index <code class="docutils literal notranslate"><span class="pre">(i,</span> <s
 the outcome of the intensity comparison for i-th keypoint on j-th
 decision pixel-pair. It is <code class="docutils literal notranslate"><span class="pre">Q</span> <span class="pre">==</span> <span class="pre">np.sum(mask)</span></code>.</p>
 </dd>
-<dt><strong>mask</strong><span class="classifier">(N,) array of dtype bool</span></dt><dd><p>Mask indicating whether a keypoint has been filtered out
+<dt><strong>mask</strong><span class="classifier">array of shape (N,) and dtype bool</span></dt><dd><p>Mask indicating whether a keypoint has been filtered out
 (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or is described in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">descriptors</span></code> array (<code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
 </dd>
 </dl>

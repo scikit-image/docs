@@ -579,9 +579,9 @@ has enough points to capture the details of the final contour.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">(M, N) or (M, N, 3) ndarray</span></dt><dd><p>Input image.</p>
+<dt><strong>image</strong><span class="classifier">ndarray of shape (M, N[, 3])</span></dt><dd><p>Input image.</p>
 </dd>
-<dt><strong>snake</strong><span class="classifier">(K, 2) ndarray</span></dt><dd><p>Initial snake coordinates. For periodic boundary conditions, endpoints
+<dt><strong>snake</strong><span class="classifier">ndarray of shape (K, 2)</span></dt><dd><p>Initial snake coordinates. For periodic boundary conditions, endpoints
 must not be duplicated.</p>
 </dd>
 <dt><strong>alpha</strong><span class="classifier">float, optional</span></dt><dd><p>Snake length shape parameter. Higher values makes snake contract
@@ -730,11 +730,11 @@ returned.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>segmentation</strong><span class="classifier">(M, N) ndarray, bool</span></dt><dd><p>Segmentation produced by the algorithm.</p>
+<dt><strong>segmentation</strong><span class="classifier">ndarray of shape (M, N) and dtype bool</span></dt><dd><p>Segmentation produced by the algorithm.</p>
 </dd>
-<dt><strong>phi</strong><span class="classifier">(M, N) ndarray of floats</span></dt><dd><p>Final level set computed by the algorithm.</p>
+<dt><strong>phi</strong><span class="classifier">ndarray of shape (M, N) and dtype float</span></dt><dd><p>Final level set computed by the algorithm.</p>
 </dd>
-<dt><strong>energies</strong><span class="classifier">list of floats</span></dt><dd><p>Shows the evolution of the ‘energy’ for each step of the
+<dt><strong>energies</strong><span class="classifier">list of float(s)</span></dt><dd><p>Shows the evolution of the ‘energy’ for each step of the
 algorithm. This should allow to check whether the algorithm
 converged.</p>
 </dd>
@@ -835,7 +835,7 @@ Line, 2 (2012), pp. 214-224,
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>labels</strong><span class="classifier">(M[, N[, …, P]]) array of int or bool</span></dt><dd><p>Imaging data labels.</p>
+<dt><strong>labels</strong><span class="classifier">ndarray of shape (M[, N[, …, P]]) and dtype (int or bool)</span></dt><dd><p>Imaging data labels.</p>
 </dd>
 <dt><strong>buffer_size</strong><span class="classifier">int, optional</span></dt><dd><p>The width of the border examined.  By default, only objects
 that touch the outside of the image are removed.</p>
@@ -1050,7 +1050,7 @@ color space.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>image</strong><span class="classifier">(M, N[, 3]) ndarray</span></dt><dd><p>Input image.</p>
+<dt><strong>image</strong><span class="classifier">ndarray of shape (M, N[, 3])</span></dt><dd><p>Input image.</p>
 </dd>
 <dt><strong>scale</strong><span class="classifier">float</span></dt><dd><p>Free parameter. Higher means larger clusters.</p>
 </dd>
@@ -1107,7 +1107,7 @@ Huttenlocher, D.P.  International Journal of Computer Vision, 2004</p>
 <dt><strong>label_img</strong><span class="classifier">array of int or bool</span></dt><dd><p>An array in which different regions are labeled with either different
 integers or boolean values.</p>
 </dd>
-<dt><strong>connectivity</strong><span class="classifier">int in {1, …, <code class="xref py py-obj docutils literal notranslate"><span class="pre">label_img.ndim</span></code>}, optional</span></dt><dd><p>A pixel is considered a boundary pixel if any of its neighbors
+<dt><strong>connectivity</strong><span class="classifier">int, in {1, …, <code class="xref py py-obj docutils literal notranslate"><span class="pre">label_img.ndim</span></code>}, optional</span></dt><dd><p>A pixel is considered a boundary pixel if any of its neighbors
 has a different label. <code class="xref py py-obj docutils literal notranslate"><span class="pre">connectivity</span></code> controls which pixels are
 considered neighbors. A connectivity of 1 (default) means
 pixels sharing an edge (in 2D) or a face (in 3D) will be
@@ -1512,9 +1512,9 @@ segment in <em>both</em> S1 and S2.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">(M, N[, 3]) array</span></dt><dd><p>Grayscale or RGB image.</p>
+<dt><strong>image</strong><span class="classifier">ndarray of shape (M, N[, 3])</span></dt><dd><p>Grayscale or RGB image.</p>
 </dd>
-<dt><strong>label_img</strong><span class="classifier">(M, N) array of int</span></dt><dd><p>Label array where regions are marked by different integer values.</p>
+<dt><strong>label_img</strong><span class="classifier">ndarray of shape (M, N) and dtype int</span></dt><dd><p>Label array where regions are marked by different integer values.</p>
 </dd>
 <dt><strong>color</strong><span class="classifier">length-3 sequence, optional</span></dt><dd><p>RGB color of boundaries in the output image.</p>
 </dd>
@@ -1530,7 +1530,7 @@ modes <code class="docutils literal notranslate"><span class="pre">inner</span><
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>marked</strong><span class="classifier">(M, N, 3) array of float</span></dt><dd><p>An image in which the boundaries between labels are
+<dt><strong>marked</strong><span class="classifier">ndarray of shape (M, N, 3) and dtype float</span></dt><dd><p>An image in which the boundaries between labels are
 superimposed on the original image.</p>
 </dd>
 </dl>
@@ -1825,7 +1825,7 @@ dimension denoting channels.</p>
 <dt><strong>beta</strong><span class="classifier">float, optional</span></dt><dd><p>Penalization coefficient for the random walker motion
 (the greater <code class="xref py py-obj docutils literal notranslate"><span class="pre">beta</span></code>, the more difficult the diffusion).</p>
 </dd>
-<dt><strong>mode</strong><span class="classifier">string, available options {‘cg’, ‘cg_j’, ‘cg_mg’, ‘bf’}</span></dt><dd><p>Mode for solving the linear system in the random walker algorithm.</p>
+<dt><strong>mode</strong><span class="classifier">{‘cg’, ‘cg_j’, ‘cg_mg’, ‘bf’}, optional</span></dt><dd><p>Mode for solving the linear system in the random walker algorithm.</p>
 <ul class="simple">
 <li><p>‘bf’ (brute force): an LU factorization of the Laplacian is
 computed. This is fast for small images (&lt;1024x1024), but very slow
