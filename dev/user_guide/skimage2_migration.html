@@ -531,6 +531,25 @@ Run the following <a class="reference external" href="https://docs.python.org/3/
 The new API may, for the same function call, return different results—e.g., because of a change in a keyword argument default value.
 By importing functionality from <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, you explicitly opt in to the new behavior.</p>
 </div>
+<section id="skimage-data-binary-blobs">
+<h3><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code><a class="headerlink" href="#skimage-data-binary-blobs" title="Link to this heading">#</a></h3>
+<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.data.binary_blobs</span></code> with a new signature.
+The optional parameters <code class="docutils literal notranslate"><span class="pre">length</span></code> and <code class="docutils literal notranslate"><span class="pre">n_dim</span></code> are replaced with a new required parameter <code class="docutils literal notranslate"><span class="pre">shape</span></code>, which allows generating non-square outputs.
+Optional parameter <code class="docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> is replaced with required parameter <code class="docutils literal notranslate"><span class="pre">blob_size</span></code>, whose behavior is independent of the output image size.
+The default value of <code class="docutils literal notranslate"><span class="pre">boundary_mode</span></code> is changed from <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code> to <code class="docutils literal notranslate"><span class="pre">'wrap'</span></code>.</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+
+<span class="n">ski2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">length</span><span class="p">,)</span> <span class="o">*</span> <span class="n">n_dim</span><span class="p">,</span>
+    <span class="n">blob_size</span><span class="o">=</span><span class="n">blob_size_fraction</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span>
+    <span class="n">boundary_mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>with <code class="docutils literal notranslate"><span class="pre">length</span></code>, <code class="docutils literal notranslate"><span class="pre">n_dim</span></code>, and <code class="docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> containing values used with the old signature.
+Other parameters – including <code class="docutils literal notranslate"><span class="pre">boundary_mode</span></code> if you already set it explicitly – can be left unchanged.</p>
+</section>
 </section>
 <section id="deprecations-prior-to-skimage2">
 <h2>Deprecations prior to skimage2<a class="headerlink" href="#deprecations-prior-to-skimage2" title="Link to this heading">#</a></h2>
@@ -566,7 +585,10 @@ We list them here, because updating your code to the new API will make it easier
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-skimage2-related-warnings">Enable skimage2-related warnings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-existing-code">Updating existing code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-existing-code">Updating existing code</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations-prior-to-skimage2">Deprecations prior to skimage2</a></li>
 </ul>
   </nav></div>
