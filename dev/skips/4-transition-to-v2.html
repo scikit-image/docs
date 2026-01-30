@@ -515,52 +515,64 @@
 <dt class="field-even">Author<span class="colon">:</span></dt>
 <dd class="field-even"><p>Lars Grüter</p>
 </dd>
-<dt class="field-odd">Status<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Draft</p>
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Stéfan van der Walt</p>
 </dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Standards Track</p>
+<dt class="field-even">Author<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matthew Brett</p>
 </dd>
-<dt class="field-odd">Created<span class="colon">:</span></dt>
-<dd class="field-odd"><p>2022-04-08</p>
+<dt class="field-odd">Author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Marianne Corvellec</p>
 </dd>
-<dt class="field-even">Resolved<span class="colon">:</span></dt>
-<dd class="field-even"><p>&lt;null&gt;</p>
+<dt class="field-even">Status<span class="colon">:</span></dt>
+<dd class="field-even"><p>Draft</p>
 </dd>
-<dt class="field-odd">Resolution<span class="colon">:</span></dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Standards Track</p>
+</dd>
+<dt class="field-even">Created<span class="colon">:</span></dt>
+<dd class="field-even"><p>2025-08-16</p>
+</dd>
+<dt class="field-odd">Resolved<span class="colon">:</span></dt>
 <dd class="field-odd"><p>&lt;null&gt;</p>
 </dd>
-<dt class="field-even">Version effective<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Resolution<span class="colon">:</span></dt>
+<dd class="field-even"><p>&lt;null&gt;</p>
+</dd>
+<dt class="field-odd">Version effective<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 <section id="abstract">
 <h2>Abstract<a class="headerlink" href="#abstract" title="Link to this heading">#</a></h2>
-<p>scikit-image is preparing to release version 1.0. This <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">was seen</span></a> as an opportunity to clean up the API, including
-backwards incompatible changes. Some of these changes involve changing return
-values without changing function signatures, which can ordinarily only be done
-by adding an otherwise useless keyword argument (such as
-<code class="docutils literal notranslate"><span class="pre">new_return_style=True</span></code>) whose default value changes over several releases.
-The result is <em>still</em> a backwards incompatible change, but made over a longer
-time period.</p>
+<p>scikit-image is working towards a 2.0 release. This <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">is an opportunity</span></a> to clean up the API, and make long-outstanding
+backward incompatible changes. Some of these changes involve changing return
+values without changing function signatures, which cannot be done without adding
+an otherwise useless keyword argument (such as <code class="docutils literal notranslate"><span class="pre">new_return_style=True</span></code>) whose
+default value would need to change over several releases. That procedure would
+still result in backward incompatible changes, but made over a longer time period.</p>
 <p>Despite being in beta and in a 0.x series of releases, scikit-image is used
 extremely broadly, and any backwards incompatible changes are likely to be
 disruptive. Given the rejection of <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">SKIP-3</span></a>, this
-document proposes an alternative pathway to create a new API. The new pathway
-involves the following steps:</p>
+document proposes an alternative pathway towards cleaning and modernizing our API.
+The new pathway involves the following steps:</p>
 <ul class="simple">
-<li><p>Any pending deprecations that were scheduled for v0.20 and v0.21 are
-finalised (the new API suggested by deprecation messages in v0.19 becomes
-the only API).</p></li>
-<li><p>This is released as 1.0.</p></li>
-<li><p>At this point, the branch <code class="docutils literal notranslate"><span class="pre">main</span></code> changes the package and import names to
-<code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, and the API is free to evolve.</p></li>
+<li><p>Introduce a new namespace <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> that will be included in the package
+alongside the existing <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace during a transition period.</p></li>
+<li><p>The new API will be implemented in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> and will initially be marked as
+unstable and experimental. The old API in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> will continue working.</p></li>
+<li><p>When the new API in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is complete, the old namespace
+<code class="docutils literal notranslate"><span class="pre">skimage</span></code> will be successively deprecated and eventually removed.</p></li>
 </ul>
-<p>Further motivation for the API changes is explained below, and largely
-duplicated from <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">SKIP-3</span></a>.</p>
+<p>See the <a class="reference internal" href="#skip4-implementation"><span class="std std-ref">Implementation</span></a> section for a more detailed description of
+the changes and steps involved.</p>
 </section>
 <section id="motivation-and-scope">
 <h2>Motivation and Scope<a class="headerlink" href="#motivation-and-scope" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is largely duplicated from <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">SKIP-3</span></a>.</p>
+</div>
 <p>scikit-image has grown organically over the past 12+ years, with functionality
 being added by a broad community of contributors from different backgrounds.
 This has resulted in various parts of the API being inconsistent: for example,
@@ -632,16 +644,17 @@ easier for new users to find out which functions they should try out for a
 specific task. It would also help the community grow around common APIs,
 where now scikit-image APIs are essentially unique for each function.</p></li>
 </ul>
+<p>More examples can be found in <a class="reference external" href="https://github.com/scikit-image/scikit-image/wiki/API-changes-for-skimage2">“API changes for skimage2” on our Wiki</a>.</p>
 <p>To make this transition with a minimum amount of user disruption, this SKIP
-proposes releasing a new library, skimage2, that would replace the existing
-library, <em>but only if users explicitly opt-in</em>. Additionally, by releasing a
-new library, users could depend <em>both</em> on scikit-image (1.0) and on skimage2,
-allowing users to migrate their code progressively.</p>
+proposes releasing a new namespace, <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, that would provide the new
+API, <em>but only if users explicitly opt in</em>. Additionally, by releasing a new
+namespace, users could use <em>both</em> APIs at the same time, allowing users to
+migrate their code progressively.</p>
 </section>
 <section id="related-work">
 <h2>Related Work<a class="headerlink" href="#related-work" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> released 1.0.0 in January 2020, including many backwards-incompatible
-API changes <a class="footnote-reference brackets" href="#id10" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. <a class="reference external" href="https://docs.scipy.org/doc/scipy/index.html#module-scipy" title="(in SciPy v1.17.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> released version 1.0 in 2017, but, given its stage of
+API changes <a class="footnote-reference brackets" href="#id10" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>. SciPy released version 1.0 in 2017, but, given its stage of
 maturity and position at the base of the scientific Python ecosystem, opted not
 to make major breaking changes <a class="footnote-reference brackets" href="#id11" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. However, SciPy has adopted a policy of
 adding upper-bounds on dependencies <a class="footnote-reference brackets" href="#id12" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a>, acknowledging that the ecosystem as a
@@ -652,28 +665,64 @@ BeautifulSoup (imported as <code class="docutils literal notranslate"><span clas
 imported as <code class="docutils literal notranslate"><span class="pre">psycopg2</span></code>). Further afield, R’s ggplot is used as <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code>.</p>
 </section>
 <section id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
-<p>The details of the proposal are as follows:</p>
-<ul class="simple">
-<li><p>scikit-image 0.19 will be followed by scikit-image 1.0. Every deprecation
-message will be removed from 1.0, and the API will be considered the
-scikit-image 1.0 API.</p></li>
-<li><p>After 1.0, the main branch will be changed to (a) change the import name to
-skimage2, (b) change the package name to skimage2, and (c) change the version
-number to 2.0-dev.</p></li>
-<li><p>There will be <em>no</em> “scikit-image” package on PyPI with version 2.0. Users who
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">scikit-image</span></code> will always get the 1.x version of the package.
-To install scikit-image 2.0, users will need to <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">skimage2</span></code>,
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">skimage2</span></code>, or similar.</p></li>
-<li><p>After consensus has been reached on the new API, skimage2 will be released.</p></li>
-<li><p>Following the release of skimage2, a release of scikit-image 1.1 is made. This
-release is identical to 1.0 (including bugfixes) but will advise users to
-either (a) upgrade to skimage2 or (b) pin the package to <code class="docutils literal notranslate"><span class="pre">scikit-image&lt;1.1</span></code>
-to avoid the warning.</p></li>
-<li><p>scikit-image 1.0.x and 1.1.x will receive critical bug fixes for an
-unspecified period of time, depending on the severity of the bug and the
-amount of effort involved.</p></li>
-</ul>
+<span id="skip4-implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
+<p>As a first execution step of this SKIP, scikit-image 1.0 will be released, celebrating the maturity of the project.</p>
+<section id="first-phase-building-skimage2">
+<h3>First phase: Building <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code><a class="headerlink" href="#first-phase-building-skimage2" title="Link to this heading">#</a></h3>
+<p>Afterward, a new empty <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace will be created in our repository alongside the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace.
+It will be marked as experimental – importing it will warn that content in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is still unstable.
+This namespace should be included in releases on PyPI or elsewhere early to facilitate testing downstream.</p>
+<p>With the new namespace available, we will start building the new API inside it.
+This process orients itself around the following principles:</p>
+<dl class="simple">
+<dt>Only one implementation</dt><dd><p>If possible, only one implementation should exist, and one API should be a <em>simple</em> wrapper around the other.
+The implementation can live in either namespace depending on what is more opportune – preferably it should live in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.</p>
+</dd>
+<dt>Independent test suite</dt><dd><p>Each API should have its own independent test suite.</p>
+</dd>
+<dt>Small API difference</dt><dd><p>Keep the differences between the old and new API small to make the eventual transition easier for users.
+Prefer conventional deprecations in the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace if possible.</p>
+</dd>
+<dt>Backwards compatible</dt><dd><p>It should be possible to achieve the old behavior of the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> API by some call or set of calls with the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> API.
+There may be some situations where we have to break this general rule, but an argument should be made for the relevant change that breaks this rule.
+In those cases, we will try to provide helper functions instead.</p>
+</dd>
+<dt>Migration guide</dt><dd><p>We will record the pathway for migrating from the old to the new API in detail in a migration guide.
+Each API difference will be documented.</p>
+</dd>
+</dl>
+<dl id="sk2-local-warning">
+<dt>Local deprecation warnings</dt><dd><p>Specific deprecation warnings will be added to the old API.
+These warnings will be silent (subclass of <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#PendingDeprecationWarning">PendingDeprecationWarning</a>) and not be shown to users by default.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code> may emit a <a class="reference internal" href="../api/skimage.util.html#skimage.util.PendingSkimage2Change" title="skimage.util.PendingSkimage2Change"><code class="xref py py-class docutils literal notranslate"><span class="pre">PendingSkimage2Change</span></code></a> warning that advises users to use <code class="docutils literal notranslate"><span class="pre">skimage2.data.binary_blobs</span></code> instead and how to adapt to a new signature.</p>
+</dd>
+</dl>
+<p>During this phase, new (additional) features can still be introduced into the old <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace, not only in the new one.</p>
+</section>
+<section id="second-phase-transitioning-to-skimage2">
+<h3>Second phase: Transitioning to <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code><a class="headerlink" href="#second-phase-transitioning-to-skimage2" title="Link to this heading">#</a></h3>
+<p>Once we consider the API in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> complete and stable, we will publish it in a full release versioned 2.0.0.
+Starting with that version, importing <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is encouraged and won’t raise warnings.</p>
+<p>Instead, we will mark the API in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> as deprecated with a single top-level warning that is raised on import.
+This warning will encourage users to transition to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+It should link to the migration guide and should explain how to enable <a class="reference internal" href="#sk2-local-warning"><span class="std std-ref">more specific warnings</span></a>.</p>
+<p>Not earlier than 1 year after the release of 2.0.0, we will begin to successively remove parts of the deprecated API from <code class="docutils literal notranslate"><span class="pre">skimage</span></code>.
+Implementations and internal code that still live in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> will be moved to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+This process can and should be spread over multiple releases.</p>
+<p>Before completely removing parts of the API, relevant <a class="reference internal" href="#sk2-local-warning"><span class="std std-ref">warnings from the first phase</span></a> should be made visible to users.
+They should be visible for 2 releases before API is actually removed (or whatever our existing <a class="reference external" href="dep_pol">deprecation policy</a> recommends).
+This helps users who want to transition slowly.</p>
+<p>Once the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace is empty, it will be removed.</p>
+</section>
+<section id="code-translation-helper">
+<h3>Code translation helper<a class="headerlink" href="#code-translation-helper" title="Link to this heading">#</a></h3>
+<p>While unclear that we will have time to do so, we would like to explore the viability of building a code translation tool, to help users automate the transition to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+This should alleviate the cost and work involved for switching – especially in cases that can be easily automated.</p>
+<p>Still, this tool might not support more ambiguous or complex updates of our API, or all the complex ways in which users might use our library.
+Supporting these cases might be impossible or might require prohibitive development effort.
+Therefore, users and downstream libraries must always have other means of completing the transition manually, e.g., with the help of conventional deprecation warnings.</p>
+<p>If this tool is successfully implemented, it will be included at the start of the second phase as an <a class="reference external" href="https://packaging.python.org/en/latest/specifications/entry-points/">entry point</a> alongside <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.</p>
+</section>
 </section>
 <section id="backward-compatibility">
 <h2>Backward compatibility<a class="headerlink" href="#backward-compatibility" title="Link to this heading">#</a></h2>
@@ -682,9 +731,9 @@ However, it does so in a new namespace, so that this proposal does not raise
 backward compatibility concerns for our users. That said, the authors will
 attempt to limit the number of backward incompatible changes to those likely to
 substantially improve the overall user experience. It is anticipated that
-porting <a class="reference internal" href="../api/skimage.html#module-skimage" title="skimage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage</span></code></a> code to <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code> will be a straightforward process
+porting <code class="docutils literal notranslate"><span class="pre">skimage</span></code> code to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> will be a straightforward process
 and we will publish a user guide for making the transition by the time of
-the <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code> release. Users will be notified about these resources - among
+the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> release. Users will be notified about these resources - among
 other things - by a warning in scikit-image 1.1.</p>
 </section>
 <section id="alternatives">
@@ -711,15 +760,17 @@ the scikit-image developers and the developers of downstream libraries, for
 dubious benefit: ultimately, later versions of scikit-image will still be
 incompatible with prior versions, although over a longer time scale.</p>
 </section>
-<section id="a-single-package-containing-both-versions">
-<h3>A single package containing both versions<a class="headerlink" href="#a-single-package-containing-both-versions" title="Link to this heading">#</a></h3>
-<p>Since the import name is changing, it would be possible to make a single
-package with both the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespaces shipping
-together, at least for some time. This option is attractive but it implies
-longer-term maintenance of the 1.0 namespace, for which we might lack
-maintainer time, or a long deprecation cycle for the 1.0 namespace, which would
-ultimately result in a lot of unhappy users getting deprecation messages from
-their scikit-image use.</p>
+<section id="a-new-package-name">
+<h3>A new package name<a class="headerlink" href="#a-new-package-name" title="Link to this heading">#</a></h3>
+<p>Since the import name is changing, it would be possible to also change the package name from <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> for example.
+This was proposed in a previous version of this SKIP.
+It shares many of the same strengths as the current proposal – chiefly – the new <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace.
+This option also requires informing users about the new package.
+Similarly to the suggestion here, we could raise a warning when the old package is imported.
+It could advise users to install the new package.</p>
+<p>However, managing and releasing two packages from the same repository is problematic.
+At the same time, introducing a new repository would eventually leave behind issues and pull requests and would also make it prohibitively difficult to implement one API as a wrapper around the other.
+Therefore, this SKIP recommends keeping the <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> package name.</p>
 </section>
 <section id="not-making-the-proposed-api-changes">
 <h3>Not making the proposed API changes<a class="headerlink" href="#not-making-the-proposed-api-changes" title="Link to this heading">#</a></h3>
@@ -766,12 +817,18 @@ similar problems.</p>
 </section>
 <section id="discussion">
 <h2>Discussion<a class="headerlink" href="#discussion" title="Link to this heading">#</a></h2>
-<p>This SKIP is the result of discussion of <a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">SKIP-3</span></a>. See
-the “Resolution” section of that document for further background on the
-motivation for this SKIP.</p>
+<p>This SKIP is the result of many evolving discussions among the core team, with fellow projects, and with our user base:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="3-transition-to-v1.html#skip-3-transition-v1"><span class="std std-ref">SKIP-3</span></a> was an earlier iteration of this SKIP.
+See the “Resolution” section of that document for further background on the motivation for this SKIP.</p></li>
+<li><p><a class="reference external" href="https://discuss.scientific-python.org/t/a-pragmatic-pathway-towards-skimage2/530">A pragmatic pathway towards skimage2</a></p></li>
+<li><p>Many discussions happened in <a class="reference external" href="https://github.com/scikit-image/scikit-image/pulls?q=label%3A%22%3Ahiking_boot%3A+Path+to+skimage2%22+">issues and pull requests tagged as “Path to skimage2”</a>.</p></li>
+<li><p>The <a class="reference external" href="https://github.com/scikit-image/skimage-archive/blob/05e98d46b5d12466dcde84487fb75d710adb08b7/sprints/2025-08_sprint_notes_Vienna.md">meeting notes from the Sprint in Vienna</a> captures part of the extensive discussion that informed this SKIP.</p></li>
+</ul>
 </section>
 <section id="resolution">
 <h2>Resolution<a class="headerlink" href="#resolution" title="Link to this heading">#</a></h2>
+<p>Pending.</p>
 </section>
 <section id="references-and-footnotes">
 <h2>References and Footnotes<a class="headerlink" href="#references-and-footnotes" title="Link to this heading">#</a></h2>
@@ -847,12 +904,17 @@ CC0+BY <a class="footnote-reference brackets" href="#id9" id="id16" role="doc-no
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-and-scope">Motivation and Scope</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-description">Detailed description</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-work">Related Work</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-phase-building-skimage2">First phase: Building <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-phase-transitioning-to-skimage2">Second phase: Transitioning to <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-translation-helper">Code translation helper</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-compatibility">Backward compatibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternatives">Alternatives</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-the-new-api-in-the-same-package-using-semantic-versioning">Releasing the new API in the same package using semantic versioning</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-deprecation-over-multiple-versions">Continuous deprecation over multiple versions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-single-package-containing-both-versions">A single package containing both versions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-package-name">A new package name</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#not-making-the-proposed-api-changes">Not making the proposed API changes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-image2-as-the-new-package-name">“scikit-image2” as the new package name</a></li>
 </ul>
