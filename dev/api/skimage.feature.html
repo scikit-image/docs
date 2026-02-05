@@ -632,14 +632,14 @@
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.feature.blob_dog">
-<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_dog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_border</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L221-L409"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_dog" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_dog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_border</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'legacy'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L238-L457"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_dog" title="Link to this definition">#</a></dt>
 <dd><p>Finds blobs in the given grayscale image.</p>
 <p>Blobs are found using the Difference of Gaussian (DoG) method <a class="reference internal" href="#rf5218630e229-1" id="id1">[1]</a>, <a class="reference internal" href="#rf5218630e229-2" id="id2">[2]</a>.
 For each blob found, the method returns its coordinates and the standard
 deviation of the Gaussian kernel that detected the blob.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input grayscale image, blobs are assumed to be light on dark
 background (white on black).</p>
 </dd>
@@ -656,19 +656,21 @@ which case it is equal for all axes.</p>
 <dt><strong>sigma_ratio</strong><span class="classifier">float, optional</span></dt><dd><p>The ratio between the standard deviation of Gaussian Kernels used for
 computing the Difference of Gaussians</p>
 </dd>
-<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>The absolute lower bound for scale space maxima. Local maxima smaller
-than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
-intensities. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is also specified, whichever threshold
-is larger will be used. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is used instead.</p>
+<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>An absolute threshold applied to the internally computed stack of
+Difference-of-Gaussian (DoG) images. Local maxima in DoG smaller than
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
+intensities.</p>
 </dd>
 <dt><strong>overlap</strong><span class="classifier">float, optional</span></dt><dd><p>A value between 0 and 1. If the area of two blobs overlaps by a
 fraction greater than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>, the smaller blob is eliminated.</p>
 </dd>
-<dt><strong>threshold_rel</strong><span class="classifier">float or None, optional</span></dt><dd><p>Minimum intensity of peaks, calculated as
-<code class="docutils literal notranslate"><span class="pre">max(dog_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code>, where <code class="docutils literal notranslate"><span class="pre">dog_space</span></code> refers to the
-stack of Difference-of-Gaussian (DoG) images computed internally. This
-should have a value between 0 and 1. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> is used
+<dt><strong>threshold_rel</strong><span class="classifier">DEPRECATED</span></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.27: </span>Starting with version 0.27, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is deprecated. Since
+<code class="docutils literal notranslate"><span class="pre">max(dog_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code> was used to calculate the
+minimum peak intensity, this parameters effect was difficult to
+reason about. Use <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> in conjunction with <code class="xref py py-obj docutils literal notranslate"><span class="pre">prescale</span></code>
 instead.</p>
+</div>
 </dd>
 <dt><strong>exclude_border</strong><span class="classifier">tuple of ints, int, or False, optional</span></dt><dd><p>If tuple of ints, the length of the tuple must match the input array’s
 dimensionality.  Each element of the tuple will exclude peaks from
@@ -678,6 +680,29 @@ If nonzero int, <code class="xref py py-obj docutils literal notranslate"><span 
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude_border</span></code>-pixels of the border of the image.
 If zero or False, peaks are identified regardless of their
 distance from the border.</p>
+</dd>
+<dt><strong>prescale</strong><span class="classifier">{‘minmax’, ‘none’, ‘legacy’}, optional</span></dt><dd><p>Method for rescaling (normalizing) <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> before processing.
+Note that rescaling impacts the ranges of the internally computed
+Difference-of-Gaussian (DoG) images, and therefore also the choice of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">'minmax'</span></code></dt><dd><p>Normalize <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> between 0 and 1 regardless of dtype. After
+normalization, the resulting array will have a floating dtype.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'none'</span></code></dt><dd><p>Don’t prescale the value range of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> at all and return a
+copy of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. Useful when <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has already been rescaled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'legacy'</span></code></dt><dd><p>Normalize only if <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has an integer dtype. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> is of
+floating dtype, it is left alone. See <a class="reference internal" href="skimage.util.html#skimage.util.img_as_float" title="skimage.util.img_as_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">img_as_float()</span></code></a> for
+more details.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The rescaling and the effect of <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> will depend on the
+dtype of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. For consistent behavior we recommend
+<code class="docutils literal notranslate"><span class="pre">'minmax'</span></code>.</p>
+</div>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd>
@@ -756,15 +781,15 @@ Keypoints.” International Journal of Computer Vision 60, 91–110 (2004).
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.feature.blob_doh">
-<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_doh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L585-L723"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_doh" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_doh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'legacy'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L664-L833"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_doh" title="Link to this definition">#</a></dt>
 <dd><p>Finds blobs in the given grayscale image.</p>
 <p>Blobs are found using the Determinant of Hessian method <a class="reference internal" href="#ra19a7aed16ca-1" id="id5">[1]</a>. For each blob
 found, the method returns its coordinates and the standard deviation
 of the Gaussian Kernel used for the Hessian matrix whose determinant
 detected the blob. Determinant of Hessians is approximated using <a class="reference internal" href="#ra19a7aed16ca-2" id="id6">[2]</a>.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">2D ndarray</span></dt><dd><p>Input grayscale image. Blobs can either be light on dark or vice versa.</p>
 </dd>
 <dt><strong>min_sigma</strong><span class="classifier">float, optional</span></dt><dd><p>The minimum standard deviation for Gaussian Kernel used to compute
@@ -783,10 +808,10 @@ equal for all axes.</p>
 Gaussian kernel to consider on the closed interval
 <code class="docutils literal notranslate"><span class="pre">[min_sigma,</span> <span class="pre">max_sigma]</span></code>.</p>
 </dd>
-<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>The absolute lower bound for scale space maxima. Local maxima smaller
-than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
-intensities. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is also specified, whichever threshold
-is larger will be used. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is used instead.</p>
+<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>An absolute threshold applied to the internally computed stack of
+Determinant-of-Hessian (DoH) images. Local maxima in DoH smaller than
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
+intensities.</p>
 </dd>
 <dt><strong>overlap</strong><span class="classifier">float, optional</span></dt><dd><p>A value between 0 and 1. If the area of two blobs overlaps by a
 fraction greater than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>, the smaller blob is eliminated.</p>
@@ -795,11 +820,36 @@ fraction greater than <code class="xref py py-obj docutils literal notranslate">
 using a logarithmic scale to the base <code class="xref py py-obj docutils literal notranslate"><span class="pre">10</span></code>. If not, linear
 interpolation is used.</p>
 </dd>
-<dt><strong>threshold_rel</strong><span class="classifier">float or None, optional</span></dt><dd><p>Minimum intensity of peaks, calculated as
-<code class="docutils literal notranslate"><span class="pre">max(doh_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code>, where <code class="docutils literal notranslate"><span class="pre">doh_space</span></code> refers to the
-stack of Determinant-of-Hessian (DoH) images computed internally. This
-should have a value between 0 and 1. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> is used
+<dt><strong>threshold_rel</strong><span class="classifier">DEPRECATED</span></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.27: </span>Starting with version 0.27, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is deprecated. Since
+<code class="docutils literal notranslate"><span class="pre">max(doh_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code> was used to calculate the
+minimum peak intensity, this parameters effect was difficult to
+reason about. Use <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> in conjunction with <code class="xref py py-obj docutils literal notranslate"><span class="pre">prescale</span></code>
 instead.</p>
+</div>
+</dd>
+<dt><strong>prescale</strong><span class="classifier">{‘minmax’, ‘none’, ‘legacy’}, optional</span></dt><dd><p>Method for rescaling (normalizing) <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> before processing.
+Note that rescaling impacts the ranges of the internally computed
+Determinant-of-Hessian (DoH) images, and therefore also the choice of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">'minmax'</span></code></dt><dd><p>Normalize <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> between 0 and 1 regardless of dtype. After
+normalization, the resulting array will have a floating dtype.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'none'</span></code></dt><dd><p>Don’t prescale the value range of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> at all and return a
+copy of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. Useful when <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has already been rescaled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'legacy'</span></code></dt><dd><p>Normalize only if <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has an integer dtype. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> is of
+floating dtype, it is left alone. See <a class="reference internal" href="skimage.util.html#skimage.util.img_as_float" title="skimage.util.img_as_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">img_as_float()</span></code></a> for
+more details.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The scaling and the effect of <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> will depend on the
+dtype of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. For consistent behavior we recommend
+<code class="docutils literal notranslate"><span class="pre">'minmax'</span></code>.</p>
+</div>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd>
@@ -865,14 +915,14 @@ due to the box filters used in the approximation of Hessian Determinant.</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.feature.blob_log">
-<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_border</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L412-L582"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_log" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.feature.</span></span><span class="sig-name descname"><span class="pre">blob_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_rel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;DEPRECATED&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_border</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prescale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'legacy'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/feature/blob.py#L460-L661"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.feature.blob_log" title="Link to this definition">#</a></dt>
 <dd><p>Finds blobs in the given grayscale image.</p>
 <p>Blobs are found using the Laplacian of Gaussian (LoG) method <a class="reference internal" href="#r520e53dd5fa2-1" id="id9">[1]</a>.
 For each blob found, the method returns its coordinates and the standard
 deviation of the Gaussian kernel that detected the blob.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image</strong><span class="classifier">ndarray</span></dt><dd><p>Input grayscale image, blobs are assumed to be light on dark
 background (white on black).</p>
 </dd>
@@ -890,10 +940,10 @@ which case it is equal for all axes.</p>
 Gaussian kernel to consider on the closed interval
 <code class="docutils literal notranslate"><span class="pre">[min_sigma,</span> <span class="pre">max_sigma]</span></code>.</p>
 </dd>
-<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>The absolute lower bound for scale space maxima. Local maxima smaller
-than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
-intensities. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is also specified, whichever threshold
-is larger will be used. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is used instead.</p>
+<dt><strong>threshold</strong><span class="classifier">float or None, optional</span></dt><dd><p>An absolute threshold applied to the internally computed stack of
+Laplacian-of-Gaussian (LoG) images. Local maxima in LoG smaller than
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> are ignored. Reduce this to detect blobs with lower
+intensities.</p>
 </dd>
 <dt><strong>overlap</strong><span class="classifier">float, optional</span></dt><dd><p>A value between 0 and 1. If the area of two blobs overlaps by a
 fraction greater than <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>, the smaller blob is eliminated.</p>
@@ -902,11 +952,13 @@ fraction greater than <code class="xref py py-obj docutils literal notranslate">
 using a logarithmic scale to the base <code class="xref py py-obj docutils literal notranslate"><span class="pre">10</span></code>. If not, linear
 interpolation is used.</p>
 </dd>
-<dt><strong>threshold_rel</strong><span class="classifier">float or None, optional</span></dt><dd><p>Minimum intensity of peaks, calculated as
-<code class="docutils literal notranslate"><span class="pre">max(log_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code>, where <code class="docutils literal notranslate"><span class="pre">log_space</span></code> refers to the
-stack of Laplacian-of-Gaussian (LoG) images computed internally. This
-should have a value between 0 and 1. If None, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> is used
+<dt><strong>threshold_rel</strong><span class="classifier">DEPRECATED</span></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 0.27: </span>Starting with version 0.27, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_rel</span></code> is deprecated. Since
+<code class="docutils literal notranslate"><span class="pre">max(log_space)</span> <span class="pre">*</span> <span class="pre">threshold_rel</span></code> was used to calculate the
+minimum peak intensity, this parameters effect was difficult to
+reason about. Use <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> in conjunction with <code class="xref py py-obj docutils literal notranslate"><span class="pre">prescale</span></code>
 instead.</p>
+</div>
 </dd>
 <dt><strong>exclude_border</strong><span class="classifier">tuple of ints, int, or False, optional</span></dt><dd><p>If tuple of ints, the length of the tuple must match the input array’s
 dimensionality.  Each element of the tuple will exclude peaks from
@@ -916,6 +968,29 @@ If nonzero int, <code class="xref py py-obj docutils literal notranslate"><span 
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude_border</span></code>-pixels of the border of the image.
 If zero or False, peaks are identified regardless of their
 distance from the border.</p>
+</dd>
+<dt><strong>prescale</strong><span class="classifier">{‘minmax’, ‘none’, ‘legacy’}, optional</span></dt><dd><p>Method for rescaling (normalizing) <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> before processing.
+Note that rescaling impacts the ranges of the internally computed
+Laplacian-of-Gaussian (LoG) images, and therefore also the choice of
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">'minmax'</span></code></dt><dd><p>Normalize <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> between 0 and 1 regardless of dtype. After
+normalization, the resulting array will have a floating dtype.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'none'</span></code></dt><dd><p>Don’t prescale the value range of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> at all and return a
+copy of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. Useful when <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has already been rescaled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'legacy'</span></code></dt><dd><p>Normalize only if <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> has an integer dtype. If <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> is of
+floating dtype, it is left alone. See <a class="reference internal" href="skimage.util.html#skimage.util.img_as_float" title="skimage.util.img_as_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">img_as_float()</span></code></a> for
+more details.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The scaling and the effect of <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold</span></code> will depend on the
+dtype of <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. For consistent behavior we recommend
+<code class="docutils literal notranslate"><span class="pre">'minmax'</span></code>.</p>
+</div>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd>
