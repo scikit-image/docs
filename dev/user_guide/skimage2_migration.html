@@ -550,6 +550,56 @@ The default value of <code class="docutils literal notranslate"><span class="pre
 <p>with <code class="docutils literal notranslate"><span class="pre">length</span></code>, <code class="docutils literal notranslate"><span class="pre">n_dim</span></code>, and <code class="docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> containing values used with the old signature.
 Other parameters – including <code class="docutils literal notranslate"><span class="pre">boundary_mode</span></code> if you already set it explicitly – can be left unchanged.</p>
 </section>
+<section id="skimage-feature-peak-local-max">
+<h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code><a class="headerlink" href="#skimage-feature-peak-local-max" title="Link to this heading">#</a></h3>
+<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.feature.peak_local_max</span></code> with new behavior:</p>
+<ul class="simple">
+<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">p_norm</span></code> defaults to 2 (Euclidean distance), was <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code> (Chebyshev distance)</p></li>
+<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> defaults to 1, was <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> no longer accepts <code class="docutils literal notranslate"><span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">True</span></code>, pass 0 instead of <code class="docutils literal notranslate"><span class="pre">False</span></code>, or <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> instead of <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p>Parameters after <code class="docutils literal notranslate"><span class="pre">image</span></code> are keyword-only</p></li>
+</ul>
+<p>To keep the old behavior when switching to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, update your call according to the following cases:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>In <code class="docutils literal notranslate"><span class="pre">skimage</span></code></p></th>
+<th class="head"><p>In <code class="docutils literal notranslate"><span class="pre">skimage2</span></code></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> not passed (default)</p></td>
+<td><p>Assign it the same value as <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> which may be its default value <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border=True</span></code></p></td>
+<td><p>Same as above in the default case.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border=False</span></code></p></td>
+<td><p>Use <code class="docutils literal notranslate"><span class="pre">min_distance=0</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border=&lt;int&gt;</span></code></p></td>
+<td><p>No change necessary.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p_norm</span></code> not passed (default)</p></td>
+<td><p>Pass the previous default explicitly with <code class="docutils literal notranslate"><span class="pre">p_norm=numpy.inf</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p_norm=&lt;float&gt;</span></code></p></td>
+<td><p>No change necessary.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Other keyword parameters can be left unchanged.</p>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+
+<span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span>
+    <span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="deprecations-prior-to-skimage2">
 <h2>Deprecations prior to skimage2<a class="headerlink" href="#deprecations-prior-to-skimage2" title="Link to this heading">#</a></h2>
@@ -587,6 +637,7 @@ We list them here, because updating your code to the new API will make it easier
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-skimage2-related-warnings">Enable skimage2-related warnings</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-existing-code">Updating existing code</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-peak-local-max"><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations-prior-to-skimage2">Deprecations prior to skimage2</a></li>
