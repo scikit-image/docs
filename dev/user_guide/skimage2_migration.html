@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -51,7 +52,12 @@
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=1ae7504c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script data-domain="scikit-image.org" defer="defer" src="https://views.scientific-python.org/js/script.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/skimage2_migration';</script>
     <script>
@@ -600,16 +606,49 @@ Other parameters – including <code class="docutils literal notranslate"><span 
 </pre></div>
 </div>
 </section>
-<section id="grayscale-morphological-operators">
-<h3>Grayscale morphological operators<a class="headerlink" href="#grayscale-morphological-operators" title="Link to this heading">#</a></h3>
-<p>Functions <code class="docutils literal notranslate"><span class="pre">skimage.morphology.{operator}</span></code> are replaced by
-<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.{operator}</span></code> where {operator} is in this list:
-[<code class="docutils literal notranslate"><span class="pre">erosion</span></code>, <code class="docutils literal notranslate"><span class="pre">dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">opening</span></code>, <code class="docutils literal notranslate"><span class="pre">closing</span></code>, <code class="docutils literal notranslate"><span class="pre">white_tophat</span></code>, <code class="docutils literal notranslate"><span class="pre">black_tophat</span></code>].
-The new functions use ‘ignore’ as the default value for parameter <code class="docutils literal notranslate"><span class="pre">mode</span></code> (as
-opposed to ‘reflect’ in v1.x).
-To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, set this parameter explicitly.</p>
-<p>TODO: Update doctests in <code class="docutils literal notranslate"><span class="pre">src/skimage2/morphology/_grayscale_operators.py</span></code> to
-import <code class="docutils literal notranslate"><span class="pre">footprint_rectangle</span></code> from skimage2 once available.</p>
+<section id="grayscale-morphological-operators-in-skimage-morphology">
+<h3>Grayscale morphological operators in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code><a class="headerlink" href="#grayscale-morphological-operators-in-skimage-morphology" title="Link to this heading">#</a></h3>
+<p>The following functions are deprecated in favor of counterparts in <code class="docutils literal notranslate"><span class="pre">skimage2.morphology</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code></p></li>
+</ul>
+<p>The new counterparts behave differently in the following ways:</p>
+<ul class="simple">
+<li><p>All functions now default to <code class="docutils literal notranslate"><span class="pre">mode='ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code>).</p></li>
+<li><p>Additionally, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code> now also mirror the footprint (invert its order in each dimension).
+Note this only impacts behavior for asymmetric footprints.</p></li>
+</ul>
+<div class="note dropdown admonition">
+<p class="admonition-title">Background for changes</p>
+<p>The new behavior ensures that, with default parameters, <code class="docutils literal notranslate"><span class="pre">closing</span></code> and <code class="docutils literal notranslate"><span class="pre">opening</span></code> are <a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Properties_of_the_basic_operators"><em>extensive</em> and <em>anti-extensive</em></a> respectively.
+This change also aligns the behavior for asymmetric footprints with SciPy’s <code class="docutils literal notranslate"><span class="pre">scipy.ndimage.grey_*</span></code> functions.</p>
+<p>Refer to <a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6665">gh-6665</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6676">gh-6676</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8046">gh-8046</a>, and <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8060">gh-8060</a> for more details.</p>
+</div>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior:</p>
+<ul>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code> explicitly.
+If you set it explicitly before, the behavior is unchanged.</p></li>
+<li><p>If you currently use an asymmetric <code class="docutils literal notranslate"><span class="pre">footprint</span></code> with <code class="docutils literal notranslate"><span class="pre">dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">closing</span></code> or <code class="docutils literal notranslate"><span class="pre">black_tophat</span></code>, you can retain existing results by modifying the footprint as follows, before passing it to the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> counterparts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asymmetric</span><span class="p">)</span>
+
+<span class="c1"># Replace above with</span>
+<span class="n">asymmetric</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">asymmetric</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">asymmetric</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">asymmetric</span><span class="p">)</span>
+<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asymmetric</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="deprecations-prior-to-skimage2">
@@ -649,7 +688,7 @@ We list them here, because updating your code to the new API will make it easier
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-existing-code">Updating existing code</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-peak-local-max"><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators">Grayscale morphological operators</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators-in-skimage-morphology">Grayscale morphological operators in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations-prior-to-skimage2">Deprecations prior to skimage2</a></li>
