@@ -524,7 +524,7 @@
 Alongside skimage2, we will release version 1.0.0. Versions 1.x will be using the current API.
 Versions 1.1.x will throw a <code class="docutils literal notranslate"><span class="pre">FutureWarning</span></code> upon import, as a means to notify users that
 they should either upgrade to skimage2 or pin to version 1.0.x.</p>
-<p>We have undertaken this to make some long-outstanding, backward-incomptible changes to the scikit-image API.
+<p>We have undertaken this to make some long-outstanding, backward-incompatible changes to the scikit-image API.
 Most changes were difficult or impossible to make using deprecations alone.
 To honor the Hinsen principle (that is, never change results silently unless to fix a bug), we introduce a new package, which gives users an explicit way of upgrading.
 Users also have the option to use the two versions side-by-side while they do so.</p>
@@ -662,6 +662,21 @@ If you set it explicitly before, the behavior is unchanged.</p></li>
 </pre></div>
 </div>
 </section>
+<section id="skimage-feature-canny">
+<h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code><a class="headerlink" href="#skimage-feature-canny" title="Link to this heading">#</a></h3>
+<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.feature.canny</span></code> with a new default for the optional parameter <code class="docutils literal notranslate"><span class="pre">mode</span></code> which changes from ‘constant’ to ‘nearest’.</p>
+<p>If you set this parameter explicitly, you only need to update the import.
+Otherwise, to keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+
+<span class="n">ski2</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">canny</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Other parameters can be left unchanged, but note that parameters after <code class="docutils literal notranslate"><span class="pre">image</span></code> are now keyword-only.</p>
+</section>
 </section>
 <section id="deprecations-prior-to-skimage2">
 <h2>Deprecations prior to skimage2<a class="headerlink" href="#deprecations-prior-to-skimage2" title="Link to this heading">#</a></h2>
@@ -701,6 +716,7 @@ We list them here, because updating your code to the new API will make it easier
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-peak-local-max"><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators-in-skimage-morphology">Grayscale morphological operators in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-canny"><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations-prior-to-skimage2">Deprecations prior to skimage2</a></li>
