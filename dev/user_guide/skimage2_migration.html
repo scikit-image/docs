@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
-    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
@@ -52,6 +52,7 @@
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -522,73 +523,95 @@
 <p class="admonition-title">Hint</p>
 <p>This document is a work in progress and still subject to change.</p>
 </div>
-<p>scikit-image is preparing to release version 2.0 as a new package: <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
-Alongside skimage2, we will release version 1.0.0. Versions 1.x will be using the current API.
-Versions 1.1.x will throw a <code class="docutils literal notranslate"><span class="pre">FutureWarning</span></code> upon import, as a means to notify users that
-they should either upgrade to skimage2 or pin to version 1.0.x.</p>
-<p>We have undertaken this to make some long-outstanding, backward-incompatible changes to the scikit-image API.
-Most changes were difficult or impossible to make using deprecations alone.
-To honor the Hinsen principle (that is, never change results silently unless to fix a bug), we introduce a new package, which gives users an explicit way of upgrading.
-Users also have the option to use the two versions side-by-side while they do so.</p>
-<p>You can find a more detailed description of our motivation and discussion leading up to this in <a class="reference internal" href="../skips/4-transition-to-v2.html"><span class="doc">SKIP 4</span></a>.</p>
+<p>Scikit-image is preparing to release version 2.0 as a new package: <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+Alongside skimage2, we will release version 1.0.0. Versions 1.x will be using
+the current API. Versions 1.1.x will throw a <code class="docutils literal notranslate"><span class="pre">FutureWarning</span></code> upon import, as
+a means to notify users that they should either upgrade to skimage2 or pin to
+version 1.0.x.</p>
+<p>We have undertaken this to make some long-outstanding, backward-incomptible
+changes to the scikit-image API. Most changes were difficult or impossible to
+make using deprecations alone. To honor the Hinsen principle (that is, never
+change results silently unless to fix a bug), we introduce a new package,
+which gives users an explicit way of upgrading. Users also have the option to
+use the two versions side-by-side while they do so.</p>
+<p>You can find a more detailed description of our motivation and discussion
+leading up to this in <a class="reference internal" href="../skips/4-transition-to-v2.html"><span class="doc">SKIP 4</span></a>.</p>
 <section id="enable-skimage2-related-warnings">
 <span id="enable-skimage2-warnings"></span><h2>Enable skimage2-related warnings<a class="headerlink" href="#enable-skimage2-related-warnings" title="Link to this heading">#</a></h2>
-<p>Even before skimage2 is released, you may enable skimage2-related warnings to prepare for code changes early on.
-Run the following <a class="reference external" href="https://docs.python.org/3/library/warnings.html#the-warnings-filter">warnings filter</a> before you use scikit-image in your code:</p>
+<p>Even before skimage2 is released, you may enable skimage2-related warnings to
+prepare for code changes early on. Run the following <a class="reference external" href="https://docs.python.org/3/library/warnings.html#the-warnings-filter">warnings filter</a> before
+you use scikit-image in your code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ski</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">PendingSkimage2Change</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This will raise a warning in code that needs to be modified to continue functioning with the new, skimage2 API.</p>
+<p>This will raise a warning in code that needs to be modified to continue
+functioning with the new, skimage2 API.</p>
 </section>
 <section id="updating-existing-code">
 <h2>Updating existing code<a class="headerlink" href="#updating-existing-code" title="Link to this heading">#</a></h2>
 <p>When switching to the new <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace, some code will need to be updated to continue working the way it did before.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For a while, you will be able to use <code class="docutils literal notranslate"><span class="pre">skimage</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> (the 2.0 API) side-by-side, to facilitate porting.
-The new API may, for the same function call, return different results—e.g., because of a change in a keyword argument default value.
-By importing functionality from <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, you explicitly opt in to the new behavior.</p>
+<p>For a while, you will be able to use <code class="docutils literal notranslate"><span class="pre">skimage</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> (the 2.0
+API) side-by-side, to facilitate porting. The new API may, for the same
+function call, return different results—e.g., because of a change in
+a keyword argument default value. By importing functionality from
+<code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, you explicitly opt in to the new behavior.</p>
 </div>
 <section id="skimage-data-binary-blobs">
-<h3><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code><a class="headerlink" href="#skimage-data-binary-blobs" title="Link to this heading">#</a></h3>
-<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.data.binary_blobs</span></code> with a new signature.
-The optional parameters <code class="docutils literal notranslate"><span class="pre">length</span></code> and <code class="docutils literal notranslate"><span class="pre">n_dim</span></code> are replaced with a new required parameter <code class="docutils literal notranslate"><span class="pre">shape</span></code>, which allows generating non-square outputs.
-Optional parameter <code class="docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> is replaced with required parameter <code class="docutils literal notranslate"><span class="pre">blob_size</span></code>, whose behavior is independent of the output image size.
-The default value of <code class="docutils literal notranslate"><span class="pre">boundary_mode</span></code> is changed from <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code> to <code class="docutils literal notranslate"><span class="pre">'wrap'</span></code>.</p>
-<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, use</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
-
-<span class="n">ski2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span>
-    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">length</span><span class="p">,)</span> <span class="o">*</span> <span class="n">n_dim</span><span class="p">,</span>
-    <span class="n">blob_size</span><span class="o">=</span><span class="n">blob_size_fraction</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span>
-    <span class="n">boundary_mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<span id="id1"></span><h3><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code><a class="headerlink" href="#skimage-data-binary-blobs" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.data.binary_blobs</span></code>, which has a new signature. Parameters <code class="xref py py-obj docutils literal notranslate"><span class="pre">length</span></code>
+and <code class="xref py py-obj docutils literal notranslate"><span class="pre">n_dim</span></code> have been replaced with a new parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code>. Optional
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> has been replaced with a required parameter
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">blob_size</span></code>, whose behavior is independent of the output image size. The
+default value of <code class="xref py py-obj docutils literal notranslate"><span class="pre">boundary_mode</span></code> has been changed from <code class="docutils literal notranslate"><span class="pre">'nearest'</span></code> to
+<code class="docutils literal notranslate"><span class="pre">'wrap'</span></code>.</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, use:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">numpy.random</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_rng</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">length</span><span class="p">,</span> <span class="n">n_dim</span><span class="p">,</span> <span class="n">blob_size_fraction</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span>  <span class="c1"># Default ski1 values.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span><span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1939</span><span class="p">))</span>  <span class="c1"># Make reproducible.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">binary_blobs</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">length</span><span class="p">,)</span> <span class="o">*</span> <span class="n">n_dim</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">blob_size</span><span class="o">=</span><span class="n">blob_size_fraction</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">boundary_mode</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">rng</span><span class="o">=</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">1939</span><span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>with <code class="docutils literal notranslate"><span class="pre">length</span></code>, <code class="docutils literal notranslate"><span class="pre">n_dim</span></code>, and <code class="docutils literal notranslate"><span class="pre">blob_size_fraction</span></code> containing values used with the old signature.
-Other parameters – including <code class="docutils literal notranslate"><span class="pre">boundary_mode</span></code> if you already set it explicitly – can be left unchanged.</p>
 </section>
 <section id="skimage-feature-peak-local-max">
-<h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code><a class="headerlink" href="#skimage-feature-peak-local-max" title="Link to this heading">#</a></h3>
-<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.feature.peak_local_max</span></code> with new behavior:</p>
+<span id="id2"></span><h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code><a class="headerlink" href="#skimage-feature-peak-local-max" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.feature.peak_local_max</span></code> with new behavior:</p>
 <ul class="simple">
-<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">p_norm</span></code> defaults to 2 (Euclidean distance), was <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code> (Chebyshev distance)</p></li>
-<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> defaults to 1, was <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p>Parameter <code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> no longer accepts <code class="docutils literal notranslate"><span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">True</span></code>, pass 0 instead of <code class="docutils literal notranslate"><span class="pre">False</span></code>, or <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> instead of <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p>Parameters after <code class="docutils literal notranslate"><span class="pre">image</span></code> are keyword-only</p></li>
+<li><p>Parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">p_norm</span></code> defaults to 2 (Euclidean distance),
+was <a class="reference external" href="https://numpy.org/doc/stable/reference/constants.html#numpy.inf" title="(in NumPy v2.4)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.inf</span></code></a> (Chebyshev distance)</p></li>
+<li><p>Parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude_border</span></code> defaults to 1, was <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p>Parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude_border</span></code> no longer accepts <code class="docutils literal notranslate"><span class="pre">False</span></code> and <code class="docutils literal notranslate"><span class="pre">True</span></code>;
+pass 0 instead of <code class="docutils literal notranslate"><span class="pre">False</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">min_distance</span></code> instead of <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p>Parameters after <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code> are keyword-only</p></li>
 </ul>
-<p>To keep the old behavior when switching to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, update your call according to the following cases:</p>
+<p>To keep the old behavior when switching to <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code>, update your call
+according to the following cases:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>In <code class="docutils literal notranslate"><span class="pre">skimage</span></code></p></th>
-<th class="head"><p>In <code class="docutils literal notranslate"><span class="pre">skimage2</span></code></p></th>
+<tr class="row-odd"><th class="head"><p>In <a class="reference internal" href="../api/skimage.html#module-skimage" title="skimage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage</span></code></a></p></th>
+<th class="head"><p>In <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border</span></code> not passed (default)</p></td>
-<td><p>Assign it the same value as <code class="docutils literal notranslate"><span class="pre">min_distance</span></code> which may be its default value <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">exclude_border</span></code> not passed (default)</p></td>
+<td><p>Assign it the same value as <code class="xref py py-obj docutils literal notranslate"><span class="pre">min_distance</span></code> which may be its default
+value <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border=True</span></code></p></td>
 <td><p>Same as above in the default case.</p></td>
@@ -599,8 +622,8 @@ Other parameters – including <code class="docutils literal notranslate"><span 
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">exclude_border=&lt;int&gt;</span></code></p></td>
 <td><p>No change necessary.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p_norm</span></code> not passed (default)</p></td>
-<td><p>Pass the previous default explicitly with <code class="docutils literal notranslate"><span class="pre">p_norm=numpy.inf</span></code>.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">p_norm</span></code> not passed (default)</p></td>
+<td><p>Pass the Skimage 1 default explicitly with <code class="docutils literal notranslate"><span class="pre">p_norm=numpy.inf</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p_norm=&lt;float&gt;</span></code></p></td>
 <td><p>No change necessary.</p></td>
@@ -609,20 +632,44 @@ Other parameters – including <code class="docutils literal notranslate"><span 
 </table>
 </div>
 <p>Other keyword parameters can be left unchanged.</p>
-<p>Examples:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
-
-<span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span>
-    <span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-<span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">peak_local_max</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">image</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">exclude_border</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">p_norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="skimage-feature-canny">
+<span id="id3"></span><h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code><a class="headerlink" href="#skimage-feature-canny" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.feature.canny</span></code> with new behavior.</p>
+<p>The default of the optional parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> has changed from ‘constant’
+to ‘nearest’. If you did not set this parameter explicitly, and you want
+the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, add an explicit <code class="docutils literal notranslate"><span class="pre">mode='constant'</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">checkerboard</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">canny</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  <span class="c1"># ski1 default is mode=&#39;constant&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">canny</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="grayscale-morphological-operators-in-skimage-morphology">
-<h3>Grayscale morphological operators in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code><a class="headerlink" href="#grayscale-morphological-operators-in-skimage-morphology" title="Link to this heading">#</a></h3>
-<p>The following functions are deprecated in favor of counterparts in <code class="docutils literal notranslate"><span class="pre">skimage2.morphology</span></code>:</p>
+<h3>Grayscale morphological operators in <a class="reference internal" href="../api/skimage.morphology.html#module-skimage.morphology" title="skimage.morphology"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a><a class="headerlink" href="#grayscale-morphological-operators-in-skimage-morphology" title="Link to this heading">#</a></h3>
+<p>The following functions are deprecated in favor of counterparts in <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2.morphology</span></code>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code></p></li>
@@ -634,20 +681,56 @@ Other parameters – including <code class="docutils literal notranslate"><span 
 <p>The new counterparts behave differently in the following ways:</p>
 <ul class="simple">
 <li><p>All functions now default to <code class="docutils literal notranslate"><span class="pre">mode='ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code>).</p></li>
-<li><p>Additionally, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code>, and <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code> now also mirror the footprint (invert its order in each dimension).
-Note this only impacts behavior for asymmetric footprints.</p></li>
+<li><p>Additionally, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code> now also mirror the footprint (invert
+its order in each dimension). Note this only impacts behavior for asymmetric
+footprints.</p></li>
 </ul>
 <div class="note dropdown admonition">
 <p class="admonition-title">Background for changes</p>
-<p>The new behavior ensures that, with default parameters, <code class="docutils literal notranslate"><span class="pre">closing</span></code> and <code class="docutils literal notranslate"><span class="pre">opening</span></code> are <a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Properties_of_the_basic_operators"><em>extensive</em> and <em>anti-extensive</em></a> respectively.
-This change also aligns the behavior for asymmetric footprints with SciPy’s <code class="docutils literal notranslate"><span class="pre">scipy.ndimage.grey_*</span></code> functions.</p>
-<p>Refer to <a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6665">gh-6665</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6676">gh-6676</a>, <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8046">gh-8046</a>, and <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8060">gh-8060</a> for more details.</p>
+<p>The new behavior ensures that, with default parameters, <code class="docutils literal notranslate"><span class="pre">closing</span></code> and
+<code class="docutils literal notranslate"><span class="pre">opening</span></code> are <a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Properties_of_the_basic_operators">extensive and anti-extensive</a>
+respectively. This change also aligns the behavior for asymmetric
+footprints with SciPy’s <code class="docutils literal notranslate"><span class="pre">scipy.ndimage.grey_*</span></code> functions.</p>
+<p>Refer to
+<a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6665">gh-6665</a>,
+<a class="reference external" href="https://github.com/scikit-image/scikit-image/issues/6676">gh-6676</a>,
+<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8046">gh-8046</a>, and
+<a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/8060">gh-8060</a> for
+more details.</p>
 </div>
+<section id="skimage-morphology-erosion">
+<span id="id4"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code><a class="headerlink" href="#skimage-morphology-erosion" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.erosion</span></code>, which changes the default value
+for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code>
+explicitly. If you set it explicitly before, the behavior is unchanged.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">erosion</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>  <span class="c1"># skimage default is mode=&#39;reflect&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">erosion</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="skimage-morphology-dilation">
+<span id="id5"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code><a class="headerlink" href="#skimage-morphology-dilation" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code> which changes the default value for parameter
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
+(inverts its order in each dimension), which aligns its behavior with SciPy’s
+conventions.</p>
 <p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior:</p>
 <ul>
-<li><p>Set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code> explicitly.
-If you set it explicitly before, the behavior is unchanged.</p></li>
-<li><p>If you currently use an asymmetric <code class="docutils literal notranslate"><span class="pre">footprint</span></code> with <code class="docutils literal notranslate"><span class="pre">dilation</span></code>, <code class="docutils literal notranslate"><span class="pre">closing</span></code> or <code class="docutils literal notranslate"><span class="pre">black_tophat</span></code>, you can retain existing results by modifying the footprint as follows, before passing it to the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> counterparts:</p>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code> explicitly. If you set it explicitly before, the
+behavior is unchanged.</p></li>
+<li><p>If you currently use an asymmetric <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>, modify it like this before
+passing it to <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
 </pre></div>
@@ -655,29 +738,132 @@ If you set it explicitly before, the behavior is unchanged.</p></li>
 </li>
 </ul>
 <p>For example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ski</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asymmetric</span><span class="p">)</span>
-
-<span class="c1"># Replace above with</span>
-<span class="n">asymmetric</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">asymmetric</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">asymmetric</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">asymmetric</span><span class="p">)</span>
-<span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asymmetric</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asym_foot</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">asym_foot</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mirror_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">pad_asym</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">dilation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">mirror_asym</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="skimage-feature-canny">
-<h3><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code><a class="headerlink" href="#skimage-feature-canny" title="Link to this heading">#</a></h3>
-<p>This function is replaced by <code class="docutils literal notranslate"><span class="pre">skimage2.feature.canny</span></code> with a new default for the optional parameter <code class="docutils literal notranslate"><span class="pre">mode</span></code> which changes from ‘constant’ to ‘nearest’.</p>
-<p>If you set this parameter explicitly, you only need to update the import.
-Otherwise, to keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, use</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
-
-<span class="n">ski2</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">canny</span><span class="p">(</span>
-    <span class="o">...</span><span class="p">,</span>
-    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
-<span class="p">)</span>
+<section id="skimage-morphology-opening">
+<span id="id6"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code><a class="headerlink" href="#skimage-morphology-opening" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.opening</span></code>, which changes the default value
+for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code>
+explicitly. If you set it explicitly before, the behavior is unchanged.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">opening</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>  <span class="c1"># skimage default is mode=&#39;reflect&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">opening</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Other parameters can be left unchanged, but note that parameters after <code class="docutils literal notranslate"><span class="pre">image</span></code> are now keyword-only.</p>
+</section>
+<section id="skimage-morphology-closing">
+<span id="id7"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code><a class="headerlink" href="#skimage-morphology-closing" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code> which changes the default value for parameter
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
+(inverts its order in each dimension), which aligns its behavior with SciPy’s
+conventions.</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior:</p>
+<ul>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code> explicitly. If you set it explicitly before, the
+behavior is unchanged.</p></li>
+<li><p>If you currently use an asymmetric <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>, modify it like this before
+passing it to <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">closing</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asym_foot</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">asym_foot</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mirror_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">pad_asym</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">closing</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">mirror_asym</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="skimage-morphology-white-tophat">
+<span id="id8"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code><a class="headerlink" href="#skimage-morphology-white-tophat" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.white_tophat</span></code>, which changes the default value
+for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior, set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code>
+explicitly. If you set it explicitly before, the behavior is unchanged.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">white_tophat</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>  <span class="c1"># skimage default is mode=&#39;reflect&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">white_tophat</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="skimage-morphology-black-tophat">
+<span id="id9"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code><a class="headerlink" href="#skimage-morphology-black-tophat" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code> which changes the default value for parameter
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
+(inverts its order in each dimension), which aligns its behavior with SciPy’s
+conventions.</p>
+<p>To keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior:</p>
+<ul>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">mode='reflect'</span></code> explicitly. If you set it explicitly before, the
+behavior is unchanged.</p></li>
+<li><p>If you currently use an asymmetric <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>, modify it like this before
+passing it to <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">footprint</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">footprint</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">camera</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">asym_foot</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res1</span> <span class="o">=</span> <span class="n">ski1</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">black_tophat</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">asym_foot</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">pad_footprint</span><span class="p">(</span><span class="n">asym_foot</span><span class="p">,</span> <span class="n">pad_end</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mirror_asym</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">mirror_footprint</span><span class="p">(</span><span class="n">pad_asym</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">morphology</span><span class="o">.</span><span class="n">black_tophat</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">footprint</span><span class="o">=</span><span class="n">mirror_asym</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">res1</span> <span class="o">==</span> <span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 </section>
 <section id="deprecations-prior-to-skimage2">
@@ -717,8 +903,16 @@ We list them here, because updating your code to the new API will make it easier
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-existing-code">Updating existing code</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-peak-local-max"><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators-in-skimage-morphology">Grayscale morphological operators in <code class="docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-canny"><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators-in-skimage-morphology">Grayscale morphological operators in <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-erosion"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-dilation"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-opening"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-closing"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-white-tophat"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-black-tophat"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deprecations-prior-to-skimage2">Deprecations prior to skimage2</a></li>
@@ -728,7 +922,7 @@ We list them here, because updating your code to the new API will make it easier
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/user_guide/skimage2_migration.md.txt">
+    <a href="../_sources/user_guide/skimage2_migration.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
