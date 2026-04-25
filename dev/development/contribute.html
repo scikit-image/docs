@@ -828,6 +828,24 @@ in C/C++ and Cython code.</p></li>
 tests should be added to cover all modifications in behavior.</p>
 <p>Tests are located in the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory.
 We also test examples in docstrings of our package (located in <code class="docutils literal notranslate"><span class="pre">src/</span></code>).</p>
+<p>Prefer creating local <code class="docutils literal notranslate"><span class="pre">np.random.RandomState</span></code> instances rather than using the
+global NumPy RNG or <code class="docutils literal notranslate"><span class="pre">np.random.default_rng</span></code>. The <code class="docutils literal notranslate"><span class="pre">RandomState</span></code> class is
+specifically intended for use in test code and the random number streams it
+generates are guaranteed not to change.</p>
+<p>Prefer using randomly generated but fixed RNG seeds. The
+<code class="docutils literal notranslate"><span class="pre">np.random.RandomState</span></code> generator requires seeds between 0 and 2**32-1, so
+you can use the following command-line helper to generate seeds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import random; print(random.randint(0, 2**32-1))&quot;</span>
+</pre></div>
+</div>
+<p>And in your test, create a random number generator like so:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">test_something</span><span class="p">():</span>
+    <span class="c1"># hard-code a seed randomly generated while writing the test</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">2376609660</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you are comparing with known answers or if your test result otherwise
+depends on a specific RNG seed, add a comment to that effect.</p>
 <p>For local development we use <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">test</span></code> which wraps the
 <a class="reference external" href="https://docs.pytest.org/en/latest/">pytest testing framework</a>.
 Examples of running <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">test</span></code>:</p>
