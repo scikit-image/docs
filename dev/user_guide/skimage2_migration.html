@@ -681,6 +681,33 @@ the old (<code class="docutils literal notranslate"><span class="pre">skimage</s
 </pre></div>
 </div>
 </section>
+<section id="skimage-metrics-structural-similarity">
+<span id="id4"></span><h3><code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code><a class="headerlink" href="#skimage-metrics-structural-similarity" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code> is deprecated in favor of
+<code class="docutils literal notranslate"><span class="pre">skimage2.metrics.structural_similarity</span></code>, which has a new signature.
+The parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">data_range</span></code> is now a required parameter.</p>
+<p>If you didn’t provide <code class="xref py py-obj docutils literal notranslate"><span class="pre">data_range</span></code> explicitly before and relied on its
+default behavior, you can keep the old (<code class="docutils literal notranslate"><span class="pre">skimage</span></code>, v1.x) behavior by
+setting the parameter explicitly.</p>
+<p>For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">im2</span> <span class="o">=</span> <span class="n">im1</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result1</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">structural_similarity</span><span class="p">(</span><span class="n">im1</span><span class="p">,</span> <span class="n">im2</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">im1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">im1</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">min</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result2</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">structural_similarity</span><span class="p">(</span><span class="n">im1</span><span class="p">,</span> <span class="n">im2</span><span class="p">,</span> <span class="n">data_range</span><span class="o">=</span><span class="n">data_range</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="n">result1</span><span class="p">,</span> <span class="n">result2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For floating dtypes, setting <code class="xref py py-obj docutils literal notranslate"><span class="pre">data_range</span></code> was already required in
+<code class="docutils literal notranslate"><span class="pre">skimage</span></code>/v1.x.</p>
+</section>
 <section id="grayscale-morphological-operators-in-skimage-morphology">
 <h3>Grayscale morphological operators in <a class="reference internal" href="../api/skimage.morphology.html#module-skimage.morphology" title="skimage.morphology"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a><a class="headerlink" href="#grayscale-morphological-operators-in-skimage-morphology" title="Link to this heading">#</a></h3>
 <p>The following functions are deprecated in favor of counterparts in <a class="reference internal" href="../api2/skimage2.morphology.html#module-skimage2.morphology" title="skimage2.morphology"><code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2.morphology</span></code></a>:</p>
@@ -714,7 +741,7 @@ footprints with SciPy’s <code class="docutils literal notranslate"><span class
 more details.</p>
 </div>
 <section id="skimage-morphology-erosion">
-<span id="id4"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code><a class="headerlink" href="#skimage-morphology-erosion" title="Link to this heading">#</a></h4>
+<span id="id5"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code><a class="headerlink" href="#skimage-morphology-erosion" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.erosion</span></code>, which changes the default value
 for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
@@ -733,7 +760,7 @@ explicitly. If you set it explicitly before, the behavior is unchanged.</p>
 </div>
 </section>
 <section id="skimage-morphology-dilation">
-<span id="id5"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code><a class="headerlink" href="#skimage-morphology-dilation" title="Link to this heading">#</a></h4>
+<span id="id6"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code><a class="headerlink" href="#skimage-morphology-dilation" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.dilation</span></code> which changes the default value for parameter
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
@@ -769,7 +796,7 @@ passing it to <code class="docutils literal notranslate"><span class="pre">skima
 </div>
 </section>
 <section id="skimage-morphology-opening">
-<span id="id6"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code><a class="headerlink" href="#skimage-morphology-opening" title="Link to this heading">#</a></h4>
+<span id="id7"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code><a class="headerlink" href="#skimage-morphology-opening" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.opening</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.opening</span></code>, which changes the default value
 for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
@@ -788,7 +815,7 @@ explicitly. If you set it explicitly before, the behavior is unchanged.</p>
 </div>
 </section>
 <section id="skimage-morphology-closing">
-<span id="id7"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code><a class="headerlink" href="#skimage-morphology-closing" title="Link to this heading">#</a></h4>
+<span id="id8"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code><a class="headerlink" href="#skimage-morphology-closing" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.closing</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.closing</span></code> which changes the default value for parameter
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
@@ -824,7 +851,7 @@ passing it to <code class="docutils literal notranslate"><span class="pre">skima
 </div>
 </section>
 <section id="skimage-morphology-white-tophat">
-<span id="id8"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code><a class="headerlink" href="#skimage-morphology-white-tophat" title="Link to this heading">#</a></h4>
+<span id="id9"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code><a class="headerlink" href="#skimage-morphology-white-tophat" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.white_tophat</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.white_tophat</span></code>, which changes the default value
 for parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>).</p>
@@ -843,7 +870,7 @@ explicitly. If you set it explicitly before, the behavior is unchanged.</p>
 </div>
 </section>
 <section id="skimage-morphology-black-tophat">
-<span id="id9"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code><a class="headerlink" href="#skimage-morphology-black-tophat" title="Link to this heading">#</a></h4>
+<span id="id10"></span><h4><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code><a class="headerlink" href="#skimage-morphology-black-tophat" title="Link to this heading">#</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">skimage.morphology.black_tophat</span></code> is deprecated in favor of
 <code class="docutils literal notranslate"><span class="pre">skimage2.morphology.black_tophat</span></code> which changes the default value for parameter
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">mode</span></code> to <code class="docutils literal notranslate"><span class="pre">'ignore'</span></code> (was <code class="docutils literal notranslate"><span class="pre">'reflect'</span></code>). It also mirrors the <code class="xref py py-obj docutils literal notranslate"><span class="pre">footprint</span></code>
@@ -918,6 +945,7 @@ We list them here, because updating your code to the new API will make it easier
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-data-binary-blobs"><code class="docutils literal notranslate"><span class="pre">skimage.data.binary_blobs</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-peak-local-max"><code class="docutils literal notranslate"><span class="pre">skimage.feature.peak_local_max</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-feature-canny"><code class="docutils literal notranslate"><span class="pre">skimage.feature.canny</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-metrics-structural-similarity"><code class="docutils literal notranslate"><span class="pre">skimage.metrics.structural_similarity</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grayscale-morphological-operators-in-skimage-morphology">Grayscale morphological operators in <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage.morphology</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-erosion"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.erosion</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#skimage-morphology-dilation"><code class="docutils literal notranslate"><span class="pre">skimage.morphology.dilation</span></code></a></li>
