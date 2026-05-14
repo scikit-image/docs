@@ -1879,7 +1879,7 @@ J. Opt. Soc. Am. A 27, 1593-1607 (2010)</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.restoration.unwrap_phase">
-<span class="sig-prename descclassname"><span class="pre">skimage.restoration.</span></span><span class="sig-name descname"><span class="pre">unwrap_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrap_around</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/restoration/unwrap.py#L10-L116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.restoration.unwrap_phase" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.restoration.</span></span><span class="sig-name descname"><span class="pre">unwrap_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrap_around</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/restoration/unwrap.py#L10-L132"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.restoration.unwrap_phase" title="Link to this definition">#</a></dt>
 <dd><p>Recover the original from a wrapped phase image.</p>
 <p>From an image wrapped to lie in the interval [-pi, pi), recover the
 original, unwrapped image.</p>
@@ -1898,11 +1898,10 @@ connected and use this connectivity to guide the phase unwrapping
 process. If only a single boolean is given, it will apply to all axes.
 Wrap around is not supported for 1D arrays.</p>
 </dd>
-<dt><strong>rng</strong><span class="classifier">{<a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v2.4)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>, int}, optional</span></dt><dd><p>Pseudo-random number generator.
-By default, a PCG64 generator is used (see <a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.default_rng" title="(in NumPy v2.4)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.random.default_rng()</span></code></a>).
-If <code class="xref py py-obj docutils literal notranslate"><span class="pre">rng</span></code> is an int, it is used to seed the generator.</p>
-<p>Unwrapping relies on a random initialization. This sets the
-PRNG to use to achieve deterministic behavior.</p>
+<dt><strong>rng</strong><span class="classifier">{<a class="reference external" href="https://numpy.org/doc/stable/reference/random/generator.html#numpy.random.Generator" title="(in NumPy v2.4)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code></a>, int}, optional</span></dt><dd><p>Unwrapping relies on a random per-pixel initialization.  If a <code class="docutils literal notranslate"><span class="pre">numpy</span></code>
+random number generator (RNG), then use that to generate the
+initialization.  If <code class="docutils literal notranslate"><span class="pre">None</span></code>, create a new RNG.  If an int, seed a new
+RNG with this passed integer.</p>
 </dd>
 </dl>
 </dd>
@@ -1921,6 +1920,19 @@ was a masked array, the mask will be preserved.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>The algorithm proceeds by calculating an <em>unreliability</em> score for each image
+location, and unwrapping first through areas with the lowest scores
+(lowest unreliability).  For some locations, such as corner pixels, border
+pixels where <code class="xref py py-obj docutils literal notranslate"><span class="pre">wrap_around</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code> for the relevant edge, and pixels
+that are neighbors to masked pixels, we cannot calculate unreliability due
+to missing data in some neighbors. In this case we set unreliability to
+a high value plus some random component, where the random component
+prevents memory location bias in the order of unwrapping.  The random
+component means there can be slight differences from run to run in the
+corner pixels, border pixels (depending on <code class="xref py py-obj docutils literal notranslate"><span class="pre">wrap_around</span></code>), or pixels next
+to a masked pixel, unless you constrain the randomness with the <code class="xref py py-obj docutils literal notranslate"><span class="pre">rng</span></code>
+argument.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="r160444e59583-1" role="doc-biblioentry">
