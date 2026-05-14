@@ -886,6 +886,17 @@ spin<span class="w"> </span><span class="nb">test</span><span class="w"> </span>
 <a class="reference external" href="https://docs.pytest.org/en/stable/reference/reference.html#command-line-flags">options to pytest</a>.</p>
 </div>
 <p>Testing requirements are listed in <code class="docutils literal notranslate"><span class="pre">requirements/test.txt</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>CI runs only modified tests on pull requests</p>
+<p>To keep feedback fast, CI workflows run <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">test</span> <span class="pre">--test-modified</span></code> on
+pull requests, which limits the test run to subpackages that were changed
+relative to the base branch. The full test suite still runs on pushes to
+<code class="docutils literal notranslate"><span class="pre">main</span></code> and on merge-queue entries.</p>
+<p>To force the full suite on a pull request — for example when changes
+affect test infrastructure rather than a specific subpackage — add the
+<strong>run-all-tests</strong> label to the PR.</p>
+</div>
 <section id="warnings-during-testing-phase">
 <h3><a class="toc-backref" href="#id9" role="doc-backlink">Warnings during testing phase</a><a class="headerlink" href="#warnings-during-testing-phase" title="Link to this heading">#</a></h3>
 <p>By default, warnings raised by the test suite result in errors.
