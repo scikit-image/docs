@@ -540,7 +540,7 @@ Two popular routes are the pip-based
 and the conda-based
 <a class="reference external" href="https://github.com/conda-forge/miniforge">miniforge</a>.</p></li>
 <li><p>Install <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> via <a class="reference external" href="#install-via-pip">pip</a> or <a class="reference external" href="#install-via-conda">conda</a>, as appropriate.</p></li>
-<li><p>Or, <a class="reference external" href="#installing-scikit-image-for-contributors">build the package from source</a>.
+<li><p>Or, <a class="reference internal" href="../development/contribute.html"><span class="doc">build the package from source</span></a>.
 Do this if you’d like to contribute to development.</p></li>
 </ul>
 <section id="supported-platforms">
@@ -551,7 +551,7 @@ Do this if you’d like to contribute to development.</p></li>
 <li><p>Linux 64-bit on x86 and ARM processors</p></li>
 </ul>
 <p>While we do not officially support other platforms, you could still
-try <a class="reference external" href="#building-from-source">building from source</a>.</p>
+try <a class="reference internal" href="../development/contribute.html"><span class="doc">building from source</span></a>.</p>
 </section>
 <section id="version-check">
 <h2><span class="section-number">1.2. </span>Version check<a class="headerlink" href="#version-check" title="Link to this heading">#</a></h2>
@@ -635,7 +635,7 @@ accessed offline, ensure that <code class="docutils literal notranslate"><span c
 </div>
 </section>
 <section id="additional-help">
-<h2><span class="section-number">1.6. </span>Additional help<a class="headerlink" href="#additional-help" title="Link to this heading">#</a></h2>
+<span id="id5"></span><h2><span class="section-number">1.6. </span>Additional help<a class="headerlink" href="#additional-help" title="Link to this heading">#</a></h2>
 <p>If you still have questions, reach out through</p>
 <ul class="simple">
 <li><p>our <a class="reference external" href="https://forum.image.sc/tags/scikit-image">user forum</a></p></li>
@@ -648,273 +648,8 @@ accessed offline, ensure that <code class="docutils literal notranslate"><span c
 </section>
 <section id="installing-scikit-image-for-contributors">
 <h1><span class="section-number">2. </span>Installing scikit-image for contributors<a class="headerlink" href="#installing-scikit-image-for-contributors" title="Link to this heading">#</a></h1>
-<p>Your system needs a:</p>
-<ul class="simple">
-<li><p>C compiler,</p></li>
-<li><p>C++ compiler, and</p></li>
-<li><p>a version of Python supported by <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> (see
-<a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/pyproject.toml#L14">pyproject.toml</a>).</p></li>
-</ul>
-<p>First, <a class="reference external" href="https://github.com/scikit-image/scikit-image/fork">fork the scikit-image repository on GitHub</a>.
-Then clone your fork locally and set an <code class="docutils literal notranslate"><span class="pre">upstream</span></code> remote to point to the original scikit-image repository:</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We use <code class="docutils literal notranslate"><span class="pre">git&#64;github.com</span></code> below; if you don’t have SSH keys setup, use
-<code class="docutils literal notranslate"><span class="pre">https://github.com</span></code> instead.</p>
-</div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOURUSERNAME/scikit-image
-<span class="nb">cd</span><span class="w"> </span>scikit-image
-git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:scikit-image/scikit-image
-</pre></div>
-</div>
-<p>All commands below are run from within the cloned <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> directory.</p>
-<section id="build-environment-setup">
-<span id="build-env-setup"></span><h2><span class="section-number">2.1. </span>Build environment setup<a class="headerlink" href="#build-environment-setup" title="Link to this heading">#</a></h2>
-<p>Set up a Python development environment tailored for scikit-image.
-Here we provide instructions for two popular environment managers:
-<code class="docutils literal notranslate"><span class="pre">venv</span></code> (pip) and <code class="docutils literal notranslate"><span class="pre">conda</span></code> (miniforge).</p>
-<section id="venv">
-<h3><span class="section-number">2.1.1. </span>venv<a class="headerlink" href="#venv" title="Link to this heading">#</a></h3>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a virtualenv named ``skimage-dev`` that lives outside of the repository.</span>
-<span class="c1"># One common convention is to place it inside an ``envs`` directory under your home directory:</span>
-mkdir<span class="w"> </span>~/envs
-python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/envs/skimage-dev
-
-<span class="c1"># Activate it</span>
-<span class="c1"># (On Windows, use ``skimage-dev\Scripts\activate``)</span>
-<span class="nb">source</span><span class="w"> </span>~/envs/skimage-dev/bin/activate
-
-<span class="c1"># Install development dependencies</span>
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements/build.txt
-
-<span class="c1"># Install scikit-image in editable mode. In editable mode,</span>
-<span class="c1"># scikit-image will be recompiled, as necessary, on import.</span>
-spin<span class="w"> </span>install<span class="w"> </span>-v
-</pre></div>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>The above installs scikit-image into your environment, which makes
-it accessible to IDEs, IPython, etc.
-This is not strictly necessary; you can also build with:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>spin<span class="w"> </span>build
-</pre></div>
-</div>
-<p>In that case, the library is not installed, but is accessible via
-<code class="docutils literal notranslate"><span class="pre">spin</span></code> commands, such as <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">run</span></code>,
-etc.</p>
-</div>
-</section>
-<section id="id5">
-<h3><span class="section-number">2.1.2. </span>conda<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
-<p>We recommend installing conda using
-<a class="reference external" href="https://github.com/conda-forge/miniforge">miniforge</a>,
-an alternative to Anaconda without licensing costs.</p>
-<p>After installing miniforge:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a conda environment with required dependencies</span>
-conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
-
-<span class="c1"># Activate it</span>
-conda<span class="w"> </span>activate<span class="w"> </span>skimage-dev
-
-<span class="c1"># Install scikit-image in editable mode. In editable mode,</span>
-<span class="c1"># scikit-image will be recompiled, as necessary, on import.</span>
-spin<span class="w"> </span>install<span class="w"> </span>-v
-</pre></div>
-</div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>The above installs scikit-image into your environment, which makes
-it accessible to IDEs, IPython, etc.
-This is not strictly necessary; you can also build with:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>spin<span class="w"> </span>build
-</pre></div>
-</div>
-<p>In that case, the library is not installed, but is accessible via
-<code class="docutils literal notranslate"><span class="pre">spin</span></code> commands, such as <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">ipython</span></code>, <code class="docutils literal notranslate"><span class="pre">spin</span> <span class="pre">run</span></code>,
-etc.</p>
-</div>
-</section>
-</section>
-<section id="testing">
-<h2><span class="section-number">2.2. </span>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h2>
-<p>Run the complete test suite:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>spin<span class="w"> </span><span class="nb">test</span>
-</pre></div>
-</div>
-<p>Or run a subset of tests:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run tests in a given file</span>
-spin<span class="w"> </span><span class="nb">test</span><span class="w"> </span>skimage/morphology/tests/test_gray.py
-
-<span class="c1"># Run tests in a given directory</span>
-spin<span class="w"> </span><span class="nb">test</span><span class="w"> </span>skimage/morphology
-
-<span class="c1"># Run tests matching a given expression</span>
-spin<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--<span class="w"> </span>-k<span class="w"> </span>local_maxima
-</pre></div>
-</div>
-</section>
-<section id="adding-a-feature-branch">
-<h2><span class="section-number">2.3. </span>Adding a feature branch<a class="headerlink" href="#adding-a-feature-branch" title="Link to this heading">#</a></h2>
-<p>When contributing a new feature, do so via a feature branch.</p>
-<p>First, fetch the latest source:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
-git<span class="w"> </span>pull<span class="w"> </span>upstream<span class="w"> </span>main
-</pre></div>
-</div>
-<p>Create your feature branch:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>--create<span class="w"> </span>my-feature-name
-</pre></div>
-</div>
-<p>Using an editable install, <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> will rebuild itself as
-necessary.
-If you are building manually, rebuild with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">sh</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>spin build</p>
-</div></blockquote>
-<p>Repeated, incremental builds usually work just fine, but if you notice build
-problems, rebuild from scratch using:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>spin<span class="w"> </span>build<span class="w"> </span>--clean
-</pre></div>
-</div>
-</section>
-<section id="platform-specific-notes">
-<h2><span class="section-number">2.4. </span>Platform-specific notes<a class="headerlink" href="#platform-specific-notes" title="Link to this heading">#</a></h2>
-<p><strong>Windows</strong></p>
-<p>Building <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> on Windows is done as part of our continuous
-integration testing; the steps are shown in this <a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/azure-pipelines.yml">Azure Pipeline</a>.</p>
-<p><strong>Debian and Ubuntu</strong></p>
-<p>Install suitable compilers prior to library compilation:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential
-</pre></div>
-</div>
-</section>
-<section id="full-requirements-list">
-<h2><span class="section-number">2.5. </span>Full requirements list<a class="headerlink" href="#full-requirements-list" title="Link to this heading">#</a></h2>
-<p><strong>Build Requirements</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">meson</span><span class="o">-</span><span class="n">python</span><span class="o">&gt;=</span><span class="mf">0.16</span>
-<span class="n">ninja</span><span class="o">&gt;=</span><span class="mf">1.11.1.1</span>
-<span class="n">Cython</span><span class="o">&gt;=</span><span class="mf">3.0.10</span><span class="p">,</span><span class="o">!=</span><span class="mf">3.2.0</span><span class="n">b1</span>
-<span class="n">pythran</span><span class="o">&gt;=</span><span class="mf">0.16</span>
-<span class="n">numpy</span><span class="o">&gt;=</span><span class="mf">2.0</span>
-<span class="n">spin</span><span class="o">&gt;=</span><span class="mf">0.13</span>
-<span class="n">build</span><span class="o">&gt;=</span><span class="mf">1.2.1</span>
-</pre></div>
-</div>
-<p><strong>Runtime Requirements</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">numpy</span><span class="o">&gt;=</span><span class="mf">2.1</span>
-<span class="n">scipy</span><span class="o">&gt;=</span><span class="mf">1.15</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">scipy</span><span class="o">&gt;=</span><span class="mf">1.14</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">==</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">networkx</span><span class="o">&gt;=</span><span class="mf">3.0</span>
-<span class="n">pillow</span><span class="o">&gt;=</span><span class="mf">10.1</span>
-<span class="n">imageio</span><span class="o">&gt;=</span><span class="mf">2.33</span><span class="p">,</span><span class="o">!=</span><span class="mf">2.35.0</span>
-<span class="n">tifffile</span><span class="o">&gt;=</span><span class="mf">2025.1.10</span>
-<span class="n">packaging</span><span class="o">&gt;=</span><span class="mi">24</span>
-<span class="n">lazy</span><span class="o">-</span><span class="n">loader</span><span class="o">&gt;=</span><span class="mf">0.5</span>
-</pre></div>
-</div>
-<p><strong>Test Requirements</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">numpydoc</span><span class="o">&gt;=</span><span class="mf">1.7</span>
-<span class="n">pooch</span><span class="o">&gt;=</span><span class="mf">1.6.0</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">pytest</span><span class="o">&gt;=</span><span class="mf">8.3</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">cov</span><span class="o">&gt;=</span><span class="mf">2.11.0</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">pretty</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">localserver</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">faulthandler</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">doctestplus</span><span class="o">&gt;=</span><span class="mf">1.6.0</span>
-</pre></div>
-</div>
-<p><strong>Documentation Requirements</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">sphinx</span><span class="o">&gt;=</span><span class="mf">8.0</span>
-<span class="n">sphinx</span><span class="o">-</span><span class="n">gallery</span><span class="p">[</span><span class="n">parallel</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">0.18</span>
-<span class="n">numpydoc</span><span class="o">&gt;=</span><span class="mf">1.7</span>
-<span class="n">sphinx</span><span class="o">-</span><span class="n">copybutton</span>
-<span class="n">sphinx</span><span class="o">-</span><span class="n">togglebutton</span>
-<span class="n">matplotlib</span><span class="o">&gt;=</span><span class="mf">3.10</span>
-<span class="n">dask</span><span class="p">[</span><span class="n">array</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">2025.1.0</span>
-<span class="n">pandas</span><span class="o">&gt;=</span><span class="mf">2.0</span>
-<span class="n">seaborn</span><span class="o">&gt;=</span><span class="mf">0.11</span>
-<span class="n">pooch</span><span class="o">&gt;=</span><span class="mf">1.6</span>
-<span class="n">tifffile</span><span class="o">&gt;=</span><span class="mf">2025.1.10</span>
-<span class="n">myst</span><span class="o">-</span><span class="n">parser</span>
-<span class="n">intersphinx</span><span class="o">-</span><span class="n">registry</span><span class="o">&gt;=</span><span class="mf">0.2411.14</span>
-<span class="n">ipywidgets</span>
-<span class="n">ipykernel</span>
-<span class="n">plotly</span><span class="o">&gt;=</span><span class="mf">5.20</span>
-<span class="n">kaleido</span><span class="o">==</span><span class="mf">0.2.1</span>
-<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">&gt;=</span><span class="mf">1.6</span>
-<span class="n">sphinx_design</span><span class="o">&gt;=</span><span class="mf">0.5</span>
-<span class="n">pydata</span><span class="o">-</span><span class="n">sphinx</span><span class="o">-</span><span class="n">theme</span><span class="o">&gt;=</span><span class="mf">0.16</span>
-<span class="n">PyWavelets</span><span class="o">&gt;=</span><span class="mf">1.7</span>
-<span class="n">pytest</span><span class="o">-</span><span class="n">doctestplus</span><span class="o">&gt;=</span><span class="mf">1.6.0</span>
-</pre></div>
-</div>
-<p><strong>Developer Requirements</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">pre</span><span class="o">-</span><span class="n">commit</span>
-<span class="n">ipython</span>
-<span class="n">docstub</span><span class="o">==</span><span class="mf">0.7.0</span><span class="n">rc0</span>
-<span class="n">asv</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-</pre></div>
-</div>
-<p><strong>Data Requirements</strong></p>
-<p>The full selection of demo datasets is only available with the
-following installed:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">pooch</span><span class="o">&gt;=</span><span class="mf">1.6.0</span>
-</pre></div>
-</div>
-<p><strong>Optional Requirements</strong></p>
-<p>You can use <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> with the basic requirements listed above, but some
-functionality is only available with the following installed:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://matplotlib.org">Matplotlib</a>
-Used in various functions, e.g., for drawing, segmenting, reading images.</p></li>
-<li><p><a class="reference external" href="https://dask.org/">Dask</a>
-The <code class="docutils literal notranslate"><span class="pre">dask</span></code> module is used to parallelize certain functions.</p></li>
-</ul>
-<p>More rarely, you may also need:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://pyamg.org/">PyAMG</a>
-The <code class="docutils literal notranslate"><span class="pre">pyamg</span></code> module is used for the fast <code class="docutils literal notranslate"><span class="pre">cg_mg</span></code> mode of random
-walker segmentation.</p></li>
-<li><p><a class="reference external" href="https://www.astropy.org">Astropy</a>
-Provides FITS I/O capability.</p></li>
-<li><p><a class="reference external" href="http://www.simpleitk.org/">SimpleITK</a>
-Optional I/O plugin providing a wide variety of <a class="reference external" href="https://itk.org/Wiki/ITK_File_Formats">formats</a>.
-including specialized formats used in biomedical imaging.</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generated via tools/generate_requirements.py and pre-commit hook.</span>
-<span class="c1"># Do not edit this file; modify pyproject.toml instead.</span>
-<span class="n">SimpleITK</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">&gt;=</span><span class="mf">1.6</span>
-<span class="n">pyamg</span><span class="o">&gt;=</span><span class="mf">5.2</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span> <span class="ow">and</span> <span class="n">python_version</span> <span class="o">&lt;</span> <span class="s2">&quot;3.14&quot;</span>
-<span class="n">astropy</span><span class="o">&gt;=</span><span class="mf">6.1</span>
-<span class="n">dask</span><span class="p">[</span><span class="n">array</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">2025.1.0</span>
-<span class="n">matplotlib</span><span class="o">&gt;=</span><span class="mf">3.10</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">pooch</span><span class="o">&gt;=</span><span class="mf">1.6.0</span><span class="p">;</span> <span class="n">sys_platform</span> <span class="o">!=</span> <span class="s2">&quot;emscripten&quot;</span>
-<span class="n">PyWavelets</span><span class="o">&gt;=</span><span class="mf">1.7</span>
-</pre></div>
-</div>
-</section>
-<section id="help-with-contributor-installation">
-<h2><span class="section-number">2.6. </span>Help with contributor installation<a class="headerlink" href="#help-with-contributor-installation" title="Link to this heading">#</a></h2>
-<p>See <a class="reference external" href="#additional-help">Additional help</a> above.</p>
-</section>
+<p>See the <a class="reference internal" href="../development/contribute.html"><span class="doc">contributing guide</span></a> for instructions
+on setting up a development environment and contributing to scikit-image.</p>
 </section>
 
 
@@ -953,19 +688,7 @@ including specialized formats used in biomedical imaging.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-help">1.6. Additional help</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-scikit-image-for-contributors">2. Installing scikit-image for contributors</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-environment-setup">2.1. Build environment setup</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#venv">2.1.1. venv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.1.2. conda</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">2.2. Testing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-feature-branch">2.3. Adding a feature branch</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#platform-specific-notes">2.4. Platform-specific notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-requirements-list">2.5. Full requirements list</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#help-with-contributor-installation">2.6. Help with contributor installation</a></li>
-</ul>
-</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-scikit-image-for-contributors">2. Installing scikit-image for contributors</a></li>
 </ul>
 
   </nav></div>
