@@ -701,22 +701,37 @@ imported as <code class="docutils literal notranslate"><span class="pre">psycopg
 </section>
 <section id="implementation">
 <span id="skip4-implementation"></span><h2>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h2>
-<p>As a first execution step of this SKIP, scikit-image 1.0 will be released, celebrating the maturity of the project.</p>
+<p>This section documents concrete implementation details, and will be updated as we progress with the v2 implementation.</p>
 <section id="first-phase-building-skimage2">
 <h3>First phase: Building <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code><a class="headerlink" href="#first-phase-building-skimage2" title="Link to this heading">#</a></h3>
-<p>Afterward, a new empty <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace will be created in our repository alongside the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace.
-It will be marked as experimental – importing it will warn that content in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is still unstable.
-This namespace should be included in releases on PyPI or elsewhere early to facilitate testing downstream.</p>
-<p>With the new namespace available, we will start building the new API inside it.
+<p>Two new namespaces and Python packages, <code class="docutils literal notranslate"><span class="pre">src/_skimage2</span></code> and <code class="docutils literal notranslate"><span class="pre">src/skimage2</span></code>, will be created alongside <code class="docutils literal notranslate"><span class="pre">src/skimage</span></code>.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_skimage2</span></code></dt><dd><p>will be the temporary namespace, where we build up the new API.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">skimage2</span></code></dt><dd><p>is a lightweight wrapper around <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code>.
+It exposes the API for early testing and warns the user on import that
+<code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is still unstable.</p>
+</dd>
+</dl>
+<p>With the new namespaces available, we will start building the new API while preserving the existing <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace and functionality.
 This process orients itself around the following principles:</p>
 <dl class="simple">
-<dt>Only one implementation</dt><dd><p>If possible, only one implementation should exist, and one API should be a <em>simple</em> wrapper around the other.
-The implementation can live in either namespace depending on what is more opportune – preferably it should live in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.</p>
+<dt>One implementation</dt><dd><p>If possible, only one implementation should exist, and one API should be a <em>simple</em> wrapper around the other.</p>
 </dd>
-<dt>Independent test suite</dt><dd><p>Each API should have its own independent test suite.</p>
+</dl>
+<dl class="simple" id="sk2-import-hierarchy">
+<dt>Import hierarchy</dt><dd><p><code class="docutils literal notranslate"><span class="pre">skimage</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> may only import from <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code>, and <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> should be self-contained.
+Exceptions (for example, importing from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> in <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code>) are temporary and should be realized using inlined imports.
+By the end of this phase, implementations in <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> should no longer rely on code in <code class="docutils literal notranslate"><span class="pre">skimage</span></code>.</p>
 </dd>
-<dt>Small API difference</dt><dd><p>Keep the differences between the old and new API small to make the eventual transition easier for users.
-Prefer conventional deprecations in the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace if possible.</p>
+<dt>Test coverage of both APIs</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">skimage</span></code> test suite should be duplicated for <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> functions.
+The tests should be adjusted to verify new behavior.
+To counteract the slowdown due to test duplication, we will soon select tests
+using dependency analysis (see <a class="reference external" href="https://github.com/scikit-image/scikit-image/pull/7749">#7749</a>).</p>
+</dd>
+<dt>Minimize API difference</dt><dd><p>Minimize the differences between the old and new API to make the eventual transition easier for users.
+Generally, new changes should be introduced in <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> only.
+But we may opt for <a class="reference internal" href="../development/contribute.html#deprecation-cycle"><span class="std std-ref">conventional deprecations</span></a> within <code class="docutils literal notranslate"><span class="pre">skimage</span></code>, if strong arguments can be made.</p>
 </dd>
 <dt>Backwards compatible</dt><dd><p>It should be possible to achieve the old behavior of the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> API by some call or set of calls with the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> API.
 There may be some situations where we have to break this general rule, but an argument should be made for the relevant change that breaks this rule.
@@ -736,18 +751,21 @@ These warnings will be silent (subclass of <a class="reference external" href="h
 </section>
 <section id="second-phase-transitioning-to-skimage2">
 <h3>Second phase: Transitioning to <code class="xref py py-obj docutils literal notranslate"><span class="pre">skimage2</span></code><a class="headerlink" href="#second-phase-transitioning-to-skimage2" title="Link to this heading">#</a></h3>
-<p>Once we consider the API in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> complete and stable, we will publish it in a full release versioned 2.0.0.
-Starting with that version, importing <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is encouraged and won’t raise warnings.</p>
+<p>Once we consider the API in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> complete and stable, <code class="docutils literal notranslate"><span class="pre">src/_skimage2</span></code> will be merged into <code class="docutils literal notranslate"><span class="pre">src/skimage2</span></code> and the <em>experimental</em> warning will be removed.</p>
 <p>Instead, we will mark the API in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> as deprecated with a single top-level warning that is raised on import.
 This warning will encourage users to transition to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
 It should link to the migration guide and should explain how to enable <a class="reference internal" href="#sk2-local-warning"><span class="std std-ref">more specific warnings</span></a>.</p>
-<p>Not earlier than 1 year after the release of 2.0.0, we will begin to successively remove parts of the deprecated API from <code class="docutils literal notranslate"><span class="pre">skimage</span></code>.
-Implementations and internal code that still live in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> will be moved to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
-This process can and should be spread over multiple releases.</p>
-<p>Before completely removing parts of the API, relevant <a class="reference internal" href="#sk2-local-warning"><span class="std std-ref">warnings from the first phase</span></a> should be made visible to users.
-They should be visible for 2 releases before API is actually removed (or whatever our existing <a class="reference external" href="dep_pol">deprecation policy</a> recommends).
-This helps users who want to transition slowly.</p>
-<p>Once the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace is empty, it will be removed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this stage <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> should no longer need to import from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> to avoid triggering this new warning.</p>
+</div>
+<p>This state will be published in a full release as <code class="docutils literal notranslate"><span class="pre">scikit-image==2.0.0</span></code>.</p>
+<p>From that point onward, importing <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> is encouraged.
+Development of new features should only happen in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+Bugs in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> may still be addressed and will be included in releases with version &gt;= 2.0.0.</p>
+<p>As for conventional deprecations, we will provide users with a grace period of visible warnings for every change necessary for porting from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> to <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.
+This grace period should be at least 2 releases or 2 years long (whichever is longer) before user’s code is broken.
+After this process is complete, we will remove the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace entirely.</p>
 </section>
 <section id="code-translation-helper">
 <h3>Code translation helper<a class="headerlink" href="#code-translation-helper" title="Link to this heading">#</a></h3>
@@ -770,6 +788,27 @@ porting <code class="docutils literal notranslate"><span class="pre">skimage</sp
 and we will publish a user guide for making the transition by the time of
 the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> release. Users will be notified about these resources - among
 other things - by a warning in scikit-image 1.1.</p>
+</section>
+<section id="rationale">
+<h2>Rationale<a class="headerlink" href="#rationale" title="Link to this heading">#</a></h2>
+<p>Rationale for design decisions described in the previous section.
+See <em>Alternatives</em> for why certain solutions where rejected.</p>
+<section id="why-so-many-namespaces">
+<h3>Why so many namespaces?<a class="headerlink" href="#why-so-many-namespaces" title="Link to this heading">#</a></h3>
+<p>Having additional namespaces significantly simplifies the gradual porting process during the first implementation phase.
+The new API v2 can be gradually fleshed out in its own independent namespace and made available for testing to the community.</p>
+<p>Separating <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> and <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> simplifies the requirement that users are warned about the experimental status of the API v2.
+Ported implementations that live in <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code> can be reused by wrappers in <code class="docutils literal notranslate"><span class="pre">skimage</span></code> without triggering the import warning in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>.</p>
+<p>An alternative would have been to raise this warning not on import of <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> but when any of its attributes are used, with a custom <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>.
+However, we preferred to trigger this warning as early as possible.</p>
+</section>
+<section id="why-restrict-imports-between-namespaces">
+<h3>Why restrict imports between namespaces?<a class="headerlink" href="#why-restrict-imports-between-namespaces" title="Link to this heading">#</a></h3>
+<p>While we are gradually porting implementations and API from <code class="docutils literal notranslate"><span class="pre">skimage</span></code> to <code class="docutils literal notranslate"><span class="pre">_skimage2</span></code>, code in one namespace may require functionality from the other one – and vice versa.
+This can easily lead to confusing circular import errors.
+To minimize the likelihood of these errors, we define an explicit <a class="reference internal" href="#sk2-import-hierarchy"><span class="std std-ref">Import hierarchy</span></a>.
+Since we want <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> to be independent of <code class="docutils literal notranslate"><span class="pre">skimage</span></code> by the end of the first phase, we only allow temporary inlined imports from <code class="docutils literal notranslate"><span class="pre">skimage</span></code>.</p>
+</section>
 </section>
 <section id="alternatives">
 <h2>Alternatives<a class="headerlink" href="#alternatives" title="Link to this heading">#</a></h2>
@@ -946,6 +985,11 @@ CC0+BY <a class="footnote-reference brackets" href="#id9" id="id16" role="doc-no
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-compatibility">Backward compatibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rationale">Rationale</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-so-many-namespaces">Why so many namespaces?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-restrict-imports-between-namespaces">Why restrict imports between namespaces?</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternatives">Alternatives</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#releasing-the-new-api-in-the-same-package-using-semantic-versioning">Releasing the new API in the same package using semantic versioning</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-deprecation-over-multiple-versions">Continuous deprecation over multiple versions</a></li>
