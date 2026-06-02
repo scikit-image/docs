@@ -60,8 +60,236 @@ When switching to the new ``skimage2`` namespace, some code will need to be upda
     ``skimage2``, you explicitly opt in to the new behavior.
 
 
+.. _sk2adv-gray-funcs:
 
-.. _skimage-data-binary-blobs:
+Grayscale morphological operators in `skimage.morphology`
+---------------------------------------------------------
+
+The following functions are deprecated in favor of counterparts in `skimage2.morphology`:
+
+
+- :ref:`sk2adv-skimage-morphology-erosion`
+
+- :ref:`sk2adv-skimage-morphology-dilation`
+
+- :ref:`sk2adv-skimage-morphology-opening`
+
+- :ref:`sk2adv-skimage-morphology-closing`
+
+- :ref:`sk2adv-skimage-morphology-white-tophat`
+
+- :ref:`sk2adv-skimage-morphology-black-tophat`
+
+
+The new counterparts behave differently in the following ways:
+
+- All functions now default to ``mode='ignore'`` (was ``mode='reflect'``).
+- Additionally, ``skimage2.morphology.dilation``, ``skimage2.morphology.closing``,
+  and ``skimage2.morphology.black_tophat`` now also mirror the footprint (invert
+  its order in each dimension). Note this only impacts behavior for asymmetric
+  footprints.
+
+.. admonition:: Background for changes
+    :class: note dropdown
+
+    The new behavior ensures that, with default parameters, ``closing`` and
+    ``opening`` are `extensive and anti-extensive
+    <https://en.wikipedia.org/wiki/Mathematical_morphology#Properties_of_the_basic_operators>`__
+    respectively. This change also aligns the behavior for asymmetric
+    footprints with SciPy's ``scipy.ndimage.grey_*`` functions.
+
+    Refer to
+    `gh-6665 <https://github.com/scikit-image/scikit-image/issues/6665>`__,
+    `gh-6676 <https://github.com/scikit-image/scikit-image/issues/6676>`__,
+    `gh-8046 <https://github.com/scikit-image/scikit-image/pull/8046>`__, and
+    `gh-8060 <https://github.com/scikit-image/scikit-image/pull/8060>`__ for
+    more details.
+
+
+.. _sk2adv-skimage-morphology-erosion:
+
+``skimage.morphology.erosion``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.erosion`` is deprecated in favor of
+``skimage2.morphology.erosion``, which changes the default value
+for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
+
+To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
+explicitly. If you set it explicitly before, the behavior is unchanged.
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> res1 = ski1.morphology.erosion(image)  # skimage default is mode='reflect'
+>>> res2 = ski2.morphology.erosion(image, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-morphology-dilation:
+
+``skimage.morphology.dilation``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.dilation`` is deprecated in favor of
+``skimage2.morphology.dilation`` which changes the default value for parameter
+`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
+(inverts its order in each dimension), which aligns its behavior with SciPy's
+conventions.
+
+To keep the old (``skimage``, v1.x) behavior:
+
+- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
+  behavior is unchanged.
+- If you currently use an asymmetric `footprint`, modify it like this before
+  passing it to ``skimage2.morphology.dilation``:
+
+  .. code-block:: python
+
+    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
+    footprint = ski2.morphology.mirror_footprint(footprint)
+
+For example:
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> asym_foot = np.zeros((4, 4))
+>>> asym_foot[2:, 2:] = 1
+>>> res1 = ski1.morphology.dilation(image, footprint=asym_foot)
+>>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
+>>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
+>>> res2 = ski2.morphology.dilation(image, footprint=mirror_asym, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-morphology-opening:
+
+``skimage.morphology.opening``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.opening`` is deprecated in favor of
+``skimage2.morphology.opening``, which changes the default value
+for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
+
+To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
+explicitly. If you set it explicitly before, the behavior is unchanged.
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> res1 = ski1.morphology.opening(image)  # skimage default is mode='reflect'
+>>> res2 = ski2.morphology.opening(image, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-morphology-closing:
+
+``skimage.morphology.closing``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.closing`` is deprecated in favor of
+``skimage2.morphology.closing`` which changes the default value for parameter
+`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
+(inverts its order in each dimension), which aligns its behavior with SciPy's
+conventions.
+
+To keep the old (``skimage``, v1.x) behavior:
+
+- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
+  behavior is unchanged.
+- If you currently use an asymmetric `footprint`, modify it like this before
+  passing it to ``skimage2.morphology.closing``:
+
+  .. code-block:: python
+
+    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
+    footprint = ski2.morphology.mirror_footprint(footprint)
+
+For example:
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> asym_foot = np.zeros((4, 4))
+>>> asym_foot[2:, 2:] = 1
+>>> res1 = ski1.morphology.closing(image, footprint=asym_foot)
+>>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
+>>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
+>>> res2 = ski2.morphology.closing(image, footprint=mirror_asym, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-morphology-white-tophat:
+
+``skimage.morphology.white_tophat``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.white_tophat`` is deprecated in favor of
+``skimage2.morphology.white_tophat``, which changes the default value
+for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
+
+To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
+explicitly. If you set it explicitly before, the behavior is unchanged.
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> res1 = ski1.morphology.white_tophat(image)  # skimage default is mode='reflect'
+>>> res2 = ski2.morphology.white_tophat(image, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-morphology-black-tophat:
+
+``skimage.morphology.black_tophat``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``skimage.morphology.black_tophat`` is deprecated in favor of
+``skimage2.morphology.black_tophat`` which changes the default value for parameter
+`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
+(inverts its order in each dimension), which aligns its behavior with SciPy's
+conventions.
+
+To keep the old (``skimage``, v1.x) behavior:
+
+- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
+  behavior is unchanged.
+- If you currently use an asymmetric `footprint`, modify it like this before
+  passing it to ``skimage2.morphology.black_tophat``:
+
+  .. code-block:: python
+
+    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
+    footprint = ski2.morphology.mirror_footprint(footprint)
+
+For example:
+
+>>> import numpy as np
+>>>
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> image = ski1.data.camera()
+>>> asym_foot = np.zeros((4, 4))
+>>> asym_foot[2:, 2:] = 1
+>>> res1 = ski1.morphology.black_tophat(image, footprint=asym_foot)
+>>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
+>>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
+>>> res2 = ski2.morphology.black_tophat(image, footprint=mirror_asym, mode='reflect')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-data-binary-blobs:
 
 ``skimage.data.binary_blobs``
 -----------------------------
@@ -92,7 +320,28 @@ To keep the old (``skimage``, v1.x) behavior, use:
 ... )
 >>> assert np.all(res1 == res2)
 
-.. _skimage-feature-peak-local-max:
+.. _sk2adv-skimage-feature-canny:
+
+``skimage.feature.canny``
+-------------------------
+
+``skimage.feature.canny`` is deprecated in favor of
+``skimage2.feature.canny`` with new behavior.
+
+The default of the optional parameter `mode` has changed from 'constant'
+to 'nearest'. If you did not set this parameter explicitly, and you want
+the old (``skimage``, v1.x) behavior, add an explicit ``mode='constant'``:
+
+>>> import numpy as np
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+>>>
+>>> img = ski1.data.checkerboard()
+>>> res1 = ski1.feature.canny(img)  # ski1 default is mode='constant'
+>>> res2 = ski2.feature.canny(img, mode='constant')
+>>> assert np.all(res1 == res2)
+
+.. _sk2adv-skimage-feature-peak-local-max:
 
 ``skimage.feature.peak_local_max``
 ----------------------------------
@@ -152,28 +401,7 @@ Other keyword parameters can be left unchanged.
 ... )
 >>> assert np.all(res1 == res2)
 
-.. _skimage-feature-canny:
-
-``skimage.feature.canny``
--------------------------
-
-``skimage.feature.canny`` is deprecated in favor of
-``skimage2.feature.canny`` with new behavior.
-
-The default of the optional parameter `mode` has changed from 'constant'
-to 'nearest'. If you did not set this parameter explicitly, and you want
-the old (``skimage``, v1.x) behavior, add an explicit ``mode='constant'``:
-
->>> import numpy as np
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> img = ski1.data.checkerboard()
->>> res1 = ski1.feature.canny(img)  # ski1 default is mode='constant'
->>> res2 = ski2.feature.canny(img, mode='constant')
->>> assert np.all(res1 == res2)
-
-.. _skimage-filters-gaussian:
+.. _sk2adv-skimage-filters-gaussian:
 
 ``skimage.filters.gaussian``
 ----------------------------
@@ -196,7 +424,7 @@ Becomes ::
 
 Other keyword parameters can be left unchanged.
 
-.. _skimage-metrics-structural-similarity:
+.. _sk2adv-skimage-metrics-structural-similarity:
 
 ``skimage.metrics.structural_similarity``
 -----------------------------------------
@@ -227,233 +455,6 @@ For example:
 
 For floating dtypes, setting `data_range` was already required in
 ``skimage``/v1.x.
-
-Grayscale morphological operators in `skimage.morphology`
----------------------------------------------------------
-
-The following functions are deprecated in favor of counterparts in `skimage2.morphology`:
-
-
-- ``skimage.morphology.erosion``
-
-- ``skimage.morphology.dilation``
-
-- ``skimage.morphology.opening``
-
-- ``skimage.morphology.closing``
-
-- ``skimage.morphology.white_tophat``
-
-- ``skimage.morphology.black_tophat``
-
-
-The new counterparts behave differently in the following ways:
-
-- All functions now default to ``mode='ignore'`` (was ``mode='reflect'``).
-- Additionally, ``skimage2.morphology.dilation``, ``skimage2.morphology.closing``,
-  and ``skimage2.morphology.black_tophat`` now also mirror the footprint (invert
-  its order in each dimension). Note this only impacts behavior for asymmetric
-  footprints.
-
-.. admonition:: Background for changes
-    :class: note dropdown
-
-    The new behavior ensures that, with default parameters, ``closing`` and
-    ``opening`` are `extensive and anti-extensive
-    <https://en.wikipedia.org/wiki/Mathematical_morphology#Properties_of_the_basic_operators>`__
-    respectively. This change also aligns the behavior for asymmetric
-    footprints with SciPy's ``scipy.ndimage.grey_*`` functions.
-
-    Refer to
-    `gh-6665 <https://github.com/scikit-image/scikit-image/issues/6665>`__,
-    `gh-6676 <https://github.com/scikit-image/scikit-image/issues/6676>`__,
-    `gh-8046 <https://github.com/scikit-image/scikit-image/pull/8046>`__, and
-    `gh-8060 <https://github.com/scikit-image/scikit-image/pull/8060>`__ for
-    more details.
-
-
-.. _skimage-morphology-erosion:
-
-``skimage.morphology.erosion``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.erosion`` is deprecated in favor of
-``skimage2.morphology.erosion``, which changes the default value
-for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
-
-To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
-explicitly. If you set it explicitly before, the behavior is unchanged.
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> res1 = ski1.morphology.erosion(image)  # skimage default is mode='reflect'
->>> res2 = ski2.morphology.erosion(image, mode='reflect')
->>> assert np.all(res1 == res2)
-
-.. _skimage-morphology-dilation:
-
-``skimage.morphology.dilation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.dilation`` is deprecated in favor of
-``skimage2.morphology.dilation`` which changes the default value for parameter
-`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
-(inverts its order in each dimension), which aligns its behavior with SciPy's
-conventions.
-
-To keep the old (``skimage``, v1.x) behavior:
-
-- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
-  behavior is unchanged.
-- If you currently use an asymmetric `footprint`, modify it like this before
-  passing it to ``skimage2.morphology.dilation``:
-
-  .. code-block:: python
-
-    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
-    footprint = ski2.morphology.mirror_footprint(footprint)
-
-For example:
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> asym_foot = np.zeros((4, 4))
->>> asym_foot[2:, 2:] = 1
->>> res1 = ski1.morphology.dilation(image, footprint=asym_foot)
->>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
->>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
->>> res2 = ski2.morphology.dilation(image, footprint=mirror_asym, mode='reflect')
->>> assert np.all(res1 == res2)
-
-.. _skimage-morphology-opening:
-
-``skimage.morphology.opening``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.opening`` is deprecated in favor of
-``skimage2.morphology.opening``, which changes the default value
-for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
-
-To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
-explicitly. If you set it explicitly before, the behavior is unchanged.
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> res1 = ski1.morphology.opening(image)  # skimage default is mode='reflect'
->>> res2 = ski2.morphology.opening(image, mode='reflect')
->>> assert np.all(res1 == res2)
-
-.. _skimage-morphology-closing:
-
-``skimage.morphology.closing``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.closing`` is deprecated in favor of
-``skimage2.morphology.closing`` which changes the default value for parameter
-`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
-(inverts its order in each dimension), which aligns its behavior with SciPy's
-conventions.
-
-To keep the old (``skimage``, v1.x) behavior:
-
-- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
-  behavior is unchanged.
-- If you currently use an asymmetric `footprint`, modify it like this before
-  passing it to ``skimage2.morphology.closing``:
-
-  .. code-block:: python
-
-    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
-    footprint = ski2.morphology.mirror_footprint(footprint)
-
-For example:
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> asym_foot = np.zeros((4, 4))
->>> asym_foot[2:, 2:] = 1
->>> res1 = ski1.morphology.closing(image, footprint=asym_foot)
->>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
->>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
->>> res2 = ski2.morphology.closing(image, footprint=mirror_asym, mode='reflect')
->>> assert np.all(res1 == res2)
-
-.. _skimage-morphology-white-tophat:
-
-``skimage.morphology.white_tophat``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.white_tophat`` is deprecated in favor of
-``skimage2.morphology.white_tophat``, which changes the default value
-for parameter `mode` to ``'ignore'`` (was ``'reflect'``).
-
-To keep the old (``skimage``, v1.x) behavior, set ``mode='reflect'``
-explicitly. If you set it explicitly before, the behavior is unchanged.
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> res1 = ski1.morphology.white_tophat(image)  # skimage default is mode='reflect'
->>> res2 = ski2.morphology.white_tophat(image, mode='reflect')
->>> assert np.all(res1 == res2)
-
-.. _skimage-morphology-black-tophat:
-
-``skimage.morphology.black_tophat``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``skimage.morphology.black_tophat`` is deprecated in favor of
-``skimage2.morphology.black_tophat`` which changes the default value for parameter
-`mode` to ``'ignore'`` (was ``'reflect'``). It also mirrors the `footprint`
-(inverts its order in each dimension), which aligns its behavior with SciPy's
-conventions.
-
-To keep the old (``skimage``, v1.x) behavior:
-
-- Set ``mode='reflect'`` explicitly. If you set it explicitly before, the
-  behavior is unchanged.
-- If you currently use an asymmetric `footprint`, modify it like this before
-  passing it to ``skimage2.morphology.black_tophat``:
-
-  .. code-block:: python
-
-    footprint = ski2.morphology.pad_footprint(footprint, pad_end=False)
-    footprint = ski2.morphology.mirror_footprint(footprint)
-
-For example:
-
->>> import numpy as np
->>>
->>> import skimage as ski1
->>> import skimage2 as ski2
->>>
->>> image = ski1.data.camera()
->>> asym_foot = np.zeros((4, 4))
->>> asym_foot[2:, 2:] = 1
->>> res1 = ski1.morphology.black_tophat(image, footprint=asym_foot)
->>> pad_asym = ski2.morphology.pad_footprint(asym_foot, pad_end=False)
->>> mirror_asym = ski2.morphology.mirror_footprint(pad_asym)
->>> res2 = ski2.morphology.black_tophat(image, footprint=mirror_asym, mode='reflect')
->>> assert np.all(res1 == res2)
 
 
 Deprecations prior to skimage2
