@@ -1029,12 +1029,12 @@ with the total least-squares method.</p>
 </dd>
 <dt><strong>kwargs</strong><span class="classifier">array_like or int</span></dt><dd><p>Function parameters (src, dst, n, angle):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>NAME / TTYPE        FUNCTION PARAMETERS
-&#39;euclidean&#39;         `src, `dst`
-&#39;similarity&#39;        `src, `dst`
-&#39;affine&#39;            `src, `dst`
-&#39;piecewise-affine&#39;  `src, `dst`
-&#39;projective&#39;        `src, `dst`
-&#39;polynomial&#39;        `src, `dst`, `order` (polynomial order,
+'euclidean'         `src, `dst`
+'similarity'        `src, `dst`
+'affine'            `src, `dst`
+'piecewise-affine'  `src, `dst`
+'projective'        `src, `dst`
+'polynomial'        `src, `dst`, `order` (polynomial order,
                                           default order is 2)
 </pre></div>
 </div>
@@ -1050,7 +1050,7 @@ failed estimation. Testing the truth value of the failed estimation
 object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">estimate_transform</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -1067,7 +1067,7 @@ object will return <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tform</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tform</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">'similarity'</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">tform</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">tform</span><span class="p">(</span><span class="n">src</span><span class="p">)),</span> <span class="n">src</span><span class="p">)</span>
@@ -1098,14 +1098,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski2</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">'similarity'</span><span class="p">,</span>
 <span class="gp">... </span>                                             <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -1114,7 +1114,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 </dd></dl>

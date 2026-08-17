@@ -747,12 +747,12 @@ with the total least-squares method.</p>
 </dd>
 <dt><strong>kwargs</strong><span class="classifier">array_like or int</span></dt><dd><p>Function parameters (src, dst, n, angle):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>NAME / TTYPE        FUNCTION PARAMETERS
-&#39;euclidean&#39;         `src, `dst`
-&#39;similarity&#39;        `src, `dst`
-&#39;affine&#39;            `src, `dst`
-&#39;piecewise-affine&#39;  `src, `dst`
-&#39;projective&#39;        `src, `dst`
-&#39;polynomial&#39;        `src, `dst`, `order` (polynomial order,
+'euclidean'         `src, `dst`
+'similarity'        `src, `dst`
+'affine'            `src, `dst`
+'piecewise-affine'  `src, `dst`
+'projective'        `src, `dst`
+'polynomial'        `src, `dst`, `order` (polynomial order,
                                           default order is 2)
 </pre></div>
 </div>
@@ -768,7 +768,7 @@ failed estimation. Testing the truth value of the failed estimation
 object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">estimate_transform</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -785,7 +785,7 @@ object will return <code class="docutils literal notranslate"><span class="pre">
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">12</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">'similarity'</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">tform</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">tform</span><span class="p">(</span><span class="n">src</span><span class="p">)),</span> <span class="n">src</span><span class="p">)</span>
@@ -816,14 +816,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">'similarity'</span><span class="p">,</span>
 <span class="gp">... </span>                                             <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -832,7 +832,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2124,7 +2124,7 @@ exceptions:</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.transform.resize_local_mean">
-<span class="sig-prename descclassname"><span class="pre">skimage.transform.</span></span><span class="sig-name descname"><span class="pre">resize_local_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_warps.py#L1289-L1403"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.resize_local_mean" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.transform.</span></span><span class="sig-name descname"><span class="pre">resize_local_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">preserve_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_warps.py#L1289-L1407"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.transform.resize_local_mean" title="Link to this definition">#</a></dt>
 <dd><p>Resize an array with the local mean / bilinear scaling.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2157,6 +2157,10 @@ coordinate location 0 in each mode.</p>
 image is converted according to the conventions of <code class="xref py py-obj docutils literal notranslate"><span class="pre">img_as_float</span></code>.
 Also see
 <a class="reference external" href="https://scikit-image.org/docs/dev/user_guide/data_types.html">https://scikit-image.org/docs/dev/user_guide/data_types.html</a></p>
+</dd>
+<dt><strong>channel_axis</strong><span class="classifier">int or None, optional</span></dt><dd><p>If None, the image is assumed to be a grayscale (single channel) image.
+Otherwise, this parameter indicates which axis of the array corresponds
+to channels.</p>
 </dd>
 </dl>
 </dd>
@@ -2646,18 +2650,18 @@ to channels.</p>
 </pre></div>
 </div>
 <p>Perform a log-polar warp on a grayscale image:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">warped</span> <span class="o">=</span> <span class="n">warp_polar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">warped</span> <span class="o">=</span> <span class="n">warp_polar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">'log'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Perform a log-polar warp on a grayscale image while specifying center,
 radius, and output shape:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">warped</span> <span class="o">=</span> <span class="n">warp_polar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-<span class="gp">... </span>                    <span class="n">output_shape</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="gp">... </span>                    <span class="n">output_shape</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">'log'</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Perform a log-polar warp on a color image:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">astronaut</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">warped</span> <span class="o">=</span> <span class="n">warp_polar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">channel_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">warped</span> <span class="o">=</span> <span class="n">warp_polar</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="s1">'log'</span><span class="p">,</span> <span class="n">channel_axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Phase correlation (``registration.phase_cross_correlation``) is an efficient method for determining translation offset between pairs of similar images. However this approach relies on a near absence of rotation/scaling differences between the images, which are typical in real-world examples."><img alt="" src="../_images/sphx_glr_plot_register_rotation_thumb.png" />
@@ -2805,14 +2809,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">AffineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -2821,7 +2825,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -2996,7 +3000,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">AffineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -3165,14 +3169,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">EssentialMatrixTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -3181,7 +3185,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -3250,7 +3254,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">EssentialMatrixTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -3439,14 +3443,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">EuclideanTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -3455,7 +3459,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -3531,7 +3535,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">EuclideanTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -3714,14 +3718,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">FundamentalMatrixTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -3730,7 +3734,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -3800,7 +3804,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">FundamentalMatrixTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -3934,14 +3938,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">+</span> <span class="n">src</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">PiecewiseAffineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -3950,7 +3954,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -4013,7 +4017,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">PiecewiseAffineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -4273,7 +4277,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">PolynomialTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -4417,14 +4421,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">ProjectiveTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -4433,7 +4437,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -4593,7 +4597,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">ProjectiveTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -4761,14 +4765,14 @@ are the same.  If this happens, you will get a transform that is not
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># A successfully estimated model is truthy (applying ``bool()``</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># gives ``True``):</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Not so for a degenerate transform with identical points.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_src</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">SimilarityTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tform</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -4777,7 +4781,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tform</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -4853,7 +4857,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tf</span> <span class="o">=</span> <span class="n">SimilarityTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tf</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -5007,7 +5011,7 @@ rotating by 90 degrees and generate a meshgrid from them:</p>
 are the same.  If this happens, you will get a transform that is not
 “truthy” - meaning that <code class="docutils literal notranslate"><span class="pre">bool(tform)</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">tps</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation succeeded.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation succeeded."</span><span class="p">)</span>
 <span class="go">Estimation succeeded.</span>
 </pre></div>
 </div>
@@ -5016,7 +5020,7 @@ are the same.  If this happens, you will get a transform that is not
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tps</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">ThinPlateSplineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span>
 <span class="gp">... </span>     <span class="n">bad_src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="ow">not</span> <span class="n">bad_tps</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Estimation failed.&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Estimation failed."</span><span class="p">)</span>
 <span class="go">Estimation failed.</span>
 </pre></div>
 </div>
@@ -5025,7 +5029,7 @@ error:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bad_tps</span><span class="o">.</span><span class="n">params</span>
 <span class="gt">Traceback (most recent call last):</span>
 <span class="w">  </span><span class="c">...</span>
-<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute &quot;params&quot; for failed estimation ...</span>
+<span class="gr">FailedEstimationAccessError</span>: <span class="n">No attribute "params" for failed estimation ...</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -5086,7 +5090,7 @@ signal a failed estimation. Testing the truth value of the failed
 estimation object will return <code class="docutils literal notranslate"><span class="pre">False</span></code>. E.g.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tform</span> <span class="o">=</span> <span class="n">ThinPlateSplineTransform</span><span class="o">.</span><span class="n">from_estimate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">tform</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed estimation: </span><span class="si">{</span><span class="n">tf</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
