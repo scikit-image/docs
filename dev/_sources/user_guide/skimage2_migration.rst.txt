@@ -498,6 +498,48 @@ Becomes ::
 
 Other keyword parameters can be left unchanged.
 
+.. _sk2adv-skimage-graph-pixel-graph:
+
+``skimage.graph.pixel_graph``
+-----------------------------
+
+``skimage.graph.pixel_graph`` is deprecated in favor of
+``skimage2.graph.pixel_graph`` with new behavior:
+
+* Parameter `sparse_type` was removed
+* Returned `graph` is always a `scipy.sparse.csr_array`
+
+SciPy 2.0 deprecates the sparse matrix classes and will remove them no
+earlier than SciPy 2.2. The two types define ``*`` differently: matrix
+multiplication for `scipy.sparse.csr_matrix`, elementwise multiplication
+for `scipy.sparse.csr_array`. ``@`` is matrix multiplication for both.
+
+To keep the old (``skimage``, v1.x) behavior, convert the result::
+
+    graph, nodes = skimage2.graph.pixel_graph(image, ...)
+    graph = scipy.sparse.csr_matrix(graph)
+
+.. _sk2adv-skimage-metrics-contingency-table:
+
+``skimage.metrics.contingency_table``
+-------------------------------------
+
+``skimage.metrics.contingency_table`` is deprecated in favor of
+``skimage2.metrics.contingency_table`` with new behavior:
+
+* Parameter `sparse_type` was removed
+* Returned `cont` is always a `scipy.sparse.csr_array`
+
+SciPy 2.0 deprecates the sparse matrix classes and will remove them no
+earlier than SciPy 2.2. The two types define ``*`` differently: matrix
+multiplication for `scipy.sparse.csr_matrix`, elementwise multiplication
+for `scipy.sparse.csr_array`. ``@`` is matrix multiplication for both.
+
+To keep the old (``skimage``, v1.x) behavior, convert the result::
+
+    cont = skimage2.metrics.contingency_table(im_true, im_test, ...)
+    cont = scipy.sparse.csr_matrix(cont)
+
 .. _sk2adv-skimage-metrics-structural-similarity:
 
 ``skimage.metrics.structural_similarity``
@@ -529,6 +571,186 @@ For example:
 
 For floating dtypes, setting `data_range` was already required in
 ``skimage``/v1.x.
+
+.. _sk2adv-skimage-morphology-cube:
+
+``skimage.morphology.cube``
+---------------------------
+
+`skimage.morphology.cube` is deprecated in favor of
+`skimage2.morphology.footprint_rectangle` and
+`skimage2.morphology.footprint_rectangle_decomposed`.
+
+* The new functions expect to be given a ``shape`` instead of the parameter
+  ``width``.
+* `skimage2.morphology.footprint_rectangle` no longer accepts the ``decompose``
+  parameter and will return the footprint as a simple array.
+* `skimage2.morphology.footprint_rectangle_decomposed` uses the new parameter
+  ``method``, which accepts the values of the old ``decomposition`` parameter.
+
+To keep the old behavior when switching to `skimage2`, update your call
+according to the following cases:
+
+* Pass the desired shape of the footprint as a 3-element tuple ``(w, w, w)``
+  where ``w`` is the former ``width`` that was used.
+* ``decomposition`` not passed, use `skimage2.morphology.footprint_rectangle`
+  with same signature.
+* ``decomposition='sequence'`` or ``decomposition='separable'``, use
+  `skimage2.morphology.footprint_rectangle_decomposed` and pass the old value
+  of ``decomposition`` to the new parameter ``method``.
+
+Other keyword parameters can be left unchanged.
+
+
+>>> import numpy as np
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+
+>>> fp1 = ski1.morphology.cube(3)
+>>> fp2 = ski2.morphology.footprint_rectangle((3, 3, 3))
+>>> np.testing.assert_equal(fp1, fp2)
+
+>>> fp1 = ski1.morphology.cube(
+...     3, decomposition="sequence"
+... )
+>>> fp2 = ski2.morphology.footprint_rectangle_decomposed(
+...     (3, 3, 3), method="sequence"
+... )
+>>> np.testing.assert_equal(fp1, fp2)
+
+.. _sk2adv-skimage-morphology-footprint-rectangle:
+
+``skimage.morphology.footprint_rectangle``
+------------------------------------------
+
+`skimage.morphology.footprint_rectangle` is deprecated in favor of
+`skimage2.morphology.footprint_rectangle` and
+`skimage2.morphology.footprint_rectangle_decomposed`.
+
+* `skimage2.morphology.footprint_rectangle` no longer accepts the ``decompose``
+  parameter and will return the footprint as a simple array.
+* `skimage2.morphology.footprint_rectangle_decomposed` uses the new parameter
+  ``method``, which accepts the values of the old ``decomposition`` parameter.
+
+To keep the old behavior when switching to `skimage2`, update your call
+according to the following cases:
+
+* ``decomposition`` not passed, use `skimage2.morphology.footprint_rectangle`
+  with same signature.
+* ``decomposition='sequence'`` or ``decomposition='separable'``, use
+  `skimage2.morphology.footprint_rectangle_decomposed` and pass the old value
+  of ``decomposition`` to the new parameter ``method``.
+
+Other keyword parameters can be left unchanged.
+
+
+>>> import numpy as np
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+
+>>> fp1 = ski1.morphology.footprint_rectangle((3, 3, 3))
+>>> fp2 = ski2.morphology.footprint_rectangle((3, 3, 3))
+>>> np.testing.assert_equal(fp1, fp2)
+
+>>> fp1 = ski1.morphology.footprint_rectangle(
+...     (3, 3, 3), decomposition="sequence"
+... )
+>>> fp2 = ski2.morphology.footprint_rectangle_decomposed(
+...     (3, 3, 3), method="sequence"
+... )
+>>> np.testing.assert_equal(fp1, fp2)
+
+.. _sk2adv-skimage-morphology-rectangle:
+
+``skimage.morphology.rectangle``
+--------------------------------
+
+`skimage.morphology.rectangle` is deprecated in favor of
+`skimage2.morphology.footprint_rectangle` and
+`skimage2.morphology.footprint_rectangle_decomposed`.
+
+* The new functions expect to be given a ``shape`` instead of the parameters
+  ``nrows`` and ``ncols``.
+* `skimage2.morphology.footprint_rectangle` no longer accepts the ``decompose``
+  parameter and will return the footprint as a simple array.
+* `skimage2.morphology.footprint_rectangle_decomposed` uses the new parameter
+  ``method``, which accepts the values of the old ``decomposition`` parameter.
+
+To keep the old behavior when switching to `skimage2`, update your call
+according to the following cases:
+
+* Pass the desired shape of the footprint as a 2-element tuple
+  ``(nrows, ncols)`` of the formerly used parameters.
+* ``decomposition`` not passed, use `skimage2.morphology.footprint_rectangle`
+  with same signature.
+* ``decomposition='sequence'`` or ``decomposition='separable'``, use
+  `skimage2.morphology.footprint_rectangle_decomposed` and pass the old value
+  of ``decomposition`` to the new parameter ``method``.
+
+Other keyword parameters can be left unchanged.
+
+
+>>> import numpy as np
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+
+>>> fp1 = ski1.morphology.rectangle(3, 3)
+>>> fp2 = ski2.morphology.footprint_rectangle((3, 3))
+>>> np.testing.assert_equal(fp1, fp2)
+
+>>> fp1 = ski1.morphology.rectangle(
+...     3, 3, decomposition="sequence"
+... )
+>>> fp2 = ski2.morphology.footprint_rectangle_decomposed(
+...     (3, 3), method="sequence"
+... )
+>>> np.testing.assert_equal(fp1, fp2)
+
+.. _sk2adv-skimage-morphology-square:
+
+``skimage.morphology.square``
+-----------------------------
+
+`skimage.morphology.square` is deprecated in favor of
+`skimage2.morphology.footprint_rectangle` and
+`skimage2.morphology.footprint_rectangle_decomposed`.
+
+* The new functions expect to be given a ``shape`` instead of the parameter
+  ``width``.
+* `skimage2.morphology.footprint_rectangle` no longer accepts the ``decompose``
+  parameter and will return the footprint as a simple array.
+* `skimage2.morphology.footprint_rectangle_decomposed` uses the new parameter
+  ``method``, which accepts the values of the old ``decomposition`` parameter.
+
+To keep the old behavior when switching to `skimage2`, update your call
+according to the following cases:
+
+* Pass the desired shape of the footprint as a 2-element tuple ``(w, w)``
+  where ``w`` is the former ``width`` that was used.
+* ``decomposition`` not passed, use `skimage2.morphology.footprint_rectangle`
+  with same signature.
+* ``decomposition='sequence'`` or ``decomposition='separable'``, use
+  `skimage2.morphology.footprint_rectangle_decomposed` and pass the old value
+  of ``decomposition`` to the new parameter ``method``.
+
+Other keyword parameters can be left unchanged.
+
+
+>>> import numpy as np
+>>> import skimage as ski1
+>>> import skimage2 as ski2
+
+>>> fp1 = ski1.morphology.square(3)
+>>> fp2 = ski2.morphology.footprint_rectangle((3, 3))
+>>> np.testing.assert_equal(fp1, fp2)
+
+>>> fp1 = ski1.morphology.square(
+...     3, decomposition="sequence"
+... )
+>>> fp2 = ski2.morphology.footprint_rectangle_decomposed(
+...     (3, 3), method="sequence"
+... )
+>>> np.testing.assert_equal(fp1, fp2)
 
 
 Deprecations prior to skimage2
