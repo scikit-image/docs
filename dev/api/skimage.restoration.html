@@ -1877,7 +1877,7 @@ J. Opt. Soc. Am. A 27, 1593-1607 (2010)</p>
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.restoration.unwrap_phase">
-<span class="sig-prename descclassname"><span class="pre">skimage.restoration.</span></span><span class="sig-name descname"><span class="pre">unwrap_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrap_around</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/restoration/unwrap.py#L10-L132"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.restoration.unwrap_phase" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.restoration.</span></span><span class="sig-name descname"><span class="pre">unwrap_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrap_around</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/restoration/unwrap.py#L10-L144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.restoration.unwrap_phase" title="Link to this definition">#</a></dt>
 <dd><p>Recover the original from a wrapped phase image.</p>
 <p>From an image wrapped to lie in the interval [-pi, pi), recover the
 original, unwrapped image.</p>
@@ -1888,7 +1888,10 @@ original, unwrapped image.</p>
 provided, the masked entries will not be changed, and their values
 will not be used to guide the unwrapping of neighboring, unmasked
 values. Masked 1D arrays are not allowed, and will raise a
-<a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a>.  NaN values in the image form an implicit mask.  We
+combine this implicit mask with any mask from a masked array, with
+logical OR.  The output values under the resulting mask are set to the
+minimum of the unwrapped phase.</p>
 </dd>
 <dt><strong>wrap_around</strong><span class="classifier">bool or sequence of bool, optional</span></dt><dd><p>When an element of the sequence is  <a class="reference external" href="https://docs.python.org/3/builtins/constants.html#True" title="(in Python v3.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the unwrapping process
 will regard the edges along the corresponding axis of the image to be
