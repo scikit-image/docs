@@ -1017,25 +1017,42 @@
 <h1>skimage2.transform.ProjectiveTransform<a class="headerlink" href="#skimage2-transform-projectivetransform" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="skimage2.transform.ProjectiveTransform">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage2.transform.</span></span><span class="sig-name descname"><span class="pre">ProjectiveTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L933-L1317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage2.transform.</span></span><span class="sig-name descname"><span class="pre">ProjectiveTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L951-L1362"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_HMatrixTransform</span></code></p>
 <p>Projective transformation.</p>
 <p>Apply a projective transformation (homography) on coordinates.</p>
-<p>For each homogeneous coordinate <span class="math notranslate nohighlight">\(\mathbf{x} = [x, y, 1]^T\)</span>, its
-target position is calculated by multiplying with the given matrix,
-<span class="math notranslate nohighlight">\(H\)</span>, to give <span class="math notranslate nohighlight">\(H \mathbf{x}\)</span>:</p>
+<p>In what follows, <code class="docutils literal notranslate"><span class="pre">x</span></code> refers to coordinates from the first coordinate
+axis, and <code class="docutils literal notranslate"><span class="pre">y</span></code> refers to coordinates from the second coordinate axis.</p>
+<p>For each homogeneous coordinate vector <span class="math notranslate nohighlight">\(\mathbf{v} = [x, y, 1]^T\)</span>,
+its target position is calculated by multiplying with the given matrix,
+<span class="math notranslate nohighlight">\(H\)</span>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">a0</span> <span class="n">a1</span> <span class="n">a2</span><span class="p">]</span>
  <span class="p">[</span><span class="n">b0</span> <span class="n">b1</span> <span class="n">b2</span><span class="p">]</span>
- <span class="p">[</span><span class="n">c0</span> <span class="n">c1</span> <span class="mi">1</span> <span class="p">]]</span><span class="o">.</span>
+ <span class="p">[</span><span class="n">c0</span> <span class="n">c1</span> <span class="mi">1</span> <span class="p">]]</span>
 </pre></div>
 </div>
-<p>E.g., to rotate by theta radians clockwise, the matrix should be:</p>
+<p>to give the output vector <span class="math notranslate nohighlight">\(H \mathbf{v}\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">x</span> <span class="o">*</span> <span class="n">a0</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">a1</span> <span class="o">+</span> <span class="n">a2</span><span class="p">]</span>
+ <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">b2</span><span class="p">]</span>
+ <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">c0</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">c1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>For example, to rotate by theta degrees, the matrix <span class="math notranslate nohighlight">\(\mathbf{H}\)</span>
+should be:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="mi">0</span><span class="p">]</span>
  <span class="p">[</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>  <span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="mi">0</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">0</span>            <span class="mi">0</span>         <span class="mi">1</span><span class="p">]]</span>
+ <span class="p">[</span><span class="mi">0</span>            <span class="mi">0</span>         <span class="mi">1</span><span class="p">]]</span><span class="o">.</span>
 </pre></div>
 </div>
-<p>or, to translate x by 10 and y by 20:</p>
+<p>Whether this will appear as a counter-clockwise or clockwise rotation in
+terms of an image array, will depend on your input coordinates; if the
+first column in your coordinate array has coordinates in terms of the
+first image axis (first array axis), then the <code class="docutils literal notranslate"><span class="pre">x</span></code> coordinates above
+correspond to the first (row, <code class="docutils literal notranslate"><span class="pre">i</span></code>) axis in the image array. In that case
+the rotation applied to the coordinates is <em>counter-clockwise</em>. If the
+first column has coordinates from the second axis of the image array,
+instead of the first, then the rotation is <em>clockwise</em>.</p>
+<p>To translate <code class="docutils literal notranslate"><span class="pre">x</span></code> (first coordinate axis) by 10 and <code class="docutils literal notranslate"><span class="pre">y</span></code> by 20:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">10</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">20</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="p">]]</span><span class="o">.</span>
@@ -1057,6 +1074,19 @@ target position is calculated by multiplying with the given matrix,
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Our axis convention will change from Scikit-image 1 to 2, and this changes the
+direction of (positive) rotation. In functions <em>applying</em> transformations,
+in the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace, we use the NumPy or “ij” convention, where
+the first and second axis of the image correspond to the first and second
+axis of the array (row, column). Correspondingly, a positive rotation is
+counter-clockwise. In scikit-image 1 (the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace), we used
+the “xy” convention, where the first axis is columns and the second rows.
+Correspondingly, positive rotation is clockwise.</p>
+<p>Note, therefore, that if you apply a transform using <code class="docutils literal notranslate"><span class="pre">warp</span></code>, or other
+functions that apply transforms in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, you will get an opposite
+direction rotation from the same function in the <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code>
+module.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">_skimage2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ski2</span>
@@ -1128,7 +1158,7 @@ error:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.ProjectiveTransform.estimate">
-<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1251-L1317"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.estimate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1293-L1362"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.estimate" title="Link to this definition">#</a></dt>
 <dd><p>Estimate the transformation from a set of corresponding points.</p>
 <div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.26: </span><a class="reference internal" href="#skimage2.transform.ProjectiveTransform.estimate" title="skimage2.transform.ProjectiveTransform.estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate</span></code></a> is deprecated since version 0.26 and will be removed in
@@ -1138,6 +1168,8 @@ constructor instead.</p>
 <div><p>You can determine the over-, well- and under-determined parameters
 with the total least-squares method.</p>
 <p>Number of source and destination coordinates must match.</p>
+<p>In what follows, <code class="docutils literal notranslate"><span class="pre">x</span></code> refers to coordinates from the first coordinate
+axis, and <code class="docutils literal notranslate"><span class="pre">y</span></code> refers to coordinates from the second coordinate axis.</p>
 <p>The transformation is defined as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">a0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">a1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">a2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">c0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">b0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">c0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1202,11 +1234,13 @@ Thus the system of equations is:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.ProjectiveTransform.from_estimate">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1071-L1146"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.from_estimate" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1110-L1188"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.from_estimate" title="Link to this definition">#</a></dt>
 <dd><p>Estimate the transformation from a set of corresponding points.</p>
 <p>You can determine the over-, well- and under-determined parameters
 with the total least-squares method.</p>
 <p>Number of source and destination coordinates must match.</p>
+<p>In what follows, <code class="docutils literal notranslate"><span class="pre">x</span></code> refers to coordinates from the first coordinate
+axis, and <code class="docutils literal notranslate"><span class="pre">y</span></code> refers to coordinates from the second coordinate axis.</p>
 <p>The transformation is defined as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">a0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">a1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">a2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">c0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">b0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">c0</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1277,7 +1311,7 @@ estimation object will return <code class="docutils literal notranslate"><span c
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.ProjectiveTransform.identity">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1235-L1249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.identity" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1277-L1291"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.ProjectiveTransform.identity" title="Link to this definition">#</a></dt>
 <dd><p>Identity transform</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

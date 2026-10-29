@@ -1016,10 +1016,12 @@
 <h1>skimage2.transform.EuclideanTransform<a class="headerlink" href="#skimage2-transform-euclideantransform" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="skimage2.transform.EuclideanTransform">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage2.transform.</span></span><span class="sig-name descname"><span class="pre">EuclideanTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1805-L2061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">skimage2.transform.</span></span><span class="sig-name descname"><span class="pre">EuclideanTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1854-L2116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="skimage2.transform.ProjectiveTransform.html#skimage2.transform.ProjectiveTransform" title="_skimage2.transform._geometric.ProjectiveTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProjectiveTransform</span></code></a></p>
 <p>Euclidean transformation, also known as a rigid transform.</p>
-<p>Has the following form:</p>
+<p>In what follows, <code class="docutils literal notranslate"><span class="pre">x</span></code> refers to coordinates from the first coordinate
+axis, and <code class="docutils literal notranslate"><span class="pre">y</span></code> refers to coordinates from the second coordinate axis.</p>
+<p>The transform has the following form:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">a0</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b0</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">a1</span> <span class="o">=</span>
   <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span> <span class="o">+</span> <span class="n">a1</span>
 
@@ -1044,19 +1046,20 @@ transformation is only a translation, you may use the implicit parameter
 <a class="reference internal" href="#skimage2.transform.EuclideanTransform.translation" title="skimage2.transform.EuclideanTransform.translation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">translation</span></code></a>; otherwise, you must use <code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix</span></code>.</p>
 <p>The implicit parameters are applied in the following order:</p>
 <ol class="arabic simple">
-<li><p>Rotation;</p></li>
-<li><p>Translation.</p></li>
+<li><p>Rotation</p></li>
+<li><p>Translation</p></li>
 </ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>matrix</strong><span class="classifier">array_like of shape (K, K), with K=D+1 (D being the dimensionality), optional</span></dt><dd><p>Homogeneous transformation matrix.</p>
 </dd>
-<dt><strong>rotation</strong><span class="classifier">float or sequence of float, optional</span></dt><dd><p>Rotation angle, clockwise, in radians. If given as a vector, it is
-interpreted as Euler rotation angles <a class="reference internal" href="#r76c584d963cd-1" id="id1">[1]</a>. Only 2D (single rotation)
-and 3D (Euler rotations) values are supported. For higher dimensions,
-you must provide or estimate the transformation matrix instead, and
-pass that as <code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix</span></code> above.</p>
+<dt><strong>rotation</strong><span class="classifier">float or sequence of float, optional</span></dt><dd><p>Rotation angle, in radians. See Notes for discussion of clockwise vs
+anti-clockwise.  If given as a vector, it is interpreted as Euler
+rotation angles <a class="reference internal" href="#r76c584d963cd-1" id="id1">[1]</a>. Only 2D (single rotation) and 3D (Euler
+rotations) values are supported. For higher dimensions, you must
+provide or estimate the transformation matrix instead, and pass that as
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">matrix</span></code> above.</p>
 </dd>
 <dt><strong>translation</strong><span class="classifier">(x, y[, z, …]) sequence of float, length D, optional</span></dt><dd><p>Translation parameters for each axis.</p>
 </dd>
@@ -1073,6 +1076,19 @@ input parameters.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>Our axis convention will change from Scikit-image 1 to 2, and this changes the
+direction of (positive) rotation. In functions <em>applying</em> transformations,
+in the <code class="docutils literal notranslate"><span class="pre">skimage2</span></code> namespace, we use the NumPy or “ij” convention, where
+the first and second axis of the image correspond to the first and second
+axis of the array (row, column). Correspondingly, a positive rotation is
+counter-clockwise. In scikit-image 1 (the <code class="docutils literal notranslate"><span class="pre">skimage</span></code> namespace), we used
+the “xy” convention, where the first axis is columns and the second rows.
+Correspondingly, positive rotation is clockwise.</p>
+<p>Note, therefore, that if you apply a transform using <code class="docutils literal notranslate"><span class="pre">warp</span></code>, or other
+functions that apply transforms in <code class="docutils literal notranslate"><span class="pre">skimage2</span></code>, you will get an opposite
+direction rotation from the same function in the <code class="docutils literal notranslate"><span class="pre">skimage.transform</span></code>
+module.</p>
 <p class="rubric">References</p>
 <div role="list" class="citation-list">
 <div class="citation" id="r76c584d963cd-1" role="doc-biblioentry">
@@ -1149,7 +1165,7 @@ error:</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.EuclideanTransform.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1936-L1949"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1991-L2004"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.__init__" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -1160,7 +1176,7 @@ error:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.EuclideanTransform.estimate">
-<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L2039-L2061"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.estimate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L2094-L2116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.estimate" title="Link to this definition">#</a></dt>
 <dd><p>Estimate the transformation from a set of corresponding points.</p>
 <div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 0.26: </span><a class="reference internal" href="#skimage2.transform.EuclideanTransform.estimate" title="skimage2.transform.EuclideanTransform.estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate</span></code></a> is deprecated since version 0.26 and will be removed in
@@ -1192,7 +1208,7 @@ with the total least-squares method.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.EuclideanTransform.from_estimate">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Self" title="(in Python v3.15)"><span class="pre">Self</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">FailedEstimation</span></span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1978-L2011"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.from_estimate" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Self" title="(in Python v3.15)"><span class="pre">Self</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">FailedEstimation</span></span></span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L2033-L2066"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.from_estimate" title="Link to this definition">#</a></dt>
 <dd><p>Estimate the transformation from a set of corresponding points.</p>
 <p>You can determine the over-, well- and under-determined parameters
 with the total least-squares method.</p>
@@ -1225,7 +1241,7 @@ estimation object will return <code class="docutils literal notranslate"><span c
 
 <dl class="py method">
 <dt class="sig sig-object py" id="skimage2.transform.EuclideanTransform.identity">
-<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1235-L1249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.identity" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/transform/_geometric.py#L1277-L1291"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage2.transform.EuclideanTransform.identity" title="Link to this definition">#</a></dt>
 <dd><p>Identity transform</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
