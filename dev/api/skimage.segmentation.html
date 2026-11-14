@@ -2253,14 +2253,14 @@ application to local pathology characterisation in medical images.”,
 <hr class="docutils" />
 <dl class="py function">
 <dt class="sig sig-object py" id="skimage.segmentation.watershed">
-<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watershed_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/segmentation/_watershed.py#L87-L243"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.watershed" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">skimage.segmentation.</span></span><span class="sig-name descname"><span class="pre">watershed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connectivity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compactness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">watershed_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/scikit-image/scikit-image/blob/main/src/skimage/../_skimage2/segmentation/_watershed.py#L87-L242"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#skimage.segmentation.watershed" title="Link to this definition">#</a></dt>
 <dd><p>Find watershed basins in an image flooded from given markers.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">(M, N[, …]) ndarray</span></dt><dd><p>Data array where the lowest value points are labeled first.</p>
+<dt><strong>image</strong><span class="classifier">ndarray of shape (M, N[, …])</span></dt><dd><p>Data array where the lowest value points are labeled first.</p>
 </dd>
-<dt><strong>markers</strong><span class="classifier">int, or (M, N[, …]) ndarray of int, optional</span></dt><dd><p>The desired number of basins, or an array marking the basins with the
+<dt><strong>markers</strong><span class="classifier">int or ndarray of shape (M, N[, …]) and dtype int, optional</span></dt><dd><p>The desired number of basins, or an array marking the basins with the
 values to be assigned in the label matrix. Zero means not a marker. If
 None, the (default) markers are determined as the local minima of
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. Specifically, the computation is equivalent to applying
@@ -2277,8 +2277,7 @@ In 2D, 1 gives a 4-neighborhood while 2 gives an 8-neighborhood.</p>
 </dd>
 <dt><strong>offset</strong><span class="classifier">array_like of shape image.ndim, optional</span></dt><dd><p>The coordinates of the center of the footprint.</p>
 </dd>
-<dt><strong>mask</strong><span class="classifier">(M, N[, …]) ndarray of bools or 0’s and 1’s, optional</span></dt><dd><p>Array of same shape as <code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code>. Only points at which mask == True
-will be labeled.</p>
+<dt><strong>mask</strong><span class="classifier">ndarray of shape (M, N[, …]) and dtype bool, optional</span></dt><dd><p>Only points at which <code class="docutils literal notranslate"><span class="pre">mask</span> <span class="pre">==</span> <span class="pre">True</span></code> will be labeled.</p>
 </dd>
 <dt><strong>compactness</strong><span class="classifier">float, optional</span></dt><dd><p>Use compact watershed <a class="reference internal" href="#rc8002e235889-1" id="id26">[1]</a> with given compactness parameter.
 Higher values result in more regularly-shaped watershed basins.</p>
@@ -2293,7 +2292,7 @@ borders between adjacent marker regions.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>out</strong><span class="classifier">ndarray</span></dt><dd><p>A labeled matrix of the same type and shape as <code class="xref py py-obj docutils literal notranslate"><span class="pre">markers</span></code>.</p>
+<dt><strong>out</strong><span class="classifier">ndarray of shape (M, N[, …])</span></dt><dd><p>A labeled matrix of the same dtype as <code class="xref py py-obj docutils literal notranslate"><span class="pre">markers</span></code>.</p>
 </dd>
 </dl>
 </dd>
